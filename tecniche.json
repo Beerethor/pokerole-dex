@@ -1,1 +1,13 @@
+[
+  {
+    "nome": "Test",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Forza",
+    "pool_danno": "Forza",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "Test",
+    "parole_chiave": []
+  }
+]
 
