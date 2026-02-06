@@ -8,16 +8,13 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
-        
-        /* Macro Tab Style */
         .macro-active { background-color: #ca8a04; color: #020617; }
         .macro-inactive { background-color: #0f172a; color: #475569; border: 1px solid #1e293b; }
-        
-        /* Sub Tab Style */
         .sub-active { color: #ca8a04; border-bottom: 2px solid #ca8a04; }
         .sub-inactive { color: #64748b; }
-        
         .glass-card { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(8px); border: 1px solid rgba(51, 65, 85, 0.4); }
+        .badge-z { background: linear-gradient(45deg, #f59e0b, #d97706); color: #000; }
+        .badge-max { background: linear-gradient(45deg, #db2777, #9d174d); color: #fff; }
     </style>
 </head>
 <body class="pb-20">
@@ -25,27 +22,21 @@
     <div class="max-w-6xl mx-auto p-4">
         
         <div class="flex gap-0 mt-6 mb-10 justify-center">
-            <button onclick="switchMacro('dex')" id="macroDex" class="macro-active px-10 py-4 rounded-l-3xl font-black uppercase tracking-tighter text-sm transition-all">
-                📜 Pokedéx
-            </button>
-            <button onclick="switchMacro('gen')" id="macroGen" class="macro-inactive px-10 py-4 rounded-r-3xl font-black uppercase tracking-tighter text-sm transition-all">
-                🎲 Generatore
-            </button>
+            <button onclick="switchMacro('dex')" id="macroDex" class="macro-active px-10 py-4 rounded-l-3xl font-black uppercase text-sm transition-all">📜 Pokedéx</button>
+            <button onclick="switchMacro('gen')" id="macroGen" class="macro-inactive px-10 py-4 rounded-r-3xl font-black uppercase text-sm transition-all">🎲 Generatore</button>
         </div>
 
         <div id="pokedexContainer">
             <div class="flex flex-wrap justify-center gap-6 mb-8 text-[11px] font-black uppercase tracking-widest">
-                <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active pb-1 transition-all">Pokémon</button>
-                <button onclick="switchSub('tech')" id="subTech" class="sub-inactive pb-1 transition-all">Mosse</button>
-                <button onclick="switchSub('abil')" id="subAbil" class="sub-inactive pb-1 transition-all">Abilità</button>
-                <button onclick="switchSub('zmove')" id="subZmove" class="sub-inactive pb-1 transition-all">Mosse Z</button>
-                <button onclick="switchSub('max')" id="subMax" class="sub-inactive pb-1 transition-all">Mosse G</button>
+                <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active pb-1">Pokémon</button>
+                <button onclick="switchSub('tech')" id="subTech" class="sub-inactive pb-1">Mosse</button>
+                <button onclick="switchSub('abil')" id="subAbil" class="sub-inactive pb-1">Abilità</button>
+                <button onclick="switchSub('special')" id="subSpecial" class="sub-inactive pb-1">Special (Z/Max)</button>
             </div>
 
-            <div class="glass-card p-6 rounded-[2.5rem] mb-10 sticky top-4 z-50 shadow-2xl">
+            <div class="glass-card p-6 rounded-[2.5rem] mb-10 sticky top-4 z-50">
                 <div class="relative">
-                    <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nel database..." 
-                        class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-500 shadow-inner">
+                    <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nel database..." class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-500">
                     <button onclick="clearSearch()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white">✕</button>
                 </div>
                 <div class="flex justify-between items-center mt-4 px-2">
@@ -57,32 +48,28 @@
                         <option value="Pro">Rango: Pro</option>
                         <option value="Master">Rango: Master</option>
                     </select>
-                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic"></div>
+                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest"></div>
                 </div>
             </div>
-
             <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
         </div>
 
         <div id="generatorContainer" class="hidden">
-            <div class="glass-card p-10 rounded-[3rem] text-center border-yellow-600/20">
+            <div class="glass-card p-10 rounded-[3rem] text-center">
                 <h2 class="text-3xl font-black text-yellow-500 uppercase mb-6 italic">Incontro Casuale</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
-                    ${["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"].map(r => `
-                        <button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-xs transition-all border border-slate-700">
-                            Genera ${r}
-                        </button>
-                    `).join('')}
+                    <button onclick="generateRandom('Starter')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-xs border border-slate-700 transition-all">Starter</button>
+                    <button onclick="generateRandom('Beginner')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-xs border border-slate-700 transition-all">Beginner</button>
+                    <button onclick="generateRandom('Amateur')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-xs border border-slate-700 transition-all">Amateur</button>
+                    <button onclick="generateRandom('Ace')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-xs border border-slate-700 transition-all">Ace</button>
+                    <button onclick="generateRandom('Pro')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-xs border border-slate-700 transition-all">Pro</button>
+                    <button onclick="generateRandom('Master')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-xs border border-slate-700 transition-all">Master</button>
                 </div>
                 <div id="genOutput" class="flex justify-center min-h-[400px]">
-                    <div class="text-slate-600 flex flex-col items-center justify-center italic">
-                        <span class="text-5xl mb-4 opacity-20">🎲</span>
-                        Seleziona un rango per l'incontro
-                    </div>
+                    <div class="text-slate-600 italic">🎲 Seleziona un rango</div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script>
@@ -99,26 +86,25 @@
                     fetch('max_moves.json').then(res => res.json()),
                     fetch('mosse_z.json').then(res => res.json())
                 ]);
-                db.pkmn = r[0]; db.tech = r[1]; db.abil = r[2]; db.max = r[3]; db.zmove = r[4];
+                db.pkmn = r[0]; db.tech = r[1]; db.abil = r[2]; 
+                db.max = r[3].map(m => ({ ...m, _origin: 'max' })); 
+                db.zmove = r[4].map(m => ({ ...m, _origin: 'z' }));
                 runSearch();
-            } catch (e) { console.error("Database non caricato"); }
+            } catch (e) { console.error("Errore caricamento database", e); }
         }
 
-        // --- GESTIONE MACRO TAB ---
         function switchMacro(macro) {
             const isDex = macro === 'dex';
             document.getElementById('pokedexContainer').classList.toggle('hidden', !isDex);
             document.getElementById('generatorContainer').classList.toggle('hidden', isDex);
-            
-            document.getElementById('macroDex').className = isDex ? 'macro-active px-10 py-4 rounded-l-3xl font-black uppercase text-sm transition-all' : 'macro-inactive px-10 py-4 rounded-l-3xl font-black uppercase text-sm transition-all';
-            document.getElementById('macroGen').className = !isDex ? 'macro-active px-10 py-4 rounded-r-3xl font-black uppercase text-sm transition-all' : 'macro-inactive px-10 py-4 rounded-r-3xl font-black uppercase text-sm transition-all';
+            document.getElementById('macroDex').className = isDex ? 'macro-active px-10 py-4 rounded-l-3xl font-black uppercase text-sm' : 'macro-inactive px-10 py-4 rounded-l-3xl font-black uppercase text-sm';
+            document.getElementById('macroGen').className = !isDex ? 'macro-active px-10 py-4 rounded-r-3xl font-black uppercase text-sm' : 'macro-inactive px-10 py-4 rounded-r-3xl font-black uppercase text-sm';
         }
 
-        // --- GESTIONE SOTTO TAB ---
         function switchSub(sub) {
             currentSub = sub;
             document.querySelectorAll('button[id^="sub"]').forEach(b => {
-                b.className = b.id === 'sub' + sub.charAt(0).toUpperCase() + sub.slice(1) ? 'sub-active pb-1 transition-all' : 'sub-inactive pb-1 transition-all';
+                b.className = b.id === 'sub' + sub.charAt(0).toUpperCase() + sub.slice(1) ? 'sub-active pb-1' : 'sub-inactive pb-1';
             });
             runSearch();
         }
@@ -128,33 +114,53 @@
             runSearch();
         }
 
-        // --- MOTORE RICERCA ---
         function runSearch() {
             const query = document.getElementById('mainSearch').value.toLowerCase().trim();
             const keywords = query.split(/\s+/).filter(k => k !== "");
             const selRank = document.getElementById('visualRank').value;
             
-            let data = db[currentSub] || [];
-            const filtered = data.filter(item => {
-                const searchString = [item.nome, item.rango_suggerito, ...(item.tipo || []), ...(item.abilita || []), item.descrizione].join(" ").toLowerCase();
+            let source = [];
+            if (currentSub === 'special') source = [...db.zmove, ...db.max];
+            else source = db[currentSub] || [];
+
+            const filtered = source.filter(item => {
+                const searchString = [item.nome, item.rango_suggerito, ...(item.tipo || []), ...(item.abilita || []), item.descrizione, item.effetto, item.effetti_aggiuntivi].join(" ").toLowerCase();
                 return keywords.every(kw => searchString.includes(kw));
             });
 
             document.getElementById('counter').innerText = `Trovati: ${filtered.length}`;
-            
             if (currentSub === 'pkmn') renderPkmn(filtered, selRank, 'results');
             else renderGeneric(filtered);
         }
 
-        // --- GENERATORE ---
+        function renderGeneric(list) {
+            document.getElementById('results').innerHTML = list.map(item => {
+                let badge = "";
+                if (item._origin === 'z') badge = `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded-full mr-2 uppercase">Mossa Z</span>`;
+                if (item._origin === 'max') badge = `<span class="badge-max text-[7px] font-black px-2 py-0.5 rounded-full mr-2 uppercase">Mossa G</span>`;
+
+                return `
+                <div class="bg-slate-900 p-6 rounded-[2rem] border border-slate-800 hover:border-slate-600 transition-all shadow-lg">
+                    <div class="flex items-center mb-2">${badge}<h3 class="text-xl font-black text-white uppercase">${item.nome}</h3></div>
+                    <p class="text-xs text-slate-400 mt-2 italic border-l-2 border-slate-700 pl-3 leading-relaxed">
+                        ${item.descrizione || item.effetto || item.effetti_aggiuntivi || "Nessuna descrizione disponibile."}
+                    </p>
+                    <div class="mt-4 flex gap-4 text-[8px] font-bold text-slate-500 uppercase">
+                        ${item.potenza ? `<span>Potenza: ${item.potenza}</span>` : ""}
+                        ${item.tipo ? `<span>Tipo: ${item.tipo}</span>` : ""}
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // --- Altre funzioni (createPkmnCard, generateRandom, renderPkmn) rimangono le stesse dell'ultima versione corretta ---
         function generateRandom(rango) {
-            const pool = db.pkmn.filter(p => p.rango_suggerito.toLowerCase() === rango.toLowerCase());
+            const pool = db.pkmn.filter(p => p.rango_suggerito && p.rango_suggerito.toLowerCase() === rango.toLowerCase());
             if (pool.length === 0) return;
             const lucky = pool[Math.floor(Math.random() * pool.length)];
             document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-md">${createPkmnCard(lucky, rango)}</div>`;
         }
 
-        // --- RENDERING CORE ---
         function renderPkmn(list, rank, target) {
             document.getElementById(target).innerHTML = list.map(p => createPkmnCard(p, rank)).join('');
         }
@@ -165,11 +171,9 @@
                 <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl text-left">
                     <div class="bg-slate-800/50 p-6 flex justify-between items-start">
                         <div>
-                            <span class="text-[9px] font-black text-yellow-600 uppercase">#${p.pokedex_id} ${p.rango_suggerito}</span>
-                            <h2 class="text-3xl font-black text-white uppercase">${p.nome}</h2>
-                            <div class="flex gap-1 mt-2">
-                                ${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[7px] font-bold px-2 py-0.5 rounded border border-slate-700 uppercase">${t}</span>`).join('')}
-                            </div>
+                            <span class="text-[9px] font-black text-yellow-600 uppercase">#${p.pokedex_id || '???'} ${p.rango_suggerito || ''}</span>
+                            <h2 class="text-3xl font-black text-white uppercase leading-none">${p.nome}</h2>
+                            <div class="flex gap-1 mt-2">${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[7px] font-bold px-2 py-0.5 rounded border border-slate-700 uppercase">${t}</span>`).join('')}</div>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[65px]">
                             <span class="text-[7px] text-red-500 font-black block">HP</span>
@@ -178,8 +182,8 @@
                     </div>
                     <div class="p-6">
                         <div class="flex gap-4 mb-4">
-                            <img src="${p.immagine}" class="w-20 h-20 object-contain">
-                            <div class="flex-1 bg-slate-950/40 p-3 rounded-xl border-l-2 border-yellow-500 text-[10px] italic text-slate-400">"${p.descrizione}"</div>
+                            <img src="${p.immagine}" class="w-20 h-20 object-contain" onerror="this.src='https://via.placeholder.com/80?text=?'">
+                            <div class="flex-1 bg-slate-950/40 p-3 rounded-xl border-l-2 border-yellow-500 text-[10px] italic text-slate-400">"${p.descrizione || ''}"</div>
                         </div>
                         <div class="grid grid-cols-5 gap-1.5 mb-6">
                             ${Object.entries(p.attributi || {}).map(([k,v]) => `
@@ -200,15 +204,6 @@
                         </div>
                     </div>
                 </div>`;
-        }
-
-        function renderGeneric(list) {
-            document.getElementById('results').innerHTML = list.map(item => `
-                <div class="bg-slate-900 p-6 rounded-[2rem] border border-slate-800">
-                    <h3 class="text-xl font-black text-white uppercase">${item.nome}</h3>
-                    <p class="text-xs text-slate-400 mt-2 italic border-l-2 border-slate-700 pl-3">${item.descrizione || item.effetto || ""}</p>
-                </div>
-            `).join('');
         }
 
         loadData();
