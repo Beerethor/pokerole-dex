@@ -1,5 +1,47 @@
 [
   {
+    "nome": "Bulbasaur",
+    "pokedex_id": "001",
+    "peso": "7 kg",
+    "altezza": "0.7 m",
+    "immagine": "./img/Bulbasaur.png,"
+    "tipo": ["Erba Veleno"],
+    "rango_attuale": "Starter",
+    "rango_suggerito": "Beginner",
+    "descrizione": "Pokemon seme./nPorta un seme sulla schiena fin dalla nascita. Crescendo, il seme diventa più grande. È noto per essereun Pokémon leale e ben educato,ma è piuttosto raro da trovare in natura.",
+    "abilita": ["Erbaiuto"],
+    "linea_evolutiva": ["Bulbasaur", "Ivysaur"],
+    "stadio_evolutivo": "Base",
+    "tempo_evoluzione": "Media",
+    "attributi": {
+      "forza": 2,
+      "destrezza": 2,
+      "vitalita": 2,
+      "special": 2,
+      "insight": 2
+    },
+    "vitalita_max": { "hp": 3 },
+    "tecniche": [
+      { "nome": "Azione", "rango": "Starter" },
+      { "nome": "Ruggito", "rango": "Starter" },
+      { "nome": "Parassiseme", "rango": "Beginner" },
+      { "nome": "Frustata", "rango": "Beginner" },
+      { "nome": "Velenpolvere", "rango": "Amateur" },
+      { "nome": "Sonnifero", "rango": "Amateur" },
+      { "nome": "Riduttore", "rango": "Amateur" },
+      { "nome": "Foglie Lama", "rango": "Amateur" },
+      { "nome": "Profumino", "rango": "Amateur" },
+      { "nome": "Crescita", "rango": "Amateur" },
+      { "nome": "Affannoseme", "rango": "Ace" },
+      { "nome": "Sdoppiatore", "rango": "Ace" },
+      { "nome": "Sintesi", "rango": "Ace" },
+      { "nome": "Solarraggio", "rango": "Pro" },
+      { "nome": "Campo Erboso", "rango": "Pro" },
+      { "nome": "Amnesia", "rango": "Pro" },
+      { "nome": "Erbapatto", "rango": "Pro" },
+    ]
+  }
+  {
     "nome": "Eevee",
     "pokedex_id": "133",
     "peso": "6.5 kg",
