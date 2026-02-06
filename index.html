@@ -180,31 +180,45 @@
         }
 
         function renderDefinitionCard(item) {
-            const badge = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded mr-2">MOSSA Z</span>` : 
-                          item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-2 py-0.5 rounded mr-2">MOSSA G</span>` : "";
+            const badge = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">Mossa Z</span>` : 
+                          item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">Mossa G</span>` : "";
             
-            // Logica cruciale: cattura QUALSIASI campo descrittivo
-            const desc = item.Descrizione || item.descrizione || "";
-            const eff = item.effetto || item.effetti_aggiuntivi || "";
+            const desc = item.descrizione || item.Descrizione || "";
+            const eff = item.effetti_aggiuntivi || item.effetto || "";
+            
+            // Gestione Accuratezza e Danno per le tecniche
+            const statsHtml = (item.accuratezza || item.pool_danno) ? `
+                <div class="grid grid-cols-2 gap-4 mb-4 py-3 border-y border-slate-800/50">
+                    ${item.accuratezza ? `<div><p class="text-[8px] text-slate-500 font-black uppercase">Accuratezza</p><p class="text-xs font-bold text-yellow-500">${item.accuratezza}</p></div>` : ""}
+                    ${item.pool_danno ? `<div><p class="text-[8px] text-slate-500 font-black uppercase">Danno</p><p class="text-xs font-bold text-red-500">${item.pool_danno}</p></div>` : ""}
+                </div>
+            ` : "";
 
             return `
                 <div class="bg-slate-900 p-8 rounded-[2.5rem] border border-slate-800 animate-pop shadow-xl flex flex-col h-full hover:border-slate-600 transition-all">
-                    <div class="mb-4">
-                        <h3 class="text-2xl font-black text-white uppercase flex items-center">${badge}${item.nome}</h3>
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-2xl font-black text-white uppercase">${item.nome} ${badge}</h3>
+                        ${item.categoria ? `<span class="text-[8px] bg-slate-800 px-2 py-1 rounded border border-slate-700 font-black text-slate-400 uppercase">${item.categoria}</span>` : ""}
                     </div>
+                    
                     <div class="flex-grow border-l-4 border-yellow-600/30 pl-6 my-4">
-                        ${desc ? `<p class="text-xs text-slate-500 italic mb-4 leading-relaxed">"${desc}"</p>` : ""}
+                        ${desc ? `<p class="text-xs text-slate-500 italic mb-4">"${desc}"</p>` : ""}
                         ${eff ? `<p class="text-[13px] text-slate-300 font-medium leading-relaxed">${eff}</p>` : ""}
-                        ${(!desc && !eff) ? `<p class="text-slate-600 italic">Nessuna definizione trovata nel file JSON.</p>` : ""}
                     </div>
+
+                    ${statsHtml}
+
                     ${item.parole_chiave ? `
                         <div class="flex flex-wrap gap-2 mt-4">
-                            ${item.parole_chiave.map(tk => `<span class="text-[8px] bg-slate-950 text-slate-500 border border-slate-800 px-3 py-1 rounded font-black uppercase tracking-widest">${tk}</span>`).join('')}
+                            ${(Array.isArray(item.parole_chiave) ? item.parole_chiave : item.parole_chiave.split(',')).map(tk => 
+                                `<span class="text-[8px] bg-slate-950 text-slate-500 border border-slate-800 px-3 py-1.5 rounded font-black uppercase tracking-widest">${tk.trim()}</span>`
+                            ).join('')}
                         </div>` : ""}
-                    ${(item.potenza || item.tipo) ? `
-                        <div class="mt-6 pt-4 border-t border-slate-800/50 flex gap-6 text-[9px] font-black text-slate-600 uppercase tracking-widest">
-                            ${item.potenza ? `<span>Potenza: ${item.potenza}</span>` : ""}
-                            ${item.tipo ? `<span>Tipo: ${item.tipo}</span>` : ""}
+
+                    ${(item.tipo || item.rango_suggerito) ? `
+                        <div class="mt-6 pt-4 border-t border-slate-800/30 flex justify-between text-[9px] font-black text-slate-600 uppercase italic">
+                            <span>Tipo: ${item.tipo || '---'}</span>
+                            ${item.rango_suggerito ? <span>Rango: ${item.rango_suggerito}</span> : ""}
                         </div>` : ""}
                 </div>`;
         }
