@@ -44,7 +44,7 @@
 
             <div class="glass-card p-6 rounded-[2.5rem] mb-10 sticky top-4 z-50 shadow-2xl">
                 <div class="relative">
-                    <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nome, effetto o tipo..." 
+                    <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nel database..." 
                         class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-500 outline-none">
                     <button onclick="clearSearch()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white font-bold">✕</button>
                 </div>
@@ -57,7 +57,7 @@
                         <option value="Pro">Rango: Pro</option>
                         <option value="Master">Rango: Master</option>
                     </select>
-                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest">Database Pronto</div>
+                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest">Inizializzazione...</div>
                 </div>
             </div>
 
@@ -85,20 +85,18 @@
                 db.abil = await fetch('abilita.json').then(res => res.json());
                 db.max = (await fetch('max_moves.json').then(res => res.json())).map(m => ({...m, _origin: 'max'}));
                 db.zmove = (await fetch('mosse_z.json').then(res => res.json())).map(m => ({...m, _origin: 'z'}));
-                setupGenButtons();
+                
+                document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
+                    `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-6 rounded-3xl font-black uppercase text-xs border border-slate-700 transition-all">${r}</button>`
+                ).join('');
+                
                 runSearch();
-            } catch (e) { console.error("Errore caricamento:", e); }
-        }
-
-        function setupGenButtons() {
-            document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
-                `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-6 rounded-3xl font-black uppercase text-xs border border-slate-700 transition-all">${r}</button>`
-            ).join('');
+            } catch (e) { console.error("Errore caricamento database:", e); }
         }
 
         function switchMacro(macro) {
-            document.getElementById('pokedexContainer').classList.toggle('hidden', macro !== 'dex');
-            document.getElementById('generatorContainer').classList.toggle('hidden', macro !== 'gen');
+            document.getElementById('pokedexContainer').style.display = (macro === 'dex' ? 'block' : 'none');
+            document.getElementById('generatorContainer').style.display = (macro === 'gen' ? 'block' : 'none');
             document.getElementById('macroDex').className = macro === 'dex' ? 'macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all' : 'macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all';
             document.getElementById('macroGen').className = macro === 'gen' ? 'macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all' : 'macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all';
         }
@@ -116,16 +114,12 @@
         function runSearch() {
             const query = document.getElementById('mainSearch').value.toLowerCase().trim();
             const selRank = document.getElementById('visualRank').value;
-            let source = (currentSub === 'special') ? [...db.zmove, ...db.max] : db[currentSub];
+            let source = (currentSub === 'special') ? [...db.zmove, ...db.max] : db[currentSub] || [];
 
-            const filtered = source.filter(item => {
-                const searchableText = JSON.stringify(item).toLowerCase();
-                return searchableText.includes(query);
-            });
-
-            document.getElementById('counter').innerText = `Elementi: ${filtered.length}`;
-            const resultsDiv = document.getElementById('results');
+            const filtered = source.filter(item => JSON.stringify(item).toLowerCase().includes(query));
+            document.getElementById('counter').innerText = `Trovati: ${filtered.length}`;
             
+            const resultsDiv = document.getElementById('results');
             if (currentSub === 'pkmn') {
                 resultsDiv.innerHTML = filtered.map(p => createPkmnCard(p, selRank)).join('');
             } else {
@@ -141,8 +135,8 @@
                     <div class="bg-slate-800/50 p-6 flex justify-between items-start border-b border-slate-700/30">
                         <div>
                             <span class="text-[9px] font-black text-yellow-600 uppercase">#${p.pokedex_id || '???'} - ${p.rango_suggerito || ''}</span>
-                            <h2 class="text-3xl font-black text-white uppercase mt-1">${p.nome}</h2>
-                            <div class="flex gap-1 mt-2">${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[7px] font-bold px-2 py-0.5 rounded border border-slate-700 uppercase text-slate-400">${t}</span>`).join('')}</div>
+                            <h2 class="text-3xl font-black text-white uppercase mt-1 leading-none">${p.nome}</h2>
+                            <div class="flex gap-1 mt-2">${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[7px] font-bold px-2 py-0.5 rounded border border-slate-700 uppercase text-slate-400 tracking-tighter">${t}</span>`).join('')}</div>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[70px]">
                             <span class="text-[8px] text-red-500 font-black block uppercase mb-1">Vitalità</span>
@@ -155,9 +149,9 @@
                             <div class="flex-1 bg-slate-950/40 p-3 rounded-xl border-l-2 border-yellow-500 text-[10px] italic text-slate-400">"${p.descrizione || ''}"</div>
                         </div>
                         <div class="mb-6">
-                            <h4 class="text-[8px] text-slate-600 font-black uppercase mb-2 tracking-widest">Abilità di Specie</h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${abils.map(a => `<span class="bg-slate-950 text-slate-400 border border-slate-800 px-2 py-1 rounded text-[9px] font-black uppercase">${a}</span>`).join('') || '---'}
+                            <h4 class="text-[8px] text-slate-600 font-black uppercase mb-2 tracking-widest px-1">Abilità</h4>
+                            <div class="flex flex-wrap gap-2 px-1">
+                                ${abils.map(a => `<span class="bg-slate-950 text-slate-400 border border-slate-800 px-2 py-1.5 rounded text-[9px] font-black uppercase">${a}</span>`).join('') || '---'}
                             </div>
                         </div>
                         <div class="grid grid-cols-5 gap-1.5 mb-6">
@@ -186,39 +180,45 @@
             const desc = item.descrizione || item.Descrizione || "";
             const eff = item.effetti_aggiuntivi || item.effetto || "";
             
-            // Gestione Accuratezza e Danno per le tecniche
-            const statsHtml = (item.accuratezza || item.pool_danno) ? `
-                <div class="grid grid-cols-2 gap-4 mb-4 py-3 border-y border-slate-800/50">
-                    ${item.accuratezza ? `<div><p class="text-[8px] text-slate-500 font-black uppercase">Accuratezza</p><p class="text-xs font-bold text-yellow-500">${item.accuratezza}</p></div>` : ""}
-                    ${item.pool_danno ? `<div><p class="text-[8px] text-slate-500 font-black uppercase">Danno</p><p class="text-xs font-bold text-red-500">${item.pool_danno}</p></div>` : ""}
-                </div>
-            ` : "";
+            // Box Statistiche per Mosse
+            let statsBox = "";
+            if (item.accuratezza || item.pool_danno) {
+                statsBox = `
+                    <div class="grid grid-cols-2 gap-4 mb-4 py-3 border-y border-slate-800/50">
+                        ${item.accuratezza ? `<div><p class="text-[8px] text-slate-500 font-black uppercase mb-0.5 px-1">Accuratezza</p><p class="text-[11px] font-bold text-yellow-500 px-1">${item.accuratezza}</p></div>` : ""}
+                        ${item.pool_danno ? `<div><p class="text-[8px] text-slate-500 font-black uppercase mb-0.5 px-1">Pool Danno</p><p class="text-[11px] font-bold text-red-500 px-1">${item.pool_danno}</p></div>` : ""}
+                    </div>`;
+            }
+
+            // Pulizia Parole Chiave
+            let tags = "";
+            if (item.parole_chiave) {
+                const list = Array.isArray(item.parole_chiave) ? item.parole_chiave : item.parole_chiave.split(',');
+                tags = `<div class="flex flex-wrap gap-2 mt-4">
+                    ${list.map(tk => `<span class="text-[8px] bg-slate-950 text-slate-500 border border-slate-800 px-3 py-1.5 rounded font-black uppercase tracking-widest">${tk.trim()}</span>`).join('')}
+                </div>`;
+            }
 
             return `
-                <div class="bg-slate-900 p-8 rounded-[2.5rem] border border-slate-800 animate-pop shadow-xl flex flex-col h-full hover:border-slate-600 transition-all">
+                <div class="bg-slate-900 p-8 rounded-[2.5rem] border border-slate-800 animate-pop shadow-xl flex flex-col h-full hover:border-slate-700 transition-all">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-2xl font-black text-white uppercase">${item.nome} ${badge}</h3>
-                        ${item.categoria ? `<span class="text-[8px] bg-slate-800 px-2 py-1 rounded border border-slate-700 font-black text-slate-400 uppercase">${item.categoria}</span>` : ""}
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight">${item.nome} ${badge}</h3>
+                        ${item.categoria ? `<span class="text-[8px] bg-slate-800 px-2 py-1 rounded border border-slate-700 font-black text-slate-400 uppercase tracking-tighter">${item.categoria}</span>` : ""}
                     </div>
                     
-                    <div class="flex-grow border-l-4 border-yellow-600/30 pl-6 my-4">
-                        ${desc ? `<p class="text-xs text-slate-500 italic mb-4">"${desc}"</p>` : ""}
+                    <div class="flex-grow border-l-4 border-yellow-600/30 pl-6 my-4 bg-slate-950/10 py-2 rounded-r-xl">
+                        ${desc ? `<p class="text-xs text-slate-500 italic mb-4 leading-relaxed">"${desc}"</p>` : ""}
                         ${eff ? `<p class="text-[13px] text-slate-300 font-medium leading-relaxed">${eff}</p>` : ""}
+                        ${(!desc && !eff) ? `<p class="text-slate-600 italic">Nessun dettaglio disponibile.</p>` : ""}
                     </div>
 
-                    ${statsHtml}
-
-                    ${item.parole_chiave ? `
-                        <div class="flex flex-wrap gap-2 mt-4">
-                            ${(Array.isArray(item.parole_chiave) ? item.parole_chiave : item.parole_chiave.split(',')).map(tk => 
-                                `<span class="text-[8px] bg-slate-950 text-slate-500 border border-slate-800 px-3 py-1.5 rounded font-black uppercase tracking-widest">${tk.trim()}</span>`
-                            ).join('')}
-                        </div>` : ""}
+                    ${statsBox}
+                    ${tags}
 
                     ${(item.tipo || item.rango_suggerito) ? `
-                        <div class="mt-6 pt-4 border-t border-slate-800/30 flex justify-between text-[9px] font-black text-slate-600 uppercase italic">
+                        <div class="mt-6 pt-4 border-t border-slate-800/30 flex justify-between text-[9px] font-black text-slate-600 uppercase italic tracking-widest">
                             <span>Tipo: ${item.tipo || '---'}</span>
-                            ${item.rango_suggerito ? <span>Rango: ${item.rango_suggerito}</span> : ""}
+                            ${item.rango_suggerito ? `<span>Rango: ${item.rango_suggerito}</span>` : ""}
                         </div>` : ""}
                 </div>`;
         }
