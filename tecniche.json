@@ -278,7 +278,7 @@
     "effetti_aggiuntivi": "Nessuno",
     "descrizione": "Il Pokémon incrocia gli arti affilati o le ali per colpire il nemico come se fossero forbici.",
     "parole_chiave": ["Contatto"]
-  }
+  },
   {
     "nome": "Garanzia",
     "tipo": "Buio",
@@ -890,3 +890,4 @@
     "parole_chiave": []
   }
 ]
+
