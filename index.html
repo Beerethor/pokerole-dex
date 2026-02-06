@@ -3,50 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex 2026 - Master Edition</title>
+    <title>PokeRole ProDex 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        
-        /* Stili Tab */
-        .tab-btn { transition: all 0.3s ease; }
-        .tab-active { background-color: #ca8a04; color: #0f172a; font-weight: 900; transform: scale(1.05); shadow: 0 10px 20px rgba(0,0,0,0.4); }
-        .tab-inactive { color: #94a3b8; background-color: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
+        .tab-active { background-color: #ca8a04; color: #020617; font-weight: 900; transform: scale(1.05); }
+        .tab-inactive { background-color: #1e293b; color: #94a3b8; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen pb-20">
+<body class="pb-20">
 
     <div class="max-w-6xl mx-auto p-4">
-        <header class="py-10 flex flex-col items-center text-center">
-            <h1 class="text-5xl font-black text-yellow-500 tracking-tighter uppercase italic">PokeRole <span class="text-white">ProDex</span></h1>
-            <p class="text-slate-500 text-[10px] mt-2 uppercase tracking-[0.3em] font-bold">Advanced Search Engine 2026</p>
+        <header class="py-10 text-center">
+            <h1 class="text-5xl font-black text-yellow-500 uppercase italic tracking-tighter">PokeRole <span class="text-white">ProDex</span></h1>
             
-            <div class="grid grid-cols-3 md:grid-cols-5 gap-2 bg-slate-900/50 p-2 rounded-3xl mt-8 w-full border border-slate-800">
-                <button onclick="switchTab('pkmn')" id="tabPkmn" class="tab-btn tab-active py-3 rounded-2xl text-[10px] uppercase">Pokémon</button>
-                <button onclick="switchTab('tech')" id="tabTech" class="tab-btn tab-inactive py-3 rounded-2xl text-[10px] uppercase">Tecniche</button>
-                <button onclick="switchTab('abil')" id="tabAbil" class="tab-btn tab-inactive py-3 rounded-2xl text-[10px] uppercase">Abilità</button>
-                <button onclick="switchTab('max')" id="tabMax" class="tab-btn tab-inactive py-3 rounded-2xl text-[10px] uppercase">Max Moves</button>
-                <button onclick="switchTab('zmove')" id="tabZmove" class="tab-btn tab-inactive py-3 rounded-2xl text-[10px] uppercase">Z-Moves</button>
+            <div class="grid grid-cols-3 md:grid-cols-5 gap-2 mt-8 bg-slate-900/50 p-2 rounded-3xl border border-slate-800">
+                <button onclick="switchTab('pkmn')" id="tabPkmn" class="tab-active py-3 rounded-2xl text-[10px] uppercase transition-all">Pokémon</button>
+                <button onclick="switchTab('tech')" id="tabTech" class="tab-inactive py-3 rounded-2xl text-[10px] uppercase transition-all">Tecniche</button>
+                <button onclick="switchTab('abil')" id="tabAbil" class="tab-inactive py-3 rounded-2xl text-[10px] uppercase transition-all">Abilità</button>
+                <button onclick="switchTab('max')" id="tabMax" class="tab-inactive py-3 rounded-2xl text-[10px] uppercase transition-all">Max</button>
+                <button onclick="switchTab('zmove')" id="tabZmove" class="tab-inactive py-3 rounded-2xl text-[10px] uppercase transition-all">Mosse Z</button>
             </div>
         </header>
 
-        <div class="bg-slate-900 p-6 rounded-[2.5rem] shadow-2xl border border-slate-800 mb-10 sticky top-4 z-50 backdrop-blur-md bg-opacity-95">
-            <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Es: 'Acqua Beginner' o 'Erba Starter'..." 
-                class="w-full bg-slate-950 border-none rounded-2xl p-4 mb-4 text-white focus:ring-2 focus:ring-yellow-500 shadow-inner text-sm">
+        <div class="bg-slate-900 p-6 rounded-[2.5rem] border border-slate-800 mb-10 sticky top-4 z-50 shadow-2xl">
+            <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca (es: 'acqua beginner')..." 
+                class="w-full bg-slate-950 border-none rounded-2xl p-4 mb-4 text-white focus:ring-2 focus:ring-yellow-500">
             
             <div class="flex flex-col md:flex-row gap-2">
-                <select id="visualRank" onchange="runSearch()" class="bg-slate-800 rounded-xl p-4 text-sm border-none text-yellow-500 font-black w-full md:w-2/3 cursor-pointer">
-                    <option value="Starter">Mostra come: STARTER</option>
-                    <option value="Beginner">Mostra come: BEGINNER</option>
-                    <option value="Amateur">Mostra come: AMATEUR</option>
-                    <option value="Ace">Mostra come: ACE</option>
-                    <option value="Pro">Mostra come: PRO</option>
-                    <option value="Master">Mostra come: MASTER</option>
+                <select id="visualRank" onchange="runSearch()" class="bg-slate-800 rounded-xl p-4 text-sm text-yellow-500 font-black w-full md:w-2/3 outline-none">
+                    <option value="Starter">Rango Attuale: STARTER</option>
+                    <option value="Beginner">Rango Attuale: BEGINNER</option>
+                    <option value="Amateur">Rango Attuale: AMATEUR</option>
+                    <option value="Ace">Rango Attuale: ACE</option>
+                    <option value="Pro">Rango Attuale: PRO</option>
+                    <option value="Master">Rango Attuale: MASTER</option>
                 </select>
-                <button onclick="randomGen()" class="bg-yellow-600 hover:bg-yellow-500 text-slate-950 px-6 py-4 rounded-xl text-xs transition-all font-black uppercase w-full md:w-1/3">🎲 Casuale</button>
+                <div id="counter" class="flex items-center justify-center text-[10px] font-black uppercase text-slate-500 px-4 bg-slate-950 rounded-xl md:w-1/3 italic">
+                    Inizia a scrivere...
+                </div>
             </div>
-            <div id="counter" class="text-[9px] text-slate-500 mt-3 ml-2 uppercase font-bold tracking-widest leading-none"></div>
         </div>
 
         <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
@@ -57,143 +54,114 @@
         let currentTab = 'pkmn';
         const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
 
-        // Caricamento Dati
         async function loadData() {
             try {
-                const results = await Promise.all([
-                    fetch('pokemon.json').then(r => r.json()),
-                    fetch('tecniche.json').then(r => r.json()),
-                    fetch('abilita.json').then(r => r.json()),
-                    fetch('max_moves.json').then(r => r.json()),
-                    fetch('mosse_z.json').then(r => r.json())
+                const r = await Promise.all([
+                    fetch('pokemon.json').then(res => res.json()),
+                    fetch('tecniche.json').then(res => res.json()),
+                    fetch('abilita.json').then(res => res.json()),
+                    fetch('max_moves.json').then(res => res.json()),
+                    fetch('mosse_z.json').then(res => res.json())
                 ]);
-                db.pkmn = results[0]; db.tech = results[1]; db.abil = results[2]; db.max = results[3]; db.zmove = results[4];
+                db.pkmn = r[0]; db.tech = r[1]; db.abil = r[2]; db.max = r[3]; db.zmove = r[4];
                 runSearch();
-            } catch (e) {
-                console.error("Errore caricamento:", e);
-                document.getElementById('results').innerHTML = `<div class="col-span-full text-center p-10 bg-red-900/20 rounded-3xl border border-red-500 text-red-400 font-bold uppercase text-xs tracking-widest">Errore JSON: Controlla le virgole!</div>`;
-            }
+            } catch (e) { console.error("Errore JSON"); }
         }
 
-        // Cambio Tab
         function switchTab(tab) {
             currentTab = tab;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.replace('tab-active', 'tab-inactive'));
-            document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.replace('tab-inactive', 'tab-active');
+            document.querySelectorAll('button[id^="tab"]').forEach(b => {
+                b.className = b.id === 'tab' + tab.charAt(0).toUpperCase() + tab.slice(1) ? 'tab-active py-3 rounded-2xl text-[10px] uppercase transition-all' : 'tab-inactive py-3 rounded-2xl text-[10px] uppercase transition-all';
+            });
             document.getElementById('visualRank').style.display = tab === 'pkmn' ? 'block' : 'none';
             runSearch();
         }
 
-        // MOTORE DI RICERCA SUPER-FLEX (AND Logic)
+        // --- MOTORE DI RICERCA REVISIONATO ---
         function runSearch() {
-            const queryValue = document.getElementById('mainSearch').value.toLowerCase().trim();
-            const keywords = queryValue.split(/\s+/).filter(k => k.length > 0);
-            const selectedRank = document.getElementById('visualRank').value;
-            let filtered = [];
+            const query = document.getElementById('mainSearch').value.toLowerCase().trim();
+            const keywords = query.split(/\s+/).filter(k => k !== "");
+            const selRank = document.getElementById('visualRank').value;
+            
+            let dataToFilter = db[currentTab] || [];
+            
+            const filtered = dataToFilter.filter(item => {
+                // Creiamo una stringa gigante con TUTTI i dati dell'oggetto per semplificare la ricerca
+                // Includiamo Nome, Tipi, Rango Suggerito e Abilità
+                const searchString = [
+                    item.nome,
+                    item.rango_suggerito,
+                    ...(item.tipo || []),
+                    ...(item.abilita || []),
+                    item.descrizione
+                ].join(" ").toLowerCase();
 
-            if (currentTab === 'pkmn') {
-                filtered = db.pkmn.filter(p => {
-                    // Tutte le parole devono corrispondere
-                    return keywords.every(kw => {
-                        const nome = (p.nome || "").toLowerCase();
-                        const tipi = (p.tipo || []).map(t => t.toLowerCase());
-                        const sug = (p.rango_suggerito || "").toLowerCase();
-                        const abil = (p.abilita || []).map(a => a.toLowerCase());
-                        return nome.includes(kw) || tipi.some(t => t.includes(kw)) || sug.includes(kw) || abil.some(a => a.includes(kw));
-                    });
-                }).map(p => ({ ...p, rango_attuale: selectedRank }));
-                renderPokemon(filtered);
-            } 
-            else if (currentTab === 'tech') {
-                filtered = db.tech.filter(t => keywords.every(kw => (t.nome||"").toLowerCase().includes(kw) || (t.descrizione||"").toLowerCase().includes(kw)));
-                renderTech(filtered);
-            }
-            else if (currentTab === 'abil') {
-                filtered = db.abil.filter(a => keywords.every(kw => (a.nome||"").toLowerCase().includes(kw) || (a.effetto||"").toLowerCase().includes(kw)));
-                renderAbil(filtered);
-            }
-            // Aggiungi qui gli altri filtri (max/zmove) se necessario
+                // Controlla se OGNI parola cercata è presente nella stringa del Pokémon
+                return keywords.every(kw => searchString.includes(kw));
+            });
 
-            document.getElementById('counter').innerText = queryValue ? `Trovati: ${filtered.length} risultati` : "";
+            document.getElementById('counter').innerText = `Trovati: ${filtered.length}`;
+            
+            if (currentTab === 'pkmn') renderPkmn(filtered, selRank);
+            else if (currentTab === 'tech') renderGeneric(filtered, "Tecnica", "blue");
+            else if (currentTab === 'abil') renderGeneric(filtered, "Abilità", "green");
+            else if (currentTab === 'max') renderGeneric(filtered, "Max Move", "pink");
+            else renderGeneric(filtered, "Mossa Z", "yellow");
         }
 
-        // RENDER POKEMON (BASE/MAX + ABILITÀ)
-        function renderPokemon(list) {
-            const container = document.getElementById('results');
-            container.innerHTML = list.map(p => {
-                const currentRankIdx = RANGHI.indexOf(p.rango_attuale);
-                return `
-                <div class="bg-slate-900 rounded-[3rem] overflow-hidden border border-slate-800 shadow-2xl flex flex-col group hover:border-yellow-600/30 transition-all">
+        function renderPkmn(list, selRank) {
+            const rankIdx = RANGHI.indexOf(selRank);
+            document.getElementById('results').innerHTML = list.map(p => `
+                <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-xl hover:border-yellow-600/50 transition-all">
                     <div class="bg-slate-800/50 p-6 flex justify-between items-center border-b border-slate-800">
                         <div>
-                            <span class="text-yellow-600 font-mono text-[10px] font-black tracking-widest uppercase">#${p.pokedex_id} Rango: ${p.rango_suggerito}</span>
-                            <h2 class="text-3xl font-black text-white uppercase tracking-tighter">${p.nome}</h2>
-                            <div class="flex gap-2 mt-2">
-                                ${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[8px] font-black px-2 py-1 rounded border border-slate-800 uppercase text-slate-400">${t}</span>`).join('')}
-                            </div>
+                            <span class="text-[10px] font-black text-yellow-600 uppercase tracking-widest">#${p.pokedex_id} - ${p.rango_suggerito}</span>
+                            <h2 class="text-3xl font-black uppercase text-white">${p.nome}</h2>
                         </div>
-                        <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[75px]">
-                            <span class="block text-[8px] text-red-600 font-black uppercase mb-1 leading-none">Salute</span>
-                            <span class="text-2xl font-black text-white leading-none">${p.vitalita_max?.hp || 0}</span>
+                        <div class="bg-slate-950 p-3 rounded-2xl text-center min-w-[70px] border border-red-900/30">
+                            <span class="text-[8px] text-red-500 font-black uppercase block">HP</span>
+                            <span class="text-xl font-black">${p.vitalita_max?.hp || 0}</span>
                         </div>
                     </div>
-
-                    <div class="p-8">
-                        <div class="flex flex-col sm:flex-row gap-6 mb-8">
-                            <img src="${p.immagine}" class="w-24 h-24 object-contain drop-shadow-2xl group-hover:scale-110 transition-transform self-center">
-                            <div class="flex-1">
-                                <div class="bg-slate-800/30 p-4 rounded-2xl italic text-[11px] text-slate-400 border-l-4 border-yellow-600 mb-3">"${p.descrizione}"</div>
-                                <div class="flex flex-wrap gap-2">
-                                    ${(p.abilita || []).map(a => `<span class="bg-blue-900/20 text-blue-400 text-[9px] font-black px-3 py-1 rounded-full border border-blue-500/20 uppercase">Abilità: ${a}</span>`).join('')}
-                                </div>
+                    <div class="p-6">
+                        <div class="flex gap-4 mb-6">
+                            <img src="${p.immagine}" class="w-20 h-20 object-contain">
+                            <div class="flex-1 bg-slate-950/50 p-3 rounded-xl border-l-2 border-yellow-500 text-[11px] italic text-slate-400">
+                                ${p.descrizione}
                             </div>
                         </div>
-
-                        <div class="grid grid-cols-5 gap-2 mb-8">
-                            ${Object.entries(p.attributi || {}).map(([attr, val]) => `
-                                <div class="bg-slate-950 p-2 rounded-xl text-center border border-slate-800">
-                                    <span class="text-[8px] text-slate-500 uppercase block font-black mb-1">${attr.substring(0,3)}</span>
-                                    <div class="flex flex-col items-center">
-                                        <span class="text-sm font-black text-yellow-500">${val.base}</span>
-                                        <div class="w-8 h-[1px] bg-slate-800 my-1"></div>
-                                        <span class="text-[9px] font-bold text-slate-600 uppercase">M:${val.max}</span>
-                                    </div>
+                        <div class="grid grid-cols-5 gap-2 mb-6">
+                            ${Object.entries(p.attributi || {}).map(([k, v]) => `
+                                <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 text-center">
+                                    <span class="text-[7px] uppercase text-slate-500 block">${k.slice(0,3)}</span>
+                                    <span class="text-xs font-black text-yellow-500">${v.base}</span>
+                                    <span class="text-[8px] text-slate-600 block">M:${v.max}</span>
                                 </div>
                             `).join('')}
                         </div>
-
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-end border-b border-slate-800 pb-2">
-                                <span class="text-[10px] text-slate-600 font-black uppercase tracking-widest">Tecniche</span>
-                                <span class="text-[9px] text-yellow-600 font-black uppercase italic">Visto come ${p.rango_attuale}</span>
-                            </div>
+                        <div class="space-y-1">
                             ${(p.tecniche || []).map(m => {
                                 const mIdx = RANGHI.indexOf(m.rango);
-                                const isLocked = mIdx > currentRankIdx;
-                                return `
-                                <div class="flex justify-between items-center p-3 rounded-xl border-l-2 transition-all ${isLocked ? 'bg-slate-950/30 opacity-20 grayscale border-slate-800' : 'bg-slate-800 border-yellow-600 shadow-lg'}">
-                                    <span class="text-xs ${isLocked ? 'text-slate-500' : 'text-slate-100'} font-bold">${m.nome}</span>
-                                    <span class="text-[9px] ${isLocked ? 'text-slate-700' : 'text-yellow-600'} uppercase font-black">${m.rango}</span>
+                                const lock = mIdx > rankIdx;
+                                return `<div class="flex justify-between p-2 rounded-lg text-[10px] font-bold ${lock ? 'opacity-20 bg-slate-950' : 'bg-slate-800 text-yellow-500 border-l-2 border-yellow-500'}">
+                                    <span>${m.nome}</span><span>${m.rango}</span>
                                 </div>`;
                             }).join('')}
                         </div>
                     </div>
-                </div>`;
-            }).join('');
+                </div>
+            `).join('');
         }
 
-        // Render Tecniche e Abilità (Versione Pulita)
-        function renderTech(list) {
-            document.getElementById('results').innerHTML = list.map(t => `<div class="bg-slate-900 p-6 rounded-3xl border border-slate-800">
-                <h3 class="text-xl font-black text-white uppercase">${t.nome}</h3>
-                <p class="text-xs text-slate-400 mt-2">${t.descrizione}</p>
-                <div class="mt-4 grid grid-cols-2 gap-2 text-[10px] font-bold uppercase"><div class="bg-slate-950 p-2 rounded-lg">ACC: ${t.accuratezza}</div><div class="bg-slate-950 p-2 rounded-lg">DANNO: ${t.pool_danno}</div></div>
-            </div>`).join('');
+        function renderGeneric(list, type, color) {
+            document.getElementById('results').innerHTML = list.map(item => `
+                <div class="bg-slate-900 p-6 rounded-[2rem] border border-slate-800 shadow-lg">
+                    <span class="text-[8px] font-black text-${color}-500 uppercase">${type}</span>
+                    <h3 class="text-xl font-black text-white uppercase mb-2">${item.nome}</h3>
+                    <p class="text-xs text-slate-400">${item.descrizione || item.effetto || item.effetti_aggiuntivi || ""}</p>
+                </div>
+            `).join('');
         }
-        function renderAbil(list) {
-            document.getElementById('results').innerHTML = list.map(a => `<div class="bg-slate-900 p-8 rounded-[2.5rem] border-l-8 border-blue-600"><h3 class="text-2xl font-black text-blue-500 uppercase">${a.nome}</h3><p class="text-sm text-slate-300 mt-4 leading-relaxed">${a.effetto}</p></div>`).join('');
-        }
-        function randomGen() { /* ... stessa logica precedente ... */ }
 
         loadData();
     </script>
