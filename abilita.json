@@ -29,7 +29,6 @@
     "effetto": "Se questo Pokémon agisce per ultimo nel turno di combattimento, aggiungi 2 dadi alla Riserva di Danni del suo attacco.",
     "parole_chiave": ["Combattimento", "Danni", "Iniziativa"]
   },
-  [
   {
     "nome": "Iraposto",
     "Descrizione": "Il Pokémon perde completamente la pazienza dopo aver subito un colpo critico, sprigionando una furia distruttiva.",
@@ -618,10 +617,6 @@
     "effetto": "Finché il meteo è Soleggiato, questo Pokémon è immune a tutte le Alterazioni di Stato.",
     "parole_chiave": ["Meteo", "Immunità", "Erba"]
   },
- Certamente! Proseguiamo con la lista. Ecco le abilità tradotte e adattate per il sistema PokeRole, mantenendo il formato JSON richiesto:
-
-JSON
-[
   {
     "nome": "Levitazione",
     "Descrizione": "Il Pokémon fluttua nell'aria, diventando inafferrabile per gli attacchi che colpiscono il suolo.",
@@ -874,13 +869,7 @@ JSON
     "effetto": "Tutte le mosse di tipo Normale utilizzate da questo Pokémon diventano di tipo Folletto. Inoltre, aggiungi 1 dado alla Riserva di Danni di queste mosse.",
     "parole_chiave": ["Trasformazione", "Danni", "Folletto"]
   },
- Certamente! Questa lista contiene alcune delle abilità più spettacolari dal punto di vista visivo e strategico, inclusa la trasformazione leggendaria di Zygarde e il controllo meteorologico assoluto di Kyogre.
-
-Ecco le abilità tradotte e adattate per PokeRole nel formato JSON:
-
-JSON
-[
-  {
+   {
     "nome": "Più",
     "Descrizione": "Il Pokémon genera una carica magnetica positiva che entra in risonanza con le cariche negative degli alleati.",
     "effetto": "Se in campo è presente un alleato con l'abilità 'Più' o 'Meno', l'Attacco Speciale di questo Pokémon aumenta di 1 dado.",
