@@ -136,7 +136,7 @@
     "accuratezza": "speciale + Canale",
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Se usata su un alleato, lo cura di 1 dei suoi PS invece di infliggere danno.",
-    "descrizionr": "Lancia una palla di polline che esplode: è dannosa per i nemici ma curativa per gli amici.",
+    "descrizione": "Lancia una palla di polline che esplode: è dannosa per i nemici ma curativa per gli amici.",
     "parole_chiave": ["Proiettile"]
   },
   {
@@ -180,4 +180,5 @@
     "parole_chiave": ["Luce"]
   }
 ]
+
 
