@@ -257,7 +257,7 @@
     "peso": "100 kg",
     "altezza": "1.7 m",
     "immagine": "./img/Charizard.png",
-    "tipo": ["Fuovo", "Volante"],
+    "tipo": ["Fuoco", "Volante"],
     "rango_attuale": "Starter",
     "rango_suggerito": "Ace",
     "descrizione": "Pokémon Fiamma.\nUn Charizard vola in giro alla ricerca di avversari forti. Sputa fiamme intense che possono sciogliere qualsiasi materiale. Tuttavia, non toccherà mai un nemico più debole. Non molti allenatori sono in grado di gestire il suo pessimo carattere.",
@@ -303,7 +303,7 @@
     "peso": "100 kg",
     "altezza": "1.7 m",
     "immagine": "./img/MegaCharizardY.png",
-    "tipo": ["Fuovo", "Volante"],
+    "tipo": ["Fuoco", "Volante"],
     "rango_attuale": "Starter",
     "rango_suggerito": "Pro",
     "descrizione": "Pokémon Fiamma.\nCon il potere della Mega Pietra diventa audace e sicuro di sé. Le sue abilità di volo migliorano e vanta velocità e manovrabilità. Quando vola non puoi vederlo direttamente perché le sue fiamme ardono luminose come il sole.",
@@ -349,7 +349,7 @@
     "peso": "100 kg",
     "altezza": "1.7 m",
     "immagine": "./img/MegaCharizardX.png",
-    "tipo": ["Fuovo", "Drago"],
+    "tipo": ["Fuoco", "Drago"],
     "rango_attuale": "Starter",
     "rango_suggerito": "Pro",
     "descrizione": "Pokémon Fiamma.\nIl potere della Mega Pietra fa sì che le sue fiamme interne brucino così tanto che il suo corpo diventa nero come il carbone e un fuoco blu fuoriesce costantemente dalla sua bocca. È pieno di rabbia e il suo comportamento è imprevedibile.",
@@ -689,7 +689,7 @@
       { "nome": "Elettrotela", "rango": "Amateur" }
     ]
   },
-{
+  {
     "nome": "Kakuna",
     "pokedex_id": "014",
     "peso": "10 kg",
@@ -770,7 +770,7 @@
     "descrizione": "Con la Megaevoluzione, i suoi pungiglioni diventano enormi lance. È incredibilmente veloce e colpisce i punti vitali del nemico per poi ritirarsi istantaneamente.",
     "abilita": ["Adattabilità"],
     "linea_evolutiva": ["Beedrill", "Beedrill Mega"],
-    "stadio_evolutivo": "Megaevoluzione",
+    "stadio_evolutivo": ["Megaevoluzione"],
     "tempo_evoluzione": "N/A",
     "attributi": {
       "forza": { "base": 4, "max": 8 },
