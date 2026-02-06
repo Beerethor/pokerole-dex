@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeRole Ultimate Dex 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        
+        /* Classi per lo stato attivo/inattivo dei pulsanti */
+        .tab-btn { transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.05); }
+        .tab-active { background-color: #ca8a04; color: #0f172a; font-weight: 900; transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
+        .tab-inactive { color: #94a3b8; background-color: #1e293b; }
+        .tab-inactive:hover { background-color: #334155; color: white; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen pb-20">
+
+    <div class="max-w-6xl mx-auto p-4">
+        <header class="py-10 flex flex-col items-center text-center">
+            <h1 class="text-5xl font-black text-yellow-500 tracking-tighter uppercase italic">PokeRole <span class="text-white">ProDex</span></h1>
+            <p class="text-slate-500 text-xs mt-2 uppercase tracking-[0.2em] font-bold">Database Avanzato per Allenatori</p>
+            
+            <div class="grid grid-cols-3 md:grid-cols-5 gap-2 bg-slate-900/50 p-2 rounded-3xl mt-8 w-full border border-slate-800 shadow-2xl">
+                <button onclick="switchTab('pkmn')" id="tabPkmn" class="tab-btn tab-active py-3 rounded-2xl text-[10px] uppercase">Pokémon</button>
+                <button onclick="switchTab('tech')" id="tabTech" class="tab-btn tab-inactive py-3 rounded-2xl text-[10px] uppercase">Tecniche</button>
+                <button onclick="switchTab('abil')" id="tabAbil" class="tab-btn tab-inactive py-3 rounded-2xl text-[10px] uppercase">Abilità</button>
+                <button onclick="switchTab('max')" id="tabMax" class="tab-btn tab-inactive py-3 rounded-2xl text-[10px] uppercase border-pink-900/30">Max Moves</button>
+                <button onclick="switchTab('zmove')" id="tabZmove" class="tab-btn tab-inactive py-3 rounded-2xl text-[10px] uppercase border-yellow-900/30">Z-Moves</button>
+            </div>
+        </header>
+
+        <div class="bg-slate-900 p-6 rounded-[2.5rem] shadow-2xl border border-slate-800 mb-10 sticky top-4 z-50 backdrop-blur-md bg-opacity-90">
+            <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca per nome, tipo, abilità o parole chiave..." 
+                class="w-full bg-slate-950 border-none rounded-2xl p-4 mb-4 text-white focus:ring-2 focus:ring-yellow-500 shadow-inner placeholder-slate-600">
+            
+            <div class="flex flex-wrap gap-2">
+                <select id="rankFilter" onchange="runSearch()" class="bg-slate-800 rounded-xl p-3 text-sm border-none text-white font-bold flex-grow md:flex-grow-0">
+                    <option value="">Tutti i Ranghi (Solo PKMN)</option>
+                    <option value="Starter">Starter</option>
+                    <option value="Amateur">Amateur</option>
+                    <option value="Ace">Ace</option>
+                    <option value="Pro">Pro</option>
+                    <option value="Master">Master</option>
+                </select>
+                <button onclick="randomGen()" class="bg-yellow-600 hover:bg-yellow-500 text-slate-950 px-6 py-3 rounded-xl text-sm transition-all font-black uppercase">🎲 Casuale</button>
+            </div>
+        </div>
+
+        <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+    </div>
+
+    <script>
+        // --- DATA STORAGE ---
+        let db = { pkmn: [], tech: [], abil: [], max: [], zmove: [] };
+        let currentTab = 'pkmn';
+        const RANGHI = ["Starter", "Amateur", "Ace", "Pro", "Master"];
+
+        // --- CARICAMENTO FILE JSON ---
+        async function loadData() {
+            try {
+                const fetchList = [
+                    fetch('pokemon.json').then(r => r.json()),
+                    fetch('tecniche.json').then(r => r.json()),
+                    fetch('abilita.json').then(r => r.json()),
+                    fetch('max_moves.json').then(r => r.json()),
+                    fetch('mosse_z.json').then(r => r.json())
+                ];
+                const results = await Promise.all(fetchList);
+                db.pkmn = results[0];
+                db.tech = results[1];
+                db.abil = results[2];
+                db.max = results[3];
+                db.zmove = results[4];
+                runSearch();
+            } catch (e) {
+                document.getElementById('results').innerHTML = `<div class="col-span-full text-center p-10 bg-red-900/20 rounded-3xl border border-red-500 text-red-400 font-bold">Errore critico: Assicurati che tutti i 5 file JSON siano nella cartella e senza errori di virgole.</div>`;
+            }
+        }
+
+        // --- GESTIONE TAB ---
+        function switchTab(tab) {
+            currentTab = tab;
+            const btnMap = { pkmn: 'tabPkmn', tech: 'tabTech', abil: 'tabAbil', max: 'tabMax', zmove: 'tabZmove' };
+            Object.values(btnMap).forEach(id => {
+                document.getElementById(id).classList.remove('tab-active');
+                document.getElementById(id).classList.add('tab-inactive');
+            });
+            document.getElementById(btnMap[tab]).classList.add('tab-active');
+            document.getElementById(btnMap[tab]).classList.remove('tab-inactive');
+            runSearch();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- RENDERER 1: POKÉMON ---
+        function renderPokemon(list) {
+            const container = document.getElementById('results');
+            container.innerHTML = list.map(p => {
+                const pRankIdx = RANGHI.indexOf(p.rango_attuale || "Starter");
+                const tecnichePerRango = {};
+                RANGHI.forEach(r => {
+                    const m = (p.tecniche || []).filter(item => item.rango === r);
+                    if (m.length > 0) tecnichePerRango[r] = m;
+                });
+                const evoluzioneHTML = Array.isArray(p.linea_evolutiva) ? p.linea_evolutiva.join(' → ').replace(/\|/g, '<br>') : (p.linea_evolutiva || '').replace(/\|/g, '<br>');
+
+                return `
+                <div class="bg-slate-900 rounded-[3rem] overflow-hidden border border-slate-800 shadow-2xl flex flex-col group hover:border-yellow-600/30 transition-all">
+                    <div class="bg-slate-800/50 p-8 flex justify-between items-start border-b border-slate-800">
+                        <div>
+                            <span class="text-yellow-600 font-mono text-xs font-black tracking-widest">#${p.pokedex_id || '???'}</span>
+                            <h2 class="text-3xl font-black text-white uppercase tracking-tighter">${p.nome}</h2>
+                            <div class="flex gap-2 mt-2">
+                                ${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[9px] font-black px-3 py-1 rounded-full text-slate-400 border border-slate-800 uppercase">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[70px]">
+                            <span class="block text-[8px] text-red-600 font-black uppercase">Salute</span>
+                            <span class="text-2xl font-black text-white leading-none">${p.vitalita_max?.hp || 0}</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <div class="grid grid-cols-3 gap-4 mb-6 bg-slate-950/50 p-4 rounded-2xl border border-slate-800/50 text-center">
+                            <div><span class="block text-[8px] text-slate-500 font-black uppercase">Altezza</span><span class="text-xs font-bold">${p.altezza || '--'}</span></div>
+                            <div><span class="block text-[8px] text-slate-500 font-black uppercase">Peso</span><span class="text-xs font-bold">${p.peso || '--'}</span></div>
+                            <div><span class="block text-[8px] text-yellow-600 font-black uppercase">Rango</span><span class="text-xs font-bold text-yellow-500">${p.rango_suggerito || 'Starter'}</span></div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            ${(p.abilita || []).map(a => `<span class="bg-blue-900/20 text-blue-400 text-[9px] font-black px-3 py-1.5 rounded-xl border border-blue-500/20 uppercase tracking-tighter">✨ ${a}</span>`).join('')}
+                        </div>
+                        <div class="flex gap-6 mb-8 items-center">
+                            <img src="${p.immagine}" class="w-28 h-28 object-contain drop-shadow-2xl group-hover:scale-110 transition-transform" onerror="this.src='https://via.placeholder.com/150'">
+                            <div class="bg-slate-800/30 p-4 rounded-2xl italic text-xs text-slate-400 leading-relaxed border-l-4 border-yellow-600">"${p.descrizione || ''}"</div>
+                        </div>
+                        <div class="grid grid-cols-5 gap-2 mb-8">
+                            ${Object.entries(p.attributi || {}).map(([attr, val]) => `
+                                <div class="bg-slate-950 p-2 rounded-xl text-center border border-slate-800">
+                                    <span class="text-[8px] text-slate-500 uppercase block font-black mb-1">${attr.substring(0,3)}</span>
+                                    <span class="text-sm font-black text-yellow-500">${val}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="bg-slate-950 p-5 rounded-2xl text-[11px] mb-8 border border-slate-800 shadow-inner">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-yellow-700 font-black uppercase text-[9px] tracking-widest">Evoluzione (${p.stadio_evolutivo || 'Base'})</span>
+                                <span class="text-slate-600 font-bold italic">${p.tempo_evoluzione || ''}</span>
+                            </div>
+                            <div class="text-slate-200 font-bold leading-relaxed">${evoluzioneHTML}</div>
+                        </div>
+                        <div class="space-y-3">
+                            <span class="text-[10px] text-slate-600 font-black uppercase block border-b border-slate-800 pb-2">Piano di Apprendimento</span>
+                            ${RANGHI.map(r => {
+                                const mosse = tecnichePerRango[r] || [];
+                                const isLocked = RANGHI.indexOf(r) > pRankIdx;
+                                return mosse.map(m => `
+                                    <div class="flex justify-between items-center bg-slate-800/40 p-3 rounded-xl border-l-2 ${isLocked ? 'border-slate-800 opacity-25 grayscale' : 'border-yellow-600'} transition-all hover:bg-slate-800">
+                                        <span class="text-xs text-slate-200 font-bold">${m.nome}</span>
+                                        <span class="text-[9px] text-slate-500 uppercase font-black">${r}</span>
+                                    </div>`).join('');
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // --- RENDERER 2: TECNICHE ---
+        function renderTecniche(list) {
+            const container = document.getElementById('results');
+            container.innerHTML = list.map(t => {
+                const catColor = t.categoria === "Fisica" ? "text-orange-400" : t.categoria === "Speciale" ? "text-blue-400" : "text-emerald-400";
+                return `
+                <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 shadow-xl overflow-hidden flex flex-col hover:border-slate-600 transition-all">
+                    <div class="bg-slate-800/40 p-6 border-b border-slate-800 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-black text-white uppercase tracking-tighter leading-none">${t.nome}</h3>
+                            <span class="text-[10px] font-black uppercase ${catColor}">${t.categoria || 'Stato'}</span>
+                        </div>
+                        <span class="bg-slate-950 px-4 py-1.5 rounded-full text-[10px] font-black border border-slate-800 uppercase tracking-widest text-slate-400">${t.tipo || 'Normale'}</span>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center shadow-inner">
+                                <span class="text-slate-600 uppercase block text-[9px] font-black mb-1">Accuratezza</span>
+                                <span class="text-slate-200 font-bold text-sm">${t.accuratezza || '--'}</span>
+                            </div>
+                            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center shadow-inner">
+                                <span class="text-slate-600 uppercase block text-[9px] font-black mb-1">Pool Danno</span>
+                                <span class="text-slate-200 font-bold text-sm">${t.pool_danno || '--'}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-400 leading-relaxed mb-4 italic">"${t.descrizione || ''}"</p>
+                            <div class="bg-slate-950 p-5 rounded-2xl border-l-4 border-yellow-600">
+                                <span class="text-[9px] text-yellow-600 font-black uppercase block mb-2">Effetti Tecnica</span>
+                                <p class="text-xs text-slate-300 leading-relaxed">${t.effetti_aggiuntivi || 'Nessun effetto particolare.'}</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 pt-2">
+                            ${(t.parole_chiave || []).map(k => `<span class="text-[9px] bg-slate-800 text-slate-500 px-3 py-1 rounded-lg font-bold uppercase tracking-tighter">#${k}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // --- RENDERER 3: ABILITÀ ---
+        function renderAbilita(list) {
+            const container = document.getElementById('results');
+            container.innerHTML = list.map(a => `
+                <div class="bg-slate-900 p-8 rounded-[2.5rem] border border-slate-800 shadow-xl border-l-8 border-l-blue-600 hover:bg-slate-800/40 transition-all">
+                    <h3 class="text-2xl font-black text-blue-500 uppercase tracking-tighter mb-4">${a.nome}</h3>
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 mb-6 shadow-inner">
+                        <p class="text-sm text-slate-300 leading-relaxed font-medium">${a.effetto || 'Nessuna descrizione disponibile.'}</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        ${(a.parole_chiave || []).map(k => `<span class="text-[9px] bg-slate-950 text-slate-600 px-3 py-1 rounded-lg font-black uppercase border border-slate-800">#${k}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- RENDERER 4: MAX MOVES ---
+        function renderMaxMoves(list) {
+            const container = document.getElementById('results');
+            container.innerHTML = list.map(m => `
+                <div class="bg-slate-900 rounded-[2.5rem] border border-pink-900/30 shadow-2xl overflow-hidden flex flex-col relative group">
+                    <div class="absolute -right-4 -top-4 w-32 h-32 bg-pink-600/5 rounded-full blur-3xl group-hover:bg-pink-600/10 transition-all"></div>
+                    <div class="bg-gradient-to-r from-pink-900/40 to-slate-900 p-6 border-b border-pink-900/30 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-black text-pink-500 uppercase tracking-tighter leading-none">${m.nome}</h3>
+                            <span class="text-[10px] font-black uppercase text-pink-700/80">${m.categoria || 'Dinamica'}</span>
+                        </div>
+                        <span class="bg-pink-900 text-pink-100 px-4 py-1.5 rounded-full text-[10px] font-black border border-pink-600 uppercase shadow-lg shadow-pink-900/20">${m.tipo}</span>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-950/80 p-4 rounded-2xl border border-pink-900/20 text-center shadow-inner">
+                                <span class="text-pink-900 uppercase block text-[9px] font-black mb-1">Accuratezza</span>
+                                <span class="text-slate-200 font-bold">${m.accuratezza || '--'}</span>
+                            </div>
+                            <div class="bg-slate-950/80 p-4 rounded-2xl border border-pink-900/20 text-center shadow-inner">
+                                <span class="text-pink-900 uppercase block text-[9px] font-black mb-1">Danno Dynamax</span>
+                                <span class="text-slate-200 font-bold">${m.pool_danno || '--'}</span>
+                            </div>
+                        </div>
+                        <div class="bg-pink-950/20 p-6 rounded-2xl border-l-4 border-pink-600 relative">
+                            <span class="text-[9px] text-pink-500 font-black uppercase block mb-2 tracking-widest">Effetto Campo Dynamax</span>
+                            <p class="text-sm text-slate-200 leading-relaxed font-bold">${m.effetti_aggiuntivi || 'Nessuno'}</p>
+                        </div>
+                        <p class="text-xs text-slate-500 italic leading-snug">"${m.descrizione}"</p>
+                    </div>
+                </div>`).join('');
+        }
+
+        // --- RENDERER 5: Z-MOVES ---
+        function renderMosseZ(list) {
+            const container = document.getElementById('results');
+            container.innerHTML = list.map(z => `
+                <div class="bg-slate-900 rounded-[2.5rem] border border-yellow-700/30 shadow-2xl overflow-hidden flex flex-col relative group">
+                    <div class="absolute -left-6 -top-6 w-32 h-32 bg-yellow-500/5 rounded-full blur-3xl"></div>
+                    <div class="bg-gradient-to-r from-yellow-900/40 to-slate-900 p-6 border-b border-yellow-700/30 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-black text-yellow-500 uppercase tracking-tighter leading-none">${z.nome}</h3>
+                            <span class="text-[10px] font-black uppercase text-yellow-700/80">Cristallo: ${z.potere}</span>
+                        </div>
+                        <span class="bg-yellow-600 text-slate-950 px-4 py-1.5 rounded-full text-[10px] font-black border border-yellow-400 uppercase shadow-lg shadow-yellow-600/20">${z.tipo}</span>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="bg-slate-950/80 p-3 rounded-2xl border border-yellow-900/20 text-center">
+                                <span class="text-yellow-800 uppercase block text-[8px] font-black mb-1">Cat.</span>
+                                <span class="text-xs font-bold uppercase text-slate-300">${z.categoria}</span>
+                            </div>
+                            <div class="bg-slate-950/80 p-3 rounded-2xl border border-yellow-900/20 text-center">
+                                <span class="text-yellow-800 uppercase block text-[8px] font-black mb-1">Acc.</span>
+                                <span class="text-xs font-bold text-slate-300">${z.accuratezza}</span>
+                            </div>
+                            <div class="bg-slate-950/80 p-3 rounded-2xl border border-yellow-900/20 text-center">
+                                <span class="text-yellow-800 uppercase block text-[8px] font-black mb-1">Danno Z</span>
+                                <span class="text-xs font-black text-yellow-500">${z.pool_danno}</span>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-950/20 p-6 rounded-2xl border-l-4 border-yellow-500 shadow-inner">
+                            <span class="text-[9px] text-yellow-600 font-black uppercase block mb-2">Potere Z Effetto</span>
+                            <p class="text-sm text-slate-200 leading-relaxed font-bold">${z.effetti_aggiuntivi || 'Alta Potenza Distruttiva'}</p>
+                        </div>
+                        <p class="text-xs text-slate-500 italic leading-snug">"${z.descrizione}"</p>
+                    </div>
+                </div>`).join('');
+        }
+
+        // --- RICERCA GLOBALE ---
+        function runSearch() {
+            const q = document.getElementById('mainSearch').value.toLowerCase().trim();
+            const r = document.getElementById('rankFilter').value;
+            
+            if (currentTab === 'pkmn') {
+                const filtered = db.pkmn.filter(p => (p.nome.toLowerCase().includes(q) || (p.tipo || []).some(t => t.toLowerCase().includes(q)) || (p.abilita || []).some(a => a.toLowerCase().includes(q))) && (r === "" || p.rango_attuale === r));
+                renderPokemon(filtered);
+            } else if (currentTab === 'tech') {
+                const filtered = db.tech.filter(t => t.nome.toLowerCase().includes(q) || (t.parole_chiave || []).some(k => k.toLowerCase().includes(q)) || (t.tipo && t.tipo.toLowerCase().includes(q)));
+                renderTecniche(filtered);
+            } else if (currentTab === 'abil') {
+                const filtered = db.abil.filter(a => a.nome.toLowerCase().includes(q) || (a.parole_chiave || []).some(k => k.toLowerCase().includes(q)));
+                renderAbilita(filtered);
+            } else if (currentTab === 'max') {
+                const filtered = db.max.filter(m => m.nome.toLowerCase().includes(q) || m.tipo.toLowerCase().includes(q));
+                renderMaxMoves(filtered);
+            } else {
+                const filtered = db.zmove.filter(z => z.nome.toLowerCase().includes(q) || z.tipo.toLowerCase().includes(q));
+                renderMosseZ(filtered);
+            }
+        }
+
+        // --- GENERATORE CASUALE ---
+        function randomGen() {
+            const currentDb = db[currentTab];
+            if(currentDb.length) {
+                const res = [currentDb[Math.floor(Math.random()*currentDb.length)]];
+                if(currentTab === 'pkmn') renderPokemon(res);
+                else if(currentTab === 'tech') renderTecniche(res);
+                else if(currentTab === 'abil') renderAbilita(res);
+                else if(currentTab === 'max') renderMaxMoves(res);
+                else renderMosseZ(res);
+            }
+        }
+
+        // INIT
+        loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+[
+  {
+    "nome": "Adattabilità",
+    "effetto": "Aumenta il bonus del tipo (STAB) da +1 a +2 dadi.",
+    "parole_chiave": ["Combattimento", "Danni"]
+  },
+  {
+    "nome": "Fugafacile",
+    "effetto": "Il Pokémon può fuggire da qualsiasi lotta senza fallire il tiro.",
+    "parole_chiave": ["Movimento", "Fuga"]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "name": "PokeRole Dex Pro",
+  "short_name": "PokeRoleDex",
+  "description": "Archivio Pokémon e Tecniche per il sistema Pokerole",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#eab308",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

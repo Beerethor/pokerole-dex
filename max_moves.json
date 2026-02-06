@@ -1,0 +1,22 @@
+[
+  {
+    "nome": "Dynafiammata",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Special + Canale",
+    "pool_danno": "Special + 4",
+    "effetti_aggiuntivi": "Evoca il tempo Soleggiato per 5 turni.",
+    "descrizione": "Un attacco di tipo Fuoco usato dai Pokémon Dynamax. Il calore sprigionato intensifica i raggi solari.",
+    "parole_chiave": ["Dynamax", "Meteo", "Sole"]
+  },
+  {
+    "nome": "Dynapugno",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Aumenta l'Attacco (Forza) di tutti gli alleati di 1.",
+    "descrizione": "Un potente pugno sferrato da un Pokémon gigante che infonde spirito combattivo nella squadra.",
+    "parole_chiave": ["Dynamax", "Buff", "Contatto"]
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "nome": "Eevee",
+    "pokedex_id": "133",
+    "peso": "6.5 kg",
+    "altezza": "0.3 m",
+    "immagine": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png",
+    "tipo": ["Normale"],
+    "rango_attuale": "Starter",
+    "rango_suggerito": "Starter",
+    "descrizione": "Grazie a una struttura genetica irregolare, Eevee muta rapidamente per adattarsi all'ambiente circostante.",
+    "abilita": ["Fugafacile", "Adattabilità"],
+    "linea_evolutiva": ["Eevee", "Vaporeon/Jolteon/Flareon/Espeon/Umbreon/Leafeon/\nGlaceon/Sylveon"],
+    "stadio_evolutivo": "Base",
+    "tempo_evoluzione": "Veloce",
+    "attributi": {
+      "forza": 2,
+      "destrezza": 2,
+      "vitalita": 2,
+      "special": 2,
+      "insight": 2
+    },
+    "vitalita_max": { "hp": 3 },
+    "tecniche": [
+      { "nome": "Azione", "rango": "Starter" },
+      { "nome": "Colpodi-Coda", "rango": "Starter" },
+      { "nome": "Mordi", "rango": "Amateur" },
+      { "nome": "Staffetta", "rango": "Ace" }
+    ]
+  }
+]

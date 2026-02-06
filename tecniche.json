@@ -1,0 +1,22 @@
+[
+  {
+    "nome": "Azione",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "Un attacco fisico standard che utilizza tutto il corpo.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Idropulsar",
+    "tipo": "Acqua",
+    "categoria": "Speciale",
+    "accuratezza": "Special + Canale",
+    "pool_danno": "Special + 2",
+    "effetti_aggiuntivi": "Può confondere il bersaglio (D6: 1-2).",
+    "descrizione": "Il Pokémon spara un potente getto d'acqua pulsante.",
+    "parole_chiave": ["Distanza", "Acqua"]
+  }
+]

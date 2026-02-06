@@ -1,0 +1,24 @@
+[
+  {
+    "nome": "Fiammata Esplosiva",
+    "tipo": "Fuoco",
+    "potere": "Cristallo Pyrium Z",
+    "categoria": "Speciale",
+    "accuratezza": "Special + Canale",
+    "pool_danno": "Special + 5",
+    "effetti_aggiuntivi": "Ignora le riduzioni di statistiche del Pokémon avversario.",
+    "descrizione": "Il Pokémon convoglia l'energia Z per scatenare un'esplosione fiammeggiante devastante.",
+    "parole_chiave": ["Mossa Z", "Fuoco", "Alta Potenza"]
+  },
+  {
+    "nome": "Supercollisione Galattica",
+    "tipo": "Folletto",
+    "potere": "Cristallo Tapium Z",
+    "categoria": "Speciale",
+    "accuratezza": "Special + Canale",
+    "pool_danno": "Danno Fisso (75% HP correnti)",
+    "effetti_aggiuntivi": "Colpisce un solo bersaglio.",
+    "descrizione": "Mossa Z esclusiva dei protettori di Alola. Evoca un gigante di energia che schiaccia il nemico.",
+    "parole_chiave": ["Mossa Z", "Esclusiva", "Folletto"]
+  }
+]
