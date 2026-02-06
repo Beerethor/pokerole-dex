@@ -10,16 +10,10 @@
     "rango_suggerito": "Beginner",
     "descrizione": "Pokemon seme.\nPorta un seme sulla schiena fin dalla nascita. Crescendo, il seme diventa più grande. È noto per essere un Pokémon leale e ben educato, ma è piuttosto raro da trovare in natura.",
     "abilita": ["Erbaiuto"],
-    "linea_evolutiva": ["Bulbasaur", "Ivysaur"],
+    "linea_evolutiva": ["Bulbasaur", "Ivysaur", "Venusaur"],
     "stadio_evolutivo": "Base",
     "tempo_evoluzione": "Media",
-    "attributi": {
-      "forza": 2,
-      "destrezza": 2,
-      "vitalita": 2,
-      "special": 2,
-      "insight": 2
-    },
+    "attributi": { "forza": 2, "destrezza": 2, "vitalita": 2, "special": 2, "insight": 2 },
     "vitalita_max": { "hp": 3 },
     "tecniche": [
       { "nome": "Azione", "rango": "Starter" },
@@ -52,16 +46,10 @@
     "rango_suggerito": "Amateur",
     "descrizione": "Pokemon seme.\nC'è un germoglio sulla schiena di questo Pokémon. Per sostenere il suo peso, le zampe e il tronco di Ivysaur crescono spessi e forti. Diventa un tipo solitario dopo l'evoluzione e può allontanarsi dal suo gruppo per prendere il sole.",
     "abilita": ["Erbaiuto"],
-    "linea_evolutiva": ["Ivysaur", "Venusaur"],
+    "linea_evolutiva": ["Bulbasaur", "Ivysaur", "Venusaur"],
     "stadio_evolutivo": "Seconda",
     "tempo_evoluzione": "Media",
-    "attributi": {
-      "forza": 2,
-      "destrezza": 2,
-      "vitalita": 2,
-      "special": 2,
-      "insight": 2
-    },
+    "attributi": { "forza": 2, "destrezza": 2, "vitalita": 2, "special": 2, "insight": 2 },
     "vitalita_max": { "hp": 4 },
     "tecniche": [
       { "nome": "Azione", "rango": "Starter" },
@@ -94,16 +82,10 @@
     "rango_suggerito": "Ace",
     "descrizione": "Pokemon seme.\nSi dice che il fiore di Venusaur assuma colori vivaci se esposto a molta luce solare. Il suo aroma lenisce le emozioni altrui. Se ne trovate uno in natura, deve essere il protettore della zona.",
     "abilita": ["Erbaiuto"],
-    "linea_evolutiva": ["Non ha evoluzioni"],
+    "linea_evolutiva": ["Bulbasaur", "Ivysaur", "Venusaur"],
     "stadio_evolutivo": "Finale",
     "tempo_evoluzione": "N/A",
-    "attributi": {
-      "forza": 2,
-      "destrezza": 2,
-      "vitalita": 2,
-      "special": 3,
-      "insight": 3
-    },
+    "attributi": { "forza": 2, "destrezza": 2, "vitalita": 2, "special": 3, "insight": 3 },
     "vitalita_max": { "hp": 5 },
     "tecniche": [
       { "nome": "Azione", "rango": "Starter" },
@@ -138,16 +120,10 @@
     "rango_suggerito": "Pro",
     "descrizione": "Pokemon seme.\nGrazie al potere della Megapietra, questo Pokémon diventa più alto e più spesso. La sua corteccia e la sua pelle diventano impermeabili agli elementi. Il suo comportamento diventa ancora più serio e determinato.",
     "abilita": ["Grassospesso"],
-    "linea_evolutiva": ["Non ha evoluzioni"],
+    "linea_evolutiva": ["Venusaur", "Mega Venusaur"],
     "stadio_evolutivo": "Megaevoluzione",
     "tempo_evoluzione": "N/A",
-    "attributi": {
-      "forza": 3,
-      "destrezza": 2,
-      "vitalita": 3,
-      "special": 3,
-      "insight": 3
-    },
+    "attributi": { "forza": 3, "destrezza": 2, "vitalita": 3, "special": 3, "insight": 3 },
     "vitalita_max": { "hp": 6 },
     "tecniche": [
       { "nome": "Azione", "rango": "Starter" },
@@ -185,13 +161,7 @@
     "linea_evolutiva": ["Eevee", "Vaporeon/Jolteon/Flareon/Espeon/Umbreon/Leafeon/Glaceon/Sylveon"],
     "stadio_evolutivo": "Base",
     "tempo_evoluzione": "Veloce",
-    "attributi": {
-      "forza": 2,
-      "destrezza": 2,
-      "vitalita": 2,
-      "special": 2,
-      "insight": 2
-    },
+    "attributi": { "forza": 2, "destrezza": 2, "vitalita": 2, "special": 2, "insight": 2 },
     "vitalita_max": { "hp": 3 },
     "tecniche": [
       { "nome": "Azione", "rango": "Starter" },
