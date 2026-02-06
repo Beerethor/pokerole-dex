@@ -72,7 +72,7 @@
                         <option value="Pro">Rango: Pro</option>
                         <option value="Master">Rango: Master</option>
                     </select>
-                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest">Caricamento...</div>
+                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest">Inizializzazione...</div>
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
 
         <div id="generatorContainer" class="hidden">
             <div class="glass-card p-10 rounded-[3rem] text-center">
-                <h2 class="text-3xl font-black text-yellow-500 uppercase mb-8 italic">Generazione Incontro</h2>
+                <h2 class="text-3xl font-black text-yellow-500 uppercase mb-8 italic">Incontro Casuale</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
                     <button onclick="generateRandom('Starter')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-6 rounded-3xl font-black uppercase text-xs border border-slate-700 transition-all">Starter</button>
                     <button onclick="generateRandom('Beginner')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-6 rounded-3xl font-black uppercase text-xs border border-slate-700 transition-all">Beginner</button>
@@ -96,10 +96,12 @@
     </div>
 
     <script>
+        // Stato Globale
         let db = { pkmn: [], tech: [], abil: [], max: [], zmove: [] };
         let currentSub = 'pkmn';
         const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
 
+        // Caricamento Dati
         async function loadData() {
             try {
                 const r = await Promise.all([
@@ -116,6 +118,7 @@
             } catch (e) { console.error("Database Error:", e); }
         }
 
+        // Navigazione tra sezioni
         function switchMacro(macro) {
             const isDex = macro === 'dex';
             document.getElementById('pokedexContainer').style.display = isDex ? 'block' : 'none';
@@ -138,6 +141,7 @@
             runSearch();
         }
 
+        // Logica di Ricerca
         function runSearch() {
             const query = document.getElementById('mainSearch').value.toLowerCase().trim();
             const keywords = query.split(/\s+/).filter(k => k !== "");
@@ -164,6 +168,7 @@
             }
         }
 
+        // Generatore Random
         function generateRandom(rango) {
             const pool = db.pkmn.filter(p => p.rango_suggerito && p.rango_suggerito.toLowerCase() === rango.toLowerCase());
             if (pool.length === 0) return;
@@ -171,8 +176,15 @@
             document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-md animate-pop">${createPkmnCard(lucky, rango)}</div>`;
         }
 
+        // --- SCHEDA POKEMON (MODIFICATA PER RIPRISTINARE LE ABILITÀ) ---
         function createPkmnCard(p, rank) {
             const rIdx = RANGHI.indexOf(rank);
+            
+            // Genera la lista delle abilità del Pokemon
+            const abilsHtml = (p.abilita || []).map(a => 
+                `<span class="bg-slate-950 text-slate-400 border border-slate-800 px-2 py-1 rounded text-[8px] font-black uppercase tracking-wider">${a}</span>`
+            ).join('');
+
             return `
                 <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl text-left animate-pop">
                     <div class="bg-slate-800/50 p-6 flex justify-between items-start">
@@ -191,6 +203,14 @@
                             <img src="${p.immagine}" class="w-20 h-20 object-contain" onerror="this.src='https://via.placeholder.com/80?text=?'">
                             <div class="flex-1 bg-slate-950/40 p-3 rounded-xl border-l-2 border-yellow-500 text-[10px] italic text-slate-400 leading-relaxed">"${p.descrizione || ''}"</div>
                         </div>
+                        
+                        <div class="mb-4">
+                            <span class="text-[8px] text-slate-600 font-bold uppercase block mb-2 px-1 tracking-widest">Abilità Possedute</span>
+                            <div class="flex flex-wrap gap-2 px-1">
+                                ${abilsHtml || '<span class="text-[8px] text-slate-800 uppercase font-black italic">Nessuna</span>'}
+                            </div>
+                        </div>
+
                         <div class="grid grid-cols-5 gap-1.5 mb-6">
                             ${Object.entries(p.attributi || {}).map(([k,v]) => `
                                 <div class="bg-slate-950 p-2 rounded-xl text-center border border-slate-800">
@@ -201,6 +221,7 @@
                             `).join('')}
                         </div>
                         <div class="space-y-1">
+                            <span class="text-[8px] text-slate-600 font-bold uppercase block mb-2 px-1 tracking-widest">Tecniche</span>
                             ${(p.tecniche || []).map(m => {
                                 const lock = RANGHI.indexOf(m.rango) > rIdx;
                                 return `<div class="flex justify-between p-2 rounded-lg text-[9px] font-bold ${lock ? 'opacity-20 bg-slate-950' : 'bg-slate-800 text-yellow-500 border-l-2 border-yellow-600'}">
@@ -212,21 +233,17 @@
                 </div>`;
         }
 
-        // --- FUNZIONE AGGIORNATA PER MOSTRARE EFFETTO ---
+        // --- RENDER DATABASE GENERICO (ABILITÀ/MOSSE/SPECIAL) ---
         function renderGeneric(list) {
             document.getElementById('results').innerHTML = list.map(item => {
                 let badge = "";
                 if (item._origin === 'z') badge = `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded-full mr-2 uppercase tracking-tighter">Mossa Z</span>`;
                 if (item._origin === 'max') badge = `<span class="badge-max text-[7px] font-black px-2 py-0.5 rounded-full mr-2 uppercase tracking-tighter">Mossa G</span>`;
 
-                // Cattura descrizione o effetto da QUALSIASI campo possibile nel JSON
                 const descNarrativa = item.Descrizione || item.descrizione || "";
                 const effettoMeccanico = item.effetto || item.effetti_aggiuntivi || "";
-                
-                // Se non c'è "effetto" ma c'è solo "descrizione", usiamo quella come contenuto principale
                 const contenutoPrincipale = effettoMeccanico || descNarrativa;
 
-                // Tag Parole Chiave (Stile immagine: scuri e squadrati)
                 const tags = item.parole_chiave ? `
                     <div class="flex gap-2 mt-4">
                         ${item.parole_chiave.map(tk => `<span class="text-[8px] bg-slate-950 text-slate-400 border border-slate-800 px-3 py-1.5 rounded font-black uppercase tracking-widest">${tk}</span>`).join('')}
