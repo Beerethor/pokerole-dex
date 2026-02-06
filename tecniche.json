@@ -86,7 +86,7 @@
     "accuratezza": "Destrezza + Canale",
     "pool_danno": "Speciale + 1",
     "effetti_aggiuntivi": "Il bersaglio non può fuggire. Tira due dadi di danno alla fine dei ogni turno. Dura per 4 turni.",
-    "description": "L'avversario viene intrappolato in uno sciame che lo tormenta nel tempo.",
+    "descrizione": "L'avversario viene intrappolato in uno sciame che lo tormenta nel tempo.",
     "parole_chiave": ["Trappola"]
   },
   {
@@ -96,7 +96,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 1",
     "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto.Arrotondati per difetto",
-    "description": "Un attacco che succhia l'energia vitale del nemico per curare le proprie ferite.",
+    "descrizione": "Un attacco che succhia l'energia vitale del nemico per curare le proprie ferite.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -106,7 +106,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
     "effetti_aggiuntivi": "Riduce l'Attacco del bersaglio di 1 grado.",
-    "description": "L'utilizzatore si scaglia con forza contro il nemico, riducendone la capacità offensiva.",
+    "descrizione": "L'utilizzatore si scaglia con forza contro il nemico, riducendone la capacità offensiva.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -116,7 +116,7 @@
     "accuratezza": "Forza + Rissa",
     "pool_danno": "Forza + 5",
     "effetti_aggiuntivi": "Danno letale",
-    "description": "Un attacco brutale eseguito caricando con corna imponenti.",
+    "descrizione": "Un attacco brutale eseguito caricando con corna imponenti.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -126,7 +126,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 1",
     "effetti_aggiuntivi": "Colpisce 2-5 volte nello stesso turno.",
-    "description": "Vengono scagliati dardi affilati come aghi contro il bersaglio in rapida successione.",
+    "descrizione": "Vengono scagliati dardi affilati come aghi contro il bersaglio in rapida successione.",
     "parole_chiave": []
   },
   {
@@ -136,7 +136,7 @@
     "accuratezza": "speciale + Canale",
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Se usata su un alleato, lo cura di 1 dei suoi PS invece di infliggere danno.",
-    "description": "Lancia una palla di polline che esplode: è dannosa per i nemici ma curativa per gli amici.",
+    "descrizionr": "Lancia una palla di polline che esplode: è dannosa per i nemici ma curativa per gli amici.",
     "parole_chiave": ["Proiettile"]
   },
   {
@@ -146,7 +146,7 @@
     "accuratezza": "Insight + Intimidire",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Attira su di sé tutti gli attacchi nemici per questo turno.",
-    "description": "L'utilizzatore sparge una polvere irritante che costringe i nemici a concentrare gli attacchi su di lui.",
+    "descrizione": "L'utilizzatore sparge una polvere irritante che costringe i nemici a concentrare gli attacchi su di lui.",
     "parole_chiave": ["Priorità"]
   },
   {
@@ -166,7 +166,7 @@
     "accuratezza": "Bellezza + Performance",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Aumenta Destrezza, speciale e difesa speciale di 1 grado.",
-    "description": "Una danza mistica e bellissima che potenzia tutte le capacità magiche e la rapidità.",
+    "descrizione": "Una danza mistica e bellissima che potenzia tutte le capacità magiche e la rapidità.",
     "parole_chiave": []
   },
 {
@@ -176,7 +176,7 @@
     "accuratezza": "Speciale + Canale",
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Tira un dado per confondere il nemico.",
-    "description": "Un raggio di luce multicolore e pulsante che può disorientare il nemico.",
+    "descrizione": "Un raggio di luce multicolore e pulsante che può disorientare il nemico.",
     "parole_chiave": ["Luce"]
   }
 ]
