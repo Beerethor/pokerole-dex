@@ -7,7 +7,7 @@
     "pool_danno": "Forza + 3",
     "effetti_aggiuntivi": "Alta probabilità di colpo critico. Dalla Distanza",
     "descrizione": "Il Pokémon chiama a raccolta i suoi sottoposti per sferrare un attacco concentrato.",
-    "parole_chiave": [Comando, gruppo, sciame]
+    "parole_chiave": ["Comando, gruppo, sciame"]
   },
   {
     "nome": "Coleomorso",
@@ -37,7 +37,7 @@
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Aumenta la Difesa e la Difesa Speciale dell'utilizzatore di 1.",
     "descrizione": "Uno sciame di piccoli insetti circonda il leader per proteggerlo.",
-    "parole_chiave": [Comando, gruppo, sciame]
+    "parole_chiave": ["Comando, gruppo, sciame"]
   },
   {
     "nome": "Pungiglione",
@@ -77,7 +77,7 @@
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "L'utilizzatore recupera metà dei suoi PS massimi.",
     "descrizione": "Il Pokémon ordina ai suoi sudditi di curare le sue ferite.",
-    "parole_chiave": [Comando, gruppo, sciame, Cura]
+    "parole_chiave": ["Comando, gruppo, sciame, Cura"]
   },
  {
     "nome": "Assillo",
@@ -180,3 +180,4 @@
     "parole_chiave": ["Luce"]
   }
 ]
+
