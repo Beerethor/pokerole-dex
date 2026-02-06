@@ -1,5 +1,5 @@
 [
-  {
+{
     "nome": "Comandourto",
     "tipo": "Coleottero",
     "categoria": "Fisica",
@@ -7,7 +7,7 @@
     "pool_danno": "Forza + 3",
     "effetti_aggiuntivi": "Alta probabilità di colpo critico. Dalla Distanza",
     "descrizione": "Il Pokémon chiama a raccolta i suoi sottoposti per sferrare un attacco concentrato.",
-    "parole_chiave": ["Comando", "gruppo", "sciame"]
+    "parole_chiave": ["Comando, gruppo, sciame"]
   },
   {
     "nome": "Coleomorso",
@@ -27,7 +27,7 @@
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Basata sul suono, puoi tirare un dado per ridurre la difesa speciale dell'avversario",
     "descrizione": "Vibrazioni sonore che danneggiano l'avversario e possono abbassarne le difese.",
-    "parole_chiave": ["Suono", "stato", "riduzione"]
+    "parole_chiave": ["Suono, stato, riduzione"]
   },
   {
     "nome": "Comandoscudo",
@@ -37,7 +37,7 @@
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Aumenta la Difesa e la Difesa Speciale dell'utilizzatore di 1.",
     "descrizione": "Uno sciame di piccoli insetti circonda il leader per proteggerlo.",
-    "parole_chiave": ["Comando", "gruppo", "sciame"]
+    "parole_chiave": ["Comando, gruppo, sciame"]
   },
   {
     "nome": "Pungiglione",
@@ -77,16 +77,16 @@
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "L'utilizzatore recupera metà dei suoi PS massimi.",
     "descrizione": "Il Pokémon ordina ai suoi sudditi di curare le sue ferite.",
-    "parole_chiave": ["Comando", "gruppo", "sciame", "Cura"]
+    "parole_chiave": ["Comando, gruppo, sciame, Cura"]
   },
-  {
+ {
     "nome": "Assillo",
     "tipo": "Coleottero",
     "categoria": "Speciale",
     "accuratezza": "Destrezza + Canale",
     "pool_danno": "Speciale + 1",
     "effetti_aggiuntivi": "Il bersaglio non può fuggire. Tira due dadi di danno alla fine dei ogni turno. Dura per 4 turni.",
-    "descrizione": "L'avversario viene intrappolato in uno sciame che lo tormenta nel tempo.",
+    "description": "L'avversario viene intrappolato in uno sciame che lo tormenta nel tempo.",
     "parole_chiave": ["Trappola"]
   },
   {
@@ -96,7 +96,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 1",
     "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto.Arrotondati per difetto",
-    "descrizione": "Un attacco che succhia l'energia vitale del nemico per curare le proprie ferite.",
+    "description": "Un attacco che succhia l'energia vitale del nemico per curare le proprie ferite.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -106,7 +106,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
     "effetti_aggiuntivi": "Riduce l'Attacco del bersaglio di 1 grado.",
-    "descrizione": "L'utilizzatore si scaglia con forza contro il nemico, riducendone la capacità offensiva.",
+    "description": "L'utilizzatore si scaglia con forza contro il nemico, riducendone la capacità offensiva.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -116,7 +116,7 @@
     "accuratezza": "Forza + Rissa",
     "pool_danno": "Forza + 5",
     "effetti_aggiuntivi": "Danno letale",
-    "descrizione": "Un attacco brutale eseguito caricando con corna imponenti.",
+    "description": "Un attacco brutale eseguito caricando con corna imponenti.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -126,7 +126,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 1",
     "effetti_aggiuntivi": "Colpisce 2-5 volte nello stesso turno.",
-    "descrizione": "Vengono scagliati dardi affilati come aghi contro il bersaglio in rapida successione.",
+    "description": "Vengono scagliati dardi affilati come aghi contro il bersaglio in rapida successione.",
     "parole_chiave": []
   },
   {
@@ -136,7 +136,7 @@
     "accuratezza": "speciale + Canale",
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Se usata su un alleato, lo cura di 1 dei suoi PS invece di infliggere danno.",
-    "descrizione": "Lancia una palla di polline che esplode: è dannosa per i nemici ma curativa per gli amici.",
+    "description": "Lancia una palla di polline che esplode: è dannosa per i nemici ma curativa per gli amici.",
     "parole_chiave": ["Proiettile"]
   },
   {
@@ -146,18 +146,18 @@
     "accuratezza": "Intuizione + Intimidire",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Attira su di sé tutti gli attacchi nemici per questo turno.",
-    "descrizione": "L'utilizzatore sparge una polvere irritante che costringe i nemici a concentrare gli attacchi su di lui.",
+    "description": "L'utilizzatore sparge una polvere irritante che costringe i nemici a concentrare gli attacchi su di lui.",
     "parole_chiave": ["Priorità"]
   },
   {
-    "nome": "Pulviscoppio",
-    "tipo": "Coleottero",
-    "categoria": "Supporto",
-    "accuratezza": "Intuizione + Natura",
-    "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Aggiungi 3 dadi extra al prossimo attacco di tipo fuoco che colpisce il bersaglio",
-    "descrizione": "Copre il bersaglio con una polvere che esplode violentemente al minimo contatto con il fuoco, ritorcendo la potenza dell'attacco contro l'avversario.",
-    "parole_chiave": ["Polvere", "Priorità"]
+  "nome": "Pulviscoppio",
+  "tipo": "Coleottero",
+  "categoria": "Supporto",
+  "accuratezza": "Intuizione + Natura",
+  "pool_danno": "Nessuno",
+  "effetti_aggiuntivi": "Aggiungi 3 dadi extra al prossimo attacco di tipo fuoco che colpisce il bersaglio",
+  "descrizione": "Copre il bersaglio con una polvere che esplode violentemente al minimo contatto con il fuoco, ritorcendo la potenza dell'attacco contro l'avversario.",
+  "parole_chiave": ["Polvere", "Priorità"]
   },
   {
     "nome": "Eledanza",
@@ -166,17 +166,17 @@
     "accuratezza": "Bellezza + Prestazione",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Aumenta Destrezza, speciale e difesa speciale di 1 grado.",
-    "descrizione": "Una danza mistica e bellissima che potenzia tutte le capacità magiche e la rapidità.",
+    "description": "Una danza mistica e bellissima che potenzia tutte le capacità magiche e la rapidità.",
     "parole_chiave": []
   },
-  {
+{
     "nome": "Segnoraggio",
     "tipo": "Coleottero",
     "categoria": "Speciale",
     "accuratezza": "Speciale + Canale",
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Tira un dado per confondere il nemico.",
-    "descrizione": "Un raggio di luce multicolore e pulsante che può disorientare il nemico.",
+    "description": "Un raggio di luce multicolore e pulsante che può disorientare il nemico.",
     "parole_chiave": ["Luce"]
   },
   {
@@ -215,8 +215,8 @@
     "categoria": "Supporto",
     "accuratezza": "Intuizione + Natura",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Crea una trappola sul campo nemico. Ogni Pokémon avversario che entra in campo subisce -1 alla Destrezza.",
-    "descrizione": "Tesse una rete viscosa sul terreno che intralcia i movimenti dei nemici che entrano in lotta.",
+    "effetti_aggiuntivi": "Crea una trappola sul campo nemico. Ogni Pokémon avversario che entra in campo subisce -1 alla Destrezza.  I Pokémon con l'abilità Levitazione e i Pokémon di tipo Volante sono immuni a questo effetto.",
+    "description": "Tesse una rete viscosa sul terreno che intralcia i movimenti dei nemici che entrano in lotta.",
     "parole_chiave": ["Ostacolo"]
   },
   {
@@ -295,19 +295,19 @@
     "categoria": "Speciale",
     "accuratezza": "Destrezza + Canale",
     "pool_danno": "Speciale + 3",
-    "effetti_aggiuntivi": "Effetto Riflesso per 5 turni. Non utilizzabile da forme finali.",
+    "effetti_aggiuntivi": "Dopo il danno, diminuisci di 1 il danno fisico subito dall'utilizzatore e dai suoi alleati per 5 turni (effetto Riflesso). Se l'utilizzatore è nella sua forma finale la mossa fallisce automaticamente",
     "descrizione": "L'utilizzatore sprigiona un'energia malevola che protegge anche i propri compagni.",
-    "parole_chiave": ["Buio", "Paura", "Difesa"]
+    "parole_chiave": ["Buio, Paura, Difesa, Crescita"]
   },
   {
     "nome": "Picchiaduro",
     "tipo": "Buio",
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
-    "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "+2 dadi danno per ogni alleato partecipante (max 3).",
+    "pool_danno": "Forza +2",
+    "effetti_aggiuntivi": "Se l'attacco va a segno aggiungi 2 dadi alla pool del danno per ogni alleato che aiuta l'utilizzatore nell'attacco, al massimo possono partecipare 3 pokemon",
     "descrizione": "Il Pokémon chiama i suoi alleati per infierire tutti insieme sul nemico.",
-    "parole_chiave": ["Attacco", "Contatto"]
+    "parole_chiave": ["Attacco, Alleati, Compagni, Contatto"]
   },
   {
     "nome": "Morso",
@@ -325,7 +325,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Colpisce tutti i Pokémon adiacenti. Letale.",
+    "effetti_aggiuntivi": "Colpisce tutti i Pokémon adiacenti (inclusi alleati). Letale ",
     "descrizione": "L'utilizzatore fa roteare il proprio corpo o un'arma per colpire tutto ciò che lo circonda.",
     "parole_chiave": ["Contatto"]
   },
@@ -335,7 +335,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Tira un dado per ridurre la Difesa del bersaglio. Letale.",
+    "effetti_aggiuntivi": "Tra un dado per ridurre la Difesa del bersaglio di 1 grado. Letale ",
     "descrizione": "Un morso così potente da stritolare l'armatura o la pelle del nemico.",
     "parole_chiave": ["Contatto"]
   },
@@ -365,7 +365,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Ignora i cambiamenti alle statistiche difensive del nemico.",
+    "effetti_aggiuntivi": "Ignora i cambiamenti alle statistiche che dovrebbero diminuire i danni di questa mossa.",
     "descrizione": "L'utilizzatore colpisce roteando le braccia. La forza bruta ignora le protezioni nemiche.",
     "parole_chiave": ["Contatto"]
   },
@@ -375,7 +375,7 @@
     "categoria": "Supporto",
     "accuratezza": "Grinta + Intimidire",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Il bersaglio non può utilizzare strumenti tenuti.",
+    "effetti_aggiuntivi": "Il bersaglio non può utilizzare lo Strumento tenuto o ricevere effetti da strumenti usati dall'Allenatore.",
     "descrizione": "Un anatema che impedisce all'avversario di trarre vantaggio dai propri oggetti.",
     "parole_chiave": []
   },
@@ -395,7 +395,7 @@
     "categoria": "Fisica",
     "accuratezza": "Istinto + Fascino",
     "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Questa mossa non può fallire.",
+    "effetti_aggiuntivi": "Questa mossa non può fallire il tiro di Accuratezza.",
     "descrizione": "L'utilizzatore finge di arrendersi per poi colpire a tradimento senza lasciare scampo.",
     "parole_chiave": ["Contatto"]
   },
@@ -405,7 +405,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Questa mossa non può fallire.",
+    "effetti_aggiuntivi": "Questa mossa non può fallire il tiro di Accuratezza.",
     "descrizione": "L'utilizzatore si avvicina furtivamente e colpisce il nemico senza possibilità di errore.",
     "parole_chiave": ["Contatto"]
   },
@@ -425,7 +425,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza +1",
-    "effetti_aggiuntivi": "Dalla distanza. Danno bonus in base all'oggetto lanciato.",
+    "effetti_aggiuntivi": "Dalla distanza. Aggiungi fino a 4 dadi alla pool dei danni in base all'oggetto tenuto, viene consumato.",
     "descrizione": "L'utilizzatore scaglia lo strumento che tiene in mano contro il nemico.",
     "parole_chiave": []
   },
@@ -434,8 +434,8 @@
     "tipo": "Buio",
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
-    "pool_danno": "Forza nemica +3",
-    "effetti_aggiuntivi": "Usa l'Attacco del bersaglio per il calcolo del danno.",
+    "pool_danno": "Forza del nemico +3",
+    "effetti_aggiuntivi": "Per il calcolo del danno, usalo STAB dell'utilizzatore e l'Attacco (Forza) del bersaglio invece di quello dell'utilizzatore.",
     "descrizione": "L'utilizzatore sfrutta la forza dell'avversario contro lui stesso.",
     "parole_chiave": ["Contatto"]
   },
@@ -445,7 +445,7 @@
     "categoria": "Supporto",
     "accuratezza": "Istinto + Natura",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Aumenta l'Attacco e la Precisione di 1 grado.",
+    "effetti_aggiuntivi": "Aumenta l'Attacco e la Precisione dell'utilizzatore di 1 grado.",
     "descrizione": "L'utilizzatore affila i suoi artigli per aumentare la potenza e la mira.",
     "parole_chiave": []
   },
@@ -455,7 +455,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 4",
-    "effetti_aggiuntivi": "Ignora Protezione. Riduce Difesa dell'utilizzatore di 1 grado.",
+    "effetti_aggiuntivi": "Ignora le mosse si Protezione e non può fallire. Riduce la Difesa dell'utilizzatore di 1 grado.",
     "descrizione": "Un attacco brutale che squarcia lo spazio per colpire il nemico ovunque sia.",
     "parole_chiave": []
   },
@@ -465,7 +465,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Impedisce la fuga a entrambi i Pokémon.",
+    "effetti_aggiuntivi": "Impedisce a entrambi i Pokémon di fuggire o essere sostituiti finché uno dei due non va KO.",
     "descrizione": "Un morso d'acciaio che blocca l'avversario sul posto, impedendo la fuga a entrambi.",
     "parole_chiave": ["Contatto"]
   },
@@ -475,7 +475,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Il bersaglio perde lo strumento tenuto.",
+    "effetti_aggiuntivi": "Se il bersaglio tiene uno strumento lo perde.",
     "descrizione": "Un colpo rapido che fa cadere lo strumento tenuto dal nemico, rendendolo inutilizzabile.",
     "parole_chiave": ["Contatto"]
   },
@@ -485,7 +485,7 @@
     "categoria": "Supporto",
     "accuratezza": "Volonta' + Canale",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "L'utilizzatore va KO. Riduce le statistiche del bersaglio di 2 gradi.",
+    "effetti_aggiuntivi": "L'utilizzatore va immediatamente KO. L'Attacco, la Destrezza, lo speciale e le difese, sia fisica che speciale, del bersaglio sono ridotti di 2 gradi.",
     "descrizione": "Un sacrificio estremo che lascia un'aura debilitante sul nemico.",
     "parole_chiave": []
   },
@@ -505,7 +505,7 @@
     "categoria": "Speciale",
     "accuratezza": "Destrezza + Canale",
     "pool_danno": "Speciale + 3",
-    "effetti_aggiuntivi": "Tira 4 dadi per ridurre la Precisione del bersaglio.",
+    "effetti_aggiuntivi": "Tira 4 dadi per ridurre la Precisione del bersaglio di 1 grado.",
     "descrizione": "Sprigiona un'ondata di energia oscura che può offuscare la vista del nemico.",
     "parole_chiave": []
   },
@@ -515,7 +515,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Alta probabilità di colpo critico. Letale.",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico). Letale.",
     "descrizione": "Un fendente fulmineo eseguito nell'ombra. Colpisce i punti vitali con facilità.",
     "parole_chiave": ["Contatto"]
   },
@@ -525,7 +525,7 @@
     "categoria": "Supporto",
     "accuratezza": "Destrezza + Intimidire",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Priorità. Se colpito a contatto, riduce Difesa nemica di 2 gradi.",
+    "effetti_aggiuntivi": "Priorita'. Protegge da ogni attacco. Se il nemico usa una mossa a contatto, la sua Difesa scende di 2 gradi.",
     "descrizione": "Una posizione difensiva che scoraggia l'avversario dal colpire da vicino.",
     "parole_chiave": ["Priorità"]
   },
@@ -535,7 +535,7 @@
     "categoria": "Supporto",
     "accuratezza": "Grinta + Intimidire",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Riduce Attacco e Speciale nemico di 1 grado, poi sostituzione.",
+    "effetti_aggiuntivi": "Riduce Attacco e lo special del nemico di 1 grado, poi l'utilizzatore viene sostituito. Tirare iniziativa.",
     "descrizione": "Un ultimo insulto prima di ritirarsi, lasciando il nemico demoralizzato.",
     "parole_chiave": []
   },
@@ -545,7 +545,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "+2 dadi danno se colpito nello stesso turno.",
+    "effetti_aggiuntivi": "Aggiungi due dadi alla pool del danno se il bersaglio ti ha già colpito questo turno.",
     "descrizione": "Un attacco caricato di risentimento che colpisce più forte se sferrato dopo aver subito.",
     "parole_chiave": ["Contatto"]
   },
@@ -555,7 +555,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 1",
-    "effetti_aggiuntivi": "+1 danno per ogni aumento di statistica (max +7).",
+    "effetti_aggiuntivi": "Aggiunge +1 al Pool Danno per ogni aumento di statistica dell'utilizzatore.Fino a 7 dadi possono essere aggiunti in questo modo",
     "descrizione": "Più il Pokémon si sente forte e sicuro di sé, più il colpo diventa devastante.",
     "parole_chiave": ["Contatto"]
   },
@@ -565,7 +565,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 1",
-    "effetti_aggiuntivi": "Danno bonus per ogni aumento di statistica del bersaglio (max +7).",
+    "effetti_aggiuntivi": "Aggiunge fino a 7 dadi alla pool del danno, uno per ogni attributo che il bersaglio ha aumentato.",
     "descrizione": "Punisce l'avversario per la sua arroganza, usando i suoi stessi aumenti di forza contro di lui.",
     "parole_chiave": ["Contatto"]
   },
@@ -575,7 +575,7 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Colpisce prima della fuga con danno bonus se il nemico viene sostituito.",
+    "effetti_aggiuntivi": "Se il bersaglio viene sostituito in questo turno, la mossa lo colpisce prima della fuga e aggiungi due dadi alla pool del danno.",
     "descrizione": "Un colpo implacabile che colpisce il nemico proprio mentre abbassa la guardia per ritirarsi.",
     "parole_chiave": ["Contatto", "Reazione"]
   },
@@ -585,7 +585,7 @@
     "categoria": "Supporto",
     "accuratezza": "Grinta + Intimidire",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Il bersaglio agirà per ultimo per il resto della scena.",
+    "effetti_aggiuntivi": "Il bersaglio agirà per ultimo per il resto della scena, a prescindere dalla sua Velocità.",
     "descrizione": "L'utilizzatore distrae o intralcia il nemico forzandolo a ritardare la sua mossa.",
     "parole_chiave": []
   },
@@ -595,7 +595,7 @@
     "categoria": "Speciale",
     "accuratezza": "Intuizione + Prestazione",
     "pool_danno": "Speciale + 2",
-    "effetti_aggiuntivi": "Riduce lo Speciale del bersaglio di 1 grado. Suono.",
+    "effetti_aggiuntivi": "Riduce lo speciale del bersaglio di 1 grado. Si basa sul suono.",
     "descrizione": "Un urlo sgradevole che fiacca la volontà e la concentrazione magica dell'avversario.",
     "parole_chiave": ["Suono"]
   },
@@ -605,8 +605,8 @@
     "categoria": "Supporto",
     "accuratezza": "Acume + Furtivita'",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Ruba gli incrementi di statistica del bersaglio. Priorità.",
-    "description": "Con un tempismo perfetto, il Pokémon ruba i benefici delle mosse altrui.",
+    "effetti_aggiuntivi": "Annulla gli incrementi di statistiche del bersaglio e li dona all'utilizzatore.",
+    "descrizione": "Con un tempismo perfetto, il Pokémon ruba i benefici delle mosse altrui.",
     "parole_chiave": ["Priorità"]
   },
   {
@@ -615,8 +615,8 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Priorità. Funziona solo se il nemico attacca.",
-    "description": "Un colpo d'anticipo che punisce l'aggressività del nemico prima che possa colpire.",
+    "effetti_aggiuntivi": "Funziona solo se il bersaglio ha scelto una mossa offensiva. Ha priorità.",
+    "descrizione": "Un colpo d'anticipo che punisce l'aggressività del nemico prima che possa colpire.",
     "parole_chiave": ["Contatto", "Priorità"]
   },
   {
@@ -625,8 +625,8 @@
     "categoria": "Supporto",
     "accuratezza": "Intuizione + Furtivita'",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Scambia gli strumenti tenuti tra utilizzatore e bersaglio.",
-    "description": "Una mossa d'astuzia per scambiare un oggetto inutile con uno prezioso del nemico.",
+    "effetti_aggiuntivi": "L'utilizzatore e il bersaglio si scambiano gli strumenti tenuti. Se solo uno dei due tiene un oggetto viene buttato via.",
+    "descrizione": "Una mossa d'astuzia per scambiare un oggetto inutile con uno prezioso del nemico.",
     "parole_chiave": []
   },
   {
@@ -635,8 +635,8 @@
     "categoria": "Supporto",
     "accuratezza": "Grinta + Intimidazione",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Il bersaglio può usare solo mosse offensive per 4 turni.",
-    "description": "Insulti e gesti che fanno perdere le staffe al nemico, impedendogli di usare tattiche di supporto.",
+    "effetti_aggiuntivi": "Il bersaglio può usare solo mosse offensive e evasioni per i prossimi 4 turni.",
+    "descrizione": "Insulti e gesti che fanno perdere le staffe al nemico, impedendogli di usare tattiche di supporto.",
     "parole_chiave": []
   },
   {
@@ -645,8 +645,8 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Ruba lo strumento del bersaglio se l'utilizzatore è libero.",
-    "description": "Un attacco furtivo finalizzato a sottrarre l'oggetto del nemico.",
+    "effetti_aggiuntivi": "Se l'utilizzatore non ha uno strumento, ruba quello del bersaglio.",
+    "descrizione": "Un attacco furtivo finalizzato a sottrarre l'oggetto del nemico.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -655,8 +655,8 @@
     "categoria": "Fisica",
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Impedisce l'uso di mosse sonore per il resto della scena.",
-    "description": "Un colpo mirato alla gola che mozza il fiato e la voce dell'avversario.",
+    "effetti_aggiuntivi": "Il bersaglio non può usare mosse basate sul suono per il resto della scena.",
+    "descrizione": "Un colpo mirato alla gola che mozza il fiato e la voce dell'avversario.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -665,8 +665,8 @@
     "categoria": "Supporto",
     "accuratezza": "Grinta + Intimidire",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Inverte i cambiamenti alle statistiche del bersaglio.",
-    "description": "Un'onda di energia caotica che trasforma i punti di forza del nemico in debolezze.",
+    "effetti_aggiuntivi": "Inverte tutti i cambiamenti delle statistiche del bersaglio (i bonus diventano malus e viceversa).",
+    "descrizione": "Un'onda di energia caotica che trasforma i punti di forza del nemico in debolezze.",
     "parole_chiave": []
   },
   {
@@ -675,218 +675,7 @@
     "categoria": "Supporto",
     "accuratezza": "Grinta + Intimidire",
     "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Impedisce l'uso della stessa mossa consecutivamente per 4 turni.",
-    "description": "L'utilizzatore tormenta il nemico rendendogli impossibile concentrarsi ripetutamente sulla stessa tattica.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Vastoimpatto",
-    "tipo": "Drago",
-    "categoria": "Fisica",
-    "accuratezza": "Destrezza + Rissa",
-    "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Riduce l'Attacco di tutti i nemici colpiti di 1 grado.",
-    "description": "L'utilizzatore colpisce i nemici con la coda, abbassandone la foga combattiva.",
-    "parole_chiave": ["Contatto"]
-  },
-  {
-    "nome": "Clamorsquame",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Destrezza + Prestazione",
-    "pool_danno": "Speciale + 4",
-    "effetti_aggiuntivi": "Riduce Difesa utilizzatore di 1 grado. Colpisce tutti i nemici. Suono.",
-    "description": "L'utilizzatore sfrega le sue squame per emettere un suono assordante che infligge gravi danni.",
-    "parole_chiave": ["Suono"]
-  },
-  {
-    "nome": "Dracofonia",
-    "tipo": "Drago",
-    "categoria": "Supporto",
-    "accuratezza": "Grinta + Prestazione",
-    "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Sacrifica 50% PS per aumentare tutte le statistiche di 1 grado. Suono.",
-    "description": "Un grido d'anima che sacrifica l'energia vitale per potenziare ogni capacità.",
-    "parole_chiave": ["Suono"]
-  },
-  {
-    "nome": "Nucleocastigo",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Speciale + Canale",
-    "pool_danno": "Speciale + 4",
-    "effetti_aggiuntivi": "Annulla l'Abilità del bersaglio se ha già agito in questo turno.",
-    "description": "Un raggio di energia cellulare che sopprime le capacità naturali del nemico.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Dragobolide",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Speciale + Canale",
-    "pool_danno": "Speciale + 6",
-    "effetti_aggiuntivi": "Riduce lo Speciale dell'utilizzatore di 2 gradi. Letale.",
-    "description": "Comete piovono dal cielo sul bersaglio. Lo sforzo richiesto è immenso.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Dragospiro",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Destrezza + Canale",
-    "pool_danno": "Speciale + 2",
-    "effetti_aggiuntivi": "Tira 3 dadi per paralizzare il bersaglio.",
-    "description": "Un soffio potente che investe il nemico con una scarica di energia.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Dragartigli",
-    "tipo": "Drago",
-    "categoria": "Fisica",
-    "accuratezza": "Destrezza + Rissa",
-    "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Nessuno",
-    "description": "Il bersaglio viene squarciato da artigli affilati e imponenti.",
-    "parole_chiave": ["Contatto"]
-  },
-  {
-    "nome": "Dragodanza",
-    "tipo": "Drago",
-    "categoria": "Supporto",
-    "accuratezza": "Grinta + Prestazione",
-    "pool_danno": "Nessuno",
-    "effetti_aggiuntivi": "Aumenta Attacco e Destrezza di 1 grado.",
-    "description": "Una danza mistica che risveglia l'istinto combattivo dei draghi.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Dragofrecce",
-    "tipo": "Drago",
-    "categoria": "Fisica",
-    "accuratezza": "Destrezza + Canale",
-    "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Colpisce 2 volte. Dalla distanza.",
-    "description": "L'utilizzatore lancia i piccoli Dreepy come proiettili viventi.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Marteldrago",
-    "tipo": "Drago",
-    "categoria": "Fisica",
-    "accuratezza": "Destrezza + Rissa",
-    "pool_danno": "Forza + 3",
-    "effetti_aggiuntivi": "Nessuno",
-    "description": "L'utilizzatore usa il proprio corpo come un martello.",
-    "parole_chiave": ["Contatto"]
-  },
-  {
-    "nome": "Dragopulsar",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Destrezza + Canale",
-    "pool_danno": "Speciale + 3",
-    "effetti_aggiuntivi": "Nessuno",
-    "description": "L'utilizzatore spalanca la bocca e genera un'onda d'urto dal potere draconico.",
-    "parole_chiave": []
-  },
-    {
-    "nome": "Ira Di Drago",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Destrezza + Canale",
-    "pool_danno": "2 danni automatici",
-    "effetti_aggiuntivi": "Infligge sempre esattamente 2 danni automatici, ignorando le difese.",
-    "descrizione": "Un'esplosione di rabbia che colpisce il nemico con un'intensità costante.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Dragofuria",
-    "tipo": "Drago",
-    "categoria": "Fisica",
-    "accuratezza": "Destrezza + Rissa",
-    "pool_danno": "Forza + 4",
-    "effetti_aggiuntivi": "Tira 2 dadi per far tentennare il bersaglio.",
-    "descrizione": "Una carica spaventosa eseguita con una determinazione incrollabile.",
-    "parole_chiave": ["Contatto"]
-  },
-  {
-    "nome": "Codadrago",
-    "tipo": "Drago",
-    "categoria": "Fisica",
-    "accuratezza": "Destrezza + Rissa",
-    "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Sbatte via il bersaglio forzando la sua sostituzione. Bassa Priorità.",
-    "descrizione": "Un colpo di coda che spazza via il nemico fuori dal campo di battaglia.",
-    "parole_chiave": ["Contatto", "Priorità Bassa"]
-  },
-  {
-    "nome": "Doppiocolpo",
-    "tipo": "Drago",
-    "categoria": "Fisica",
-    "accuratezza": "Destrezza + Rissa",
-    "pool_danno": "Forza + 2",
-    "effetti_aggiuntivi": "Colpisce 2 volte in un turno.",
-    "descrizione": "Il nemico viene colpito due volte con arti o code in rapida successione.",
-    "parole_chiave": ["Contatto"]
-  },
-  {
-    "nome": "Cannone Dynamax",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Speciale + Canale",
-    "pool_danno": "Speciale + 4",
-    "effetti_aggiuntivi": "Danno letale e +4 dadi se il bersaglio è Dynamax.",
-    "descrizione": "Un raggio di energia sprigionato dal nucleo per contrastare il fenomeno Dynamax.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Raggio Infinito",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Speciale + Canale",
-    "pool_danno": "Speciale + 7",
-    "effetti_aggiuntivi": "L'utilizzatore deve riposare nel turno successivo. Letale.",
-    "descrizione": "La forma più potente e devastante dell'energia di Eternatus.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Oltraggio",
-    "tipo": "Drago",
-    "categoria": "Fisica",
-    "accuratezza": "Forza + Rissa",
-    "pool_danno": "Forza + 5",
-    "effetti_aggiuntivi": "Attacca per 2-3 turni, poi diventa Confuso.",
-    "descrizione": "Una furia cieca e distruttiva che sfinisce chi la usa.",
-    "parole_chiave": ["Contatto"]
-  },
-  {
-    "nome": "Fragortempo",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Speciale + Canale",
-    "pool_danno": "Speciale + 6",
-    "effetti_aggiuntivi": "Letale, il bersaglio non può agire nel prossimo round.",
-    "descrizione": "Un attacco che distorce il tempo stesso per annichilire il nemico.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Fendispazio",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Speciale + Canale",
-    "pool_danno": "Speciale + 4",
-    "effetti_aggiuntivi": "Alta probabilità di colpo critico. Letale.",
-    "descrizione": "L'utilizzatore squarcia lo spazio circostante insieme al bersaglio.",
-    "parole_chiave": []
-  },
-  {
-    "nome": "Tornado",
-    "tipo": "Drago",
-    "categoria": "Speciale",
-    "accuratezza": "Destrezza + Canale",
-    "pool_danno": "Speciale + 2",
-    "effetti_aggiuntivi": "Tira 2 dadi per far tentennare. Danno doppio a chi è in volo.",
-    "descrizione": "Un turbine d'aria che intrappola e scuote il nemico.",
+    "effetti_aggiuntivi": "Il bersaglio non può usare la stessa mossa due volte di seguito. Dura 4 turni.",
+    "descrizione": "L'utilizzatore tormenta il nemico rendendogli impossibile concentrarsi ripetutamente sulla stessa tattica.",
     "parole_chiave": []
   }
-]
