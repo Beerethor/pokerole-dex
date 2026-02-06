@@ -23,7 +23,7 @@
     "nome": "Ronzio",
     "tipo": "Coleottero",
     "categoria": "Speciale",
-    "accuratezza": "Special + Performance",
+    "accuratezza": "Special + Prestazione",
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Basata sul suono, puoi tirare un dado per ridurre la difesa speciale dell'avversario",
     "descrizione": "Vibrazioni sonore che danneggiano l'avversario e possono abbassarne le difese.",
@@ -163,7 +163,7 @@
     "nome": "Eledanza",
     "tipo": "Coleottero",
     "categoria": "Supporto",
-    "accuratezza": "Bellezza + Performance",
+    "accuratezza": "Bellezza + Prestazione",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Aumenta Destrezza, speciale e difesa speciale di 1 grado.",
     "description": "Una danza mistica e bellissima che potenzia tutte le capacità magiche e la rapidità.",
@@ -278,8 +278,8 @@
     "effetti_aggiuntivi": "Nessuno",
     "descrizione": "Il Pokémon incrocia gli arti affilati o le ali per colpire il nemico come se fossero forbici.",
     "parole_chiave": ["Contatto"]
-  },
-      {
+  }
+  {
     "nome": "Garanzia",
     "tipo": "Buio",
     "categoria": "Fisica",
@@ -383,7 +383,7 @@
     "nome": "Falselacrime",
     "tipo": "Buio",
     "categoria": "Supporto",
-    "accuratezza": "Performance + Classe",
+    "accuratezza": "Prestazione + Classe",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Riduce la Difesa Speciale del bersaglio di 2 gradi.",
     "descrizione": "L'utilizzatore piange lacrime finte per abbassare la guardia del nemico.",
@@ -593,7 +593,7 @@
     "nome": "Urlorabbia",
     "tipo": "Buio",
     "categoria": "Speciale",
-    "accuratezza": "Intuizione + Performance",
+    "accuratezza": "Intuizione + Prestazione",
     "pool_danno": "Speciale + 2",
     "effetti_aggiuntivi": "Riduce lo speciale del bersaglio di 1 grado. Si basa sul suono.",
     "descrizione": "Un urlo sgradevole che fiacca la volontà e la concentrazione magica dell'avversario.",
@@ -678,7 +678,216 @@
     "effetti_aggiuntivi": "Il bersaglio non può usare la stessa mossa due volte di seguito. Dura 4 turni.",
     "descrizione": "L'utilizzatore tormenta il nemico rendendogli impossibile concentrarsi ripetutamente sulla stessa tattica.",
     "parole_chiave": []
+  },
+  {
+    "nome": "Vastoimpatto",
+    "tipo": "Drago",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Riduce l'Attacco di tutti i nemici colpiti di 1 grado.",
+    "descrizione": "L'utilizzatore colpisce i nemici con la coda, abbassandone la foga combattiva.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Clamorsquame",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Prestazione",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Riduce la Difesa dell'utilizzatore di 1 grado dopo l'uso.Colpisce tutti i nemici nell'area. Basata sul suono.",
+    "descrizione": "L'utilizzatore sfrega le sue squame per emettere un suono assordante che infligge gravi danni.",
+    "parole_chiave": ["Suono"]
+  },
+  {
+    "nome": "Dracofonia",
+    "tipo": "Drago",
+    "categoria": "Supporto",
+    "accuratezza": "Grinta + Prestazione",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "L'utilizzatore perde il 50% dei suoi PS massimi e aumenta tutte le sue statistiche di 1 grado.",
+    "descrizione": "Un grido d'anima che sacrifica l'energia vitale per potenziare ogni capacità.",
+    "parole_chiave": ["Suono"]
+  },
+  {
+    "nome": "Nucleocastigo",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Se il bersaglio ha già agito in questo turno, la sua Abilità viene annullata per il resto della scena (sono eccezioni: Morfosintonia, Sonnolalia, Fantasmanto, Multitipo, Sciamefusione, Sistema Primevo, Banco, Accendilotta, Scudosoglia.",
+    "descrizione": "Un raggio di energia cellulare che sopprime le capacità naturali del nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Dragobolide",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Riduce lo Speciale dell'utilizzatore di 2 gradi dopo l'uso. Letale",
+    "descrizione": "Comete piovono dal cielo sul bersaglio. Lo sforzo richiesto è immenso.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Dragospiro",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "tira 3 dadi per paralizzare il bersaglio.",
+    "descrizione": "Un soffio potente che investe il nemico con una scarica di energia.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Dragartigli",
+    "tipo": "Drago",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "Il bersaglio viene squarciato da artigli affilati e imponenti.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Dragodanza",
+    "tipo": "Drago",
+    "categoria": "Supporto",
+    "accuratezza": "Grinta + Prestazione",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta l'Attacco e la Destrezza dell'utilizzatore di 1 grado.",
+    "descrizione": "Una danza mistica che risveglia l'istinto combattivo dei draghi.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Dragofrecce",
+    "tipo": "Drago",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Colpisce 2 volte. In lotte in doppio, colpisce entrambi i nemici una volta ciascuno. Dalla distanza",
+    "descrizione": "L'utilizzatore lancia i piccoli Dreepy come proiettili viventi.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Marteldrago",
+    "tipo": "Drago",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "L'utilizzatore usa il proprio corpo, specialmente il collo o la coda, come un martello.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Dragopulsar",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "L'utilizzatore spalanca la bocca e genera un'onda d'urto dal potere draconico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ira Di Drago",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "2 danni automatici",
+    "effetti_aggiuntivi": "Infligge sempre esattamente 2 danni automatici, ignorando le difese.",
+    "descrizione": "Un'esplosione di rabbia che colpisce il nemico con un'intensità costante.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Dragofuria",
+    "tipo": "Drago",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Tira 2 dadi per far tentennare il bersaglio.",
+    "descrizione": "Una carica spaventosa eseguita con una determinazione incrollabile.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Codadrago",
+    "tipo": "Drago",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Sbatte via il bersaglio forzando la sua sostituzione con un altro Pokémon della squadra.Bassa Priorita'",
+    "descrizione": "Un colpo di coda che spazza via il nemico fuori dal campo di battaglia.",
+    "parole_chiave": ["Contatto", "Priorità Bassa"]
+  },
+  {
+    "nome": "Doppiocolpo",
+    "tipo": "Drago",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Colpisce 2 volte in un turno.",
+    "descrizione": "Il nemico viene colpito due volte con arti o code in rapida successione.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Cannone Dynamax",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Se il bersaglio è in forma Dynamax il danno diventa letale e aggiungi 4 dadi alla pool per i danni.",
+    "descrizione": "Un raggio di energia sprigionato dal nucleo per contrastare il fenomeno Dynamax.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Raggio Infinito",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 7",
+    "effetti_aggiuntivi": "L'utilizzatore deve riposare nel turno successivo e non può agire. Letale.",
+    "descrizione": "La forma più potente e devastante dell'energia di Eternatus.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Oltraggio",
+    "tipo": "Drago",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "L'utilizzatore attacca per 2-3 turni di seguito, poi diventa Confuso. Attacca un bersaglio casuale.",
+    "descrizione": "Una furia cieca e distruttiva che sfinisce chi la usa.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Fragortempo",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Letale, se l'attacco ha successo il bersaglio non può effettuare azioni fino al prossimo round.",
+    "descrizione": "Un attacco che distorce il tempo stesso per annichilire il nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fendispazio",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico). Letale.",
+    "descrizione": "L'utilizzatore squarcia lo spazio circostante insieme al bersaglio.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Tornado",
+    "tipo": "Drago",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira 2 dadi per far tentennare il bersaglio. Infligge danno raddoppiato a chi è in volo.",
+    "descrizione": "Un turbine d'aria che intrappola e scuote il nemico.",
+    "parole_chiave": []
   }
 ]
-
 
