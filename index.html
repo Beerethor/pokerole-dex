@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; scroll-behavior: smooth; overflow-y: scroll; }
         .logo-container { border-bottom: 1px solid #1e293b; padding: 3rem 1rem; margin-bottom: 2rem; }
         .logo-text { font-size: 3.5rem; font-weight: 900; line-height: 1; letter-spacing: -0.05em; text-transform: uppercase; font-style: italic; }
         .macro-active { background-color: #ca8a04; color: #020617; box-shadow: 0 0 20px rgba(202, 138, 4, 0.3); transform: scale(1.05); }
@@ -19,6 +19,12 @@
         .badge-max { background: linear-gradient(45deg, #db2777, #9d174d); color: #fff; }
         @keyframes popIn { from { opacity: 0; transform: scale(0.98) translateY(5px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         .animate-pop { animation: popIn 0.2s ease-out forwards; }
+        
+        /* Scrollbar personalizzata */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ca8a04; }
     </style>
 </head>
 <body class="pb-20">
@@ -36,17 +42,17 @@
 
         <div id="pokedexContainer">
             <div class="flex flex-wrap justify-center gap-8 mb-8 text-[11px] font-black uppercase tracking-[0.2em]">
-                <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active">Pokémon</button>
-                <button onclick="switchSub('tech')" id="subTech" class="sub-inactive">Mosse</button>
-                <button onclick="switchSub('abil')" id="subAbil" class="sub-inactive">Abilità</button>
-                <button onclick="switchSub('special')" id="subSpecial" class="sub-inactive">Special (Z/Max)</button>
+                <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active transition-all">Pokémon</button>
+                <button onclick="switchSub('tech')" id="subTech" class="sub-inactive transition-all">Mosse</button>
+                <button onclick="switchSub('abil')" id="subAbil" class="sub-inactive transition-all">Abilità</button>
+                <button onclick="switchSub('special')" id="subSpecial" class="sub-inactive transition-all">Special (Z/Max)</button>
             </div>
 
             <div class="glass-card p-6 rounded-[2.5rem] mb-10 sticky top-4 z-50 shadow-2xl">
                 <div class="relative">
                     <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nel database..." 
                         class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-500 outline-none">
-                    <button onclick="clearSearch()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white font-bold">✕</button>
+                    <button onclick="clearSearch()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white font-bold px-4">✕</button>
                 </div>
                 <div class="flex justify-between items-center mt-4 px-2">
                     <select id="visualRank" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
@@ -57,7 +63,7 @@
                         <option value="Pro">Rango: Pro</option>
                         <option value="Master">Rango: Master</option>
                     </select>
-                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest">Caricamento...</div>
+                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest tracking-tighter">Inizializzazione...</div>
                 </div>
             </div>
 
@@ -79,23 +85,30 @@
         const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
 
         async function loadData() {
+            const counterEl = document.getElementById('counter');
             try {
-                // Funzione di caricamento sicura: se un file manca o è rotto, restituisce array vuoto
                 const safeFetch = async (file) => {
                     try {
                         const r = await fetch(file);
                         if(!r.ok) return [];
-                        return await r.json();
-                    } catch(e) { return []; }
+                        const text = await r.text();
+                        return JSON.parse(text);
+                    } catch(e) { 
+                        console.error(`Errore nel file ${file}:`, e);
+                        alert(`ERRORE SINTASSI: Il file ${file} è scritto male (controlla virgole o virgolette).`);
+                        return []; 
+                    }
                 };
 
                 db.pkmn = await safeFetch('pokemon.json');
                 db.tech = await safeFetch('tecniche.json');
                 db.abil = await safeFetch('abilita.json');
+                
                 const rawMax = await safeFetch('max_moves.json');
-                db.max = rawMax.map(m => ({...m, _origin: 'max'}));
+                db.max = Array.isArray(rawMax) ? rawMax.map(m => ({...m, _origin: 'max'})) : [];
+                
                 const rawZ = await safeFetch('mosse_z.json');
-                db.zmove = rawZ.map(m => ({...m, _origin: 'z'}));
+                db.zmove = Array.isArray(rawZ) ? rawZ.map(m => ({...m, _origin: 'z'})) : [];
                 
                 document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
                     `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-6 rounded-3xl font-black uppercase text-xs border border-slate-700 transition-all">${r}</button>`
@@ -103,8 +116,8 @@
                 
                 runSearch();
             } catch (e) {
-                console.error("Errore Inizializzazione:", e);
-                document.getElementById('counter').innerText = "ERRORE CARICAMENTO";
+                console.error("Errore critico:", e);
+                counterEl.innerText = "ERRORE CARICAMENTO DATABASE";
             }
         }
 
@@ -137,7 +150,7 @@
                 return searchable.includes(query);
             });
 
-            document.getElementById('counter').innerText = `Elementi: ${filtered.length}`;
+            document.getElementById('counter').innerText = `Elementi Trovati: ${filtered.length}`;
             const resultsDiv = document.getElementById('results');
             
             if (currentSub === 'pkmn') {
@@ -152,11 +165,11 @@
             const abils = p.abilita || p.Abilità || [];
             const techs = p.tecniche || [];
             return `
-                <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl animate-pop text-left">
+                <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl animate-pop text-left h-full flex flex-col">
                     <div class="bg-slate-800/50 p-6 flex justify-between items-start border-b border-slate-700/30">
                         <div>
                             <span class="text-[9px] font-black text-yellow-600 uppercase">#${p.pokedex_id || '???'} - ${p.rango_suggerito || ''}</span>
-                            <h2 class="text-3xl font-black text-white uppercase mt-1 leading-none">${p.nome}</h2>
+                            <h2 class="text-3xl font-black text-white uppercase mt-1 leading-none">${p.nome || 'Senza Nome'}</h2>
                             <div class="flex gap-1 mt-2">${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[7px] font-bold px-2 py-0.5 rounded border border-slate-700 uppercase text-slate-400">${t}</span>`).join('')}</div>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[70px]">
@@ -164,7 +177,7 @@
                             <span class="text-2xl font-black">${p.vitalita_max?.hp || 0}</span>
                         </div>
                     </div>
-                    <div class="p-6">
+                    <div class="p-6 flex-grow flex flex-col">
                         <div class="flex gap-4 mb-6 items-center">
                             <img src="${p.immagine}" class="w-20 h-20 object-contain" onerror="this.src='https://via.placeholder.com/80?text=?'">
                             <div class="flex-1 bg-slate-950/40 p-3 rounded-xl border-l-2 border-yellow-500 text-[10px] italic text-slate-400">"${p.descrizione || ''}"</div>
@@ -182,7 +195,7 @@
                                     <span class="text-xs font-black text-yellow-500">${v.base}</span>
                                 </div>`).join('')}
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1 mt-auto">
                             ${techs.map(m => {
                                 const lock = RANGHI.indexOf(m.rango) > rIdx;
                                 return `<div class="flex justify-between p-2 rounded-lg text-[9px] font-bold ${lock ? 'opacity-20 bg-slate-950' : 'bg-slate-800 text-yellow-500 border-l-2 border-yellow-600'}">
@@ -199,28 +212,33 @@
             const badge = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">Mossa Z</span>` : 
                           item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">Mossa G</span>` : "";
             
+            // Logica di recupero flessibile per i campi
+            const nome = item.nome || item.Nome || "Senza Nome";
             const desc = item.descrizione || item.Descrizione || "";
-            const eff = item.effetti_aggiuntivi || item.effetto || "";
-            
-            let statsHtml = "";
-            if (item.accuratezza || item.pool_danno || item.categoria) {
-                statsHtml = `<div class="grid grid-cols-3 gap-2 mb-4 py-3 border-y border-slate-800/40">
-                    ${item.accuratezza ? `<div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Accuratezza</p><p class="text-[10px] font-bold text-yellow-500">${item.accuratezza}</p></div>` : "<div></div>"}
-                    ${item.pool_danno ? `<div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Danno</p><p class="text-[10px] font-bold text-red-500">${item.pool_danno}</p></div>` : "<div></div>"}
-                    ${item.categoria ? `<div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Cat.</p><p class="text-[10px] font-bold text-slate-300">${item.categoria}</p></div>` : "<div></div>"}
-                </div>`;
-            }
+            const eff = item.effetti_aggiuntivi || item.effetto || item.Effetto || "";
+            const acc = item.accuratezza || item.Accuratezza || "-";
+            const danno = item.pool_danno || item.danno || item.Potenza || "-";
+            const cat = item.categoria || item.Categoria || "-";
+            const tipo = item.tipo || item.Tipo || "---";
+            const rango = item.rango_suggerito || item.rango || item.Rango || "";
+
+            let statsHtml = `<div class="grid grid-cols-3 gap-2 mb-4 py-3 border-y border-slate-800/40">
+                <div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Accuratezza</p><p class="text-[10px] font-bold text-yellow-500">${acc}</p></div>
+                <div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Danno</p><p class="text-[10px] font-bold text-red-500">${danno}</p></div>
+                <div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Cat.</p><p class="text-[10px] font-bold text-slate-300">${cat}</p></div>
+            </div>`;
 
             let tagsHtml = "";
-            if (item.parole_chiave) {
-                const list = Array.isArray(item.parole_chiave) ? item.parole_chiave : item.parole_chiave.toString().split(/[,;]/);
+            let rawTags = item.parole_chiave || item.tags || "";
+            if (rawTags) {
+                const list = Array.isArray(rawTags) ? rawTags : rawTags.toString().split(/[,;]/);
                 tagsHtml = `<div class="flex flex-wrap gap-2 mt-4">${list.map(tk => tk.trim() ? `<span class="text-[8px] bg-slate-950 text-slate-500 border border-slate-800 px-3 py-1.5 rounded font-black uppercase tracking-widest">${tk.trim()}</span>` : '').join('')}</div>`;
             }
 
             return `
                 <div class="bg-slate-900 p-8 rounded-[2.5rem] border border-slate-800 animate-pop shadow-xl flex flex-col h-full hover:border-slate-700 transition-all">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-2xl font-black text-white uppercase tracking-tight leading-none">${item.nome} ${badge}</h3>
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight leading-none">${nome} ${badge}</h3>
                     </div>
                     <div class="flex-grow border-l-4 border-yellow-600/30 pl-6 my-4 bg-slate-950/10 py-2 rounded-r-xl">
                         ${desc ? `<p class="text-[11px] text-slate-500 italic mb-4">"${desc}"</p>` : ""}
@@ -229,8 +247,8 @@
                     ${statsHtml}
                     ${tagsHtml}
                     <div class="mt-6 pt-4 border-t border-slate-800/30 flex justify-between text-[9px] font-black text-slate-600 uppercase italic">
-                        <span>Tipo: ${item.tipo || '---'}</span>
-                        ${item.rango_suggerito ? `<span>Rango: ${item.rango_suggerito}</span>` : ""}
+                        <span>Tipo: ${tipo}</span>
+                        ${rango ? `<span>Rango: ${rango}</span>` : ""}
                     </div>
                 </div>`;
         }
