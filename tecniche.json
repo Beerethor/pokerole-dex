@@ -7,7 +7,7 @@
     "pool_danno": "Forza + 3",
     "effetti_aggiuntivi": "Alta probabilità di colpo critico. Dalla Distanza",
     "descrizione": "Il Pokémon chiama a raccolta i suoi sottoposti per sferrare un attacco concentrato.",
-    "parole_chiave": ["Comando, gruppo, sciame"]
+    "parole_chiave": [Comando, gruppo, sciame]
   },
   {
     "nome": "Coleomorso",
@@ -37,7 +37,7 @@
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Aumenta la Difesa e la Difesa Speciale dell'utilizzatore di 1.",
     "descrizione": "Uno sciame di piccoli insetti circonda il leader per proteggerlo.",
-    "parole_chiave": ["Comando, gruppo, sciame"]
+    "parole_chiave": [Comando, gruppo, sciame]
   },
   {
     "nome": "Pungiglione",
@@ -77,7 +77,7 @@
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "L'utilizzatore recupera metà dei suoi PS massimi.",
     "descrizione": "Il Pokémon ordina ai suoi sudditi di curare le sue ferite.",
-    "parole_chiave": ["Comando, gruppo, sciame, Cura"]
+    "parole_chiave": [Comando, gruppo, sciame, Cura]
   },
  {
     "nome": "Assillo",
@@ -86,7 +86,7 @@
     "accuratezza": "Destrezza + Canale",
     "pool_danno": "Speciale + 1",
     "effetti_aggiuntivi": "Il bersaglio non può fuggire. Tira due dadi di danno alla fine dei ogni turno. Dura per 4 turni.",
-    "descrizione": "L'avversario viene intrappolato in uno sciame che lo tormenta nel tempo.",
+    "description": "L'avversario viene intrappolato in uno sciame che lo tormenta nel tempo.",
     "parole_chiave": ["Trappola"]
   },
   {
@@ -96,7 +96,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 1",
     "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto.Arrotondati per difetto",
-    "descrizione": "Un attacco che succhia l'energia vitale del nemico per curare le proprie ferite.",
+    "description": "Un attacco che succhia l'energia vitale del nemico per curare le proprie ferite.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -106,7 +106,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 3",
     "effetti_aggiuntivi": "Riduce l'Attacco del bersaglio di 1 grado.",
-    "descrizione": "L'utilizzatore si scaglia con forza contro il nemico, riducendone la capacità offensiva.",
+    "description": "L'utilizzatore si scaglia con forza contro il nemico, riducendone la capacità offensiva.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -116,7 +116,7 @@
     "accuratezza": "Forza + Rissa",
     "pool_danno": "Forza + 5",
     "effetti_aggiuntivi": "Danno letale",
-    "descrizione": "Un attacco brutale eseguito caricando con corna imponenti.",
+    "description": "Un attacco brutale eseguito caricando con corna imponenti.",
     "parole_chiave": ["Contatto"]
   },
   {
@@ -126,7 +126,7 @@
     "accuratezza": "Destrezza + Rissa",
     "pool_danno": "Forza + 1",
     "effetti_aggiuntivi": "Colpisce 2-5 volte nello stesso turno.",
-    "descrizione": "Vengono scagliati dardi affilati come aghi contro il bersaglio in rapida successione.",
+    "description": "Vengono scagliati dardi affilati come aghi contro il bersaglio in rapida successione.",
     "parole_chiave": []
   },
   {
@@ -136,24 +136,24 @@
     "accuratezza": "speciale + Canale",
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Se usata su un alleato, lo cura di 1 dei suoi PS invece di infliggere danno.",
-    "descrizione": "Lancia una palla di polline che esplode: è dannosa per i nemici ma curativa per gli amici.",
+    "description": "Lancia una palla di polline che esplode: è dannosa per i nemici ma curativa per gli amici.",
     "parole_chiave": ["Proiettile"]
   },
   {
     "nome": "Polvererabbia",
     "tipo": "Coleottero",
     "categoria": "Supporto",
-    "accuratezza": "Insight + Intimidire",
+    "accuratezza": "Intuizione + Intimidire",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Attira su di sé tutti gli attacchi nemici per questo turno.",
-    "descrizione": "L'utilizzatore sparge una polvere irritante che costringe i nemici a concentrare gli attacchi su di lui.",
+    "description": "L'utilizzatore sparge una polvere irritante che costringe i nemici a concentrare gli attacchi su di lui.",
     "parole_chiave": ["Priorità"]
   },
   {
   "nome": "Pulviscoppio",
   "tipo": "Coleottero",
   "categoria": "Supporto",
-  "accuratezza": "Insight + Natura",
+  "accuratezza": "Intuizione + Natura",
   "pool_danno": "Nessuno",
   "effetti_aggiuntivi": "Aggiungi 3 dadi extra al prossimo attacco di tipo fuoco che colpisce il bersaglio",
   "descrizione": "Copre il bersaglio con una polvere che esplode violentemente al minimo contatto con il fuoco, ritorcendo la potenza dell'attacco contro l'avversario.",
@@ -166,19 +166,117 @@
     "accuratezza": "Bellezza + Performance",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Aumenta Destrezza, speciale e difesa speciale di 1 grado.",
-    "descrizione": "Una danza mistica e bellissima che potenzia tutte le capacità magiche e la rapidità.",
+    "description": "Una danza mistica e bellissima che potenzia tutte le capacità magiche e la rapidità.",
     "parole_chiave": []
   },
 {
-    "nome": "Segnalraggio",
+    "nome": "Segnoraggio",
     "tipo": "Coleottero",
     "categoria": "Speciale",
     "accuratezza": "Speciale + Canale",
     "pool_danno": "Speciale + 3",
     "effetti_aggiuntivi": "Tira un dado per confondere il nemico.",
-    "descrizione": "Un raggio di luce multicolore e pulsante che può disorientare il nemico.",
+    "description": "Un raggio di luce multicolore e pulsante che può disorientare il nemico.",
     "parole_chiave": ["Luce"]
+  },
+  {
+    "nome": "Ventoargenteo",
+    "tipo": "Coleottero",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira un dado per aumentare la forza, la destrezza, lo speciale e le difese, sia fisica che speciale del Pokémon di 1 Grado.",
+    "descrizione": "Ali che sprigionano una polvere argentea trasportata dal vento che può potenziare chi la usa.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ragnatela",
+    "tipo": "Coleottero",
+    "categoria": "Supporto",
+    "accuratezza": "Intuizione + Forza",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Il bersaglio non può essere sostituito o fuggire dalla lotta finché l'utilizzatore è in campo.",
+    "descrizione": "L'utilizzatore tesse una ragnatela appiccicosa intorno al nemico per impedirne la fuga.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Rulloduro",
+    "tipo": "Coleottero",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira tre dadi per far tentennare il nemico. Se il bersaglio ha usato Minimizzazione, infligge danno raddoppiato.",
+    "descrizione": "Il Pokémon si raggomitola e travolge l'avversario con tutto il suo peso.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Rete Vischiosa",
+    "tipo": "Coleottero",
+    "categoria": "Supporto",
+    "accuratezza": "Intuizione + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Crea una trappola sul campo nemico. Ogni Pokémon avversario che entra in campo subisce -1 alla Destrezza.  I Pokémon con l'abilità Levitazione e i Pokémon di tipo Volante sono immuni a questo effetto.",
+    "description": "Tesse una rete viscosa sul terreno che intralcia i movimenti dei nemici che entrano in lotta.",
+    "parole_chiave": ["Ostacolo"]
+  },
+  {
+    "nome": "Millebave",
+    "tipo": "Coleottero",
+    "categoria": "Supporto",
+    "accuratezza": "Intuizione + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce la Velocità del bersaglio di 1 gradi. Bersaglia tutti i nemici nella zona.",
+    "descrizione": "Il Pokémon sputa bave di seta che avvolgono il nemico, limitandone i movimenti.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Entomoblocco",
+    "tipo": "Coleottero",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 1",
+    "effetti_aggiuntivi": "Riduce l'Attacco Speciale del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore oppone resistenza all'avversario, scoraggiandone la potenza speciale.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Codadiluce",
+    "tipo": "Coleottero",
+    "categoria": "Supporto",
+    "accuratezza": "Intuizione + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta l'Attacco Speciale dell'utilizzatore di 3 gradi.",
+    "descrizione": "L'utilizzatore brilla intensamente, aumentando drasticamente la propria potenza magica.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Doppio Ago",
+    "tipo": "Coleottero",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Colpisce 2 volte in un turno. Dalla distanza. Tira due dadi per avvelenare il bersaglio per ogni colpo.",
+    "descrizione": "Il Pokémon colpisce due volte il nemico usando pungiglioni o arti affilati.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Retromarcia",
+    "tipo": "Coleottero",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Dopo aver inflitto danno, il Pokémon torna nella sua Poké Ball e viene sostituito da un alleato. Tira Iniziativa",
+    "descrizione": "Un attacco mordi e fuggi che permette di cambiare rapidamente posizione con un compagno.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Forbice X",
+    "tipo": "Coleottero",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "Il Pokémon incrocia gli arti affilati o le ali per colpire il nemico come se fossero forbici.",
+    "parole_chiave": ["Contatto"]
   }
 ]
-
-
