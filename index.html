@@ -44,7 +44,7 @@
 
             <div class="glass-card p-6 rounded-[2.5rem] mb-10 sticky top-4 z-50 shadow-2xl">
                 <div class="relative">
-                    <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nel database..." 
+                    <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca tra tutte le tecniche..." 
                         class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-500 outline-none">
                     <button onclick="clearSearch()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white font-bold">✕</button>
                 </div>
@@ -57,7 +57,7 @@
                         <option value="Pro">Rango: Pro</option>
                         <option value="Master">Rango: Master</option>
                     </select>
-                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest">Inizializzazione...</div>
+                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest">Caricamento in corso...</div>
                 </div>
             </div>
 
@@ -80,18 +80,27 @@
 
         async function loadData() {
             try {
-                db.pkmn = await fetch('pokemon.json').then(res => res.json());
-                db.tech = await fetch('tecniche.json').then(res => res.json());
-                db.abil = await fetch('abilita.json').then(res => res.json());
-                db.max = (await fetch('max_moves.json').then(res => res.json())).map(m => ({...m, _origin: 'max'}));
-                db.zmove = (await fetch('mosse_z.json').then(res => res.json())).map(m => ({...m, _origin: 'z'}));
+                // Caricamento asincrono con gestione errore per singolo file
+                const load = async (file) => {
+                    const r = await fetch(file);
+                    return r.ok ? await r.json() : [];
+                };
+
+                db.pkmn = await load('pokemon.json');
+                db.tech = await load('tecniche.json');
+                db.abil = await load('abilita.json');
+                db.max = (await load('max_moves.json')).map(m => ({...m, _origin: 'max'}));
+                db.zmove = (await load('mosse_z.json')).map(m => ({...m, _origin: 'z'}));
                 
                 document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
                     `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-6 rounded-3xl font-black uppercase text-xs border border-slate-700 transition-all">${r}</button>`
                 ).join('');
                 
                 runSearch();
-            } catch (e) { console.error("Errore caricamento database:", e); }
+            } catch (e) {
+                console.error("Errore critico:", e);
+                document.getElementById('counter').innerText = "ERRORE CARICAMENTO JSON";
+            }
         }
 
         function switchMacro(macro) {
@@ -114,10 +123,19 @@
         function runSearch() {
             const query = document.getElementById('mainSearch').value.toLowerCase().trim();
             const selRank = document.getElementById('visualRank').value;
-            let source = (currentSub === 'special') ? [...db.zmove, ...db.max] : db[currentSub] || [];
+            
+            let source = [];
+            if (currentSub === 'special') source = [...db.zmove, ...db.max];
+            else source = db[currentSub] || [];
 
-            const filtered = source.filter(item => JSON.stringify(item).toLowerCase().includes(query));
-            document.getElementById('counter').innerText = `Trovati: ${filtered.length}`;
+            // Ricerca profonda in tutti i campi
+            const filtered = source.filter(item => {
+                if (!item) return false;
+                const searchString = `${item.nome} ${item.tipo} ${item.descrizione} ${item.effetti_aggiuntivi} ${item.effetto}`.toLowerCase();
+                return searchString.includes(query);
+            });
+
+            document.getElementById('counter').innerText = `Elementi caricati: ${filtered.length}`;
             
             const resultsDiv = document.getElementById('results');
             if (currentSub === 'pkmn') {
@@ -136,7 +154,7 @@
                         <div>
                             <span class="text-[9px] font-black text-yellow-600 uppercase">#${p.pokedex_id || '???'} - ${p.rango_suggerito || ''}</span>
                             <h2 class="text-3xl font-black text-white uppercase mt-1 leading-none">${p.nome}</h2>
-                            <div class="flex gap-1 mt-2">${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[7px] font-bold px-2 py-0.5 rounded border border-slate-700 uppercase text-slate-400 tracking-tighter">${t}</span>`).join('')}</div>
+                            <div class="flex gap-1 mt-2">${(p.tipo || []).map(t => `<span class="bg-slate-950 text-[7px] font-bold px-2 py-0.5 rounded border border-slate-700 uppercase text-slate-400">${t}</span>`).join('')}</div>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[70px]">
                             <span class="text-[8px] text-red-500 font-black block uppercase mb-1">Vitalità</span>
@@ -180,46 +198,44 @@
             const desc = item.descrizione || item.Descrizione || "";
             const eff = item.effetti_aggiuntivi || item.effetto || "";
             
-            // Box Statistiche per Mosse
-            let statsBox = "";
-            if (item.accuratezza || item.pool_danno) {
-                statsBox = `
-                    <div class="grid grid-cols-2 gap-4 mb-4 py-3 border-y border-slate-800/50">
-                        ${item.accuratezza ? `<div><p class="text-[8px] text-slate-500 font-black uppercase mb-0.5 px-1">Accuratezza</p><p class="text-[11px] font-bold text-yellow-500 px-1">${item.accuratezza}</p></div>` : ""}
-                        ${item.pool_danno ? `<div><p class="text-[8px] text-slate-500 font-black uppercase mb-0.5 px-1">Pool Danno</p><p class="text-[11px] font-bold text-red-500 px-1">${item.pool_danno}</p></div>` : ""}
+            // Box Statistiche dettagliate
+            let statsHtml = "";
+            if (item.accuratezza || item.pool_danno || item.categoria) {
+                statsHtml = `
+                    <div class="grid grid-cols-3 gap-2 mb-4 py-3 border-y border-slate-800/40">
+                        ${item.accuratezza ? `<div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Accuratezza</p><p class="text-[10px] font-bold text-yellow-500 truncate">${item.accuratezza}</p></div>` : ""}
+                        ${item.pool_danno ? `<div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Pool Danno</p><p class="text-[10px] font-bold text-red-500 truncate">${item.pool_danno}</p></div>` : ""}
+                        ${item.categoria ? `<div><p class="text-[7px] text-slate-500 font-black uppercase mb-0.5">Categoria</p><p class="text-[10px] font-bold text-slate-300 truncate">${item.categoria}</p></div>` : ""}
                     </div>`;
             }
 
-            // Pulizia Parole Chiave
+            // Tag Parole Chiave
             let tags = "";
             if (item.parole_chiave) {
-                const list = Array.isArray(item.parole_chiave) ? item.parole_chiave : item.parole_chiave.split(',');
+                const list = Array.isArray(item.parole_chiave) ? item.parole_chiave : item.parole_chiave.toString().split(/[,;]/);
                 tags = `<div class="flex flex-wrap gap-2 mt-4">
-                    ${list.map(tk => `<span class="text-[8px] bg-slate-950 text-slate-500 border border-slate-800 px-3 py-1.5 rounded font-black uppercase tracking-widest">${tk.trim()}</span>`).join('')}
+                    ${list.map(tk => tk.trim() ? `<span class="text-[8px] bg-slate-950 text-slate-500 border border-slate-800 px-3 py-1.5 rounded font-black uppercase tracking-widest">${tk.trim()}</span>` : '').join('')}
                 </div>`;
             }
 
             return `
                 <div class="bg-slate-900 p-8 rounded-[2.5rem] border border-slate-800 animate-pop shadow-xl flex flex-col h-full hover:border-slate-700 transition-all">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-2xl font-black text-white uppercase tracking-tight">${item.nome} ${badge}</h3>
-                        ${item.categoria ? `<span class="text-[8px] bg-slate-800 px-2 py-1 rounded border border-slate-700 font-black text-slate-400 uppercase tracking-tighter">${item.categoria}</span>` : ""}
+                        <h3 class="text-2xl font-black text-white uppercase tracking-tight leading-none">${item.nome} ${badge}</h3>
                     </div>
                     
                     <div class="flex-grow border-l-4 border-yellow-600/30 pl-6 my-4 bg-slate-950/10 py-2 rounded-r-xl">
-                        ${desc ? `<p class="text-xs text-slate-500 italic mb-4 leading-relaxed">"${desc}"</p>` : ""}
+                        ${desc ? `<p class="text-[11px] text-slate-500 italic mb-4">"${desc}"</p>` : ""}
                         ${eff ? `<p class="text-[13px] text-slate-300 font-medium leading-relaxed">${eff}</p>` : ""}
-                        ${(!desc && !eff) ? `<p class="text-slate-600 italic">Nessun dettaglio disponibile.</p>` : ""}
                     </div>
 
-                    ${statsBox}
+                    ${statsHtml}
                     ${tags}
 
-                    ${(item.tipo || item.rango_suggerito) ? `
-                        <div class="mt-6 pt-4 border-t border-slate-800/30 flex justify-between text-[9px] font-black text-slate-600 uppercase italic tracking-widest">
-                            <span>Tipo: ${item.tipo || '---'}</span>
-                            ${item.rango_suggerito ? `<span>Rango: ${item.rango_suggerito}</span>` : ""}
-                        </div>` : ""}
+                    <div class="mt-6 pt-4 border-t border-slate-800/30 flex justify-between text-[9px] font-black text-slate-600 uppercase italic">
+                        <span>Tipo: ${item.tipo || '---'}</span>
+                        ${item.rango_suggerito ? `<span>Rango: ${item.rango_suggerito}</span>` : ""}
+                    </div>
                 </div>`;
         }
 
