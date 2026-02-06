@@ -4,11 +4,11 @@
     "pokedex_id": "001",
     "peso": "7 kg",
     "altezza": "0.7 m",
-    "immagine": "./img/Bulbasaur.png,"
-    "tipo": ["Erba Veleno"],
+    "immagine": "./img/Bulbasaur.png",
+    "tipo": ["Erba", "Veleno"],
     "rango_attuale": "Starter",
     "rango_suggerito": "Beginner",
-    "descrizione": "Pokemon seme./nPorta un seme sulla schiena fin dalla nascita. Crescendo, il seme diventa più grande. È noto per essereun Pokémon leale e ben educato,ma è piuttosto raro da trovare in natura.",
+    "descrizione": "Pokemon seme.\nPorta un seme sulla schiena fin dalla nascita. Crescendo, il seme diventa più grande. È noto per essere un Pokémon leale e ben educato, ma è piuttosto raro da trovare in natura.",
     "abilita": ["Erbaiuto"],
     "linea_evolutiva": ["Bulbasaur", "Ivysaur"],
     "stadio_evolutivo": "Base",
@@ -38,9 +38,9 @@
       { "nome": "Solarraggio", "rango": "Pro" },
       { "nome": "Campo Erboso", "rango": "Pro" },
       { "nome": "Amnesia", "rango": "Pro" },
-      { "nome": "Erbapatto", "rango": "Pro" },
+      { "nome": "Erbapatto", "rango": "Pro" }
     ]
-  }
+  },
   {
     "nome": "Eevee",
     "pokedex_id": "133",
@@ -52,7 +52,7 @@
     "rango_suggerito": "Starter",
     "descrizione": "Grazie a una struttura genetica irregolare, Eevee muta rapidamente per adattarsi all'ambiente circostante.",
     "abilita": ["Fugafacile", "Adattabilità"],
-    "linea_evolutiva": ["Eevee", "Vaporeon/Jolteon/Flareon/Espeon/Umbreon/Leafeon/\nGlaceon/Sylveon"],
+    "linea_evolutiva": ["Eevee", "Vaporeon/Jolteon/Flareon/Espeon/Umbreon/Leafeon/Glaceon/Sylveon"],
     "stadio_evolutivo": "Base",
     "tempo_evoluzione": "Veloce",
     "attributi": {
