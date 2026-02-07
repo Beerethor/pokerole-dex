@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex Master Hub</title>
+    <title>PokeRole ProDex Master Hub 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     
@@ -12,7 +12,7 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; scroll-behavior: smooth; }
         .font-mono-data { font-family: 'JetBrains Mono', monospace; }
 
-        /* --- PALETTE COLORI TIPI --- */
+        /* --- PALETTE COLORI TIPI POKEROLE --- */
         .type-fuoco { background-color: #ef4444; border-color: #f87171; color: white; }
         .type-acqua { background-color: #3b82f6; border-color: #60a5fa; color: white; }
         .type-erba { background-color: #22c55e; border-color: #4ade80; color: white; }
@@ -32,6 +32,7 @@
         .type-folletto { background-color: #f472b6; border-color: #f9a8d4; color: white; }
         .type-normale { background-color: #6b7280; border-color: #9ca3af; color: white; }
 
+        /* --- UI & ANIMAZIONI --- */
         .macro-active { background-color: var(--accent); color: #020617; transform: scale(1.05); box-shadow: 0 0 20px rgba(202, 138, 4, 0.4); }
         .macro-inactive { background-color: #0f172a; color: #64748b; border: 1px solid #1e293b; }
         .sub-active { color: var(--accent); border-bottom: 3px solid var(--accent); }
@@ -39,15 +40,19 @@
         .animate-pop { animation: popIn 0.25s ease-out forwards; }
         @keyframes popIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         
-        select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ca8a04' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; -webkit-appearance: none; appearance: none; }
+        .badge-z { background: linear-gradient(45deg, #f59e0b, #d97706); color: #000; }
+        .badge-max { background: linear-gradient(45deg, #db2777, #9d174d); color: #fff; }
+
+        /* Reset Select per un look custom */
+        select { -webkit-appearance: none; appearance: none; cursor: pointer; }
     </style>
 </head>
-<body class="pb-10">
+<body class="pb-10 text-slate-200">
 
     <div class="max-w-6xl mx-auto p-4">
         <header class="py-12 flex flex-col items-center text-center">
             <h1 class="text-6xl font-black italic tracking-tighter uppercase font-mono-data"><span class="text-yellow-500">POKEROLE</span> PRODEX</h1>
-            <p class="text-[10px] text-slate-500 font-black tracking-[0.6em] uppercase mt-3 italic">Advanced Regional System 2026</p>
+            <p class="text-[10px] text-slate-500 font-black tracking-[0.6em] uppercase mt-3 italic">Regional Master System • 2026</p>
         </header>
 
         <nav class="flex gap-4 mb-10 justify-center">
@@ -64,7 +69,8 @@
             </div>
 
             <div class="glass-card p-6 rounded-[2.5rem] mb-10 sticky top-4 z-50 shadow-2xl">
-                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca..." class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-600 outline-none transition-all">
+                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nome, tipo, regione o effetto..." 
+                       class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white placeholder-slate-600 focus:ring-2 focus:ring-yellow-600 outline-none transition-all">
                 
                 <div class="flex flex-wrap gap-4 justify-between items-center mt-4 px-2">
                     <div class="flex gap-4">
@@ -79,18 +85,14 @@
                         </select>
                         <select id="searchRegion" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none">
                             <option value="Tutte">Regione: Tutte</option>
-                            <option value="Kanto">Kanto</option>
-                            <option value="Johto">Johto</option>
-                            <option value="Hoenn">Hoenn</option>
-                            <option value="Sinnoh">Sinnoh</option>
-                            <option value="Unima">Unima</option>
-                            <option value="Kalos">Kalos</option>
-                            <option value="Alola">Alola</option>
-                            <option value="Galar">Galar</option>
+                            <option value="Kanto">Kanto</option><option value="Johto">Johto</option>
+                            <option value="Hoenn">Hoenn</option><option value="Sinnoh">Sinnoh</option>
+                            <option value="Unima">Unima</option><option value="Kalos">Kalos</option>
+                            <option value="Alola">Alola</option><option value="Galar">Galar</option>
                             <option value="Paldea">Paldea</option>
                         </select>
                     </div>
-                    <div id="counter" class="text-[10px] text-slate-500 font-bold font-mono-data">Ready</div>
+                    <div id="counter" class="text-[10px] text-slate-500 font-bold font-mono-data uppercase tracking-widest italic">Inizializzazione...</div>
                 </div>
             </div>
 
@@ -99,20 +101,16 @@
 
         <div id="generatorContainer" class="hidden animate-pop">
             <div class="glass-card p-10 rounded-[3rem] shadow-2xl text-center">
-                <h2 class="text-3xl font-black text-yellow-500 uppercase mb-4 italic">Incontro Casuale</h2>
+                <h2 class="text-3xl font-black text-yellow-500 uppercase mb-4 italic">Generatore Incontri</h2>
                 
                 <div class="flex flex-col items-center mb-8">
-                    <label class="text-[9px] text-slate-500 font-black uppercase tracking-widest mb-2">Seleziona Regione di Origine</label>
-                    <select id="genRegion" class="bg-slate-950 text-white px-6 py-3 rounded-xl border border-slate-800 font-bold text-xs uppercase outline-none focus:ring-2 focus:ring-yellow-600">
+                    <label class="text-[9px] text-slate-500 font-black uppercase tracking-widest mb-2">Filtro Area Geografica</label>
+                    <select id="genRegion" class="bg-slate-950 text-white px-8 py-3 rounded-xl border border-slate-800 font-bold text-xs uppercase outline-none focus:ring-2 focus:ring-yellow-600">
                         <option value="Tutte">Tutte le Regioni</option>
-                        <option value="Kanto">Kanto</option>
-                        <option value="Johto">Johto</option>
-                        <option value="Hoenn">Hoenn</option>
-                        <option value="Sinnoh">Sinnoh</option>
-                        <option value="Unima">Unima</option>
-                        <option value="Kalos">Kalos</option>
-                        <option value="Alola">Alola</option>
-                        <option value="Galar">Galar</option>
+                        <option value="Kanto">Kanto</option><option value="Johto">Johto</option>
+                        <option value="Hoenn">Hoenn</option><option value="Sinnoh">Sinnoh</option>
+                        <option value="Unima">Unima</option><option value="Kalos">Kalos</option>
+                        <option value="Alola">Alola</option><option value="Galar">Galar</option>
                         <option value="Paldea">Paldea</option>
                     </select>
                 </div>
@@ -124,6 +122,7 @@
     </div>
 
     <script>
+        // --- LOGICA E STATO ---
         let db = { pkmn: [], tech: [], abil: [], max: [], zmove: [] };
         let currentSub = 'pkmn';
         const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
@@ -142,9 +141,10 @@
                 
                 setupGenerator();
                 runSearch();
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error("Errore Database:", e); }
         }
 
+        // --- GESTIONE INTERFACCIA ---
         function setupGenerator() {
             document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
                 `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-[10px] border border-slate-700 transition-all font-mono-data">${r}</button>`
@@ -167,6 +167,7 @@
             runSearch();
         }
 
+        // --- FILTRAGGIO E RICERCA ---
         function runSearch() {
             const q = document.getElementById('mainSearch').value.toLowerCase();
             const filterRank = document.getElementById('searchRank').value;
@@ -185,13 +186,14 @@
                 return matchesText && (currentSub === 'pkmn' ? (matchesRank && matchesReg) : true);
             });
 
-            document.getElementById('counter').innerText = `${filtered.length} RISULTATI`;
+            document.getElementById('counter').innerText = `${filtered.length} UNITÀ TROVATE`;
             document.getElementById('results').innerHTML = filtered.map(item => {
                 if(currentSub === 'pkmn') return createPkmnCard(item, filterRank === "Tutti" ? "Master" : filterRank);
                 return createStandardCard(item);
             }).join('');
         }
 
+        // --- RENDER SCHEDA POKEMON (BASE + MAX) ---
         function createPkmnCard(p, userRank) {
             const rIdx = RANGHI.indexOf(userRank);
             const abils = p.abilita || p.Abilità || [];
@@ -208,53 +210,84 @@
                         <div class="flex gap-1 mt-3">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-bold px-2 py-1 rounded border uppercase">${t}</span>`).join('')}</div>
                     </div>
                     <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[75px]">
-                        <span class="text-[8px] text-red-500 font-black block uppercase mb-1">HP MAX</span>
+                        <span class="text-[8px] text-red-500 font-black block uppercase mb-1 tracking-tighter">HP MAX</span>
                         <span class="text-2xl font-black text-white font-mono-data">${p.vitalita_max?.hp || p.vitalita || 0}</span>
                     </div>
                 </div>
                 <div class="p-6">
                     <div class="flex gap-4 mb-6 items-center">
-                        <img src="${p.immagine}" class="w-20 h-20 object-contain bg-slate-950 rounded-2xl p-2 border border-slate-800" onerror="this.src='https://via.placeholder.com/80'">
+                        <img src="${p.immagine}" class="w-20 h-20 object-contain bg-slate-950 rounded-2xl p-2 border border-slate-800 shadow-inner" onerror="this.src='https://via.placeholder.com/80?text=?'">
                         <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/50 p-3 rounded-xl border-l-2 border-yellow-600">"${p.descrizione || '---'}"</div>
                     </div>
+                    
                     <div class="mb-6">
-                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-2 tracking-widest">Abilità</h4>
+                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-2 tracking-widest">Abilità Speciali</h4>
                         <div class="flex flex-wrap gap-2">
-                            ${abils.map(a => `<span class="bg-emerald-950/30 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-xl text-[10px] font-black uppercase font-mono-data">${a}</span>`).join('') || '---'}
+                            ${abils.map(a => `<span class="bg-emerald-950/30 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase font-mono-data">${a}</span>`).join('') || '---'}
                         </div>
                     </div>
+
                     <div class="grid grid-cols-5 gap-1.5 mb-6 text-center">
-                        ${Object.entries(p.attributi || {}).map(([k,v]) => `<div class="bg-slate-950 p-2 rounded-xl border border-slate-800"><span class="text-[7px] uppercase text-slate-600 block font-bold">${k.slice(0,3)}</span><span class="text-xs font-black text-yellow-500 font-mono-data">${v.base || v}</span></div>`).join('')}
+                        ${Object.entries(p.attributi || {}).map(([k,v]) => `
+                            <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                                <span class="text-[7px] uppercase text-slate-600 block font-bold mb-1">${k.slice(0,3)}</span>
+                                <div class="text-[10px] font-black font-mono-data flex flex-col">
+                                    <span class="text-yellow-500 text-xs">${v.base || v}</span>
+                                    <span class="text-slate-600 text-[8px] border-t border-slate-800 mt-1 pt-1 italic">MAX ${v.max || v}</span>
+                                </div>
+                            </div>
+                        `).join('')}
                     </div>
+
                     <div class="space-y-1">
+                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-2 tracking-widest">Set Mosse Suggerito</h4>
                         ${techs.map(m => {
                             const isLocked = RANGHI.indexOf(m.rango) > rIdx;
-                            return `<div class="flex justify-between items-center p-2 rounded-xl text-[10px] font-bold font-mono-data ${isLocked ? 'opacity-20 bg-slate-950' : 'bg-slate-800/50 text-white border-l-4 border-yellow-600'}"><span>${m.nome}</span><span class="text-[8px] uppercase px-2 py-0.5 bg-black/30 rounded text-slate-400">${m.rango}</span></div>`;
+                            return `<div class="flex justify-between items-center p-2 rounded-xl text-[10px] font-bold font-mono-data transition-all ${isLocked ? 'opacity-20 bg-slate-950 grayscale' : 'bg-slate-800/50 text-white border-l-4 border-yellow-600'}">
+                                <span>${m.nome}</span>
+                                <span class="text-[8px] uppercase px-2 py-0.5 bg-black/30 rounded text-slate-400">${m.rango}</span>
+                            </div>`;
                         }).join('')}
                     </div>
                 </div>
             </div>`;
         }
 
+        // --- RENDER SCHEDA STANDARD (MOSSE/ABILITA) ---
         function createStandardCard(item) {
             const isAbil = currentSub === 'abil';
             const typeStr = item.tipo || 'Normale';
             const typeClass = `type-${typeStr.toLowerCase()}`;
-            const eff = item.effetti_aggiuntivi || item.effetto || "---";
+            const badge = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-1 rounded mr-2 uppercase">MOSSA Z</span>` : 
+                          item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-2 py-1 rounded mr-2 uppercase">G-MAX</span>` : "";
+            const eff = item.effetti_aggiuntivi || item.effetto || "Dettagli non caricati.";
+            const desc = item.descrizione || item.Descrizione || "";
+
             return `
             <div class="bg-slate-900 p-8 rounded-[2.5rem] border-l-[10px] animate-pop shadow-xl flex flex-col h-full ${isAbil ? 'border-emerald-500' : typeClass}">
                 <div class="flex justify-between items-start mb-6">
-                    <h3 class="text-2xl font-black ${isAbil ? 'text-emerald-400' : 'text-white'} uppercase">${item.nome}</h3>
+                    <div>
+                        ${badge}
+                        <h3 class="text-2xl font-black ${isAbil ? 'text-emerald-400' : 'text-white'} uppercase tracking-tighter">${item.nome}</h3>
+                    </div>
                     ${!isAbil ? `<span class="${typeClass} text-[9px] px-4 py-1.5 rounded-full border border-white/20 font-black uppercase tracking-widest shadow-xl">${typeStr}</span>` : ""}
                 </div>
-                <div class="flex-grow bg-black/40 p-5 rounded-3xl border border-white/5 text-[14px] text-slate-200 leading-relaxed shadow-inner">
-                    <b class="text-yellow-600 uppercase text-[9px] block mb-2 font-mono-data tracking-widest">Effetto Meccanico</b>
-                    ${eff}
+                <div class="flex-grow">
+                    ${desc ? `<p class="text-xs text-slate-500 italic mb-4">"${desc}"</p>` : ""}
+                    <div class="bg-black/40 p-5 rounded-3xl border border-white/5 text-[14px] text-slate-200 leading-relaxed shadow-inner">
+                        <b class="text-yellow-600 uppercase text-[9px] block mb-2 font-mono-data tracking-widest">Effetto Meccanico</b>
+                        ${eff}
+                    </div>
                 </div>
-                ${(item.accuratezza || item.pool_danno) ? `<div class="grid grid-cols-2 gap-3 mt-6 font-mono-data"><div class="bg-slate-950 p-3 rounded-2xl border border-white/5 shadow-lg"><span class="text-[8px] block text-slate-500 uppercase font-bold mb-1">Accuratezza</span><span class="text-xs font-bold text-white">${item.accuratezza}</span></div><div class="bg-slate-950 p-3 rounded-2xl border border-white/5 shadow-lg"><span class="text-[8px] block text-slate-500 uppercase font-bold mb-1">Pool Danno</span><span class="text-xs font-bold text-red-400">${item.pool_danno}</span></div></div>` : ""}
+                ${(item.accuratezza || item.pool_danno) ? `
+                <div class="grid grid-cols-2 gap-3 mt-6 font-mono-data text-center">
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-white/5"><span class="text-[8px] block text-slate-500 uppercase font-bold mb-1">Accuratezza</span><span class="text-xs font-bold text-white">${item.accuratezza}</span></div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-white/5"><span class="text-[8px] block text-slate-500 uppercase font-bold mb-1">Danno</span><span class="text-xs font-bold text-red-400">${item.pool_danno}</span></div>
+                </div>` : ""}
             </div>`;
         }
 
+        // --- LOGICA GENERATORE CASUALE CON REGIONE ---
         function generateRandom(r) {
             const targetReg = document.getElementById('genRegion').value;
             const filteredPkmn = db.pkmn.filter(p => {
@@ -266,13 +299,14 @@
             });
 
             if(!filteredPkmn.length) {
-                document.getElementById('genOutput').innerHTML = `<div class="mt-8 p-6 bg-red-900/20 border border-red-900/50 rounded-2xl text-red-500 font-bold uppercase text-xs">Nessun Pokémon di rango ${r} trovato nella regione ${targetReg}</div>`;
+                document.getElementById('genOutput').innerHTML = `<div class="mt-8 p-8 bg-red-900/10 border border-red-900/40 rounded-[2rem] text-red-500 font-bold uppercase text-[10px] tracking-widest">Nessun Pokémon di rango ${r} trovato nella regione ${targetReg}</div>`;
                 return;
             }
             const lucky = filteredPkmn[Math.floor(Math.random() * filteredPkmn.length)];
             document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-md mt-8 animate-pop">${createPkmnCard(lucky, r)}</div>`;
         }
 
+        // Caricamento Iniziale
         window.onload = init;
     </script>
 </body>
