@@ -3,15 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pokerole ProDex 2026</title>
+    <title>Pokerole ProDex Ultimate</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; -webkit-tap-highlight-color: transparent; }
-        .glass { background: rgba(30, 41, 59, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        
-        /* Colori Tipi Pokerole */
+        /* Setup Font e Sfondo */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #020617; 
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        /* Effetto Vetro (Glassmorphism) */
+        .glass { 
+            background: rgba(30, 41, 59, 0.7); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+
+        /* Badge per i Tipi Pokémon */
+        .type-pill {
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Palette Colori Tipi */
         .bg-drago { background-color: #7038f8; }
         .bg-buio { background-color: #705848; }
         .bg-coleottero { background-color: #a8b820; }
@@ -31,157 +57,221 @@
         .bg-acciaio { background-color: #b8b8d0; }
         .bg-folletto { background-color: #ee99ac; }
 
-        /* Ottimizzazione Mobile */
-        @media (max-width: 640px) {
-            .nav-btn { flex: 1; text-align: center; padding: 12px 5px !important; font-size: 0.8rem; }
-            h1 { font-size: 1.8rem !important; }
-        }
+        /* Animazioni */
+        .card-anim { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-anim:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.5); border-color: rgba(59, 130, 246, 0.5); }
+
+        /* Scrollbar sottile */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="min-h-screen pb-10">
+<body class="min-h-screen">
 
-    <div class="max-w-6xl mx-auto px-4 pt-6">
-        <header class="mb-6 text-center">
-            <h1 class="text-3xl font-extrabold text-blue-400 tracking-tighter">POKEROLE PRODEX</h1>
-            <div id="status" class="text-[10px] uppercase tracking-widest text-slate-500 mt-1 font-bold">Inizializzazione...</div>
-        </header>
-
-        <div class="glass p-4 rounded-2xl mb-6 shadow-xl">
-            <input type="text" id="mainSearch" oninput="runSearch()" 
-                placeholder="Cerca mossa, tipo o effetto..." 
-                class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 mb-4 outline-none">
-            
-            <div class="flex gap-2">
-                <button onclick="setSub('pkmn')" id="btn-pkmn" class="nav-btn px-4 py-2 rounded-lg font-bold glass bg-blue-600 flex-1 transition-all">PKMN</button>
-                <button onclick="setSub('tech')" id="btn-tech" class="nav-btn px-4 py-2 rounded-lg font-bold glass flex-1 transition-all">MOSSE</button>
-                <button onclick="setSub('abil')" id="btn-abil" class="nav-btn px-4 py-2 rounded-lg font-bold glass flex-1 transition-all">ABILITÀ</button>
+    <nav class="sticky top-0 z-50 glass border-b border-slate-800 px-4 py-3 mb-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black tracking-tighter text-blue-400">PRODEX <span class="text-slate-500 font-light">2026</span></h1>
+            <div id="connection-status" class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sincronizzazione...</span>
             </div>
         </div>
+    </nav>
 
-        <div id="counter" class="text-xs font-bold text-slate-400 mb-4 ml-1 uppercase"></div>
-
-        <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <main class="max-w-6xl mx-auto px-4">
+        
+        <section class="glass rounded-3xl p-6 mb-8 shadow-2xl">
+            <div class="relative mb-6">
+                <input type="text" id="mainSearch" oninput="runSearch()" 
+                    placeholder="Cerca per nome, tipo, effetto o parola chiave..." 
+                    class="w-full bg-slate-900/80 border border-slate-700 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all">
             </div>
-    </div>
+
+            <div class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="flex bg-slate-900/50 p-1 rounded-2xl w-full md:w-auto">
+                    <button onclick="changeTab('pkmn')" id="tab-pkmn" class="flex-1 md:px-8 py-2 rounded-xl font-bold text-sm transition-all bg-blue-600 text-white">POKÉMON</button>
+                    <button onclick="changeTab('tech')" id="tab-tech" class="flex-1 md:px-8 py-2 rounded-xl font-bold text-sm transition-all text-slate-400">TECNICHE</button>
+                    <button onclick="changeTab('abil')" id="tab-abil" class="flex-1 md:px-8 py-2 rounded-xl font-bold text-sm transition-all text-slate-400">ABILITÀ</button>
+                </div>
+                
+                <select id="rankFilter" onchange="runSearch()" class="w-full md:w-auto bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 text-sm font-semibold outline-none focus:border-blue-500">
+                    <option value="Tutti">Tutti i Ranghi</option>
+                    <option value="Starter">Starter</option>
+                    <option value="Scolaro">Scolaro</option>
+                    <option value="Professionista">Professionista</option>
+                    <option value="Asso">Asso</option>
+                </select>
+            </div>
+        </section>
+
+        <div class="flex items-center gap-4 mb-6 px-2 text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <span id="result-count">0 RISULTATI</span>
+            <span class="h-px flex-1 bg-slate-800"></span>
+        </div>
+
+        <div id="display-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20">
+            </div>
+    </main>
 
     <script>
-        let db = { pkmn: [], tech: [], abil: [] };
-        let currentSub = 'pkmn';
+        /**
+         * LOGICA DI SISTEMA - POKEROLE PRODEX
+         */
+        
+        // Stato Globale
+        let DB = { pkmn: [], tech: [], abil: [] };
+        let activeTab = 'pkmn';
 
-        // Caricamento con bypass della cache per Mobile
-        async function loadData() {
-            const status = document.getElementById('status');
+        /**
+         * Caricamento Dati con Fetch Robusto
+         * Utilizziamo un timestamp per distruggere la cache sui telefoni
+         */
+        async function bootSystem() {
+            const statusEl = document.getElementById('connection-status');
+            
             try {
-                status.innerText = "Caricamento database...";
-                
-                // Fetch parallelo per velocità
-                const [p, t, a] = await Promise.all([
-                    fetch(`pokemon.json?v=${Date.now()}`).then(r => r.json()).catch(() => []),
-                    fetch(`tecniche.json?v=${Date.now()}`).then(r => r.json()).catch(() => []),
-                    fetch(`abilita.json?v=${Date.now()}`).then(r => r.json()).catch(() => [])
+                const [pkmnData, techData, abilData] = await Promise.all([
+                    fetch(`pokemon.json?nocache=${Date.now()}`).then(r => r.json()).catch(() => []),
+                    fetch(`tecniche.json?nocache=${Date.now()}`).then(r => r.json()).catch(() => []),
+                    fetch(`abilita.json?nocache=${Date.now()}`).then(r => r.json()).catch(() => [])
                 ]);
 
-                db.pkmn = p;
-                db.tech = t;
-                db.abil = a;
+                DB.pkmn = pkmnData;
+                DB.tech = techData;
+                DB.abil = abilData;
 
-                status.innerText = "Database Online";
-                status.classList.replace('text-slate-500', 'text-emerald-500');
-                runSearch();
+                statusEl.innerHTML = `<div class="w-2 h-2 rounded-full bg-emerald-500"></div><span class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Sistema Online</span>`;
+                
+                runSearch(); // Primo avvio
             } catch (err) {
-                status.innerText = "Errore Caricamento Dati";
-                status.classList.replace('text-slate-500', 'text-red-500');
-                console.error(err);
+                console.error("Errore boot:", err);
+                statusEl.innerHTML = `<div class="w-2 h-2 rounded-full bg-red-500"></div><span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Errore Database</span>`;
             }
         }
 
-        function setSub(type) {
-            currentSub = type;
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('bg-blue-600'));
-            document.getElementById(`btn-${type}`).classList.add('bg-blue-600');
+        /**
+         * Gestione Cambio Tab (Pokemon / Tecniche / Abilità)
+         */
+        function changeTab(tab) {
+            activeTab = tab;
+            // Aggiorna UI Bottoni
+            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            activeBtn.classList.add('bg-blue-600', 'text-white');
+            activeBtn.classList.remove('text-slate-400');
+
+            // Mostra/Nascondi filtro rango (utile solo per Pokemon)
+            document.getElementById('rankFilter').style.display = (tab === 'pkmn') ? 'block' : 'none';
+            
             runSearch();
         }
 
+        /**
+         * Motore di Ricerca "Deep Search"
+         */
         function runSearch() {
-            const query = document.getElementById('mainSearch').value.toLowerCase();
-            const source = db[currentSub] || [];
-            
-            const filtered = source.filter(item => {
-                // Ricerca universale (controlla ogni campo dell'oggetto)
-                return Object.values(item).some(val => 
-                    String(val).toLowerCase().includes(query)
-                );
+            const term = document.getElementById('mainSearch').value.toLowerCase();
+            const rank = document.getElementById('rankFilter').value;
+            const container = document.getElementById('display-grid');
+            const data = DB[activeTab];
+
+            const filtered = data.filter(item => {
+                // Trasforma l'intero oggetto in stringa per cercare in ogni campo (nome, descrizione, tipo, etc)
+                const searchSpace = JSON.stringify(item).toLowerCase();
+                const matchesSearch = searchSpace.includes(term);
+                
+                if (activeTab === 'pkmn' && rank !== 'Tutti') {
+                    return matchesSearch && item.rango === rank;
+                }
+                return matchesSearch;
             });
 
-            document.getElementById('counter').innerText = `${filtered.length} ${currentSub} trovati`;
-            render(filtered);
-        }
-
-        function render(data) {
-            const container = document.getElementById('results');
-            container.innerHTML = data.map(item => {
-                if (currentSub === 'pkmn') return cardPkmn(item);
-                if (currentSub === 'tech') return cardTech(item);
-                return cardAbil(item);
+            document.getElementById('result-count').innerText = `${filtered.length} ${activeTab} TROVATI`;
+            
+            // Rendering HTML
+            container.innerHTML = filtered.map(item => {
+                if (activeTab === 'pkmn') return renderPkmn(item);
+                if (activeTab === 'tech') return renderTech(item);
+                return renderAbil(item);
             }).join('');
         }
 
-        function cardPkmn(p) {
+        // --- TEMPLATE CARD ---
+
+        function renderPkmn(p) {
             return `
-                <div class="glass p-5 rounded-2xl border-t-4 border-blue-500">
-                    <div class="flex justify-between items-start">
-                        <h3 class="font-black uppercase text-lg">${p.nome}</h3>
-                        <span class="text-[9px] bg-slate-800 px-2 py-1 rounded text-blue-400 font-bold uppercase">${p.rango}</span>
+                <div class="glass p-6 rounded-3xl card-anim border-t-2 border-blue-500/50">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-black uppercase tracking-tighter">${p.nome}</h3>
+                        <span class="text-[9px] font-bold px-2 py-1 bg-white/5 rounded-lg border border-white/10">${p.rango}</span>
                     </div>
-                    <p class="text-xs text-slate-400 mt-2"><strong>Tipo:</strong> ${p.tipo}</p>
-                    <p class="text-xs text-slate-300 mt-1 italic">${p.attributi || ''}</p>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-500 text-[10px] font-bold uppercase">Tipo:</span>
+                            <span class="text-sm font-medium">${p.tipo}</span>
+                        </div>
+                        <div class="bg-slate-900/50 p-3 rounded-xl border border-white/5">
+                            <span class="text-[9px] text-slate-500 font-bold uppercase block mb-1">Attributi</span>
+                            <span class="text-xs leading-relaxed text-blue-100">${p.attributi || 'Non definiti'}</span>
+                        </div>
+                    </div>
                 </div>
             `;
         }
 
-        function cardTech(t) {
-            const type = t.tipo ? t.tipo.toLowerCase().trim() : 'normale';
-            // Fix per i campi mancanti
-            const desc = t.descrizione || t.description || "Nessun dettaglio.";
-            const keywords = t.parole_chiave || t.keywords || [];
+        function renderTech(t) {
+            const typeKey = t.tipo ? t.tipo.toLowerCase().trim() : 'normale';
+            const desc = t.descrizione || t.description || "Nessuna descrizione.";
+            const keywords = t.parole_chiave || [];
 
             return `
-                <div class="glass p-5 rounded-2xl border-l-4 border-slate-600">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-bold text-white">${t.nome}</h3>
-                        <span class="text-[9px] px-2 py-1 rounded-full bg-${type} font-black uppercase text-white">${t.tipo}</span>
+                <div class="glass p-6 rounded-3xl card-anim border-l-4 border-slate-700">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold">${t.nome}</h3>
+                        <span class="type-pill bg-${typeKey}">${t.tipo}</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 mb-3">
-                        <div class="bg-slate-900/50 p-2 rounded-lg text-center">
-                            <span class="text-[8px] text-slate-500 block uppercase">Accuratezza</span>
+                    
+                    <div class="grid grid-cols-2 gap-2 mb-4 text-center">
+                        <div class="bg-slate-900/80 p-2 rounded-xl">
+                            <span class="text-[8px] text-slate-500 uppercase block">Accuratezza</span>
                             <span class="text-xs font-bold text-blue-300">${t.accuratezza}</span>
                         </div>
-                        <div class="bg-slate-900/50 p-2 rounded-lg text-center">
-                            <span class="text-[8px] text-slate-500 block uppercase">Danno</span>
+                        <div class="bg-slate-900/80 p-2 rounded-xl">
+                            <span class="text-[8px] text-slate-500 uppercase block">Danno</span>
                             <span class="text-xs font-bold text-red-400">${t.pool_danno}</span>
                         </div>
                     </div>
-                    <p class="text-[13px] text-slate-300 leading-snug italic mb-3">"${desc}"</p>
-                    <div class="bg-slate-800/40 p-3 rounded-xl text-[11px] border border-white/5">
-                        <b class="text-blue-400 uppercase text-[9px] block mb-1 font-black">Effetto:</b> ${t.effetti_aggiuntivi}
+
+                    <p class="text-sm text-slate-300 italic mb-4 leading-snug">"${desc}"</p>
+                    
+                    <div class="bg-blue-500/5 p-3 rounded-xl border border-blue-500/10 mb-4">
+                        <span class="text-[9px] text-blue-400 font-black uppercase block mb-1">Effetto Speciale</span>
+                        <p class="text-[11px] leading-normal text-slate-200">${t.effetti_aggiuntivi}</p>
                     </div>
-                    <div class="flex flex-wrap gap-1 mt-3">
-                        ${keywords.map(k => `<span class="text-[8px] bg-slate-700 text-slate-400 px-1.5 py-0.5 rounded font-bold">#${k}</span>`).join('')}
+
+                    <div class="flex flex-wrap gap-1">
+                        ${keywords.map(k => `<span class="text-[8px] bg-slate-800 text-slate-500 px-2 py-0.5 rounded-md font-bold uppercase">#${k}</span>`).join('')}
                     </div>
                 </div>
             `;
         }
 
-        function cardAbil(a) {
+        function renderAbil(a) {
+            const desc = a.effetto || a.descrizione || "Dettagli non disponibili.";
             return `
-                <div class="glass p-5 rounded-2xl border-b-4 border-emerald-500">
-                    <h3 class="font-bold text-white mb-2 uppercase text-sm">${a.nome}</h3>
-                    <p class="text-[12px] text-slate-300 leading-relaxed">${a.effetto || a.descrizione || "Dettaglio mancante."}</p>
+                <div class="glass p-6 rounded-3xl card-anim border-b-2 border-emerald-500/50">
+                    <h3 class="text-lg font-black uppercase tracking-tight text-emerald-400 mb-3">${a.nome}</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">${desc}</p>
                 </div>
             `;
         }
 
-        window.onload = loadData;
+        // Avvio Applicazione
+        window.addEventListener('DOMContentLoaded', bootSystem);
     </script>
 </body>
 </html>
