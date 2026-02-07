@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex Master Hub 2026</title>
+    <title>PokeRole ProDex Master Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; scroll-behavior: smooth; }
-        
-        /* Palette Tipi Pokerole */
+        :root { --accent: #ca8a04; --bg-dark: #020617; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; scroll-behavior: smooth; }
+        .font-mono-data { font-family: 'JetBrains Mono', monospace; }
+
+        /* --- PALETTE COLORI TIPI POKEROLE --- */
         .type-fuoco { background-color: #ef4444; border-color: #f87171; color: white; }
         .type-acqua { background-color: #3b82f6; border-color: #60a5fa; color: white; }
         .type-erba { background-color: #22c55e; border-color: #4ade80; color: white; }
@@ -29,43 +32,52 @@
         .type-folletto { background-color: #f472b6; border-color: #f9a8d4; color: white; }
         .type-normale { background-color: #6b7280; border-color: #9ca3af; color: white; }
 
-        .macro-active { background-color: #ca8a04; color: #020617; box-shadow: 0 0 20px rgba(202, 138, 4, 0.3); transform: scale(1.05); }
-        .macro-inactive { background-color: #0f172a; color: #475569; border: 1px solid #1e293b; }
-        .sub-active { color: #ca8a04; border-bottom: 3px solid #ca8a04; padding-bottom: 4px; }
-        .sub-inactive { color: #64748b; }
-        .glass-card { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(51, 65, 85, 0.4); }
+        /* --- UI ELEMENTS --- */
+        .macro-active { background-color: var(--accent); color: #020617; transform: scale(1.05); box-shadow: 0 0 20px rgba(202, 138, 4, 0.4); }
+        .macro-inactive { background-color: #0f172a; color: #64748b; border: 1px solid #1e293b; }
+        .sub-active { color: var(--accent); border-bottom: 3px solid var(--accent); }
+        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.4); }
+        .animate-pop { animation: popIn 0.25s ease-out forwards; }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        
+        /* Badges Speciali */
         .badge-z { background: linear-gradient(45deg, #f59e0b, #d97706); color: #000; }
         .badge-max { background: linear-gradient(45deg, #db2777, #9d174d); color: #fff; }
-        
-        .animate-pop { animation: popIn 0.2s ease-out forwards; }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.98) translateY(5px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        /* Custom scrollbar per mobile */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="pb-20">
+<body class="pb-10">
 
-    <div class="max-w-6xl mx-auto p-4 text-center">
-        <header class="py-10 flex flex-col items-center">
-            <h1 class="text-5xl font-black italic tracking-tighter uppercase"><span class="text-yellow-500">POKEROLE</span> PRODEX</h1>
-            <p class="text-[9px] text-slate-500 font-black tracking-[0.5em] uppercase mt-2">Master Database System • 2026</p>
+    <div class="max-w-6xl mx-auto p-4">
+        <header class="py-12 flex flex-col items-center text-center">
+            <h1 class="text-6xl font-black italic tracking-tighter uppercase font-mono-data">
+                <span class="text-yellow-500">POKEROLE</span> PRODEX
+            </h1>
+            <p class="text-[10px] text-slate-500 font-black tracking-[0.6em] uppercase mt-3">Advanced Roleplay Database System</p>
         </header>
 
-        <nav class="flex gap-4 mb-8 justify-center">
-            <button onclick="switchMacro('dex')" id="macroDex" class="macro-active px-8 py-4 rounded-2xl font-black uppercase text-xs transition-all">📜 Pokedéx</button>
-            <button onclick="switchMacro('gen')" id="macroGen" class="macro-inactive px-8 py-4 rounded-2xl font-black uppercase text-xs transition-all">🎲 Generatore</button>
+        <nav class="flex gap-4 mb-10 justify-center">
+            <button onclick="switchMacro('dex')" id="macroDex" class="macro-active px-10 py-4 rounded-2xl font-black uppercase text-xs transition-all">📜 Archivio</button>
+            <button onclick="switchMacro('gen')" id="macroGen" class="macro-inactive px-10 py-4 rounded-2xl font-black uppercase text-xs transition-all">🎲 Generatore</button>
         </nav>
 
-        <div id="pokedexContainer">
-            <div class="flex flex-wrap justify-center gap-6 mb-8 text-[11px] font-black uppercase tracking-widest">
-                <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active">Pokémon</button>
-                <button onclick="switchSub('tech')" id="subTech" class="sub-inactive">Mosse</button>
-                <button onclick="switchSub('abil')" id="subAbil" class="sub-inactive">Abilità</button>
-                <button onclick="switchSub('special')" id="subSpecial" class="sub-inactive">Special (Z/Max)</button>
+        <div id="pokedexContainer" class="animate-pop">
+            <div class="flex flex-wrap justify-center gap-6 mb-8 text-[11px] font-black uppercase tracking-widest border-b border-slate-800 pb-4">
+                <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active px-2">Pokémon</button>
+                <button onclick="switchSub('tech')" id="subTech" class="text-slate-500 px-2">Tecniche</button>
+                <button onclick="switchSub('abil')" id="subAbil" class="text-slate-500 px-2">Abilità</button>
+                <button onclick="switchSub('special')" id="subSpecial" class="text-slate-500 px-2">Z/G-Max</button>
             </div>
 
             <div class="glass-card p-6 rounded-[2.5rem] mb-10 sticky top-4 z-50 shadow-2xl">
-                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nome, tipo, effetto..." class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-500 outline-none">
+                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca per nome, tipo, regione o effetto..." 
+                       class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white placeholder-slate-600 focus:ring-2 focus:ring-yellow-600 outline-none transition-all">
                 <div class="flex justify-between items-center mt-4 px-2">
-                    <select id="visualRank" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none">
+                    <select id="visualRank" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
                         <option value="Starter">Rango: Starter</option>
                         <option value="Beginner">Rango: Beginner</option>
                         <option value="Amateur">Rango: Amateur</option>
@@ -73,16 +85,17 @@
                         <option value="Pro">Rango: Pro</option>
                         <option value="Master">Rango: Master</option>
                     </select>
-                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase tracking-widest italic">Caricamento...</div>
+                    <div id="counter" class="text-[10px] text-slate-500 font-bold uppercase tracking-widest font-mono-data">System Ready</div>
                 </div>
             </div>
 
             <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
         </div>
 
-        <div id="generatorContainer" class="hidden">
-            <div class="glass-card p-10 rounded-[3rem] shadow-2xl">
-                <h2 class="text-3xl font-black text-yellow-500 uppercase mb-8 italic">Incontro Casuale</h2>
+        <div id="generatorContainer" class="hidden animate-pop">
+            <div class="glass-card p-10 rounded-[3rem] shadow-2xl text-center">
+                <h2 class="text-3xl font-black text-yellow-500 uppercase mb-4 italic">Incontro Casuale</h2>
+                <p class="text-slate-400 text-xs mb-10 uppercase tracking-widest">Seleziona il rango di sfida per l'allenatore</p>
                 <div id="genButtons" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10"></div>
                 <div id="genOutput" class="flex justify-center min-h-[400px]"></div>
             </div>
@@ -90,144 +103,196 @@
     </div>
 
     <script>
+        // --- DATABASE STATE ---
         let db = { pkmn: [], tech: [], abil: [], max: [], zmove: [] };
         let currentSub = 'pkmn';
         const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
+        const REGIONI = { 1:"Kanto", 2:"Johto", 3:"Hoenn", 4:"Sinnoh", 5:"Unima", 6:"Kalos", 7:"Alola", 8:"Galar", 9:"Paldea" };
 
-        async function loadData() {
-            const v = Date.now();
+        // --- CORE FUNCTIONS ---
+        async function init() {
+            const v = Date.now(); // Cache busting
             try {
-                const fetchJ = (f) => fetch(`${f}?v=${v}`).then(r => r.json()).catch(() => []);
-                db.pkmn = await fetchJ('pokemon.json');
-                db.tech = await fetchJ('tecniche.json');
-                db.abil = await fetchJ('abilita.json');
-                db.max = (await fetchJ('max_moves.json')).map(m => ({...m, _origin: 'max'}));
-                db.zmove = (await fetchJ('mosse_z.json')).map(m => ({...m, _origin: 'z'}));
+                const loader = (file) => fetch(`${file}?v=${v}`).then(r => r.json()).catch(() => []);
                 
-                document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
-                    `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-[10px] border border-slate-700 transition-all">${r}</button>`
-                ).join('');
+                [db.pkmn, db.tech, db.abil, db.max, db.zmove] = await Promise.all([
+                    loader('pokemon.json'),
+                    loader('tecniche.json'),
+                    loader('abilita.json'),
+                    loader('max_moves.json'),
+                    loader('mosse_z.json')
+                ]);
+
+                // Aggiungiamo metadati alle mosse speciali
+                db.max = db.max.map(m => ({...m, _origin: 'max'}));
+                db.zmove = db.zmove.map(m => ({...m, _origin: 'z'}));
+
+                setupGenerator();
                 runSearch();
-            } catch (e) { console.error(e); }
+            } catch (e) {
+                document.getElementById('counter').innerText = "ERRORE CARICAMENTO";
+            }
         }
 
+        function setupGenerator() {
+            document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
+                `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-[10px] border border-slate-700 transition-all font-mono-data">${r}</button>`
+            ).join('');
+        }
+
+        // --- NAVIGATION ---
         function switchMacro(m) {
-            document.getElementById('pokedexContainer').style.display = m === 'dex' ? 'block' : 'none';
-            document.getElementById('generatorContainer').style.display = m === 'gen' ? 'block' : 'none';
-            document.getElementById('macroDex').className = m === 'dex' ? 'macro-active px-8 py-4 rounded-2xl font-black uppercase text-xs' : 'macro-inactive px-8 py-4 rounded-2xl font-black uppercase text-xs';
-            document.getElementById('macroGen').className = m === 'gen' ? 'macro-active px-8 py-4 rounded-2xl font-black uppercase text-xs' : 'macro-inactive px-8 py-4 rounded-2xl font-black uppercase text-xs';
+            document.getElementById('pokedexContainer').classList.toggle('hidden', m !== 'dex');
+            document.getElementById('generatorContainer').classList.toggle('hidden', m !== 'gen');
+            document.getElementById('macroDex').className = m === 'dex' ? 'macro-active px-10 py-4 rounded-2xl font-black uppercase text-xs' : 'macro-inactive px-10 py-4 rounded-2xl font-black uppercase text-xs';
+            document.getElementById('macroGen').className = m === 'gen' ? 'macro-active px-10 py-4 rounded-2xl font-black uppercase text-xs' : 'macro-inactive px-10 py-4 rounded-2xl font-black uppercase text-xs';
         }
 
         function switchSub(s) {
             currentSub = s;
             document.querySelectorAll('button[id^="sub"]').forEach(b => {
-                b.className = b.id.toLowerCase() === 'sub'+s.toLowerCase() ? 'sub-active' : 'sub-inactive';
+                b.classList.toggle('sub-active', b.id.toLowerCase() === 'sub'+s.toLowerCase());
+                b.classList.toggle('text-slate-500', b.id.toLowerCase() !== 'sub'+s.toLowerCase());
             });
             runSearch();
         }
 
+        // --- SEARCH & FILTER ---
         function runSearch() {
-            const query = document.getElementById('mainSearch').value.toLowerCase();
-            const selRank = document.getElementById('visualRank').value;
-            let source = (currentSub === 'special') ? [...db.zmove, ...db.max] : db[currentSub] || [];
+            const q = document.getElementById('mainSearch').value.toLowerCase();
+            const rank = document.getElementById('visualRank').value;
+            let data = (currentSub === 'special') ? [...db.zmove, ...db.max] : db[currentSub] || [];
 
-            const filtered = source.filter(i => JSON.stringify(i).toLowerCase().includes(query));
-            document.getElementById('counter').innerText = `Trovati: ${filtered.length}`;
-            
+            const filtered = data.filter(i => {
+                const reg = REGIONI[i.generazione] || i.regione || "";
+                return JSON.stringify(i).toLowerCase().includes(q) || reg.toLowerCase().includes(q);
+            });
+
+            document.getElementById('counter').innerText = `${filtered.length} RISULTATI`;
             document.getElementById('results').innerHTML = filtered.map(item => {
-                if(currentSub === 'pkmn') return createPkmnCard(item, selRank);
-                return renderStandardCard(item);
+                if(currentSub === 'pkmn') return createPkmnCard(item, rank);
+                return createStandardCard(item);
             }).join('');
         }
 
-        function createPkmnCard(p, rank) {
-            const rIdx = RANGHI.indexOf(rank);
+        // --- RENDER CARD POKEMON ---
+        function createPkmnCard(p, userRank) {
+            const rIdx = RANGHI.indexOf(userRank);
             const abils = p.abilita || p.Abilità || [];
             const techs = p.tecniche || p.Tecniche || [];
             const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
-            
+            const regione = p.regione || REGIONI[p.generazione] || "Sconosciuta";
+
             return `
-                <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl animate-pop text-left">
-                    <div class="bg-slate-800/40 p-6 flex justify-between items-start border-b border-slate-700/50">
-                        <div>
-                            <span class="text-[9px] font-black text-yellow-500 uppercase tracking-tighter">#${p.pokedex_id || '??'} - GEN ${p.generazione || '?'}</span>
-                            <h2 class="text-3xl font-black text-white uppercase leading-none mt-1">${p.nome}</h2>
-                            <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-bold px-2 py-0.5 rounded border uppercase">${t}</span>`).join('')}</div>
+            <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl animate-pop text-left">
+                <div class="bg-slate-800/40 p-6 flex justify-between items-start border-b border-slate-700/50">
+                    <div>
+                        <span class="text-[9px] font-black text-yellow-500 uppercase tracking-widest font-mono-data">REGIONE ${regione}</span>
+                        <h2 class="text-3xl font-black text-white uppercase leading-none mt-1">${p.nome}</h2>
+                        <div class="flex gap-1 mt-3">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-bold px-2 py-1 rounded border uppercase">${t}</span>`).join('')}</div>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[75px]">
+                        <span class="text-[8px] text-red-500 font-black block uppercase mb-1">HP MAX</span>
+                        <span class="text-2xl font-black text-white font-mono-data">${p.vitalita_max?.hp || p.vitalita || 0}</span>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex gap-4 mb-6 items-center">
+                        <div class="w-20 h-20 bg-slate-950 rounded-2xl p-2 border border-slate-800 flex items-center justify-center">
+                            <img src="${p.immagine}" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/80?text=?'">
                         </div>
-                        <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[70px]">
-                            <span class="text-[8px] text-red-500 font-black block uppercase mb-1">Vitalità</span>
-                            <span class="text-2xl font-black text-white">${p.vitalita_max?.hp || p.vitalita || 0}</span>
+                        <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/50 p-3 rounded-xl border-l-2 border-yellow-600">
+                            "${p.descrizione || 'Nessuna voce nel database.'}"
                         </div>
                     </div>
-                    <div class="p-6">
-                        <div class="flex gap-4 mb-6 items-center">
-                            <img src="${p.immagine}" class="w-16 h-16 object-contain" onerror="this.src='https://via.placeholder.com/64'">
-                            <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/50 p-3 rounded-xl border-l-2 border-yellow-500">"${p.descrizione || p.attributi || ''}"</div>
+
+                    <div class="mb-6">
+                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-2 tracking-[0.2em] px-1">Abilità Attive</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${abils.map(a => `<span class="bg-emerald-950/30 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase font-mono-data">${a}</span>`).join('') || '---'}
                         </div>
-                        <div class="mb-6">
-                            <h4 class="text-[8px] text-slate-600 font-black uppercase mb-2 tracking-widest px-1">Abilità</h4>
-                            <div class="flex flex-wrap gap-2 px-1">
-                                ${abils.map(a => `<span class="bg-emerald-950/30 text-emerald-400 border border-emerald-900/50 px-2 py-1 rounded text-[9px] font-black uppercase">${a}</span>`).join('') || '---'}
+                    </div>
+
+                    <div class="grid grid-cols-5 gap-1.5 mb-6 text-center">
+                        ${Object.entries(p.attributi || {}).map(([k,v]) => `
+                            <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                                <span class="text-[7px] uppercase text-slate-600 block font-bold">${k.slice(0,3)}</span>
+                                <span class="text-xs font-black text-yellow-500 font-mono-data">${v.base || v}</span>
                             </div>
-                        </div>
-                        <div class="grid grid-cols-5 gap-1 mb-6 text-center">
-                            ${Object.entries(p.attributi || {}).map(([k,v]) => `<div class="bg-slate-950 p-2 rounded-xl border border-slate-800"><span class="text-[7px] uppercase text-slate-600 block font-bold">${k.slice(0,3)}</span><span class="text-xs font-black text-yellow-500">${v.base || v}</span></div>`).join('')}
-                        </div>
-                        <div class="space-y-1">
-                            ${techs.map(m => {
-                                const lock = RANGHI.indexOf(m.rango) > rIdx;
-                                return `<div class="flex justify-between p-2 rounded-lg text-[9px] font-bold ${lock ? 'opacity-20 bg-slate-950' : 'bg-slate-800 text-yellow-500 border-l-2 border-yellow-600'}">
-                                    <span>${m.nome}</span><span class="uppercase opacity-60">${m.rango}</span>
-                                </div>`;
-                            }).join('')}
-                        </div>
+                        `).join('')}
                     </div>
-                </div>`;
+
+                    <div class="space-y-1">
+                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-2 tracking-[0.2em] px-1">Set Mosse Suggerito</h4>
+                        ${techs.map(m => {
+                            const isLocked = RANGHI.indexOf(m.rango) > rIdx;
+                            return `
+                            <div class="flex justify-between items-center p-2.5 rounded-xl text-[10px] font-bold font-mono-data transition-all ${isLocked ? 'opacity-20 bg-slate-950 grayscale' : 'bg-slate-800/50 text-white border-l-4 border-yellow-600'}">
+                                <span>${m.nome}</span>
+                                <span class="text-[8px] uppercase px-2 py-0.5 bg-black/30 rounded text-slate-400">${m.rango}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>`;
         }
 
-        function renderStandardCard(item) {
+        // --- RENDER CARD TECNICHE / ABILITA ---
+        function createStandardCard(item) {
             const isAbil = currentSub === 'abil';
             const typeStr = item.tipo || 'Normale';
             const typeClass = `type-${typeStr.toLowerCase()}`;
             
-            const badgeSpecial = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">MOSSA Z</span>` : 
-                          item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">G-MAX</span>` : "";
+            // Badge per mosse speciali
+            const badge = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-1 rounded mr-2 uppercase">MOSSA Z</span>` : 
+                          item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-2 py-1 rounded mr-2 uppercase">G-MAX</span>` : "";
             
+            const eff = item.effetti_aggiuntivi || item.effetto || "Dettagli non disponibili.";
             const desc = item.descrizione || item.Descrizione || "";
-            const eff = item.effetti_aggiuntivi || item.effetto || "";
-            
-            // Stats (solo per mosse)
-            const stats = (item.accuratezza || item.pool_danno) ? `
-                <div class="grid grid-cols-2 gap-2 mt-4">
-                    <div class="bg-slate-950 p-2 rounded-lg border border-white/5"><span class="text-[8px] block text-slate-500 uppercase font-bold">Accuratezza</span><span class="text-xs font-bold text-white">${item.accuratezza || '--'}</span></div>
-                    <div class="bg-slate-950 p-2 rounded-lg border border-white/5"><span class="text-[8px] block text-slate-500 uppercase font-bold">Danno</span><span class="text-xs font-bold text-red-400">${item.pool_danno || '--'}</span></div>
-                </div>` : "";
 
             return `
-                <div class="bg-slate-900 p-8 rounded-[2.5rem] border-l-8 animate-pop text-left shadow-xl h-full flex flex-col ${isAbil ? 'border-emerald-500' : typeClass}">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-2xl font-black ${isAbil ? 'text-emerald-400' : 'text-white'} uppercase">${badgeSpecial}${item.nome}</h3>
-                        ${!isAbil ? `<span class="${typeClass} text-[8px] px-3 py-1 rounded border border-white/20 font-black uppercase tracking-widest shadow-lg">${typeStr}</span>` : ""}
+            <div class="bg-slate-900 p-8 rounded-[2.5rem] border-l-[10px] animate-pop shadow-xl flex flex-col h-full ${isAbil ? 'border-emerald-500' : typeClass}">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        ${badge}
+                        <h3 class="text-2xl font-black ${isAbil ? 'text-emerald-400' : 'text-white'} uppercase tracking-tighter">${item.nome}</h3>
                     </div>
-                    <div class="flex-grow">
-                        ${desc ? `<p class="text-[11px] text-slate-500 italic mb-4">"${desc}"</p>` : ""}
-                        <div class="p-5 bg-black/30 rounded-2xl border border-white/5 text-[13px] text-slate-200 leading-relaxed">
-                            <b class="text-yellow-600 uppercase text-[9px] block mb-1">Effetto:</b>
-                            ${eff}
-                        </div>
+                    ${!isAbil ? `<span class="${typeClass} text-[9px] px-4 py-1.5 rounded-full border border-white/20 font-black uppercase tracking-widest shadow-xl">${typeStr}</span>` : ""}
+                </div>
+
+                <div class="flex-grow">
+                    ${desc ? `<p class="text-xs text-slate-500 italic mb-4 leading-relaxed">"${desc}"</p>` : ""}
+                    <div class="p-5 bg-black/40 rounded-3xl border border-white/5 text-[14px] text-slate-200 leading-relaxed shadow-inner">
+                        <b class="text-yellow-600 uppercase text-[9px] block mb-2 font-mono-data tracking-widest">Effetto Meccanico</b>
+                        ${eff}
                     </div>
-                    ${stats}
-                </div>`;
+                </div>
+
+                ${(item.accuratezza || item.pool_danno) ? `
+                <div class="grid grid-cols-2 gap-3 mt-6 font-mono-data">
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-white/5 shadow-lg">
+                        <span class="text-[8px] block text-slate-500 uppercase font-bold mb-1">Accuratezza</span>
+                        <span class="text-xs font-bold text-white">${item.accuratezza}</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-white/5 shadow-lg">
+                        <span class="text-[8px] block text-slate-500 uppercase font-bold mb-1">Pool Danno</span>
+                        <span class="text-xs font-bold text-red-400">${item.pool_danno}</span>
+                    </div>
+                </div>` : ""}
+            </div>`;
         }
 
+        // --- GENERATOR LOGIC ---
         function generateRandom(r) {
             const p = db.pkmn.filter(i => (i.rango_suggerito || i.rango || '').toLowerCase() === r.toLowerCase());
-            if(!p.length) return alert("Nessun Pokémon trovato!");
-            const lucky = p[Math.floor(Math.random()*p.length)];
-            document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-sm mt-8 animate-pop">${createPkmnCard(lucky, r)}</div>`;
+            if(!p.length) return alert("Nessun dato per questo rango!");
+            const lucky = p[Math.floor(Math.random() * p.length)];
+            document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-md mt-8 animate-pop">${createPkmnCard(lucky, r)}</div>`;
         }
 
-        window.onload = loadData;
+        // Inizio caricamento
+        window.onload = init;
     </script>
 </body>
 </html>
