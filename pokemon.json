@@ -2,6 +2,7 @@
   {
     "nome": "Bulbasaur",
     "pokedex_id": "001",
+    "regione": "Kanto",
     "peso": "7 kg",
     "altezza": "0.7 m",
     "immagine": "./img/Bulbasaur.png",
@@ -44,6 +45,7 @@
   {
     "nome": "Ivysaur",
     "pokedex_id": "002",
+    "regione": "Kanto",
     "peso": "25 kg",
     "altezza": "1 m",
     "immagine": "./img/Ivysaur.png",
@@ -86,6 +88,7 @@
   {
     "nome": "Venusaur",
     "pokedex_id": "003",
+    "regione": "Kanto",
     "peso": "200 kg",
     "altezza": "2 m",
     "immagine": "./img/Venusaur.png",
@@ -130,6 +133,7 @@
   {
     "nome": "Mega Venusaur",
     "pokedex_id": "003.1",
+    "regione": "Kanto",
     "peso": "300 kg",
     "altezza": "2.4 m",
     "immagine": "./img/MegaVenusaur.png",
@@ -174,6 +178,7 @@
   {
     "nome": "Charmander",
     "pokedex_id": "004",
+    "regione": "Kanto",
     "peso": "8 kg",
     "altezza": "0.6 m",
     "immagine": "./img/Charmander.png",
@@ -214,6 +219,7 @@
   {
     "nome": "Charmeleon",
     "pokedex_id": "005",
+    "regione": "Kanto",
     "peso": "20 kg",
     "altezza": "1.1 m",
     "immagine": "./img/Charmeleon.png",
@@ -254,6 +260,7 @@
   {
     "nome": "Charizard",
     "pokedex_id": "006",
+    "regione": "Kanto",
     "peso": "100 kg",
     "altezza": "1.7 m",
     "immagine": "./img/Charizard.png",
@@ -300,6 +307,7 @@
   {
     "nome": "Mega Charizard Y",
     "pokedex_id": "006.1",
+    "regione": "Kanto",
     "peso": "100 kg",
     "altezza": "1.7 m",
     "immagine": "./img/MegaCharizardY.png",
@@ -346,6 +354,7 @@
   {
     "nome": "Mega Charizard X",
     "pokedex_id": "006.2",
+    "regione": "Kanto",
     "peso": "100 kg",
     "altezza": "1.7 m",
     "immagine": "./img/MegaCharizardX.png",
@@ -392,6 +401,7 @@
   {
     "nome": "Squirtle",
     "pokedex_id": "007",
+    "regione": "Kanto",
     "peso": "9 kg",
     "altezza": "0.5 m",
     "immagine": "./img/Squirtle.png",
@@ -434,6 +444,7 @@
   {
     "nome": "Wartortle",
     "pokedex_id": "008",
+    "regione": "Kanto",
     "peso": "23 kg",
     "altezza": "1 m",
     "immagine": "./img/Wartortle.png",
@@ -476,6 +487,7 @@
   {
     "nome": "Blastoise",
     "pokedex_id": "009",
+    "regione": "Kanto",
     "peso": "170 kg",
     "altezza": "1.6 m",
     "immagine": "./img/Blastoise.png",
@@ -519,6 +531,7 @@
   {
     "nome": "Mega Blastoise",
     "pokedex_id": "009.1",
+    "regione": "Kanto",
     "peso": "200 kg",
     "altezza": "1.6 m",
     "immagine": "./img/MegaBlastoise.png",
@@ -562,6 +575,7 @@
 {
     "nome": "Caterpie",
     "pokedex_id": "010",
+    "regione": "Kanto",
     "peso": "3 kg",
     "altezza": "0.3 m",
     "immagine": "./img/Caterpie.png",
@@ -591,6 +605,7 @@
   {
     "nome": "Metapod",
     "pokedex_id": "011",
+    "regione": "Kanto",
     "peso": "10 kg",
     "altezza": "0.7 m",
     "immagine": "./img/Metapod.png",
@@ -619,6 +634,7 @@
   {
     "nome": "Butterfree",
     "pokedex_id": "012",
+    "regione": "Kanto",
     "peso": "32 kg",
     "altezza": "1.1 m",
     "immagine": "./img/Butterfree.png",
@@ -663,6 +679,7 @@
   {
     "nome": "Weedle",
     "pokedex_id": "013",
+    "regione": "Kanto",
     "peso": "3 kg",
     "altezza": "0.3 m",
     "immagine": "./img/Weedle.png",
@@ -692,6 +709,7 @@
   {
     "nome": "Kakuna",
     "pokedex_id": "014",
+    "regione": "Kanto",
     "peso": "10 kg",
     "altezza": "0.6 m",
     "immagine": "./img/Kakuna.png",
@@ -720,6 +738,7 @@
   {
     "nome": "Beedrill",
     "pokedex_id": "015",
+    "regione": "Kanto",
     "peso": "30 kg",
     "altezza": "1 m",
     "immagine": "./img/Beedrill.png",
@@ -761,6 +780,7 @@
   {
     "nome": "Mega Beedrill",
     "pokedex_id": "015.1",
+    "regione": "Kanto",
     "peso": "40 kg",
     "altezza": "1.4 m",
     "immagine": "./img/Beedrill_Mega.png",
@@ -802,6 +822,7 @@
     {
     "nome": "Eevee",
     "pokedex_id": "133",
+    "regione": "Kanto",
     "peso": "6.5 kg",
     "altezza": "0.3 m",
     "immagine": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png",
@@ -830,4 +851,3 @@
     ]
   }
 ]
-
