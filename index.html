@@ -9,25 +9,25 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; scroll-behavior: smooth; }
         
-        /* Palette Tipi */
-        .type-fuoco { background-color: #ef4444; border-color: #f87171; }
-        .type-acqua { background-color: #3b82f6; border-color: #60a5fa; }
-        .type-erba { background-color: #22c55e; border-color: #4ade80; }
-        .type-elettro { background-color: #eab308; border-color: #facc15; }
-        .type-ghiaccio { background-color: #06b6d4; border-color: #22d3ee; }
-        .type-lotta { background-color: #991b1b; border-color: #b91c1c; }
-        .type-veleno { background-color: #a855f7; border-color: #c084fc; }
-        .type-terra { background-color: #b45309; border-color: #d97706; }
-        .type-volante { background-color: #818cf8; border-color: #a5b4fc; }
-        .type-psico { background-color: #db2777; border-color: #f472b6; }
-        .type-coleottero { background-color: #84cc16; border-color: #a3e635; }
-        .type-roccia { background-color: #78350f; border-color: #92400e; }
-        .type-spettro { background-color: #6366f1; border-color: #818cf8; }
-        .type-drago { background-color: #4f46e5; border-color: #6366f1; }
-        .type-buio { background-color: #1e293b; border-color: #334155; }
-        .type-acciaio { background-color: #64748b; border-color: #94a3b8; }
-        .type-folletto { background-color: #f472b6; border-color: #f9a8d4; }
-        .type-normale { background-color: #6b7280; border-color: #9ca3af; }
+        /* Palette Tipi Pokerole */
+        .type-fuoco { background-color: #ef4444; border-color: #f87171; color: white; }
+        .type-acqua { background-color: #3b82f6; border-color: #60a5fa; color: white; }
+        .type-erba { background-color: #22c55e; border-color: #4ade80; color: white; }
+        .type-elettro { background-color: #eab308; border-color: #facc15; color: #020617; }
+        .type-ghiaccio { background-color: #06b6d4; border-color: #22d3ee; color: white; }
+        .type-lotta { background-color: #991b1b; border-color: #b91c1c; color: white; }
+        .type-veleno { background-color: #a855f7; border-color: #c084fc; color: white; }
+        .type-terra { background-color: #b45309; border-color: #d97706; color: white; }
+        .type-volante { background-color: #818cf8; border-color: #a5b4fc; color: white; }
+        .type-psico { background-color: #db2777; border-color: #f472b6; color: white; }
+        .type-coleottero { background-color: #84cc16; border-color: #a3e635; color: white; }
+        .type-roccia { background-color: #78350f; border-color: #92400e; color: white; }
+        .type-spettro { background-color: #6366f1; border-color: #818cf8; color: white; }
+        .type-drago { background-color: #4f46e5; border-color: #6366f1; color: white; }
+        .type-buio { background-color: #1e293b; border-color: #334155; color: white; }
+        .type-acciaio { background-color: #64748b; border-color: #94a3b8; color: white; }
+        .type-folletto { background-color: #f472b6; border-color: #f9a8d4; color: white; }
+        .type-normale { background-color: #6b7280; border-color: #9ca3af; color: white; }
 
         .macro-active { background-color: #ca8a04; color: #020617; box-shadow: 0 0 20px rgba(202, 138, 4, 0.3); transform: scale(1.05); }
         .macro-inactive { background-color: #0f172a; color: #475569; border: 1px solid #1e293b; }
@@ -36,6 +36,7 @@
         .glass-card { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(51, 65, 85, 0.4); }
         .badge-z { background: linear-gradient(45deg, #f59e0b, #d97706); color: #000; }
         .badge-max { background: linear-gradient(45deg, #db2777, #9d174d); color: #fff; }
+        
         .animate-pop { animation: popIn 0.2s ease-out forwards; }
         @keyframes popIn { from { opacity: 0; transform: scale(0.98) translateY(5px); } to { opacity: 1; transform: scale(1) translateY(0); } }
     </style>
@@ -44,8 +45,8 @@
 
     <div class="max-w-6xl mx-auto p-4 text-center">
         <header class="py-10 flex flex-col items-center">
-            <h1 class="text-5xl font-black italic tracking-tighter"><span class="text-yellow-500">POKEROLE</span> PRODEX</h1>
-            <p class="text-[9px] text-slate-500 font-black tracking-[0.5em] uppercase mt-2">Master System 2026</p>
+            <h1 class="text-5xl font-black italic tracking-tighter uppercase"><span class="text-yellow-500">POKEROLE</span> PRODEX</h1>
+            <p class="text-[9px] text-slate-500 font-black tracking-[0.5em] uppercase mt-2">Master Database System • 2026</p>
         </header>
 
         <nav class="flex gap-4 mb-8 justify-center">
@@ -72,7 +73,7 @@
                         <option value="Pro">Rango: Pro</option>
                         <option value="Master">Rango: Master</option>
                     </select>
-                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Caricamento...</div>
+                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase tracking-widest italic">Caricamento...</div>
                 </div>
             </div>
 
@@ -96,17 +97,18 @@
         async function loadData() {
             const v = Date.now();
             try {
-                db.pkmn = await fetch(`pokemon.json?v=${v}`).then(res => res.json());
-                db.tech = await fetch(`tecniche.json?v=${v}`).then(res => res.json());
-                db.abil = await fetch(`abilita.json?v=${v}`).then(res => res.json());
-                db.max = (await fetch(`max_moves.json?v=${v}`).then(res => res.json()).catch(() => [])).map(m => ({...m, _origin: 'max'}));
-                db.zmove = (await fetch(`mosse_z.json?v=${v}`).then(res => res.json()).catch(() => [])).map(m => ({...m, _origin: 'z'}));
+                const fetchJ = (f) => fetch(`${f}?v=${v}`).then(r => r.json()).catch(() => []);
+                db.pkmn = await fetchJ('pokemon.json');
+                db.tech = await fetchJ('tecniche.json');
+                db.abil = await fetchJ('abilita.json');
+                db.max = (await fetchJ('max_moves.json')).map(m => ({...m, _origin: 'max'}));
+                db.zmove = (await fetchJ('mosse_z.json')).map(m => ({...m, _origin: 'z'}));
                 
                 document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
                     `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-[10px] border border-slate-700 transition-all">${r}</button>`
                 ).join('');
                 runSearch();
-            } catch (e) { console.error("Errore caricamento dati:", e); }
+            } catch (e) { console.error(e); }
         }
 
         function switchMacro(m) {
@@ -134,7 +136,7 @@
             
             document.getElementById('results').innerHTML = filtered.map(item => {
                 if(currentSub === 'pkmn') return createPkmnCard(item, selRank);
-                return renderCard(item);
+                return renderStandardCard(item);
             }).join('');
         }
 
@@ -150,7 +152,7 @@
                         <div>
                             <span class="text-[9px] font-black text-yellow-500 uppercase tracking-tighter">#${p.pokedex_id || '??'} - GEN ${p.generazione || '?'}</span>
                             <h2 class="text-3xl font-black text-white uppercase leading-none mt-1">${p.nome}</h2>
-                            <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-bold px-2 py-0.5 rounded border uppercase text-white">${t}</span>`).join('')}</div>
+                            <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-bold px-2 py-0.5 rounded border uppercase">${t}</span>`).join('')}</div>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[70px]">
                             <span class="text-[8px] text-red-500 font-black block uppercase mb-1">Vitalità</span>
@@ -183,29 +185,34 @@
                 </div>`;
         }
 
-        function renderCard(item) {
+        function renderStandardCard(item) {
             const isAbil = currentSub === 'abil';
-            const type = item.tipo?.toLowerCase() || 'normale';
-            const badge = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">MOSSA Z</span>` : 
+            const typeStr = item.tipo || 'Normale';
+            const typeClass = `type-${typeStr.toLowerCase()}`;
+            
+            const badgeSpecial = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">MOSSA Z</span>` : 
                           item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">G-MAX</span>` : "";
             
             const desc = item.descrizione || item.Descrizione || "";
             const eff = item.effetti_aggiuntivi || item.effetto || "";
+            
+            // Stats (solo per mosse)
             const stats = (item.accuratezza || item.pool_danno) ? `
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                    <div class="bg-slate-950 p-2 rounded-lg"><span class="text-[8px] block text-slate-500 uppercase">Accur.</span><span class="text-xs font-bold text-white">${item.accuratezza || '--'}</span></div>
-                    <div class="bg-slate-950 p-2 rounded-lg"><span class="text-[8px] block text-slate-500 uppercase">Danno</span><span class="text-xs font-bold text-red-400">${item.pool_danno || '--'}</span></div>
+                <div class="grid grid-cols-2 gap-2 mt-4">
+                    <div class="bg-slate-950 p-2 rounded-lg border border-white/5"><span class="text-[8px] block text-slate-500 uppercase font-bold">Accuratezza</span><span class="text-xs font-bold text-white">${item.accuratezza || '--'}</span></div>
+                    <div class="bg-slate-950 p-2 rounded-lg border border-white/5"><span class="text-[8px] block text-slate-500 uppercase font-bold">Danno</span><span class="text-xs font-bold text-red-400">${item.pool_danno || '--'}</span></div>
                 </div>` : "";
 
             return `
-                <div class="bg-slate-900 p-8 rounded-[2.5rem] border-l-8 animate-pop text-left shadow-xl h-full flex flex-col ${isAbil ? 'border-emerald-500' : 'type-'+type}">
+                <div class="bg-slate-900 p-8 rounded-[2.5rem] border-l-8 animate-pop text-left shadow-xl h-full flex flex-col ${isAbil ? 'border-emerald-500' : typeClass}">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="text-2xl font-black ${isAbil ? 'text-emerald-400' : 'text-white'} uppercase">${badge}${item.nome}</h3>
-                        ${item.tipo ? `<span class="text-[8px] bg-white/10 px-2 py-1 rounded border border-white/10 text-white font-black uppercase">${item.tipo}</span>` : ""}
+                        <h3 class="text-2xl font-black ${isAbil ? 'text-emerald-400' : 'text-white'} uppercase">${badgeSpecial}${item.nome}</h3>
+                        ${!isAbil ? `<span class="${typeClass} text-[8px] px-3 py-1 rounded border border-white/20 font-black uppercase tracking-widest shadow-lg">${typeStr}</span>` : ""}
                     </div>
                     <div class="flex-grow">
-                        ${desc ? `<p class="text-xs text-slate-500 italic mb-4">"${desc}"</p>` : ""}
-                        <div class="p-4 bg-black/20 rounded-2xl border border-white/5 text-[13px] text-slate-200 leading-relaxed">
+                        ${desc ? `<p class="text-[11px] text-slate-500 italic mb-4">"${desc}"</p>` : ""}
+                        <div class="p-5 bg-black/30 rounded-2xl border border-white/5 text-[13px] text-slate-200 leading-relaxed">
+                            <b class="text-yellow-600 uppercase text-[9px] block mb-1">Effetto:</b>
                             ${eff}
                         </div>
                     </div>
@@ -214,8 +221,8 @@
         }
 
         function generateRandom(r) {
-            const p = db.pkmn.filter(i => i.rango_suggerito?.toLowerCase() === r.toLowerCase());
-            if(!p.length) return alert("Nessun Pokémon!");
+            const p = db.pkmn.filter(i => (i.rango_suggerito || i.rango || '').toLowerCase() === r.toLowerCase());
+            if(!p.length) return alert("Nessun Pokémon trovato!");
             const lucky = p[Math.floor(Math.random()*p.length)];
             document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-sm mt-8 animate-pop">${createPkmnCard(lucky, r)}</div>`;
         }
