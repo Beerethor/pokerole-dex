@@ -888,5 +888,356 @@
     "effetti_aggiuntivi": "Tira 2 dadi per far tentennare il bersaglio. Infligge danno raddoppiato a chi è in volo.",
     "descrizione": "Un turbine d'aria che intrappola e scuote il nemico.",
     "parole_chiave": []
+  },
+      {
+    "nome": "Ruota d'Aura",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Aumenta la Velocità dell'utilizzatore di 1 grado. Il tipo della mossa cambia se l'utilizzatore cambia forma. Se è nella forma affamata diventa di tipo buio.",
+    "descrizione": "Il Pokémon corre in una ruota di energia. Il tipo dipende dalla fame di Morpeko.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Beccoshock",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Se l'utilizzatore attacca prima del bersaglio, il danno viene aumentato di due dadi.",
+    "descrizione": "Un attacco di becco elettrificato che infligge danni devastanti se sferrato in anticipo.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Lucesiluro",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 6",
+    "effetti_aggiuntivi": "Tira due dadi per paralizzare il nemico.",
+    "descrizione": "Una gigantesca sfera elettrica che colpisce con una forza leggendaria.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Elettrozap",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Paralizza sempre il bersaglio se il colpo va a segno. Se l'utilizzatore è nella fase finale della sua evoluzione la mossa fallisce automaticamente.",
+    "descrizione": "L'utilizzatore emette un'onda elettrica costante che blocca i muscoli del nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Sottocarica",
+    "tipo": "Elettro",
+    "categoria": "Supporto",
+    "accuratezza": "Nessuna",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta la Difesa Speciale di 1 grado. La prossima mossa Elettro infliggerà due dadi aggiuntivi alla pool del danno.",
+    "descrizione": "Il Pokémon accumula energia elettrica per potenziarsi e preparare un colpo micidiale.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Raggioscossa",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira 5 dadi per aumentare la statistica speciale dell'utilizzatore di 1 grado.",
+    "descrizione": "Un raggio elettrico che sovraccarica i poteri del Pokémon mentre colpisce.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Scarica",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Colpisce tutti i Pokémon adiacenti. Tira tre dadi per paralizzare il bersaglio.",
+    "descrizione": "Un'esplosione di elettricità che investe chiunque si trovi nelle vicinanze.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Elettromistero",
+    "tipo": "Elettro",
+    "categoria": "Supporto",
+    "accuratezza": "Intuizione + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce l'Attacco Speciale del bersaglio di 2 gradi.",
+    "descrizione": "Onde elettriche disturbano la mente del nemico, fiaccandone il potere speciale.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Campo Elettrico",
+    "tipo": "Elettro",
+    "categoria": "Supporto",
+    "accuratezza": "Intuizione + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Per 4 turni, le mosse Elettro fanno 1 dado extra di danno, tutti i pokemon con lo status sonno vengono guariti.",
+    "descrizione": "Il terreno viene pervaso da una corrente elettrica che elettrizza i combattenti.",
+    "parole_chiave": ["Campo"]
+  },
+  {
+    "nome": "Elettrocontagio",
+    "tipo": "Elettro",
+    "categoria": "Supporto",
+    "accuratezza": "Intuizione + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Cambia il tipo della mossa che il bersaglio userà in questo turno in Elettro.",
+    "descrizione": "L'utilizzatore inonda il nemico di elettricità, trasformando i suoi attacchi in scariche elettriche.",
+    "parole_chiave": ["Priorità"]
+  },
+  {
+    "nome": "Energisfera",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Aggiunge un dado extra alla pool del danno per ogni punto in più sulla destrezza in confronto al bersaglio, al massimo si possono aggiungere 4 dadi.",
+    "descrizione": "Lancia una massa elettrica la cui potenza dipende dalla rapidità del Pokémon.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Elettrotela",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Riduce la Velocità di tutti i nemici colpiti di 1 grado.Attacca tutti i bersagli nell'area.",
+    "descrizione": "Una rete elettrica che intrappola i nemici e ne rallenta i movimenti.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Incrotuono",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Canale",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Lethal. Se la mossa Incrofiamma è stata usata da chiunque in questo turno aggiungi 4 dadi alla pool del danno di questa mossa.",
+    "descrizione": "L'utilizzatore carica il nemico avvolto in un'elettricità accecante.",
+    "parole_chiave": ["Contatto"]
+  },
+ {
+    "nome": "Pioggiaplasma",
+    "tipo": "Elettro",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Per il resto della scena, tutte le mosse di tipo Normale diventano di tipo Elettro.",
+    "descrizione": "L'utilizzatore disperde particelle cariche che trasformano ogni attacco in una scarica elettrica.",
+    "parole_chiave": ["Priorità"]
+  },
+  {
+    "nome": "Magnetascesa",
+    "tipo": "Elettro",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "L'utilizzatore fluttua magneticamente diventando immune alle mosse Terra per 4 turni.",
+    "descrizione": "Sfrutta il magnetismo per sollevarsi dal suolo e schivare i terremoti.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Controllo Polare",
+    "tipo": "Elettro",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta la Difesa e la Difesa Speciale dell'utilizzatore e degli alleati di tipo elettro e acciaio di 1 grado.",
+    "descrizione": "Genera un flusso magnetico che potenzia i sistemi difensivi dei compagni compatibili.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Elettrococcola",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Paralizza sempre il bersaglio se il colpo va a segno.",
+    "descrizione": "L'utilizzatore sfrega le sue guance cariche contro il nemico, stordendolo.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Overdrive",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Performance",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Colpisce tutti i nemici adiacenti. Basata sul suono.",
+    "descrizione": "L'utilizzatore suona il proprio corpo come uno strumento, emettendo onde elettriche distruttive.",
+    "parole_chiave": ["Suono"]
+  },
+  {
+    "nome": "Caricaparabola",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto, arrotondato per difetto. Attacco ad area.",
+    "descrizione": "Scarica elettricità tutt'attorno per assorbire l'energia dei nemici colpiti.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Pika saetta",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 0",
+    "effetti_aggiuntivi": "Aggiungi un dado alla pool del danno per ogni punto di felicita' del pokemon. Se il pokemon è nella forma finale questa tecnica fallisce automaticamente.",
+    "descrizione": "Un attacco scatenato dall'amicizia profonda tra Pikachu e il suo Allenatore.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Pugni Plasma",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Dopo l'uso, tutte le mosse di tipo Normale diventano di tipo Elettro per il resto della scena. Basata sui pugni",
+    "descrizione": "Un pugno avvolto in plasma elettrico che altera l'atmosfera circostante.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Ondashock",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Questa mossa non può fallire.",
+    "descrizione": "Una scarica elettrica rapida che insegue il bersaglio ovunque provi a nascondersi.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Scintilla",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira 3 dadi per paralizzare il bersaglio.",
+    "descrizione": "Il Pokémon carica il nemico sprigionando scintille elettriche al momento dell'impatto.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Tuono",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Tira tre dadi per paralizzare il bersaglio. Se usata con tempo soleggiato riduci di 3 dadi il tiro per colpire, mentre sotto la pioggia non può fallire.",
+    "descrizione": "Un fulmine devastante cade dal cielo sul nemico. Poco preciso ma potentissimo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Tuonodenti",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira 2 dadi per far tentennare il nemico e 2 dadi per paralizzarlo.",
+    "descrizione": "Un morso caricato di elettricità che può bloccare il nemico dal dolore o dallo shock.",
+    "parole_chiave": ["Contatto", "Denti"]
+  },
+  {
+    "nome": "Tuonopugno",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Tira un dado per paralizzare l'avversario. Basata sui pugni",
+    "descrizione": "Un pugno elettrizzato che colpisce con la forza di un fulmine.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Tuonoshock",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira un dado per paralizzare il nemico.",
+    "descrizione": "Una debole scossa elettrica lanciata contro il nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Tuononda",
+    "tipo": "Elettro",
+    "categoria": "Supporto",
+    "accuratezza": "Intuizione + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Paralizza sempre il bersaglio. Non ha effetto sui tipi Terra.",
+    "descrizione": "Una debole onda elettrica che paralizza i muscoli del bersaglio.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fulmine",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Tira un dado per paralizzare il nemico.",
+    "descrizione": "Una potente scarica elettrica scagliata con precisione contro il nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Invertivolt",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Dopo aver inflitto danno, l'utilizzatore viene sostituito da un alleato.",
+    "descrizione": "Colpisce il nemico e torna indietro alla velocità della luce per cambiare Pokémon.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Locomovolt",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "L'utilizzatore subisce un danno da contraccolpo. Tira un dado per paralizzare il nemico.",
+    "descrizione": "L'utilizzatore carica a una velocità pazzesca circondato da un'aura elettrica.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Sprizzalampo",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "L'utilizzatore subisce 1 danno da contraccolpo.",
+    "descrizione": "Un attacco spericolato in cui il Pokémon si elettrizza per travolgere il nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Elettrocannone",
+    "tipo": "Elettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Se colpisce, paralizza sempre il bersaglio.",
+    "descrizione": "Spara un enorme proiettile elettrico. Difficile da mirare, ma l'impatto è totale.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Elettropizzico",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Tira 3 dadi per far tentennare il nemico.",
+    "descrizione": "Colpisce con arti carichi di elettricità statica che può scuotere il nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Sprintaboom",
+    "tipo": "Elettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Colpisce sempre per primo. Non può fallire l'accuratezza. E' sempre un colpo critico. Se l'utilizzatore è nella sua evoluzione finale la tecnica fallisce automaticamente",
+    "descrizione": "Un movimento così rapido che l'occhio umano vede solo un lampo prima del colpo.",
+    "parole_chiave": ["Contatto", "Priorità"]
   }
 ]
+
