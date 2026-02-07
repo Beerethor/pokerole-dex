@@ -9,7 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; scroll-behavior: smooth; }
         
-        /* Palette Colori Tipi Pokerole */
+        /* Palette Tipi */
         .type-fuoco { background-color: #ef4444; border-color: #f87171; }
         .type-acqua { background-color: #3b82f6; border-color: #60a5fa; }
         .type-erba { background-color: #22c55e; border-color: #4ade80; }
@@ -29,13 +29,13 @@
         .type-folletto { background-color: #f472b6; border-color: #f9a8d4; }
         .type-normale { background-color: #6b7280; border-color: #9ca3af; }
 
-        /* Stili UI */
-        .logo-text { font-size: 3.5rem; font-weight: 900; line-height: 1; letter-spacing: -0.05em; text-transform: uppercase; font-style: italic; }
         .macro-active { background-color: #ca8a04; color: #020617; box-shadow: 0 0 20px rgba(202, 138, 4, 0.3); transform: scale(1.05); }
         .macro-inactive { background-color: #0f172a; color: #475569; border: 1px solid #1e293b; }
         .sub-active { color: #ca8a04; border-bottom: 3px solid #ca8a04; padding-bottom: 4px; }
         .sub-inactive { color: #64748b; }
         .glass-card { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(51, 65, 85, 0.4); }
+        .badge-z { background: linear-gradient(45deg, #f59e0b, #d97706); color: #000; }
+        .badge-max { background: linear-gradient(45deg, #db2777, #9d174d); color: #fff; }
         .animate-pop { animation: popIn 0.2s ease-out forwards; }
         @keyframes popIn { from { opacity: 0; transform: scale(0.98) translateY(5px); } to { opacity: 1; transform: scale(1) translateY(0); } }
     </style>
@@ -43,32 +43,36 @@
 <body class="pb-20">
 
     <div class="max-w-6xl mx-auto p-4 text-center">
-        <header class="py-12 border-b border-slate-800 mb-8 flex flex-col items-center">
-            <h1 class="logo-text"><span class="text-yellow-500">POKEROLE</span> <span class="text-white">PRODEX</span></h1>
-            <p class="text-[10px] text-slate-500 font-black tracking-[0.5em] uppercase mt-4 italic">Advanced Database System</p>
+        <header class="py-10 flex flex-col items-center">
+            <h1 class="text-5xl font-black italic tracking-tighter"><span class="text-yellow-500">POKEROLE</span> PRODEX</h1>
+            <p class="text-[9px] text-slate-500 font-black tracking-[0.5em] uppercase mt-2">Master System 2026</p>
         </header>
 
-        <nav class="flex gap-4 mb-12 justify-center">
+        <nav class="flex gap-4 mb-8 justify-center">
             <button onclick="switchMacro('dex')" id="macroDex" class="macro-active px-8 py-4 rounded-2xl font-black uppercase text-xs transition-all">📜 Pokedéx</button>
             <button onclick="switchMacro('gen')" id="macroGen" class="macro-inactive px-8 py-4 rounded-2xl font-black uppercase text-xs transition-all">🎲 Generatore</button>
         </nav>
 
         <div id="pokedexContainer">
-            <div class="flex flex-wrap justify-center gap-8 mb-8 text-[11px] font-black uppercase tracking-[0.2em]">
+            <div class="flex flex-wrap justify-center gap-6 mb-8 text-[11px] font-black uppercase tracking-widest">
                 <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active">Pokémon</button>
                 <button onclick="switchSub('tech')" id="subTech" class="sub-inactive">Mosse</button>
                 <button onclick="switchSub('abil')" id="subAbil" class="sub-inactive">Abilità</button>
+                <button onclick="switchSub('special')" id="subSpecial" class="sub-inactive">Special (Z/Max)</button>
             </div>
 
             <div class="glass-card p-6 rounded-[2.5rem] mb-10 sticky top-4 z-50 shadow-2xl">
-                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca..." class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-500 outline-none">
+                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nome, tipo, effetto..." class="w-full bg-slate-950 border-none rounded-2xl p-4 text-white focus:ring-2 focus:ring-yellow-500 outline-none">
                 <div class="flex justify-between items-center mt-4 px-2">
-                    <select id="visualRank" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
+                    <select id="visualRank" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none">
                         <option value="Starter">Rango: Starter</option>
+                        <option value="Beginner">Rango: Beginner</option>
+                        <option value="Amateur">Rango: Amateur</option>
                         <option value="Ace">Rango: Ace</option>
                         <option value="Pro">Rango: Pro</option>
+                        <option value="Master">Rango: Master</option>
                     </select>
-                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase italic tracking-widest">Inizializzazione...</div>
+                    <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Caricamento...</div>
                 </div>
             </div>
 
@@ -85,102 +89,127 @@
     </div>
 
     <script>
-        let db = { pkmn: [], tech: [], abil: [] };
+        let db = { pkmn: [], tech: [], abil: [], max: [], zmove: [] };
         let currentSub = 'pkmn';
         const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
 
         async function loadData() {
+            const v = Date.now();
             try {
-                const v = Date.now();
                 db.pkmn = await fetch(`pokemon.json?v=${v}`).then(res => res.json());
                 db.tech = await fetch(`tecniche.json?v=${v}`).then(res => res.json());
                 db.abil = await fetch(`abilita.json?v=${v}`).then(res => res.json());
+                db.max = (await fetch(`max_moves.json?v=${v}`).then(res => res.json()).catch(() => [])).map(m => ({...m, _origin: 'max'}));
+                db.zmove = (await fetch(`mosse_z.json?v=${v}`).then(res => res.json()).catch(() => [])).map(m => ({...m, _origin: 'z'}));
                 
                 document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
                     `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-900 py-4 rounded-2xl font-black uppercase text-[10px] border border-slate-700 transition-all">${r}</button>`
                 ).join('');
                 runSearch();
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error("Errore caricamento dati:", e); }
         }
 
         function switchMacro(m) {
             document.getElementById('pokedexContainer').style.display = m === 'dex' ? 'block' : 'none';
             document.getElementById('generatorContainer').style.display = m === 'gen' ? 'block' : 'none';
-            document.getElementById('macroDex').className = m === 'dex' ? 'macro-active px-8 py-4 rounded-2xl font-black uppercase text-xs transition-all' : 'macro-inactive px-8 py-4 rounded-2xl font-black uppercase text-xs transition-all';
-            document.getElementById('macroGen').className = m === 'gen' ? 'macro-active px-8 py-4 rounded-2xl font-black uppercase text-xs transition-all' : 'macro-inactive px-8 py-4 rounded-2xl font-black uppercase text-xs transition-all';
+            document.getElementById('macroDex').className = m === 'dex' ? 'macro-active px-8 py-4 rounded-2xl font-black uppercase text-xs' : 'macro-inactive px-8 py-4 rounded-2xl font-black uppercase text-xs';
+            document.getElementById('macroGen').className = m === 'gen' ? 'macro-active px-8 py-4 rounded-2xl font-black uppercase text-xs' : 'macro-inactive px-8 py-4 rounded-2xl font-black uppercase text-xs';
         }
 
         function switchSub(s) {
             currentSub = s;
-            document.querySelectorAll('button[id^="sub"]').forEach(b => b.className = b.id === 'sub'+s.charAt(0).toUpperCase()+s.slice(1) ? 'sub-active' : 'sub-inactive');
+            document.querySelectorAll('button[id^="sub"]').forEach(b => {
+                b.className = b.id.toLowerCase() === 'sub'+s.toLowerCase() ? 'sub-active' : 'sub-inactive';
+            });
             runSearch();
         }
 
         function runSearch() {
-            const q = document.getElementById('mainSearch').value.toLowerCase();
-            const filtered = db[currentSub].filter(i => JSON.stringify(i).toLowerCase().includes(q));
-            document.getElementById('counter').innerText = `Risultati: ${filtered.length}`;
+            const query = document.getElementById('mainSearch').value.toLowerCase();
+            const selRank = document.getElementById('visualRank').value;
+            let source = (currentSub === 'special') ? [...db.zmove, ...db.max] : db[currentSub] || [];
+
+            const filtered = source.filter(i => JSON.stringify(i).toLowerCase().includes(query));
+            document.getElementById('counter').innerText = `Trovati: ${filtered.length}`;
+            
             document.getElementById('results').innerHTML = filtered.map(item => {
-                if(currentSub === 'pkmn') return createPkmnCard(item);
-                if(currentSub === 'tech') return createTechCard(item);
-                return createAbilCard(item);
+                if(currentSub === 'pkmn') return createPkmnCard(item, selRank);
+                return renderCard(item);
             }).join('');
         }
 
-        function createPkmnCard(p) {
+        function createPkmnCard(p, rank) {
+            const rIdx = RANGHI.indexOf(rank);
+            const abils = p.abilita || p.Abilità || [];
+            const techs = p.tecniche || p.Tecniche || [];
             const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
-            const primaryType = types[0]?.toLowerCase() || 'normale';
+            
             return `
                 <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl animate-pop text-left">
-                    <div class="p-6 bg-slate-800/40 border-b border-slate-700/50 flex justify-between items-start">
+                    <div class="bg-slate-800/40 p-6 flex justify-between items-start border-b border-slate-700/50">
                         <div>
-                            <span class="text-[9px] font-black text-yellow-500 uppercase tracking-tighter">GEN ${p.generazione || '?'}</span>
-                            <h2 class="text-3xl font-black text-white uppercase leading-none">${p.nome}</h2>
+                            <span class="text-[9px] font-black text-yellow-500 uppercase tracking-tighter">#${p.pokedex_id || '??'} - GEN ${p.generazione || '?'}</span>
+                            <h2 class="text-3xl font-black text-white uppercase leading-none mt-1">${p.nome}</h2>
                             <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-bold px-2 py-0.5 rounded border uppercase text-white">${t}</span>`).join('')}</div>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/30 text-center min-w-[70px]">
+                            <span class="text-[8px] text-red-500 font-black block uppercase mb-1">Vitalità</span>
+                            <span class="text-2xl font-black text-white">${p.vitalita_max?.hp || p.vitalita || 0}</span>
                         </div>
                     </div>
                     <div class="p-6">
-                        <div class="flex gap-4 mb-4">
+                        <div class="flex gap-4 mb-6 items-center">
                             <img src="${p.immagine}" class="w-16 h-16 object-contain" onerror="this.src='https://via.placeholder.com/64'">
-                            <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/50 p-3 rounded-xl border-l-2 border-${primaryType === 'fuoco' ? 'red' : 'blue'}-500">"${p.descrizione || ''}"</div>
+                            <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/50 p-3 rounded-xl border-l-2 border-yellow-500">"${p.descrizione || p.attributi || ''}"</div>
                         </div>
-                        <div class="grid grid-cols-5 gap-1 mb-4">
-                            ${Object.entries(p.attributi || {}).map(([k,v]) => `<div class="bg-slate-950 p-1.5 rounded-lg text-center border border-slate-800"><span class="text-[7px] block text-slate-500 uppercase">${k.slice(0,3)}</span><span class="text-xs font-black text-yellow-500">${v.base || v}</span></div>`).join('')}
+                        <div class="mb-6">
+                            <h4 class="text-[8px] text-slate-600 font-black uppercase mb-2 tracking-widest px-1">Abilità</h4>
+                            <div class="flex flex-wrap gap-2 px-1">
+                                ${abils.map(a => `<span class="bg-emerald-950/30 text-emerald-400 border border-emerald-900/50 px-2 py-1 rounded text-[9px] font-black uppercase">${a}</span>`).join('') || '---'}
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-5 gap-1 mb-6 text-center">
+                            ${Object.entries(p.attributi || {}).map(([k,v]) => `<div class="bg-slate-950 p-2 rounded-xl border border-slate-800"><span class="text-[7px] uppercase text-slate-600 block font-bold">${k.slice(0,3)}</span><span class="text-xs font-black text-yellow-500">${v.base || v}</span></div>`).join('')}
+                        </div>
+                        <div class="space-y-1">
+                            ${techs.map(m => {
+                                const lock = RANGHI.indexOf(m.rango) > rIdx;
+                                return `<div class="flex justify-between p-2 rounded-lg text-[9px] font-bold ${lock ? 'opacity-20 bg-slate-950' : 'bg-slate-800 text-yellow-500 border-l-2 border-yellow-600'}">
+                                    <span>${m.nome}</span><span class="uppercase opacity-60">${m.rango}</span>
+                                </div>`;
+                            }).join('')}
                         </div>
                     </div>
                 </div>`;
         }
 
-        function createTechCard(t) {
-            const type = t.tipo?.toLowerCase() || 'normale';
-            return `
-                <div class="bg-slate-900 p-6 rounded-[2rem] border-l-8 border-slate-800 type-${type} animate-pop text-left shadow-xl h-full flex flex-col">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-black text-white uppercase">${t.nome}</h3>
-                        <span class="text-[9px] bg-white/20 px-2 py-1 rounded-md font-black text-white uppercase">${t.tipo}</span>
-                    </div>
-                    <div class="bg-slate-950/40 p-3 rounded-xl mb-4 text-xs italic text-slate-300 border border-white/5">"${t.descrizione || ''}"</div>
-                    <div class="grid grid-cols-2 gap-2 mb-4">
-                        <div class="bg-slate-950 p-2 rounded-lg"><span class="text-[8px] block text-slate-500 uppercase">Accuratezza</span><span class="text-xs font-bold text-white">${t.accuratezza || '--'}</span></div>
-                        <div class="bg-slate-950 p-2 rounded-lg"><span class="text-[8px] block text-slate-500 uppercase">Danno</span><span class="text-xs font-bold text-red-400">${t.pool_danno || '--'}</span></div>
-                    </div>
-                    <div class="text-[12px] text-slate-200 leading-relaxed bg-black/20 p-3 rounded-lg flex-grow"><b>Effetto:</b> ${t.effetti_aggiuntivi || t.effetto}</div>
-                </div>`;
-        }
+        function renderCard(item) {
+            const isAbil = currentSub === 'abil';
+            const type = item.tipo?.toLowerCase() || 'normale';
+            const badge = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">MOSSA Z</span>` : 
+                          item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-2 py-0.5 rounded mr-2 uppercase">G-MAX</span>` : "";
+            
+            const desc = item.descrizione || item.Descrizione || "";
+            const eff = item.effetti_aggiuntivi || item.effetto || "";
+            const stats = (item.accuratezza || item.pool_danno) ? `
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <div class="bg-slate-950 p-2 rounded-lg"><span class="text-[8px] block text-slate-500 uppercase">Accur.</span><span class="text-xs font-bold text-white">${item.accuratezza || '--'}</span></div>
+                    <div class="bg-slate-950 p-2 rounded-lg"><span class="text-[8px] block text-slate-500 uppercase">Danno</span><span class="text-xs font-bold text-red-400">${item.pool_danno || '--'}</span></div>
+                </div>` : "";
 
-        function createAbilCard(a) {
             return `
-                <div class="bg-slate-900 p-8 rounded-[2.5rem] border-t-4 border-emerald-500 animate-pop text-left shadow-xl h-full flex flex-col hover:border-emerald-400 transition-all">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-2xl font-black text-emerald-400 uppercase tracking-tight">${a.nome}</h3>
-                        <div class="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]"></div>
+                <div class="bg-slate-900 p-8 rounded-[2.5rem] border-l-8 animate-pop text-left shadow-xl h-full flex flex-col ${isAbil ? 'border-emerald-500' : 'type-'+type}">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-2xl font-black ${isAbil ? 'text-emerald-400' : 'text-white'} uppercase">${badge}${item.nome}</h3>
+                        ${item.tipo ? `<span class="text-[8px] bg-white/10 px-2 py-1 rounded border border-white/10 text-white font-black uppercase">${item.tipo}</span>` : ""}
                     </div>
-                    <div class="flex-grow bg-emerald-500/5 p-4 rounded-2xl border border-emerald-500/10">
-                        <p class="text-[14px] text-slate-200 leading-relaxed font-medium">${a.effetto || a.descrizione || 'Dettaglio non disponibile.'}</p>
+                    <div class="flex-grow">
+                        ${desc ? `<p class="text-xs text-slate-500 italic mb-4">"${desc}"</p>` : ""}
+                        <div class="p-4 bg-black/20 rounded-2xl border border-white/5 text-[13px] text-slate-200 leading-relaxed">
+                            ${eff}
+                        </div>
                     </div>
-                    <div class="mt-4 flex gap-2">
-                        <span class="text-[9px] font-black text-emerald-600 uppercase tracking-widest">Abilità Passiva</span>
-                    </div>
+                    ${stats}
                 </div>`;
         }
 
@@ -188,7 +217,7 @@
             const p = db.pkmn.filter(i => i.rango_suggerito?.toLowerCase() === r.toLowerCase());
             if(!p.length) return alert("Nessun Pokémon!");
             const lucky = p[Math.floor(Math.random()*p.length)];
-            document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-sm mt-8 animate-pop">${createPkmnCard(lucky)}</div>`;
+            document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-sm mt-8 animate-pop">${createPkmnCard(lucky, r)}</div>`;
         }
 
         window.onload = loadData;
