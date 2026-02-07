@@ -1478,5 +1478,466 @@
     "effetti_aggiuntivi": "Confonde il bersaglio.",
     "descrizione": "Un bacio affettuoso che lascia il nemico in uno stato di totale confusione.",
     "parole_chiave": []
+  },
+     {
+    "nome": "Sberletese",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Colpisce 2-5 volte nello stesso turno.",
+    "descrizione": "L'utilizzatore colpisce il bersaglio con palmi aperti in rapida successione.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Sferapulsar",
+    "tipo": "Lotta",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Questa mossa non può fallire il tiro di Accuratezza.",
+    "descrizione": "L'utilizzatore scaglia una sfera di energia tratta dalla propria aura. Il colpo è infallibile.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Schiacciacorpo",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Vitalita' + 3",
+    "effetti_aggiuntivi": "Usa la statistica Vitalita' invece di Forza per determinare il Pool Danno.",
+    "descrizione": "Il Pokémon si scaglia sul nemico usando il proprio peso e la propria robustezza come arma.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Breccia",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Distrugge istantaneamente barriere come Riflesso, Schermo di Luce e Velaurora. Se l'avversario usava una barriera aggiungi 2 dadi al danno dopo averla distrutta.",
+    "descrizione": "Un colpo di taglio sferrato con grande forza, capace di frantumare le difese magiche.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Granfisico",
+    "tipo": "Lotta",
+    "categoria": "Supporto",
+    "accuratezza": "Vitalita' + Atletica",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta la Forza e la Difesa dell'utilizzatore di 1 grado.",
+    "descrizione": "Il Pokémon gonfia i muscoli e tempra il corpo per aumentare potenza e resistenza.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ribaltiro",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Sbatte via il bersaglio forzando la sua sostituzione con un altro Pokémon della squadra.",
+    "descrizione": "Una proiezione che scaraventa il nemico fuori dal combattimento.",
+    "parole_chiave": ["Contatto", "Priorità Bassa"]
+  },
+  {
+    "nome": "Zuffa",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Riduce la Difesa e la Difesa Speciale dell'utilizzatore di 1 grado dopo l'uso.",
+    "descrizione": "L'utilizzatore abbandona ogni difesa per sferrare un attacco furioso a distanza ravvicinata.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Contattacco",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Istinto + Rissa",
+    "pool_danno": "Vario",
+    "effetti_aggiuntivi": "Ignora la difesa nemica, se l'avversario ha inferto danno in questo turno si tira lo stesso pool per il danno aggiungendo due dadi.",
+    "descrizione": "L'utilizzatore incassa un colpo per poi restituirlo con forza raddoppiata.",
+    "parole_chiave": ["Contatto", "Reazione"]
+  },
+  {
+    "nome": "Incrocolpo",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico).",
+    "descrizione": "Un colpo sferrato incrociando gli arti. È difficile da eseguire ma estremamente letale.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Individua",
+    "tipo": "Lotta",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Allerta",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Protegge l'utilizzatore da tutti gli effetti degli attacchi per questo turno.",
+    "descrizione": "Il Pokémon aguzza la vista e i riflessi per schivare completamente qualsiasi minaccia.",
+    "parole_chiave": ["Priorità"]
+  },
+  {
+    "nome": "Doppiocalcio",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Colpisce 2 volte nello stesso turno.",
+    "descrizione": "Il bersaglio viene colpito da una rapida successione di due calci sferrati con entrambi i piedi.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Assorbipugno",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto.",
+    "descrizione": "Un pugno che drena l'energia del nemico per rigenerare il vigore di chi lo usa.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Dinamipugno",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Se colpisce, confonde sempre il bersaglio.",
+    "descrizione": "Un pugno sferrato con una potenza tale da stordire chiunque venga colpito.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Azzardo",
+    "tipo": "Lotta",
+    "categoria": "Speciale",
+    "accuratezza": "Volonta' + Atletica",
+    "pool_danno": "Vita rimanente del bersaglio + 4",
+    "effetti_aggiuntivi": "L'utilizzatore va KO immediatamente. Ignora la difesa del nemico.",
+    "descrizione": "Un attacco sacrificale dove il Pokémon riversa tutta la sua forza vitale nel colpo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Schiacciatuffo",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Questa mossa è considerata sia di tipo Lotta che di tipo Volante contemporaneamente.",
+    "descrizione": "L'utilizzatore balza in aria e piomba sul nemico con una mossa da lottatore professionista.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Focalcolpo",
+    "tipo": "Lotta",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Tira un dado per ridurre la Difesa Speciale del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore concentra tutta la sua forza mentale per scagliare una sfera d'energia pura.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Centripugno",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 6",
+    "effetti_aggiuntivi": "Questa mossa fallisce se l'utilizzatore subisce danni nello stesso turno prima di attaccare.",
+    "descrizione": "Un pugno caricato con una concentrazione estrema. Richiede tempo e protezione.",
+    "parole_chiave": ["Contatto", "Pugno", "Priorità Bassa"]
+  },
+  {
+    "nome": "Palmoforza",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira 3 dadi per paralizzare il bersaglio.",
+    "descrizione": "Un colpo sferrato con il palmo della mano che emette un'onda d'urto interna.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Martelpugno",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Riduce la Destrezza dell'utilizzatore di 1 grado dopo l'uso.",
+    "descrizione": "Un colpo pesante e brutale che affatica le articolazioni di chi lo esegue.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Calcinvolo",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Se la mossa fallisce, tira 5 dadi di danno e vengono subiti dall'utilizzatore.",
+    "descrizione": "Un calcio volante eseguito con una forza tale che un errore nell'impatto risulta fatale.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Calciosalto",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Se la mossa fallisce, tira 4 dadi di danno e vengono subiti dall'utilizzatore.",
+    "descrizione": "Un potente calcio sferrato spiccando un balzo. Se manca il bersaglio, l'impatto col suolo è disastroso.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Colpokarate",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico).",
+    "descrizione": "Un fendente sferrato con la mano tesa. Colpisce spesso i punti vitali.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Colpo Basso",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Il danno aumenta proporzionalmente alla taglia (Peso/Dimensioni) del bersaglio, aggiunge un dado al danno ogni 50 Kg del bersaglio, al massimo possono essere aggiunti 4 dadi.",
+    "descrizione": "Uno sgambetto mirato a sfruttare la massa del nemico per farlo cadere rovinosamente.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Calcio Basso",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Riduce la Destrezza del bersaglio di 1 grado.",
+    "descrizione": "Un attacco rapido alle gambe del nemico che ne intralcia i movimenti futuri.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Pugnorapido",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Colpisce sempre per primo.",
+    "descrizione": "Un pugno sferrato a una velocità tale da essere quasi invisibile.",
+    "parole_chiave": ["Contatto", "Pugno", "Priorità"]
+  },
+  {
+    "nome": "Ribaltappeto",
+    "tipo": "Lotta",
+    "categoria": "Supporto",
+    "accuratezza": "Destrezza + Atletica",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Protegge l'intera squadra dai danni degli attacchi in questo turno. Funziona solo al primo turno di permanenza in campo.",
+    "descrizione": "L'utilizzatore usa un tappeto di paglia per parare i colpi diretti a sé e ai compagni.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Sfolgorsalto",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 6",
+    "effetti_aggiuntivi": "L'utilizzatore deve riposare nel turno successivo e non può agire.",
+    "descrizione": "Sirfetch'd carica con la sua lancia di porro con una foga tale da esaurire le energie.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Spalle Al Muro",
+    "tipo": "Lotta",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta tutte le statistiche dell'utilizzatore di 1 grado, ma impedisce la fuga o la sostituzione finché non va KO.",
+    "descrizione": "Il Pokémon rinuncia a ogni via di fuga per potenziare al massimo il proprio spirito combattivo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Tentacolock",
+    "tipo": "Lotta",
+    "categoria": "Supporto",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Impedisce la fuga al bersaglio e ne riduce Difesa e Difesa Speciale di 1 grado alla fine di ogni turno.",
+    "descrizione": "Una morsa tentacolare che strangola il nemico e ne indebolisce costantemente le difese.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Crescipugno",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Aumenta la Forza dell'utilizzatore di 1 grado dopo ogni attacco andato a segno.",
+    "descrizione": "Colpendo ripetutamente il nemico, il Pokémon tempra i suoi pugni e aumenta la sua forza bruta.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+ {
+    "nome": "Anticipo",
+    "tipo": "Lotta",
+    "categoria": "Supporto",
+    "accuratezza": "Destrezza + Atletica",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Protegge l'utilizzatore e gli alleati dalle mosse con Priorità per questo turno.",
+    "descrizione": "Una posizione difensiva fulminea che neutralizza gli attacchi a sorpresa dei nemici.",
+    "parole_chiave": ["Priorità"]
+  },
+  {
+    "nome": "Vendetta",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Il Pool Danno aumenta di 2 se l'utilizzatore ha subito danni dal bersaglio nello stesso turno.",
+    "descrizione": "Un attacco caricato di risentimento che colpisce con forza doppia se si risponde a un colpo ricevuto.",
+    "parole_chiave": ["Contatto", "Priorità Bassa"]
+  },
+  {
+    "nome": "Contropiede",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Il danno aumenta di un dado per ogni PS in meno all'utilizzatore. Al massimo 5 dadi possono essere aggiunti in questo modo.",
+    "descrizione": "Il Pokémon mette tutto se stesso in un ultimo disperato attacco mentre è allo stremo delle forze.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Spaccaroccia",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Tira 5 dadi per ridurre la Difesa del bersaglio di 1 grado (1 Successo nel tiro Precisione).",
+    "descrizione": "Un colpo così duro da poter frantumare la roccia e indebolire la corazza nemica.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Calciorullo",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira 3 dadi per far tentennare il bersaglio (1 Successo nel tiro Precisione).",
+    "descrizione": "Un calcio circolare sferrato con estrema rapidità che può stordire l'avversario.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Spadasolenne",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Ignora i cambiamenti alle statistiche di Difesa del bersaglio.",
+    "descrizione": "Un fendente onorevole che trafigge il nemico ignorando ogni suo tentativo di protezione o agilità.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Spadamistica",
+    "tipo": "Lotta",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Calcola il danno usando la Difesa fisica del bersaglio invece della Difesa Speciale.",
+    "descrizione": "L'utilizzatore proietta un'aura a forma di spada che colpisce il corpo fisico del nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Movimento Sismico",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Atletica",
+    "pool_danno": "Vario",
+    "effetti_aggiuntivi": "Tira un dado di danno aggiuntivo in base al rango dell'utilizzatore. Starter = 1.",
+    "descrizione": "L'utilizzatore sfrutta la forza di gravità per scagliare il nemico al suolo con violenza costante.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Stramontante",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Può colpire i Pokémon che si trovano in aria durante mosse come Volo.",
+    "descrizione": "Un pugno dal basso verso l'alto sferrato con una tale elevazione da raggiungere bersagli elevati.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Tempestetta",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Questa mossa risulta sempre in un Colpo Critico se va a segno.",
+    "descrizione": "Un colpo sferrato con una tecnica perfetta che centra infallibilmente il punto vitale del nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Sottomissione",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "L'utilizzatore subisce 1 danno da contraccolpo.",
+    "descrizione": "L'utilizzatore blocca il nemico e si lancia al suolo insieme a lui per massimizzare l'impatto.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Troppoforte",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Forza  + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Riduce la Forza e la Difesa dell'utilizzatore di 1 grado dopo l'uso.",
+    "descrizione": "Un attacco di una potenza inaudita che però logora rapidamente le fibre muscolari di chi lo usa.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Triplocalcio",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Colpisce fino a 3 volte. Ogni colpo andato a segno aumenta il Pool Danno del successivo di +1.",
+    "descrizione": "Una serie di tre calci che diventano progressivamente più potenti se non vengono interrotti.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Vuotonda",
+    "tipo": "Lotta",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Colpisce sempre per primo.",
+    "descrizione": "L'utilizzatore muove gli arti così velocemente da creare un'onda d'urto nel vuoto.",
+    "parole_chiave": ["Priorità"]
+  },
+  {
+    "nome": "Vitaltiro",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Questa mossa non può fallire, ma l'utilizzatore agisce per ultimo nel turno.",
+    "descrizione": "L'utilizzatore espone il fianco per afferrare il nemico e scagliarlo a terra con precisione chirurgica.",
+    "parole_chiave": ["Contatto", "Priorità Bassa"]
+  },
+  {
+    "nome": "Svegliopacca",
+    "tipo": "Lotta",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Se il bersaglio sta dormendo, aggiungi 2 dadi alla pool del danno e il bersaglio si sveglia immediatamente.",
+    "descrizione": "Un colpo violento che infligge danni enormi ai Pokémon addormentati, destandoli bruscamente.",
+    "parole_chiave": ["Contatto"]
   }
 ]
+
