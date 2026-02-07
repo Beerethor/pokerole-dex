@@ -7,8 +7,8 @@
   },
   {
     "nome": "Pellecielo",
-    "Descrizione": "Il Pokémon emana un'energia celestiale che infonde il potere del vento in ogni sua mossa normale.",
-    "effetto": "Tutte le mosse di tipo Normale utilizzate da questo Pokémon diventano di tipo Volante. Inoltre, aggiungi 1 dado alla Riserva di Danni di queste mosse.",
+    "Descrizione": "Il Pokémon non tocca mai terra, si può sentire una corrente d'aria incessanteche lo avvolge.",
+    "effetto": "Tutte le mosse di tipo Normale utilizzate da questo Pokémon diventano di tipo Volante. Inoltre, aggiungi 1 dado alla Riserva di Danni delle mosse volante.",
     "parole_chiave": ["Trasformazione", "Danni", "Volante"]
   },
   {
@@ -24,25 +24,25 @@
     "parole_chiave": ["Meteo", "Utilità"]
   },
   {
-    "nome": "Analisi",
+    "nome": "Ponderazione",
     "Descrizione": "Il Pokémon osserva attentamente le mosse del nemico prima di agire, colpendo i punti deboli appena scoperti.",
-    "effetto": "Se questo Pokémon agisce per ultimo nel turno di combattimento, aggiungi 2 dadi alla Riserva di Danni del suo attacco.",
+    "effetto": "Se questo Pokémon agisce per ultimo nel turno di combattimento, aggiungi 1 dadi alla Riserva di Danni del suo attacco.",
     "parole_chiave": ["Combattimento", "Danni", "Iniziativa"]
   },
   {
-    "nome": "Iraposto",
-    "Descrizione": "Il Pokémon perde completamente la pazienza dopo aver subito un colpo critico, sprigionando una furia distruttiva.",
-    "effetto": "Se il Pokémon subisce un Colpo Critico, il suo Attributo Forza viene massimizzato (6 dadi) per il resto dell'incontro.",
+    "nome": "Grancollera",
+    "Descrizione": "Il Pokémon diventa facilmente aggressivo. Basta una piccola provocazione per farlo arrabbiare e fare a pezzi tutto.",
+    "effetto": "Se il Pokémon subisce un Colpo Critico, il suo Attributo Forza viene aumentato di 3 dadi per il resto dell'incontro.",
     "parole_chiave": ["Potenziamento", "Combattimento"]
   },
   {
-    "nome": "Previsione",
+    "nome": "Presagio",
     "Descrizione": "Il Pokémon avverte un brivido lungo la schiena quando percepisce una minaccia letale imminente.",
     "effetto": "All'inizio dell'incontro, il Pokémon percepisce se l'avversario possiede mosse Super Efficaci o mosse che causano KO in un colpo (come Abisso).",
     "parole_chiave": ["Percezione", "Utilità"]
   },
   {
-    "nome": "Trappola Sabbia",
+    "nome": "Trappoarena",
     "Descrizione": "Il Pokémon crea un vortice o un ostacolo nel terreno che impedisce ai nemici di scappare.",
     "effetto": "Gli avversari a terra non possono essere richiamati o fuggire dal combattimento a meno che non utilizzino mosse di fuga specifiche (come Teletrasporto o Retromarcia).",
     "parole_chiave": ["Blocco", "Terreno"]
@@ -54,7 +54,7 @@
     "parole_chiave": ["Protezione", "Mentale"]
   },
   {
-    "nome": "Aura Inversa",
+    "nome": "Frangiaura",
     "Descrizione": "Il Pokémon emana un'energia che distorce le aure circostanti, invertendone gli effetti.",
     "effetto": "Inverte gli effetti delle abilità 'Aura' (come Aurafolletto o Auratenebra). Invece di potenziare i danni, quelle aure ora li riducono di 2 dadi.",
     "parole_chiave": ["Aura", "Debuff"]
@@ -66,7 +66,7 @@
     "parole_chiave": ["Danni", "Sonno"]
   },
   {
-    "nome": "Raccogliball",
+    "nome": "Raccattapalle",
     "Descrizione": "Il Pokémon è addestrato a recuperare gli strumenti da cattura che non sono andati a segno.",
     "effetto": "Se il primo tentativo di cattura durante un incontro fallisce e il Pokémon non tiene strumenti, recupererà la Poké Ball utilizzata dopo il turno.",
     "parole_chiave": ["Oggetti", "Utilità"]
@@ -84,13 +84,13 @@
     "parole_chiave": ["Difesa", "Passiva"]
   },
   {
-    "nome": "Sintonia",
+    "nome": "Morfosinfonia",
     "Descrizione": "Il legame profondo tra l'Allenatore e il Pokémon permette a quest'ultimo di superare i propri limiti dopo una vittoria.",
     "effetto": "Quando questo Pokémon manda KO un avversario, si trasforma nella sua Forma Sintonia. Aumenta di 1 dado tutti i suoi Attributi e aggiunge 1 dado alla Riserva di Danni di tutte le sue mosse fino alla fine del combattimento.",
     "parole_chiave": ["Trasformazione", "Potenziamento"]
   },
   {
-    "nome": "Ultrareazione",
+    "nome": "Ultraboost",
     "Descrizione": "Ogni volta che il Pokémon abbatte un nemico, la sua statistica più forte viene potenziata dalla scarica di adrenalina.",
     "effetto": "Ogni volta che questo Pokémon manda KO un avversario, aumenta di 1 dado il suo Attributo naturale più alto.",
     "parole_chiave": ["Potenziamento", "Combattimento"]
@@ -108,7 +108,7 @@
     "parole_chiave": ["Difesa", "Statistiche"]
   },
   {
-    "nome": "Aiutofuo",
+    "nome": "Aiutofuoco",
     "Descrizione": "Le fiamme del Pokémon bruciano più intensamente quando si trova in una situazione critica.",
     "effetto": "Quando i Punti Salute sono pari o inferiori a 1/3 del totale, aggiungi 2 dadi alla Riserva di Danni per ogni mossa di tipo Fuoco utilizzata.",
     "parole_chiave": ["Combattimento", "Danni", "Fuoco"]
@@ -150,7 +150,7 @@
     "parole_chiave": ["Trasformazione", "Difesa"]
   },
   {
-    "nome": "Sonnambulismo",
+    "nome": "Sonno Assoluto",
     "Descrizione": "Il Pokémon si trova in uno stato di sonno perenne che lo protegge da altre alterazioni.",
     "effetto": "Questo Pokémon è considerato sempre addormentato, ma può attaccare normalmente. È immune a tutte le altre Alterazioni di Stato (Paralisi, Veleno, Bruciatura, Congelamento).",
     "parole_chiave": ["Stato", "Immunità"]
@@ -204,13 +204,13 @@
     "parole_chiave": ["Blocco", "Utilità"]
   },
   {
-    "nome": "Danzatore",
+    "nome": "Sincrodanza",
     "Descrizione": "Il Pokémon ha un istinto naturale per il ritmo e copia immediatamente i passi di danza altrui.",
     "effetto": "Ogni volta che un altro Pokémon in campo utilizza una mossa basata sulla danza (come Danzaspada o Danzapiuma), questo Pokémon esegue immediatamente la stessa mossa come azione gratuita.",
     "parole_chiave": ["Reazione", "Copia"]
   },
   {
-    "nome": "Auratenebra",
+    "nome": "Auratetra",
     "Descrizione": "Il Pokémon emana un'energia oscura che potenzia la malvagità degli attacchi circostanti.",
     "effetto": "Aumenta di 2 dadi la Riserva di Danni di tutte le mosse di tipo Buio utilizzate da qualsiasi Pokémon in campo.",
     "parole_chiave": ["Aura", "Danni", "Buio"]
@@ -252,7 +252,7 @@
     "parole_chiave": ["Meteo", "Immunità", "Fuoco"]
   },
   {
-    "nome": "Prestigiacuore",
+    "nome": "Fantasmanto",
     "Descrizione": "Il Pokémon indossa un travestimento che gli permette di incassare un colpo senza subire danni.",
     "effetto": "La prima volta che questo Pokémon viene colpito da una mossa che infligge danno in un combattimento, ignora completamente il danno. Dopo l'attivazione, il Pokémon perde 1 Punto Salute per la rottura del travestimento.",
     "parole_chiave": ["Difesa", "Speciale"]
@@ -282,7 +282,7 @@
     "parole_chiave": ["Recupero", "Debolezza", "Meteo"]
   },
  {
-    "nome": "Sveglialesta",
+    "nome": "Sveglialampo",
     "Descrizione": "Il Pokémon è un dormiglione molto leggero che riesce a riprendersi dal sonno molto prima degli altri.",
     "effetto": "Il tempo che questo Pokémon trascorre con l'Alterazione di Stato: Sonno è dimezzato. Se l'effetto dovrebbe durare un numero dispari di turni, arrotonda per difetto.",
     "parole_chiave": ["Stato", "Recupero"]
@@ -300,7 +300,7 @@
     "parole_chiave": ["Campo", "Elettricità"]
   },
   {
-    "nome": "Ritirata Rapida",
+    "nome": "Passoindietro",
     "Descrizione": "Il Pokémon ha un istinto di conservazione estremamente spiccato e fugge se avverte un pericolo eccessivo.",
     "effetto": "Se i Punti Salute del Pokémon scendono sotto la metà del totale a causa di un attacco, il Pokémon viene richiamato immediatamente e sostituito con un altro Pokémon della squadra (se disponibile).",
     "parole_chiave": ["Sostituzione", "Istinto"]
@@ -330,13 +330,13 @@
     "parole_chiave": ["Potenziamento", "Speciale", "Stato"]
   },
   {
-    "nome": "Fuocodentro",
+    "nome": "Fuocardore",
     "Descrizione": "Il Pokémon assorbe le fiamme nemiche per alimentare il proprio incendio interiore.",
     "effetto": "Questo Pokémon è immune ai danni delle mosse di tipo Fuoco. Se viene colpito da una mossa di questo tipo, la sua Riserva di Danni per le mosse di tipo Fuoco aumenta di 2 dadi fino alla fine dell'incontro.",
     "parole_chiave": ["Immunità", "Potenziamento", "Fuoco"]
   },
   {
-    "nome": "Regalofiore",
+    "nome": "Regalfiore",
     "Descrizione": "Sotto la luce del sole, il Pokémon sboccia e ispira i suoi alleati con una fragranza rinvigorente.",
     "effetto": "Finché il meteo è Soleggiato, questo Pokémon e i suoi alleati aggiungono 1 dado alla loro Forza e alla loro Difesa Speciale.",
     "parole_chiave": ["Meteo", "Supporto", "Statistiche"]
@@ -348,7 +348,7 @@
     "parole_chiave": ["Protezione", "Erba"]
   },
   {
-    "nome": "Foltapelo",
+    "nome": "Morbidone",
     "Descrizione": "Il Pokémon è ricoperto da una pelliccia soffice che attutisce i colpi fisici ma lo rende infiammabile.",
     "effetto": "Rimpicciolisci della metà (arrotonda per difetto) i danni subiti da mosse che richiedono contatto fisico. Tuttavia, raddoppia i danni subiti da mosse di tipo Fuoco.",
     "parole_chiave": ["Difesa", "Debolezza"]
@@ -378,13 +378,13 @@
     "parole_chiave": ["Percezione", "Oggetti"]
   },
   {
-    "nome": "Metalcorpo",
+    "nome": "Metalprotezione",
     "Descrizione": "Il corpo del Pokémon è forgiato in un metallo inalterabile che non teme alcuna interferenza esterna.",
     "effetto": "Gli Attributi di questo Pokémon non possono essere ridotti da abilità o mosse nemiche. Questa abilità non può essere annullata da altre abilità (come Rompiforma).",
     "parole_chiave": ["Difesa", "Statistiche"]
   },
   {
-    "nome": "Foltapelle",
+    "nome": "Foltopelo",
     "Descrizione": "Il Pokémon è protetto da una pelliccia incredibilmente densa che dimezza la forza degli urti.",
     "effetto": "Raddoppia il valore dell'Attributo Difesa di questo Pokémon contro qualsiasi attacco fisico.",
     "parole_chiave": ["Difesa", "Passiva"]
@@ -396,7 +396,7 @@
     "parole_chiave": ["Iniziativa", "Volante"]
   },
   {
-    "nome": "Galvanizza",
+    "nome": "Pelleelettro",
     "Descrizione": "Il Pokémon emana una carica elettrica tale da infondere elettricità in ogni suo movimento normale.",
     "effetto": "Tutte le mosse di tipo Normale utilizzate da questo Pokémon diventano di tipo Elettro. Inoltre, aggiungi 1 dado alla Riserva di Danni di queste mosse.",
     "parole_chiave": ["Trasformazione", "Danni", "Elettricità"]
@@ -414,13 +414,13 @@
     "parole_chiave": ["Debuff", "Iniziativa"]
   },
   {
-    "nome": "Vigor Gorilla",
+    "nome": "Vigorilla",
     "Descrizione": "Il Pokémon si concentra su un unico attacco con una ferocia tale da aumentarne enormemente la potenza.",
     "effetto": "Aggiungi 2 dadi alla Riserva di Danni degli attacchi fisici. Tuttavia, il Pokémon può utilizzare solo la prima mossa selezionata finché non viene richiamato.",
     "parole_chiave": ["Danni", "Limitazione", "Forza"]
   },
   {
-    "nome": "Pellicciaerba",
+    "nome": "Peloderba",
     "Descrizione": "Il Pokémon mimetizza il proprio corpo con la vegetazione, diventando più difficile da abbattere.",
     "effetto": "Finché è attivo il Campo Erboso, aumenta l'Attributo Difesa di questo Pokémon di 2 dadi.",
     "parole_chiave": ["Difesa", "Campo"]
@@ -444,7 +444,7 @@
     "parole_chiave": ["Danni", "Stato", "Forza"]
   },
   {
-    "nome": "Raccolta",
+    "nome": "Raccoglibacche",
     "Descrizione": "Il Pokémon ha la capacità di rigenerare le bacche che ha già consumato.",
     "effetto": "Alla fine di ogni turno, se il Pokémon ha già consumato la sua Bacca, tira 1 dado. Con un Successo, recupera la Bacca. Sotto la luce del Sole, il recupero è automatico.",
     "parole_chiave": ["Oggetti", "Recupero"]
@@ -456,7 +456,7 @@
     "parole_chiave": ["Supporto", "Stato"]
   },
   {
-    "nome": "Anticalore",
+    "nome": "Antifuoco",
     "Descrizione": "Il corpo del Pokémon è protetto da una speciale membrana che lo isola dalle temperature estreme.",
     "effetto": "Dimezza (arrotonda per difetto) i danni subiti da mosse di tipo Fuoco e i danni derivanti dall'Alterazione di Stato: Bruciatura.",
     "parole_chiave": ["Difesa", "Fuoco"]
@@ -516,13 +516,13 @@
     "parole_chiave": ["Difesa", "Trasformazione", "Meteo"]
   },
   {
-    "nome": "Scaglie Ghiaccio",
+    "nome": "Geloscaglie",
     "Descrizione": "Le squame del Pokémon sono fatte di un ghiaccio trasparente che riflette e dissipa l'energia speciale.",
     "effetto": "Dimezza (arrotonda per difetto) i danni subiti da qualsiasi mossa Speciale.",
     "parole_chiave": ["Difesa", "Speciale"]
   },
   {
-    "nome": "Rischiaramento",
+    "nome": "Risplendi",
     "Descrizione": "Il Pokémon emana una luce intensa che rende più facile individuare obiettivi e creature nascoste.",
     "effetto": "Aggiungi 1 dado ai tiri di Percezione della squadra. Inoltre, durante i viaggi, è più probabile incontrare Pokémon selvatici (se desiderato).",
     "parole_chiave": ["Utilità", "Esplorazione"]
@@ -546,19 +546,19 @@
     "parole_chiave": ["Trasformazione", "Speciale"]
   },
   {
-    "nome": "Intruglio",
+    "nome": "Intrapasso",
     "Descrizione": "Il Pokémon sa come superare le barriere nemiche, colpendo dove l'avversario si sente più sicuro.",
     "effetto": "Le mosse di questo Pokémon ignorano gli effetti di Riflesso, Schermoluce, Salvaguardia, Nebbia e Sostituto dell'avversario.",
     "parole_chiave": ["Combattimento", "Perforazione"]
   },
   {
-    "nome": "Espulsione",
+    "nome": "Espellinterno",
     "Descrizione": "Al momento della sconfitta, il Pokémon emette un'ultima scarica di energia viscerale contro chi lo ha abbattuto.",
     "effetto": "Quando questo Pokémon va KO, l'avversario che ha sferrato il colpo subisce immediatamente un danno fisso pari ai Punti Salute che il Pokémon aveva prima di ricevere il colpo fatale.",
     "parole_chiave": ["Danni", "Reazione", "KO"]
   },
   {
-    "nome": "Fuocodentro",
+    "nome": "Forza Interiore",
     "Descrizione": "Il Pokémon possiede una concentrazione d'acciaio che gli impedisce di esitare.",
     "effetto": "Questo Pokémon è immune al Tentennamento. Inoltre, il suo Attributo Forza non può essere ridotto dall'abilità Prepotenza.",
     "parole_chiave": ["Difesa", "Mentale"]
@@ -582,7 +582,7 @@
     "parole_chiave": ["Potenziamento", "Forza"]
   },
   {
-    "nome": "Spineferree",
+    "nome": "Spineferrate",
     "Descrizione": "Il corpo del Pokémon è ricoperto da aculei metallici che pungono chiunque tenti un approccio fisico.",
     "effetto": "Se un avversario colpisce questo Pokémon con una mossa che richiede contatto fisico, l'attaccante subisce immediatamente 1 danno fisso.",
     "parole_chiave": ["Danni", "Reazione"]
@@ -606,13 +606,13 @@
     "parole_chiave": ["Precisione", "Passiva"]
   },
   {
-    "nome": "Impacciato",
+    "nome": "Impaccia",
     "Descrizione": "Il Pokémon è goffo e non riesce a maneggiare correttamente gli strumenti che trasporta.",
     "effetto": "Questo Pokémon non può utilizzare o beneficiare degli effetti dello strumento che tiene assegnato in battaglia.",
     "parole_chiave": ["Limitazione", "Oggetti"]
   },
   {
-    "nome": "Fogliadipesa",
+    "nome": "Fogliamanto",
     "Descrizione": "Sotto la luce del sole, il Pokémon produce un velo di sostanze naturali che lo proteggono dalle afflizioni.",
     "effetto": "Finché il meteo è Soleggiato, questo Pokémon è immune a tutte le Alterazioni di Stato.",
     "parole_chiave": ["Meteo", "Immunità", "Erba"]
@@ -630,7 +630,7 @@
     "parole_chiave": ["Trasformazione", "Combattimento"]
   },
   {
-    "nome": "Leggerometallo",
+    "nome": "Metalleggero",
     "Descrizione": "La struttura molecolare del Pokémon è composta da un metallo speciale, dimezzando la sua massa corporea.",
     "effetto": "Il peso del Pokémon è dimezzato. Il Pokémon ottiene 1 dado bonus in tutti i tiri basati sull'agilità o per sfuggire a prese fisiche.",
     "parole_chiave": ["Peso", "Utilità"]
@@ -660,7 +660,7 @@
     "parole_chiave": ["Trasformazione", "Suono", "Acqua"]
   },
  {
-    "nome": "Lungo Tiro",
+    "nome": "Distacco",
     "Descrizione": "Il Pokémon attacca con una tale estensione o precisione da non dover mai entrare in contatto diretto con il bersaglio.",
     "effetto": "Tutte le mosse utilizzate da questo Pokémon sono considerate senza contatto fisico. Questo permette di ignorare effetti come Spineferree, Corpodifuoco o l'oggetto Bitorzolelmo.",
     "parole_chiave": ["Combattimento", "Sicurezza"]
@@ -684,7 +684,7 @@
     "parole_chiave": ["Oggetti", "Furto"]
   },
   {
-    "nome": "Magmacorazza",
+    "nome": "Magmascudo",
     "Descrizione": "Il corpo del Pokémon è perennemente avvolto da calore magmatico, impedendo ai suoi tessuti di congelare.",
     "effetto": "Questo Pokémon è totalmente immune all'Alterazione di Stato: Congelamento.",
     "parole_chiave": ["Immunità", "Stato"]
@@ -696,7 +696,7 @@
     "parole_chiave": ["Blocco", "Acciaio"]
   },
   {
-    "nome": "Pellesquama",
+    "nome": "Pelledura",
     "Descrizione": "Le squame del Pokémon reagiscono alle sofferenze fisiche diventando dure come il diamante.",
     "effetto": "Finché questo Pokémon soffre di un'Alterazione di Stato, aumenta il suo Attributo Difesa di 2 dadi.",
     "parole_chiave": ["Difesa", "Stato"]
@@ -726,7 +726,7 @@
     "parole_chiave": ["Potenziamento", "Sinergia"]
   },
   {
-    "nome": "Specchiovelo",
+    "nome": "Blindospecchio",
     "Descrizione": "Il corpo del Pokémon riflette istantaneamente i tentativi nemici di indebolirlo.",
     "effetto": "Ogni volta che un avversario tenta di ridurre un Attributo di questo Pokémon, l'effetto viene riflesso e applicato invece all'avversario stesso.",
     "parole_chiave": ["Riflesso", "Statistiche"]
@@ -750,7 +750,7 @@
     "parole_chiave": ["Potenziamento", "Debuff", "Casuale"]
   },
   {
-    "nome": "Elettromotore",
+    "nome": "Elettrorapid",
     "Descrizione": "Il Pokémon assorbe l'elettricità per sovraccaricare i propri muscoli o circuiti, aumentando la velocità.",
     "effetto": "Il Pokémon è immune ai danni di tipo Elettro. Se viene colpito da una mossa di questo tipo, la sua Iniziativa aumenta di 2 dadi per il resto dell'incontro.",
     "parole_chiave": ["Immunità", "Iniziativa", "Elettricità"]
@@ -762,7 +762,7 @@
     "parole_chiave": ["Potenziamento", "Forza", "Combattimento"]
   },
   {
-    "nome": "Multiscalle",
+    "nome": "Multisquame",
     "Descrizione": "Le squame del Pokémon sono disposte in modo da dissipare l'energia degli urti quando è in piena salute.",
     "effetto": "Finché i Punti Salute del Pokémon sono al massimo (100%), dimezza (arrotonda per difetto) i danni subiti da qualsiasi attacco.",
     "parole_chiave": ["Difesa", "Protezione"]
@@ -786,7 +786,7 @@
     "parole_chiave": ["Recupero", "Stato"]
   },
  {
-    "nome": "Neuroforza",
+    "nome": "Cerebroforza",
     "Descrizione": "Il Pokémon possiede un sistema nervoso iperefficiente che massimizza l'efficacia dei colpi mirati.",
     "effetto": "Quando questo Pokémon utilizza una mossa Super Efficace, aggiungi 2 dadi extra alla Riserva di Danni invece del normale bonus di tipo.",
     "parole_chiave": ["Danni", "Precisione"]
@@ -846,7 +846,7 @@
     "parole_chiave": ["Protezione", "Supporto", "Veleno"]
   },
   {
-    "nome": "Ultimocanto",
+    "nome": "Ultimotocco",
     "Descrizione": "Chiunque osi toccare il Pokémon viene maledetto, sentendo il richiamo dell'aldilà.",
     "effetto": "Se un avversario colpisce questo Pokémon con una mossa che richiede contatto fisico, entrambi i Pokémon andranno KO dopo 3 turni (a meno che non vengano richiamati).",
     "parole_chiave": ["Maledizione", "Reazione"]
@@ -858,13 +858,13 @@
     "parole_chiave": ["Oggetti", "Utilità"]
   },
   {
-    "nome": "Borseggiatore",
+    "nome": "Arraffalesto",
     "Descrizione": "Il Pokémon approfitta del contatto fisico per sottrarre con destrezza l'oggetto del nemico.",
     "effetto": "Se un avversario colpisce questo Pokémon con una mossa che richiede contatto fisico, questo Pokémon ruba immediatamente lo strumento tenuto dall'attaccante.",
     "parole_chiave": ["Oggetti", "Furto"]
   },
   {
-    "nome": "Pellesfata",
+    "nome": "Pellefoletto",
     "Descrizione": "Il Pokémon irradia un'energia fatata che trasforma la natura dei suoi attacchi più semplici.",
     "effetto": "Tutte le mosse di tipo Normale utilizzate da questo Pokémon diventano di tipo Folletto. Inoltre, aggiungi 1 dado alla Riserva di Danni di queste mosse.",
     "parole_chiave": ["Trasformazione", "Danni", "Folletto"]
@@ -894,13 +894,13 @@
     "parole_chiave": ["Stato", "Combattimento"]
   },
   {
-    "nome": "Sinuosità",
+    "nome": "Sciamefusione",
     "Descrizione": "Il Pokémon richiama a sé le sue cellule disperse per assumere una forma colossale quando è in pericolo.",
     "effetto": "Quando i Punti Salute del Pokémon scendono sotto la metà (50%), si trasforma nella sua Forma Perfetta. Il Pokémon recupera immediatamente 2 PS e aumenta di 1 dado tutti i suoi Attributi.",
     "parole_chiave": ["Trasformazione", "Potenziamento"]
   },
   {
-    "nome": "Forza Alchemica",
+    "nome": "Forza Chimica",
     "Descrizione": "Il Pokémon è in grado di assorbire l'essenza vitale di un compagno caduto, ereditandone le capacità.",
     "effetto": "Quando un alleato viene mandato KO, questo Pokémon acquisisce immediatamente l'abilità che il compagno possedeva.",
     "parole_chiave": ["Copia", "Sostituzione"]
@@ -936,7 +936,7 @@
     "parole_chiave": ["Difesa", "Riduzione"]
   },
   {
-    "nome": "Timone",
+    "nome": "Elicopinna",
     "Descrizione": "Il Pokémon utilizza la coda come un timone di precisione per colpire esattamente dove vuole.",
     "effetto": "Le mosse di questo Pokémon colpiscono il bersaglio ignorando qualsiasi effetto di deviazione o abilità che attira i colpi (come Parafulmine o Acquascolo).",
     "parole_chiave": ["Precisione", "Perforazione"]
@@ -1002,7 +1002,7 @@
     "parole_chiave": ["Danni", "Rischio"]
   },
   {
-    "nome": "Pelle gelo",
+    "nome": "Pellegelo",
     "Descrizione": "Il Pokémon irradia un freddo intenso che trasforma la natura dei suoi attacchi più semplici.",
     "effetto": "Tutte le mosse di tipo Normale utilizzate da questo Pokémon diventano di tipo Ghiaccio. Inoltre, aggiungi 1 dado alla Riserva di Danni di queste mosse.",
     "parole_chiave": ["Trasformazione", "Danni", "Ghiaccio"]
@@ -1086,7 +1086,7 @@
     "parole_chiave": ["Immunità", "Potenziamento", "Erba"]
   },
   {
-    "nome": "Bancofila",
+    "nome": "Banco",
     "Descrizione": "Il Pokémon emette un richiamo per radunare i suoi simili, trasformandosi in una forma colossale e temibile.",
     "effetto": "Finché il Pokémon ha più del 25% dei PS, assume la Forma Banco, aumentando Forza e Difesa di 2 dadi. Se i PS scendono sotto la soglia, torna alla Forma Individuale.",
     "parole_chiave": ["Trasformazione", "Potenziamento"]
@@ -1098,7 +1098,7 @@
     "parole_chiave": ["Combattimento", "Spettro"]
   },
   {
-    "nome": "Detersivo",
+    "nome": "Annullabarriere",
     "Descrizione": "Il Pokémon emana un'energia che dissolve istantaneamente le barriere protettive create sul campo.",
     "effetto": "Quando questo Pokémon entra in campo, tutti gli effetti di Riflesso, Schermoluce e Veloaurora presenti su entrambi i lati vengono annullati.",
     "parole_chiave": ["Annullamento", "Utilità"]
@@ -1110,31 +1110,31 @@
     "parole_chiave": ["Probabilità", "Stato"]
   },
   {
-    "nome": "Scudombra",
+    "nome": "Spettroguardia",
     "Descrizione": "Un'aura lunare protegge il Pokémon, dissipando la forza dei colpi quando è al pieno delle forze.",
     "effetto": "Finché i Punti Salute del Pokémon sono al massimo (100%), dimezza i danni subiti. Questa abilità non può essere ignorata da mosse o abilità (come Rompiforma).",
     "parole_chiave": ["Difesa", "Leggendario"]
   },
   {
-    "nome": "Pedinamento",
+    "nome": "Pedinombra",
     "Descrizione": "L'ombra del Pokémon si avvinghia a quella degli avversari, impedendo loro ogni tentativo di ritirata.",
     "effetto": "I Pokémon avversari non possono essere richiamati o fuggire finché questo Pokémon è in campo. Non ha effetto su altri Pokémon con Pedinamento o di tipo Spettro.",
     "parole_chiave": ["Blocco", "Sociale"]
   },
   {
-    "nome": "Mutazione",
+    "nome": "Muta",
     "Descrizione": "Il Pokémon rinnova periodicamente la sua pelle, liberandosi di parassiti o afflizioni esterne.",
     "effetto": "Alla fine di ogni turno, tira 1 dado. Se ottieni un Successo, il Pokémon guarisce da qualsiasi Alterazione di Stato.",
     "parole_chiave": ["Recupero", "Stato"]
   },
   {
-    "nome": "Forza Bruta",
+    "nome": "Forzabruta",
     "Descrizione": "Il Pokémon sacrifica gli effetti secondari dei suoi attacchi per concentrare tutta l'energia nell'impatto.",
     "effetto": "Aggiungi 2 dadi alla Riserva di Danni delle mosse che hanno un effetto secondario, ma annulla la possibilità che tale effetto si verifichi.",
     "parole_chiave": ["Danni", "Potenziamento"]
   },
   {
-    "nome": "Gusciofuso",
+    "nome": "Guscioscudo",
     "Descrizione": "Il Pokémon è protetto da una corazza così solida da essere impenetrabile nei punti vitali.",
     "effetto": "Questo Pokémon è immune ai Colpi Critici. Gli attacchi subiti non aggiungono mai successi extra dalla regola del Critico.",
     "parole_chiave": ["Difesa", "Protezione"]
@@ -1146,19 +1146,19 @@
     "parole_chiave": ["Difesa", "Immunità"]
   },
   {
-    "nome": "Scudoinfumo",
+    "nome": "Scudosoglia",
     "Descrizione": "Il guscio del Pokémon si rompe quando è ferito, rivelando un nucleo agile ed estremamente rapido.",
     "effetto": "Finché i PS sono sopra il 50%, il Pokémon ha Difesa e Difesa Speciale aumentate di 1 dado. Sotto il 50%, il guscio si rompe: sottrai 2 dadi alle Difese ma aggiungi 2 dadi a Forza, Attacco Speciale e Iniziativa.",
     "parole_chiave": ["Trasformazione", "Rischio"]
   },
   {
-    "nome": "Disattenzione",
+    "nome": "Disinvoltura",
     "Descrizione": "Il Pokémon è estremamente semplice e reagisce in modo amplificato a ogni stimolo o variazione.",
     "effetto": "Ogni variazione agli Attributi (positiva o negativa) viene raddoppiata (es. un bonus di +1 dado diventa +2).",
     "parole_chiave": ["Statistiche", "Particolare"]
   },
   {
-    "nome": "Multicolpo",
+    "nome": "Abillegame",
     "Descrizione": "Il Pokémon possiede una coordinazione perfetta che gli permette di colpire ripetutamente con precisione chirurgica.",
     "effetto": "Le mosse che colpiscono da 2 a 5 volte colpiscono sempre il numero massimo di volte (5).",
     "parole_chiave": ["Combattimento", "Danni"]
@@ -1170,7 +1170,7 @@
     "parole_chiave": ["Limitazione", "Forza"]
   },
   {
-    "nome": "Alacrità",
+    "nome": "Spalaneve",
     "Descrizione": "Il Pokémon scivola sul ghiaccio con una velocità innaturale, sfruttando il freddo come lubrificante.",
     "effetto": "Finché il meteo è Grandine o Neve, raddoppia l'Iniziativa di questo Pokémon.",
     "parole_chiave": ["Meteo", "Iniziativa"]
@@ -1200,13 +1200,13 @@
     "parole_chiave": ["Meteo", "Danni", "Speciale"]
   },
   {
-    "nome": "Solidoroccia",
+    "nome": "Solidroccia",
     "Descrizione": "Il corpo del Pokémon è duro come la roccia più densa, capace di assorbire impatti super efficaci.",
     "effetto": "Riduci di 2 dadi la Riserva di Danni di qualsiasi mossa Super Efficace utilizzata contro questo Pokémon.",
     "parole_chiave": ["Difesa", "Riduzione"]
   },
   {
-    "nome": "Cuoranima",
+    "nome": "Cuoreanima",
     "Descrizione": "Il Pokémon è alimentato da un'energia spirituale che si rafforza quando una vita si spegne vicino a lui.",
     "effetto": "Ogni volta che un altro Pokémon in campo va KO, aumenta l'Attacco Speciale di questo Pokémon di 1 dado.",
     "parole_chiave": ["Potenziamento", "Speciale"]
@@ -1218,13 +1218,13 @@
     "parole_chiave": ["Immunità", "Suono"]
   },
   {
-    "nome": "Accelerazione",
+    "nome": "Piedisvelti",
     "Descrizione": "Il Pokémon aumenta costantemente la propria velocità man mano che la battaglia prosegue.",
     "effetto": "Alla fine di ogni turno, aumenta l'Iniziativa di questo Pokémon di 1 dado (fino a un massimo di +6).",
     "parole_chiave": ["Iniziativa", "Potenziamento"]
   },
   {
-    "nome": "Appostamento",
+    "nome": "Sorveglianza",
     "Descrizione": "Il Pokémon è un predatore paziente che colpisce con forza raddoppiata chi tenta di fuggire o entrare in campo.",
     "effetto": "Se il bersaglio è un Pokémon appena entrato in campo tramite sostituzione in quel turno, raddoppia la Riserva di Danni dell'attacco.",
     "parole_chiave": ["Danni", "Reazione"]
@@ -1236,25 +1236,25 @@
     "parole_chiave": ["Iniziativa", "Limitazione"]
   },
   {
-    "nome": "Incrollabile",
+    "nome": "Volonta' di ferro",
     "Descrizione": "Il Pokémon possiede una determinazione tale da non lasciare che nulla ostacoli i suoi colpi.",
     "effetto": "Le mosse di questo Pokémon colpiscono il bersaglio scelto ignorando qualsiasi effetto di deviazione (come Parafulmine o Acquascolo).",
     "parole_chiave": ["Precisione", "Perforazione"]
   },
   {
-    "nome": "Spremitura",
+    "nome": "Sopportazione",
     "Descrizione": "Ogni colpo subito non fa che indurire la pelle o la corazza del Pokémon.",
     "effetto": "Ogni volta che questo Pokémon viene colpito da un attacco fisico, la sua Difesa aumenta di 1 dado.",
     "parole_chiave": ["Difesa", "Potenziamento"]
   },
  {
-    "nome": "Accidiamante",
+    "nome": "Accendilotta",
     "Descrizione": "Il Pokémon cambia la sua postura tra offensiva e difensiva a seconda della mossa che decide di usare.",
     "effetto": "Il Pokémon passa alla Forma d'Attacco prima di usare una mossa offensiva e alla Forma Difensiva prima di usare Scudo Reale. Scambia i valori di Forza/Attacco Speciale con Difesa/Difesa Speciale tra le due forme.",
     "parole_chiave": ["Trasformazione", "Combattimento"]
   },
   {
-    "nome": "Prestatica",
+    "nome": "Statico",
     "Descrizione": "Il corpo del Pokémon è carico di elettricità statica che può paralizzare chi lo tocca.",
     "effetto": "Se un avversario colpisce questo Pokémon con una mossa che richiede contatto fisico, tira 1 dado. Con un Successo, l'attaccante subisce l'Alterazione di Stato: Paralisi.",
     "parole_chiave": ["Stato", "Reazione"]
@@ -1266,7 +1266,7 @@
     "parole_chiave": ["Iniziativa", "Reazione"]
   },
   {
-    "nome": "Turbovapore",
+    "nome": "Vapormacchina",
     "Descrizione": "Il contatto con acqua o fuoco surriscalda i motori del Pokémon, donandogli una spinta incredibile.",
     "effetto": "Se colpito da una mossa di tipo Fuoco o Acqua, l'Iniziativa di questo Pokémon aumenta di 3 dadi per il resto dell'incontro.",
     "parole_chiave": ["Iniziativa", "Potenziamento"]
@@ -1284,13 +1284,13 @@
     "parole_chiave": ["Supporto", "Danni", "Acciaio"]
   },
   {
-    "nome": "Velenofatale",
+    "nome": "Tanfo",
     "Descrizione": "Il Pokémon emana un odore nauseante che può far indietreggiare il nemico per il disgusto.",
     "effetto": "Ogni volta che questo Pokémon infligge danni con un attacco, tira 1 dado. Con un Successo, il bersaglio subisce il Tentennamento.",
     "parole_chiave": ["Stato", "Combattimento"]
   },
   {
-    "nome": "Viscosità",
+    "nome": "Antifurto",
     "Descrizione": "Il Pokémon è ricoperto da una sostanza appiccicosa che rende impossibile sottrargli ciò che tiene.",
     "effetto": "Lo strumento tenuto da questo Pokémon non può essere rubato, rimosso o scambiato da mosse o abilità nemiche.",
     "parole_chiave": ["Oggetti", "Protezione"]
@@ -1302,19 +1302,19 @@
     "parole_chiave": ["Immunità", "Supporto", "Acqua"]
   },
   {
-    "nome": "Forteascella",
+    "nome": "Ferromascella",
     "Descrizione": "Il Pokémon possiede mascelle d'acciaio capaci di stritolare qualsiasi cosa con una pressione tremenda.",
     "effetto": "Aggiungi 2 dadi alla Riserva di Danni per tutte le mosse basate sui morsi (come Sgranocchio, Rogodenti o Gelodenti).",
     "parole_chiave": ["Danni", "Combattimento"]
   },
   {
-    "nome": "Vigor di Roccia",
+    "nome": "Vigore",
     "Descrizione": "Il Pokémon possiede una tempra incredibile che gli permette di resistere anche ai colpi che dovrebbero abbatterlo.",
     "effetto": "Se il Pokémon ha tutti i PS e subisce un attacco che lo manderebbe KO, resta invece con 1 PS. È inoltre immune alle mosse che causano KO istantaneo.",
     "parole_chiave": ["Difesa", "Resistenza"]
   },
   {
-    "nome": "Ventosa",
+    "nome": "Ventose",
     "Descrizione": "Il Pokémon si ancora saldamente al terreno, diventando impossibile da smuovere contro la sua volontà.",
     "effetto": "Questo Pokémon non può essere sostituito forzatamente da mosse (come Boato o Codadrago) o oggetti avversari.",
     "parole_chiave": ["Difesa", "Stabilità"]
@@ -1368,7 +1368,7 @@
     "parole_chiave": ["Evasione", "Stato"]
   },
   {
-    "nome": "Boccoli Viscosi",
+    "nome": "Boccolidoro",
     "Descrizione": "Chiunque osi toccare la chioma del Pokémon rimane impigliato, rallentando vistosamente.",
     "effetto": "Se un avversario colpisce questo Pokémon con una mossa che richiede contatto fisico, riduci l'Iniziativa dell'attaccante di 1 dado per il resto dell'incontro.",
     "parole_chiave": ["Debuff", "Iniziativa"]
@@ -1398,7 +1398,7 @@
     "parole_chiave": ["Difesa", "Resistenza"]
   },
   {
-    "nome": "Lenticolorata",
+    "nome": "Lentifume'",
     "Descrizione": "Il Pokémon individua i punti deboli anche nelle difese più resistenti.",
     "effetto": "Se il Pokémon utilizza una mossa su un bersaglio che sarebbe Resistente (danno dimezzato), ignora la resistenza e infligge il danno normale.",
     "parole_chiave": ["Danni", "Precisione"]
@@ -1416,7 +1416,7 @@
     "parole_chiave": ["Danni", "Forza"]
   },
   {
-    "nome": "Velenofase",
+    "nome": "Velenimpeto",
     "Descrizione": "Le tossine nel sangue non indeboliscono il Pokémon, ma ne eccitano i muscoli.",
     "effetto": "Finché questo Pokémon soffre dell'Alterazione di Stato: Avvelenamento, aggiungi 2 dadi alla sua Forza.",
     "parole_chiave": ["Potenziamento", "Forza", "Veleno"]
@@ -1428,13 +1428,13 @@
     "parole_chiave": ["Copia", "Trasformazione"]
   },
   {
-    "nome": "Pronto Soccorso",
+    "nome": "Primacura",
     "Descrizione": "Il Pokémon reagisce con velocità incredibile quando si tratta di curare se stesso o gli alleati.",
     "effetto": "Tutte le mosse di recupero o cura utilizzate da questo Pokémon guadagnano +3 all'Iniziativa.",
     "parole_chiave": ["Iniziativa", "Recupero"]
   },
   {
-    "nome": "Pigrizia",
+    "nome": "Pigrone",
     "Descrizione": "Il Pokémon è estremamente indolente e necessita di riposarsi dopo ogni azione.",
     "effetto": "Il Pokémon può agire solo un turno sì e uno no. Durante il turno di riposo non può eseguire mosse offensive.",
     "parole_chiave": ["Limitazione", "Sociale"]
@@ -1446,13 +1446,13 @@
     "parole_chiave": ["Combattimento", "Perforazione"]
   },
   {
-    "nome": "Ignoranza",
+    "nome": "Imprudenza",
     "Descrizione": "Il Pokémon è talmente vacuo o concentrato da ignorare totalmente i cambiamenti di stato psicofisico del nemico.",
     "effetto": "Durante il calcolo dei danni, questo Pokémon ignora qualsiasi aumento o diminuzione degli Attributi dell'avversario.",
     "parole_chiave": ["Difesa", "Stabilità"]
   },
   {
-    "nome": "Agilità",
+    "nome": "Agiltecnica",
     "Descrizione": "Il Pokémon si sente più leggero e scattante dopo aver consumato le proprie scorte.",
     "effetto": "Se il Pokémon consuma o perde lo strumento che tiene assegnato, la sua Iniziativa raddoppia finché resta in campo.",
     "parole_chiave": ["Iniziativa", "Oggetti"]
@@ -1500,7 +1500,7 @@
     "parole_chiave": ["Danni", "Difesa", "Acqua"]
   },
   {
-    "nome": "Idricompatta",
+    "nome": "Idrorinforzo",
     "Descrizione": "Il corpo di sabbia del Pokémon si indurisce istantaneamente a contatto con l'acqua.",
     "effetto": "Ogni volta che il Pokémon viene colpito da una mossa di tipo Acqua, la sua Difesa aumenta di 2 dadi.",
     "parole_chiave": ["Difesa", "Potenziamento"]
@@ -1512,7 +1512,7 @@
     "parole_chiave": ["Immunità", "Stato"]
   },
   {
-    "nome": "Sottilespoglia",
+    "nome": "Sottilguscio",
     "Descrizione": "Il Pokémon perde pezzi della sua corazza per guadagnare velocità quando viene colpito.",
     "effetto": "Se colpito da un attacco fisico, riduci la Difesa di 1 dado ma aumenta l'Iniziativa di 2 dadi.",
     "parole_chiave": ["Iniziativa", "Rischio"]
@@ -1524,7 +1524,7 @@
     "parole_chiave": ["Difesa", "Statistiche"]
   },
   {
-    "nome": "Fuggalesto",
+    "nome": "Fuggifuggi",
     "Descrizione": "Il Pokémon fugge al minimo segno di pericolo eccessivo.",
     "effetto": "Se i PS scendono sotto la metà, il Pokémon viene richiamato e sostituito immediatamente (funziona come Ritirata Rapida).",
     "parole_chiave": ["Sostituzione", "Fuga"]
