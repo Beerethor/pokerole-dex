@@ -3258,10 +3258,261 @@
     "effetti_aggiuntivi": "Cambia l'Abilità del bersaglio in Insonnia fino alla prossima scena.",
     "descrizione": "Un seme che causa ansia e iperattività, impedendo al nemico di usare la sua abilità o dormire.",
     "parole_chiave": []
+  },
+ {
+    "nome": "Ossoclava",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira un dado per far tentennare il bersaglio (1 Successo nel tiro Precisione).",
+    "descrizione": "L'utilizzatore colpisce il nemico con un osso pesante usato come clava.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ossoraffica",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Colpisce da 2 a 5 volte nello stesso turno.",
+    "descrizione": "Il nemico viene colpito da una rapida successione di colpi sferrati con un osso.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ossomerang",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Colpisce 2 volte nello stesso turno.",
+    "descrizione": "L'utilizzatore lancia un osso che colpisce il nemico all'andata e al ritorno.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Battiterra",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Riduce la Velocità di tutti i Pokémon colpiti di 1 grado.",
+    "descrizione": "L'utilizzatore calpesta il suolo con forza, generando un'onda d'urto che rallenta chiunque sia vicino.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fossa",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "L'utilizzatore scava al primo turno (diventando quasi invulnerabile) e attacca al secondo. Può essere colpito da mosse come terremoto e battiterra",
+    "descrizione": "Il Pokémon si rintana nel sottosuolo per poi sbucare sotto i piedi del nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Giravvita",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico).",
+    "descrizione": "L'utilizzatore ruota il proprio corpo come una trivella per perforare le difese nemiche.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Geoforza",
+    "tipo": "Terra",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Tira un dado per ridurre la Difesa Speciale del bersaglio di 1 grado (1 Successo nel tiro Precisione).",
+    "descrizione": "L'utilizzatore fa eruttare il potere della terra sotto i piedi del nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Terremoto",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Colpisce tutti i Pokémon adiacenti (inclusi gli alleati). Danno raddoppiato contro chi è sotto terra (Fossa).",
+    "descrizione": "Una scossa sismica devastante che scuote l'intero campo di battaglia.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Abisso",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Speciale",
+    "effetti_aggiuntivi": "Se colpisce, il bersaglio va KO istantaneamente. Letale.",
+    "descrizione": "L'utilizzatore spalanca una voragine nel terreno che inghiotte completamente l'avversario.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Forza Equina",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Nessuno.",
+    "descrizione": "L'utilizzatore scatena la sua potenza fisica caricando il nemico con tutta la sua massa.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Forza Tellurica",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Canale",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Colpisce tutti i nemici adiacenti. Letale",
+    "descrizione": "Zygarde convoglia l'energia del suolo per colpire gli avversari con la forza della natura stessa.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Magnitudo",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Forza + Vario",
+    "effetti_aggiuntivi": "Tira 1 dado per decidere la forza del danno. Colpisce tutti i Pokémon adiacenti.",
+    "descrizione": "Un terremoto di intensità variabile che può essere un lieve tremore o un sisma catastrofico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Pantanobomba",
+    "tipo": "Terra",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira 3 dadi per ridurre la Precisione del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore lancia una grande massa di fango che esplode all'impatto, sporcando gli occhi del nemico.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Colpofango",
+    "tipo": "Terra",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Riduce sempre la Destrezza del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore scaglia fango viscido che intralcia i movimenti del nemico, rallentandolo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fangosberla",
+    "tipo": "Terra",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 1",
+    "effetti_aggiuntivi": "Riduce sempre la Precisione del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore lancia del fango in faccia al nemico per impedirgli di vedere bene.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fangata",
+    "tipo": "Terra",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce la potenza delle mosse Elettro del 50% per tutti i Pokémon in campo finché l'utilizzatore è attivo.",
+    "descrizione": "L'utilizzatore ricopre il campo di fango umido, rendendolo meno conduttivo all'elettricità.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Spade Telluriche",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Canale",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Colpisce tutti i nemici adiacenti.",
+    "descrizione": "Groudon evoca rocce acuminate dal sottosuolo che trafiggono i nemici con la potenza della lava solida.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Aracampo",
+    "tipo": "Terra",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta la Forza e lo Speciale di tutti i Pokémon di tipo Erba in campo di 1 grado.",
+    "descrizione": "L'utilizzatore smuove il terreno rendendolo fertile e rinvigorendo i Pokémon pianta.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Turbosabbia",
+    "tipo": "Terra",
+    "categoria": "Supporto",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce la Precisione del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore lancia sabbia negli occhi del nemico per fargli mancare i colpi.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Sabbiotomba",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Trappola il bersaglio in un vortice di sabbia per 4-5 turni, infliggendo 2 dadi di danno a ogni turno.",
+    "descrizione": "Un turbine di sabbia soffocante che imprigiona e logora l'avversario.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Sabbiaccumulo",
+    "tipo": "Terra",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Cura l'utilizzatore del 50% dei PS massimi. Sotto la Tempesta di Sabbia cura di più.",
+    "descrizione": "Il Pokémon accumula sabbia e terra sulle ferite per rigenerare il proprio corpo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Punte",
+    "tipo": "Terra",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Disperde trappole sul campo nemico. Ogni Pokémon avversario che entra in campo subisce 1 danno. I pokemon volanti o con levitare non subiscono il danno.",
+    "descrizione": "L'utilizzatore sparge punte acuminate sul terreno, ferendo chiunque provi a scendere in battaglia.",
+    "parole_chiave": ["Trappola"]
+  },
+  {
+    "nome": "Battipiedi",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Se la mossa precedente dell'utilizzatore è fallita, la potenza di questa mossa aumenta di 2 dadi.",
+    "descrizione": "L'utilizzatore sfoga la frustrazione di un colpo mancato in un attacco furioso.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Mille Frecce",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Canale",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Colpisce anche i Pokémon, anche i pokemon in volo o con Levitazione, facendoli cadere al suolo e rendendoli vulnerabili alla Terra. Letale",
+    "descrizione": "Zygarde lancia una pioggia di dardi d'energia che abbattono chiunque tenti di sfuggire volando.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Mille Onde",
+    "tipo": "Terra",
+    "categoria": "Fisica",
+    "accuratezza": "Speciale + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Impedisce al bersaglio di fuggire o essere sostituito finché l'utilizzatore è in campo.",
+    "descrizione": "Onde sismiche circolari che circondano il nemico, bloccandogli ogni via di fuga.",
+    "parole_chiave": []
   }
 
 
 ]
+
 
 
 
