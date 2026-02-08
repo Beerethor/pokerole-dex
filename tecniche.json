@@ -2227,7 +2227,7 @@
     "pool_danno": "Speciale + 6",
     "effetti_aggiuntivi": "Riduce lo Speciale dell'utilizzatore di 2 gradi dopo l'uso.",
     "descrizione": "L'utilizzatore sprigiona tutta la sua potenza in una fiammata colossale, esaurendo la propria energia.",
-    "parole_ciave": []
+    "parole_chiave": []
   },
   {
     "nome": "Palla Infuocata",
@@ -2890,7 +2890,7 @@
     "parole_chiave": ["Proiettile"]
   },
   {
-    "nome": "Boscpmalocchio",
+    "nome": "Boscomalocchio",
     "tipo": "Erba",
     "categoria": "Supporto",
     "accuratezza": "Volonta' + Natura",
@@ -3758,16 +3758,98 @@
     "effetti_aggiuntivi": "Se colpisce, il bersaglio va KO istantaneamente. Letale.",
     "descrizione": "Un freddo allo zero assoluto che arresta ogni funzione vitale all'istante.",
     "parole_chiave": []
+  },
+  {
+    "nome": "Acupressione",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Destrezza + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta di 2 gradi una statistica a caso.",
+    "descrizione": "L'utilizzatore preme punti di pressione sul proprio corpo o su quello di un alleato per risvegliare un potenziale latente.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Cortesia",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Classe + Etichetta",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Il bersaglio scelto agirà immediatamente dopo l'utilizzatore in questo turno, ignorando l'ordine di iniziativa originale.",
+    "descrizione": "Un gesto di cortesia tattica che permette a un alleato più lento di scatenare subito il suo potere.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Assistente",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Acume + Prestazione",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "L'utilizzatore esegue una mossa a caso scelta tra quelle conosciute dagli altri Pokémon della propria squadra.",
+    "descrizione": "Il Pokémon attinge ai ricordi e alle capacità dei suoi compagni per sferrare un attacco a sorpresa.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Attrazione",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Bellezza + Fascino",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Se il bersaglio è di sesso opposto, si innamora. Ha una probabilità del 50% di non riuscire ad attaccare ogni turno.",
+    "descrizione": "Un fascino irresistibile che ammalia il nemico, rendendolo riluttante a colpire chi lo ha incantato.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Sferattacco",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Colpisce da 2 a 5 volte nello stesso turno.",
+    "descrizione": "L'utilizzatore lancia una raffica di oggetti rotondi o sferici contro il nemico.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Staffetta",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "L'utilizzatore viene sostituito da un compagno, trasferendogli tutti i cambiamenti alle statistiche (positivi e negativi).",
+    "descrizione": "Un cambio rapido che permette di passare il testimone del potere a un alleato pronto all'azione.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Panciamburo",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Grinta + Prestazione",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "L'utilizzatore perde metà dei suoi PS massimi e aumenta la propria Forza di 6 gradi (massimo possibile).",
+    "descrizione": "L'utilizzatore percuote ferocemente il proprio ventre, sacrificando la salute per una potenza fisica spaventosa.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Cediregalo",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Classe + Etichetta",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "L'utilizzatore cede il proprio strumento tenuto al bersaglio.",
+    "descrizione": "Un gesto generoso che permette di passare un oggetto utile a un compagno in difficoltà.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Pazienza",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Speciale",
+    "effetti_aggiuntivi": "L'utilizzatore accumula danni per 2 turni. Al terzo turno, Aumenta di 2 i danni ricevuti al nemico.",
+    "descrizione": "Il Pokémon sopporta stoicamente i colpi avversari per poi sprigionare tutta l'energia accumulata in un colpo solo.",
+    "parole_chiave": ["Priorità Bassa"]
   }
 
+
+    
 ]
-
-
-
-
-
-
-
-
-
-
