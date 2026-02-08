@@ -2788,9 +2788,481 @@
     "effetti_aggiuntivi": "Aggiunge il tipo Spettro al bersaglio (se non lo possiede già).",
     "descrizione": "L'utilizzatore invita il nemico a partecipare a una macabra festa, rendendolo parte del mondo degli spiriti.",
     "parole_chiave": []
+  },
+      {
+    "nome": "Assorbimento",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 1",
+    "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto.",
+    "descrizione": "Un attacco che assorbe l'energia vitale del bersaglio per rigenerare le ferite dell'utilizzatore.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Acido Malico",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Riduce sempre la Difesa Speciale del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore attacca con un fluido acido estratto da mele aspre che erode la resistenza nemica.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Aromaterapia",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Cura tutte le alterazioni di stato (scotta, paralisi, ecc.) dell'utilizzatore e di tutti i compagni in squadra.",
+    "descrizione": "L'utilizzatore emana un profumo soave che ritempra lo spirito e guarisce i malanni della squadra.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ramostoccata",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "L'utilizzatore colpisce il bersaglio usando un ramo leggero o i propri arti legnosi.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Semitraglia",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Colpisce da 2 a 5 volte nello stesso turno. Dalla distanza.",
+    "descrizione": "Il Pokémon spara una rapida successione di semi duri come proiettili.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Cotonscudo",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aumenta la Difesa dell'utilizzatore di 3 gradi.",
+    "descrizione": "L'utilizzatore avvolge il proprio corpo in uno spesso strato di cotone soffice, diventando quasi impenetrabile.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Cottonspora",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce la Velocità del bersaglio di 2 gradi.",
+    "descrizione": "L'utilizzatore rilascia spore appiccicose che si attaccano al nemico, rallentandone drasticamente i movimenti.",
+    "parole_chiave": ["Polvere"]
+  },
+  {
+    "nome": "Tamburattacco",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Prestazione",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Riduce la Destrezza del bersaglio di 1 grado.",
+    "descrizione": "Rillaboom batte i suoi tamburi evocando radici che colpiscono il nemico e ne intralciano il cammino.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Energipalla",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Tira 1 dado per ridurre la Difesa Speciale del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore attinge energia dalla natura per scagliare una sfera di potere verdeggiante.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Boscpmalocchio",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Volonta' + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aggiunge il tipo Erba al bersaglio (se non lo possiede già).",
+    "descrizione": "L'utilizzatore lancia una maledizione che trasforma il corpo del nemico, rendendolo simile a una pianta.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Radicalbero",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "L'utilizzatore deve riposare nel turno successivo e non può agire.",
+    "descrizione": "L'utilizzatore sferza il campo con radici giganti, ma lo sforzo lo lascia stremato.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Gigassorbimento",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto.",
+    "descrizione": "Un attacco drenante di media potenza che rinvigorisce chi lo usa sottraendo energia vitale.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Laccioerboso",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 1",
+    "effetti_aggiuntivi": "Il danno aumenta proporzionalmente alla taglia (Peso/Dimensioni) del bersaglio.Aggiungi 1 dado per ogni 50kg di peso del nemico.",
+    "descrizione": "L'utilizzatore fa crescere dei rampicanti che fanno inciampare il nemico; più è pesante, più l'impatto è duro.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Erbapatto",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Se usata con Acquapatto, crea una palude che riduce drasticamente la Destrezza nemica.",
+    "descrizione": "Un attacco coordinato che evoca il potere della flora selvatica sul campo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Meloderba",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Prestazione",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Addormenta il bersaglio.",
+    "descrizione": "L'utilizzatore soffia in un filo d'erba emettendo una melodia soporifera che culla il nemico.",
+    "parole_chiave": ["Suono"]
+  },
+  {
+    "nome": "Campo Erboso",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Per 5 turni, i Pokémon a terra recuperano un 1 PS ogni turno e le mosse Erba aggiungono 1 dado al danno.",
+    "descrizione": "Il terreno viene ricoperto da un manto d'erba lussureggiante che cura e potenzia la natura.",
+    "parole_chiave": ["Campo"]
+  },
+  {
+    "nome": "Forza G",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Riduce sempre la Difesa del bersaglio di 1 grado. Il danno aumenta se è attivo Gravità.",
+    "descrizione": "Flapple si lancia dall'alto con una mela carica di forza gravitazionale, schiacciando il nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Legnicorno",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto.",
+    "descrizione": "L'utilizzatore carica il nemico con corna di legno drenante, assorbendone l'energia cinetica e vitale.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Radicamento",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "L'utilizzatore recupera 1 PS ogni turno, ma non può essere sostituito né fuggire.",
+    "descrizione": "Il Pokémon mette radici profonde nel terreno per trarne nutrimento costante, restando però immobile.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fendifoglia",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico). Letale",
+    "descrizione": "L'utilizzatore colpisce con foglie affilate come lame, cercando i punti deboli dell'avversario.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Verdebufera",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Riduce l'Attacco Speciale dell'utilizzatore di 2 gradi dopo l'uso.",
+    "descrizione": "Una tempesta di foglie taglienti investe il nemico. Lo sforzo mentale riduce drasticamente il vigore speciale.",
+    "parole_ciave": []
+  },
+  {
+    "nome": "Vorticerba",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira 5 dadi per ridurre la Precisione del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore scaglia un turbine di foglie che avvolge il nemico, disturbandone la vista.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fogliame",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "Un attacco semplice che consiste nel lanciare foglie contro il nemico. Tipico dei Pokémon giovani. Dalla distanza.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Parassieme",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Spendi 1 punto volonta' per attivare. Il bersaglio subisce 1 dado di danno alla fine di ogni turno; l'utilizzatore recupera lo stesso ammontare.",
+    "descrizione": "L'utilizzatore lancia dei semi che germogliano istantaneamente sul nemico, drenandone le forze.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fogliamagica",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Questa mossa non può fallire il tiro di Accuratezza.",
+    "descrizione": "Foglie cariche di energia magica inseguono il nemico, rendendo impossibile schivarle.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Megassorbimento",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "L'utilizzatore recupera PS pari alla metà del danno inflitto.",
+    "descrizione": "Una versione potenziata del comune Assorbimento, capace di drenare più energia.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Pugnospine",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira 3 dadi per far tentennare il bersaglio.",
+    "descrizione": "L'utilizzatore colpisce con arti ricoperti di spine acuminate, cercando di stordire il nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Fiortempesta",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Colpisce tutti i Pokémon adiacenti (inclusi gli alleati).",
+    "descrizione": "L'utilizzatore scatena una tempesta di petali taglienti che investe tutto ciò che lo circonda.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Petalodanza",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "L'utilizzatore attacca per 2-3 turni consecutivi, poi diventa Confuso.",
+    "descrizione": "Una danza frenetica di petali che travolge il nemico, ma lascia chi la esegue stordito dallo sforzo.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Vigorcolpo",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Mossa molto potente ma meno precisa della media.",
+    "descrizione": "L'utilizzatore sferza il nemico con rampicanti o radici lunghe e robuste come fruste.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Foglielama",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico).",
+    "descrizione": "Foglie dai bordi affilati come rasoi vengono lanciate contro il nemico per recidere le sue difese.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Bombafrush",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Speciale + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Crea l'effetto di Parassieme sul bersaglio se il colpo va a segno. Se l'utilizzatore è nella forma finale la tecnica fallisce.",
+    "descrizione": "Eevee lancia un seme speciale che germoglia all'istante, drenando energia per curare gli alleati.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Semebomba",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Nessuno.",
+    "descrizione": "L'utilizzatore lancia una raffica di semi esplosivi dall'alto contro il bersaglio.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Infuriaseme",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Tira 4 dadi per ridurre la Difesa Speciale del bersaglio di 2 gradi. Letale.",
+    "descrizione": "Shaymin sprigiona tutta l'energia assorbita dai fiori in un'onda d'urto scioccante.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Sonnifero",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Addormenta il bersaglio.",
+    "descrizione": "Una polvere finissima viene sparsa nell'aria, inducendo un sonno profondo in chi la respira.",
+    "parole_chiave": ["Polvere"]
+  },
+  {
+    "nome": "Tagliola",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Furtivita'",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Trappola il bersaglio per 4 turni, impedendo la fuga e infliggendo 1 danno a turno.",
+    "descrizione": "Una trappola a scatto simile a una pianta carnivora morde il nemico e non lo lascia andare.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Solarraggio",
+    "tipo": "Erba",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Richiede un turno di carica. Se c'è Giornodisole, l'attacco è immediato. Se c'è pioggia o neve servono due turni di carica.",
+    "descrizione": "L'utilizzatore accumula energia solare per poi rilasciarla in un raggio di luce pura.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Lama Solare",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Richiede un turno di carica. Se c'è Giornodisole, l'attacco è immediato. Se c'è pioggia o neve servono due turni di carica.",
+    "descrizione": "L'utilizzatore concentra la potenza del sole in una lama di luce solida per fendere il nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Agodifesa",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Protegge da ogni mossa. Se il nemico usa una mossa a contatto, riduce di 3 i danni che l'utilizzatore dovrebbe subire da una mossa di danno. Se il bersaglio usa una mossa da contatto tira due dadi di danno.",
+    "descrizione": "L'utilizzatore si chiude in una barriera di spine che ferisce chiunque provi ad avvicinarsi.",
+    "parole_chiave": ["Scudo"]
+  },
+  {
+    "nome": "Spora",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Addormenta sempre il bersaglio (Precisione garantita in condizioni normali).",
+    "descrizione": "L'utilizzatore rilascia spore soporifere con precisione chirurgica sul nemico.",
+    "parole_chiave": ["Polvere"]
+  },
+  {
+    "nome": "Assorbiforza",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Intuito + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce l'Attacco del bersaglio di 1 grado. L'utilizzatore recupera PS pari al valore di Forza del bersaglio.",
+    "descrizione": "Drena la forza fisica del nemico per rigenerare i tessuti dell'utilizzatore.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Paralizzante",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Paralizza il bersaglio.",
+    "descrizione": "Spore tossiche che irrigidiscono i muscoli del nemico, impedendogli di muoversi agilmente.",
+    "parole_chiave": ["Polvere"]
+  },
+  {
+    "nome": "Sintesi",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Cura il 50% dei PS massimi. La cura aumenta sotto il Sole e cala sotto Pioggia/Sabbia.",
+    "descrizione": "Il Pokémon utilizza la fotosintesi per rigenerare le proprie energie vitali.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Tropicalcio",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Riduce sempre l'Attacco (Forza) del bersaglio di 1 grado.",
+    "descrizione": "Un calcio sferrato con la grazia e la potenza della giungla, che scoraggia il nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Frustata",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Nessuno.",
+    "descrizione": "L'utilizzatore colpisce il nemico con sottili ma resistenti rampicanti come se fossero fruste.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Mazzuolegno",
+    "tipo": "Erba",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "L'utilizzatore subisce un danno da contraccolpo pari a 1/3 del danno inflitto.",
+    "descrizione": "Il Pokémon colpisce con il suo corpo massiccio e legnoso, incurante dei danni subiti.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Affannoseme",
+    "tipo": "Erba",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Cambia l'Abilità del bersaglio in Insonnia fino alla prossima scena.",
+    "descrizione": "Un seme che causa ansia e iperattività, impedendo al nemico di usare la sua abilità o dormire.",
+    "parole_chiave": []
   }
 
+
 ]
+
 
 
 
