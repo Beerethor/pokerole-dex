@@ -383,7 +383,7 @@
     "nome": "Falselacrime",
     "tipo": "Buio",
     "categoria": "Supporto",
-    "accuratezza": "Prestazione + Classe",
+    "accuratezza": "Prestazione + Dolcezza",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Riduce la Difesa Speciale del bersaglio di 2 gradi.",
     "descrizione": "L'utilizzatore piange lacrime finte per abbassare la guardia del nemico.",
@@ -413,7 +413,7 @@
     "nome": "Adulazione",
     "tipo": "Buio",
     "categoria": "Supporto",
-    "accuratezza": "Classe + Fascino",
+    "accuratezza": "Dolcezza + Fascino",
     "pool_danno": "Nessuno",
     "effetti_aggiuntivi": "Confonde il bersaglio e ne aumenta l'Attacco Speciale di 1 grado.",
     "descrizione": "Complimenti eccessivi che confondono il nemico, pur esaltandone la foga magica.",
@@ -1478,8 +1478,18 @@
     "effetti_aggiuntivi": "Confonde il bersaglio.",
     "descrizione": "Un bacio affettuoso che lascia il nemico in uno stato di totale confusione.",
     "parole_chiave": []
-  },
-     {
+  }
+
+
+
+
+
+
+
+
+
+
+ {
     "nome": "Sberletese",
     "tipo": "Lotta",
     "categoria": "Fisica",
@@ -1939,7 +1949,7 @@
     "descrizione": "Un colpo violento che infligge danni enormi ai Pokémon addormentati, destandoli bruscamente.",
     "parole_chiave": ["Contatto"]
   },
-      {
+  {
     "nome": "Incendio",
     "tipo": "Fuoco",
     "categoria": "Speciale",
@@ -2299,7 +2309,7 @@
     "descrizione": "L'utilizzatore evoca fiamme sinistre e spettrali per infliggere una scottatura dolorosa al nemico.",
     "parole_chiave": []
   },
-    {
+  {
     "nome": "Acrobazia",
     "tipo": "Volante",
     "categoria": "Fisica",
@@ -2559,7 +2569,7 @@
     "descrizione": "Il nemico viene colpito con forza da un paio di ali spiegate.",
     "parole_chiave": ["Contatto"]
   },
-      {
+  {
     "nome": "Sgomento",
     "tipo": "Spettro",
     "categoria": "Fisica",
@@ -2789,7 +2799,7 @@
     "descrizione": "L'utilizzatore invita il nemico a partecipare a una macabra festa, rendendolo parte del mondo degli spiriti.",
     "parole_chiave": []
   },
-      {
+  {
     "nome": "Assorbimento",
     "tipo": "Erba",
     "categoria": "Speciale",
@@ -3259,7 +3269,7 @@
     "descrizione": "Un seme che causa ansia e iperattività, impedendo al nemico di usare la sua abilità o dormire.",
     "parole_chiave": []
   },
- {
+  {
     "nome": "Ossoclava",
     "tipo": "Terra",
     "categoria": "Fisica",
@@ -3509,7 +3519,7 @@
     "descrizione": "Onde sismiche circolari che circondano il nemico, bloccandogli ogni via di fuga.",
     "parole_chiave": []
   },
-    {
+  {
     "nome": "Raggioaurora",
     "tipo": "Ghiaccio",
     "categoria": "Speciale",
@@ -3750,8 +3760,8 @@
     "parole_chiave": []
   }
 
-
 ]
+
 
 
 
