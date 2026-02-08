@@ -3508,10 +3508,251 @@
     "effetti_aggiuntivi": "Impedisce al bersaglio di fuggire o essere sostituito finché l'utilizzatore è in campo.",
     "descrizione": "Onde sismiche circolari che circondano il nemico, bloccandogli ogni via di fuga.",
     "parole_chiave": []
+  },
+    {
+    "nome": "Raggioaurora",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira un dado per ridurre l'Attacco (Forza) del bersaglio di 1 grado.",
+    "descrizione": "Un raggio dai colori iridescenti che emana un freddo intenso, fiaccando i muscoli del nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Velaurora",
+    "tipo": "Ghiaccio",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Funziona solo sotto la Grandine. Riduce i danni fisici e speciali subiti dalla squadra del 50% per 4 turni.",
+    "descrizione": "Un velo luminoso protegge gli alleati, sfruttando il riverbero dei cristalli di ghiaccio nell'aria.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Slavina",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Se l'utilizzatore ha subito danni nello stesso turno prima di attaccare, il Pool Danno aumenta di 2 dadi.",
+    "descrizione": "Un contrattacco che travolge il nemico con una massa di neve e ghiaccio ritorsiva.",
+    "parole_chiave": ["Priorità Bassa"]
+  },
+  {
+    "nome": "Bora",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Può congelare il bersaglio. Sotto la Grandine, non fallisce mai l'accuratezza. Colpisce tutti i nemici, Tira un dado per congelare il bersaglio. Se usata con tempo Soleggiato riduci di 3 i dadi dell'accuratezza.",
+    "descrizione": "Una tempesta di vento e neve violentissima che investe tutto il campo di battaglia.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Liofilizzazione",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "È super efficace contro il tipo Acqua. Può congelare il bersaglio.",
+    "descrizione": "Un freddo così secco e istantaneo da ghiacciare persino l'acqua più profonda.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Elettrogelo",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Forza + 6",
+    "effetti_aggiuntivi": "Richiede un turno di carica. Tira 3 dadi per paralizzare il bersaglio. Letale.",
+    "descrizione": "Kyurem Nero accumula energia elettrica e gelida per colpire con un impatto devastante.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Scricchiagelo",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Cura le alterazioni di stato della squadra dell'utilizzatore. Se l'utilizzatore è nella sua forma finale la mossa fallisce.",
+    "descrizione": "Eevee evoca un vento purificatore che congela i malanni e ritempra gli alleati.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Alitogelido",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Infligge sempre un Colpo Critico se va a segno.",
+    "descrizione": "Un soffio gelido che colpisce i punti vitali con precisione assoluta.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Gelamondo",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Riduce la Destrezza di tutti i nemici colpiti di 1 grado. Letale.",
+    "descrizione": "Un'ondata di gelo che rallenta il tempo e i movimenti di chiunque ne sia investito.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Grandine",
+    "tipo": "Ghiaccio",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Per 5 turni, infligge 1 danno automatico a ogni turno a chi non è di tipo Ghiaccio.",
+    "descrizione": "L'utilizzatore evoca una tempesta di chicchi di ghiaccio che flagellano il campo.",
+    "parole_chiave": ["Meteo"]
+  },
+  {
+    "nome": "Nube",
+    "tipo": "Ghiaccio",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Annulla tutte le modifiche alle statistiche (positve e negative) di tutti i Pokémon in campo.",
+    "descrizione": "Una nebbia gelida che avvolge il campo, resettando ogni alterazione fisica o mentale.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Palla Gelo",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Attacca per 5 turni. Ogni colpo andato a segno aumenta di 1 dado la potenza del successivo. Se l'utilizzatore usa ricciolscudo aumenta 1 dado aggiuntivo.",
+    "descrizione": "L'utilizzatore rotola accumulando neve, diventando sempre più grande e distruttivo.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Geloraggio",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Tira 1 dado per congelare il bersaglio (1 Successo nel tiro Precisione).",
+    "descrizione": "Un raggio di ghiaccio purissimo che può immobilizzare istantaneamente il nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Vampagelida",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Richiede un turno di carica. Tira 3 dadi per scottare il bersaglio. Letale",
+    "descrizione": "Kyurem Bianco sprigiona un freddo così intenso da provocare ustioni da gelo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Gelodenti",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira 2 dadi far tentennare e 2 dadi per congelare il bersaglio.",
+    "descrizione": "Un morso con zanne congelate che possono bloccare il nemico dal terrore o dal freddo.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Martelgelo",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Riduce la Destrezza dell'utilizzatore di 1 grado dopo l'uso.",
+    "descrizione": "Un colpo sferrato con un arto pesante e ghiacciato. La massa riduce la rapidità di chi lo usa.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Gelopugno",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Tira un dado per congelare il bersaglio.",
+    "descrizione": "Un pugno caricato di energia gelida che colpisce con la durezza dell'iceberg.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Geloscheggia",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Colpisce sempre per primo.",
+    "descrizione": "L'utilizzatore scaglia piccoli pezzi di ghiaccio con una rapidità fulminea.",
+    "parole_chiave": ["Priorità"]
+  },
+  {
+    "nome": "Scagliagelo",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Tira 3 dadi per far tentennare il bersaglio.",
+    "descrizione": "Grandi stalattiti vengono fatte cadere dall'alto sul nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Gelolancia",
+    "tipo": "Ghiaccio",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Colpisce da 2 a 5 volte nello stesso turno.",
+    "descrizione": "L'utilizzatore scaglia una raffica di dardi di ghiaccio appuntiti.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ventogelato",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Riduce sempre la Destrezza del bersaglio di 1 grado.",
+    "descrizione": "Una folata d'aria gelida che intorpidisce i muscoli nemici.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Nebbia",
+    "tipo": "Ghiaccio",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Per 4 turni, impedisce ai nemici di ridurre le statistiche della squadra dell'utilizzatore.",
+    "descrizione": "Una brina protettiva avvolge gli alleati, rendendo vani i tentativi di indebolirli.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Polneve",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira 1 dado per congelare il bersaglio.",
+    "descrizione": "L'utilizzatore soffia una neve finissima contro il nemico. Una mossa base molto comune.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Purogelo",
+    "tipo": "Ghiaccio",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale",
+    "effetti_aggiuntivi": "Se colpisce, il bersaglio va KO istantaneamente. Letale.",
+    "descrizione": "Un freddo allo zero assoluto che arresta ogni funzione vitale all'istante.",
+    "parole_chiave": []
   }
 
 
 ]
+
 
 
 
