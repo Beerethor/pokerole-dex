@@ -2298,7 +2298,269 @@
     "effetti_aggiuntivi": "Scotta il bersaglio.",
     "descrizione": "L'utilizzatore evoca fiamme sinistre e spettrali per infliggere una scottatura dolorosa al nemico.",
     "parole_chiave": []
+  },
+    {
+    "nome": "Acrobazia",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Riduci di 2 dadi la pool del danno se l'utilizzatore tiene un oggetto.",
+    "descrizione": "Un attacco agile e spettacolare. La libertà di movimento permette colpi più precisi se non si hanno pesi addosso.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Aeroassalto",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Questa mossa non può fallire il tiro di Accuratezza.",
+    "descrizione": "L'utilizzatore confonde il nemico con la rapidità per poi colpirlo infallibilmente da un angolo cieco.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Aerocolpo",
+    "tipo": "Volante",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico). Letale.",
+    "descrizione": "Un vortice di aria compressa viene scagliato con una forza tale da lacerare il bersaglio.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Aerasoio",
+    "tipo": "Volante",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico. Colpisce tutti i nemici adiacenti.",
+    "descrizione": "L'utilizzatore lancia lame di vento tagliente che investono tutti gli avversari di fronte a sé.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Eterelama",
+    "tipo": "Volante",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Tira 3 dadi per far tentennare il bersaglio.",
+    "descrizione": "L'utilizzatore fende l'aria con lame invisibili che possono stordire il nemico all'impatto.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Cannonbecco",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Se l'utilizzatore viene colpito da una mossa a contatto prima di agire, il bersaglio resta scottato.",
+    "descrizione": "L'utilizzatore scalda il becco prima di colpire. Chi lo tocca durante la carica subisce gravi bruciature.",
+    "parole_chiave": ["Priorità Bassa"]
+  },
+  {
+    "nome": "Rimbalzo",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "L'utilizzatore balza in alto al primo turno allontanandosi dalla lotta e colpisce al secondo. Tira 3 dadi per paralizzare.",
+    "descrizione": "Un balzo altissimo seguito da una picchiata fragorosa sul nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Baldeali",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "L'utilizzatore subisce un danno da contraccolpo pari a 1/3 del danno inflitto.",
+    "descrizione": "Un attacco in picchiata eseguito con un coraggio tale da ignorare i danni subiti dall'impatto.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Schiamazzo",
+    "tipo": "Volante",
+    "categoria": "Speciale",
+    "accuratezza": "Istinto + Prestazione",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira 3 dadi per confondere il bersaglio.",
+    "descrizione": "Un fiume di parole e suoni caotici che lascia il nemico in uno stato di totale confusione.",
+    "parole_chiave": ["Suono"]
+  },
+  {
+    "nome": "Scacciabruma",
+    "tipo": "Volante",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Rimuove barriere (Riflesso, ecc.) e pericoli sul campo (Punte, ecc.).",
+    "descrizione": "Un potente colpo d'ali che spazza via nebbia, ostacoli e protezioni dal campo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ascesa del Drago",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Riduce la Difesa e la Difesa Speciale dell'utilizzatore di 1 grado dopo l'uso. Letale.",
+    "descrizione": "Rayquaza sale oltre le nuvole per poi fiondarsi sul nemico con una potenza celestiale.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Perforbecco",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "Il Pokémon usa il becco come una trivella per trafiggere ripetutamente il corpo del nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Danzadipiume",
+    "tipo": "Volante",
+    "categoria": "Supporto",
+    "accuratezza": "Bellezza + Prestazione",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce l'Attacco del bersaglio di 2 gradi.",
+    "descrizione": "L'utilizzatore ricopre il nemico di piume soffici, ostacolandone i movimenti e fiaccandone la forza.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Piombaflap",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Tira 3 dadi per far tentennare il bersaglio. Non fallisce mai l'accuratezza. Se l'utilizzatore è nella fase finale dell'evoluzione la mossa fallisce.",
+    "descrizione": "Pikachu cavalca una corrente d'aria per abbattersi sul nemico dall'alto.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Volo",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "L'utilizzatore vola in alto al primo turno (diventando quasi invulnerabile) e colpisce al secondo. Può essere colpito solo da Uragano e Tuono.",
+    "descrizione": "Il Pokémon prende quota per poi piombare sul bersaglio con tutto il suo peso.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Raffica",
+    "tipo": "Volante",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Colpisce anche i Pokémon che hanno usato Volo o Rimbalzo, infliggendo danno raddoppiato.",
+    "descrizione": "Un colpo d'ali che genera un forte spostamento d'aria contro il nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Tifone",
+    "tipo": "Volante",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Tira 3 dadi per confondere il bersaglio. Sotto la pioggia non fallisce mai l'accuratezza. Letale.",
+    "descrizione": "L'utilizzatore evoca venti tempestosi che travolgono e stordiscono chiunque ne sia colpito.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Speculmossa",
+    "tipo": "Volante",
+    "categoria": "Supporto",
+    "accuratezza": "Volonta' + Canale",
+    "pool_danno": "Lo stesso della mossa copiata.",
+    "effetti_aggiuntivi": "L'utilizzatore ripete l'ultima mossa usata dal bersaglio contro di lui.",
+    "descrizione": "Il Pokémon imita perfettamente i movimenti del nemico per ritorcergli contro il suo stesso attacco.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ali del Fato",
+    "tipo": "Volante",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Alta possibilita' di critico. Letale",
+    "descrizione": "Yveltal assorbe l'energia vitale di tutto ciò che lo circonda attraverso le sue ali scure.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Beccata",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "Un attacco base eseguito colpendo il nemico con un becco affilato.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Spennata",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Se il bersaglio tiene una Bacca, l'utilizzatore la mangia ottenendone gli effetti.",
+    "descrizione": "Un attacco di becco che permette di rubare e consumare le provviste del nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Trespolo",
+    "tipo": "Volante",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Cura l'utilizzatore del 50% dei PS massimi. Per il resto del turno, perde il tipo Volante.",
+    "descrizione": "Il Pokémon scende a terra per riposare le ali e rigenerare le ferite.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Aeroattacco",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 6",
+    "effetti_aggiuntivi": "Richiede un turno di carica. Alta probabilità di colpo critico e tira 3 dadi per far tentennare.",
+    "descrizione": "L'attacco volante più potente: il Pokémon brilla di una luce intensa prima di schiantarsi sul nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Cadutalibera",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Al primo turno solleva il nemico in aria. Al secondo turno lo lascia cadere infliggendo danno. Al primo turno il nemico tentenna (mentre viene sollevato) se l'attacco ha successo.",
+    "descrizione": "L'utilizzatore afferra il nemico, lo porta in quota e poi si lancia al suolo insieme a lui.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Ventoincoda",
+    "tipo": "Volante",
+    "categoria": "Supporto",
+    "accuratezza": "Istinto + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Raddoppia la Destrezza di tutti i Pokémon della squadra dell'utilizzatore per 4 turni.",
+    "descrizione": "L'utilizzatore evoca una corrente favorevole che spinge gli alleati verso il nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Attacco D'Ala",
+    "tipo": "Volante",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Nessuno",
+    "descrizione": "Il nemico viene colpito con forza da un paio di ali spiegate.",
+    "parole_chiave": ["Contatto"]
   }
 ]
+]
+
 
 
