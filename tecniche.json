@@ -1478,18 +1478,8 @@
     "effetti_aggiuntivi": "Confonde il bersaglio.",
     "descrizione": "Un bacio affettuoso che lascia il nemico in uno stato di totale confusione.",
     "parole_chiave": []
-  }
-
-
-
-
-
-
-
-
-
-
- {
+  },
+  {
     "nome": "Sberletese",
     "tipo": "Lotta",
     "categoria": "Fisica",
@@ -3849,7 +3839,5 @@
     "descrizione": "Il Pokémon sopporta stoicamente i colpi avversari per poi sprigionare tutta l'energia accumulata in un colpo solo.",
     "parole_chiave": ["Priorità Bassa"]
   }
-
-
-    
 ]
+
