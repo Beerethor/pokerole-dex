@@ -1938,6 +1938,367 @@
     "effetti_aggiuntivi": "Se il bersaglio sta dormendo, aggiungi 2 dadi alla pool del danno e il bersaglio si sveglia immediatamente.",
     "descrizione": "Un colpo violento che infligge danni enormi ai Pokémon addormentati, destandoli bruscamente.",
     "parole_chiave": ["Contatto"]
+  },
+      {
+    "nome": "Incendio",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "L'utilizzatore deve riposare nel turno successivo e non può agire. Letale",
+    "descrizione": "L'utilizzatore scatena un'esplosione fiammeggiante che incenerisce tutto, ma richiede una ricarica immediata.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Calciardente",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico. Tira due dadi per scottare il bersaglio (1 Successo nel tiro Precisione).",
+    "descrizione": "Un calcio sferrato con una gamba avvolta dalle fiamme. Colpisce con precisione i punti vitali.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Fuocoblu",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Tira 2 dadi per scottare il bersaglio (2 Successi nel tiro Precisione).",
+    "descrizione": "L'utilizzatore avvolge il nemico in una bellissima ma terrificante fiamma bluastra.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ultima Fiamma",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Volonta' + Canale",
+    "pool_danno": "Speciale + 7",
+    "effetti_aggiuntivi": "Dopo l'uso, l'utilizzatore perde il tipo Fuoco per il resto della giornata. Letale",
+    "descrizione": "L'utilizzatore brucia ogni briciolo della sua energia termica in un colpo solo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Braciere",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira un dado per scottare il bersaglio (1 Successo nel tiro Precisione).",
+    "descrizione": "Piccole fiamme vengono scagliate contro il nemico. È una tecnica base per chi manipola il fuoco.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Eruzione",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Letale, Riduci 1 dado dal danno per ogni Pv in meno all'utilizzatore, al massimo si possono rimuovere 5 dadi, Colpisce tutti i bersagli presenti.",
+    "descrizione": "L'utilizzatore sprigiona tutta la sua rabbia vulcanica. La potenza cala con l'affaticamento.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Voldifuoco",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Prestazione",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Tira 5 dadi per aumentare lo Speciale dell'utilizzatore di 1 grado.",
+    "descrizione": "L'utilizzatore danza avvolto dalle fiamme, aumentando il proprio vigore magico mentre attacca.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fuocobomba",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Tira 3 dadi per scottare il bersaglio (1 Successo nel tiro Precisione). Letale.",
+    "descrizione": "Un'enorme fiammata a forma di carattere 'fuoco' che incenerisce tutto ciò che tocca.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Rogodenti",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira due dadi per far tentennare e 2 dadi per far scottare il bersaglio.",
+    "descrizione": "Un morso con zanne intrise di fiamme che possono traumatizzare il nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Frusta Di Fuoco",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Riduce la Difesa del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore colpisce con una coda o un arto infuocato come se fosse una frusta, lacerando le difese.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Fiammapatto",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Se usata con Erbapatto, crea un mare di fiamme che danneggia i nemici ogni turno. Tira 1 dado di fanno di fuoco alla fine di ogni turno contro ognuno sul campo",
+    "descrizione": "Un attacco coordinato che scatena una colonna di fuoco sul terreno.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fuocopugno",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Tira 1 dado per scottare il bersaglio. Basata sui pugni",
+    "descrizione": "Un pugno avvolto dalle fiamme che colpisce con calore intenso.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Turbofuoco",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Intrappola il bersaglio in un vortice di fiamme per 4 turni, infliggendo 2 dadi danno a ogni turno.",
+    "descrizione": "Il nemico viene imprigionato in una colonna di fuoco che lo scotta ripetutamente.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Pirolancio",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Dopo aver fatto danno l'utilizzatore tira 1 dado di danno contro altri due bersagli.",
+    "descrizione": "L'utilizzatore lancia una palla di fuoco che esplode all'impatto, investendo i nemici vicini.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Nitrocarica",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Aumenta la Destrezza dell'utilizzatore di 1 grado dopo l'attacco.",
+    "descrizione": "Il Pokémon si avvolge nelle fiamme e carica, aumentando la sua rapidità grazie alla spinta termica.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Ruotafuoco",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Tira 1 dado per scottare il bersaglio. Libera l'utilizzatore dal Congelamento.",
+    "descrizione": "L'utilizzatore si raggomitola e rotola verso il nemico coperto di fiamme.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Lanciafiamme",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Tira 1 dado per scottare il bersaglio.",
+    "descrizione": "Un intenso getto di fuoco viene sparato contro il bersaglio. Può causare gravi scottature.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Fuococarica",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "L'utilizzatore subisce un danno da contraccolpo pari a 1/3 del danno inflitto. Tira 1 dado per scottare il bersaglio.",
+    "descrizione": "Una carica incendiaria devastante che danneggia anche l'utilizzatore per l'intensità del calore.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Incrofiamma",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Aggiungi 4 dadi al danno se usata dopo Incrotuono nello stesso turno. Letale",
+    "descrizione": "Una gigantesca sfera di fuoco che colpisce con una forza leggendaria.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Marchiafuoco",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Aggiungi 1 dado al danno per ogni 50 kg dell'utilizzatore in più al bersaglio, al massimo 4 dadi.",
+    "descrizione": "L'utilizzatore schiaccia il nemico con il suo corpo incandescente sfruttando il proprio peso.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Ondacalda",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Colpisce tutti i nemici adiacenti. Tira un dado per scottare.",
+    "descrizione": "L'utilizzatore espelle un soffio d'aria rovente che investe l'area circostante.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Bruciatutto",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Distrugge le Bacche tenute dai bersagli colpiti, impedendone l'uso. Colpisce tutti i bersagli nel raggio d'azione",
+    "descrizione": "Fiamme rapide che inceneriscono gli strumenti commestibili del nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Inferno",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Se colpisce, scotta sempre il bersaglio.",
+    "descrizione": "Il Pokémon investe il nemico con fiamme infernali che avvolgono completamente il corpo. Letale",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Lavasbuffo",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Colpisce tutti i Pokémon adiacenti. Tira 3 dadi per scottare.",
+    "descrizione": "Un'ondata di fiamme e fumo scarlatto che travolge chiunque si trovi vicino all'utilizzatore.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Magmaclisma",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Trappola il bersaglio in un turbine di magma per 4 turni, infliggendo 3 dadi di danno danno a ogni turno.",
+    "descrizione": "Il nemico viene imprigionato in una prigione di lava incandescente dalla temperatura inaudita.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Sbalorditesta",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Istinto + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "L'utilizzatore subisce un danno pari alla metà del danno per l'esplosione. Colpisce tutti i pokemon nell'area",
+    "descrizione": "L'utilizzatore fa esplodere la propria testa per scatenare un potere immenso, subendo gravi danni.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Magifiamma",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Riduce lo Speciale del bersaglio di 1 grado.",
+    "descrizione": "Dalle fauci dell'utilizzatore fuoriesce un fuoco speciale che fiacca la potenza magica del nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Vampata",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Riduce lo Speciale dell'utilizzatore di 2 gradi dopo l'uso.",
+    "descrizione": "L'utilizzatore sprigiona tutta la sua potenza in una fiammata colossale, esaurendo la propria energia.",
+    "parole_ciave": []
+  },
+  {
+    "nome": "Palla Infuocata",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Canale",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Tira un dado per scottare il bersaglio. Libera l'utilizzatore dal Congelamento.",
+    "descrizione": "L'utilizzatore calcia un sasso trasformandolo in una palla di fuoco fusa che scaglia sul nemico.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Magifuoco",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Forza + 4",
+    "effetti_aggiuntivi": "Tira 5 dadi per scottare il bersaglio. Libera l'utilizzatore dal Congelamento. Letale",
+    "descrizione": "Un fuoco mistico e purificatore che colpisce il nemico con l'intensità di mille soli.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Sparofuoco",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 5",
+    "effetti_aggiuntivi": "Tira 3 dadi per scottare il bersaglio. Letale. Colpisce tutti i bersagli in zona.",
+    "descrizione": "L'utilizzatore emette un colpo di fiamme così intense da bruciare anche l'aria circostante.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Gusciotrappola",
+    "tipo": "Fuoco",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Furtivita'",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Funziona solo se l'utilizzatore viene colpito da una mossa fisica nello stesso turno. Letale.",
+    "descrizione": "L'utilizzatore prepara il suo guscio esplosivo. Se viene toccato, scatena una detonazione devastante.",
+    "parole_chiave": ["Priorità Bassa"]
+  },
+  {
+    "nome": "Fiammabam",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Scotta sempre il bersaglio se il colpo va a segno.",
+    "descrizione": "L'utilizzatore si ammanta di fiamme e travolge il nemico, lasciandolo bruciato.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Giornodisole",
+    "tipo": "Fuoco",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Per 4 turni, potenzia le mosse Fuoco e indebolisce le mosse Acqua del 50%. Impedisce il Congelamento.",
+    "descrizione": "L'utilizzatore intensifica i raggi solari, creando un calore torrido sul campo di battaglia.",
+    "parole_chiave": ["Meteo"]
+  },
+  {
+    "nome": "Generatore V",
+    "tipo": "Fuoco",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 7",
+    "effetti_aggiuntivi": "Dopo l'uso, riduce la Difesa, la Difesa Speciale e la Destrezza dell'utilizzatore di 1 grado.",
+    "descrizione": "L'utilizzatore emette dalle fiamme sulla fronte un'energia immensa. La potenza è tale da debilitare chi la usa.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Fuocofatuo",
+    "tipo": "Fuoco",
+    "categoria": "Supporto",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Scotta il bersaglio.",
+    "descrizione": "L'utilizzatore evoca fiamme sinistre e spettrali per infliggere una scottatura dolorosa al nemico.",
+    "parole_chiave": []
   }
 ]
+
 
