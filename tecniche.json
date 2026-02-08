@@ -2558,8 +2558,240 @@
     "effetti_aggiuntivi": "Nessuno",
     "descrizione": "Il nemico viene colpito con forza da un paio di ali spiegate.",
     "parole_chiave": ["Contatto"]
+  },
+      {
+    "nome": "Sgomento",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Tira 3 dadi per far tentennare il bersaglio.",
+    "descrizione": "L'utilizzatore attacca con un grido o un gesto improvviso per spaventare il nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Stordiraggio",
+    "tipo": "Spettro",
+    "categoria": "Supporto",
+    "accuratezza": "Intuito + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Confonde il bersaglio.",
+    "descrizione": "Un raggio sinistro che disorienta completamente il nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Maledizione (Spettro)",
+    "tipo": "Spettro",
+    "categoria": "Supporto",
+    "accuratezza": "Volonta' + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "L'utilizzatore perde il 50% dei PS massimi. Il bersaglio rimuove 1 successo ad ognuno dei suoi tiri.",
+    "descrizione": "Il Pokémon sacrifica la propria carne per infliggere un tormento eterno all'avversario.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Maledizione (Non-Spettro)",
+    "tipo": "Spettro",
+    "categoria": "Supporto",
+    "accuratezza": "Volonta' + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce la Destrezza del bersaglio di 1 grado. Aumenta l'Attacco Forza e la Difesa dell'utilizzatore di 1 grado. Può essere usata solo chi non è spettro.",
+    "descrizione": "Il Pokémon accetta un fardello fisico per potenziare la propria forza e resistenza.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Destinobbligato",
+    "tipo": "Spettro",
+    "categoria": "Supporto",
+    "accuratezza": "Volonta' + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Se l'utilizzatore va KO a causa di un attacco nemico nello stesso turno, anche l'attaccante va KO immediatamente.",
+    "descrizione": "Un legame oscuro che trascina l'avversario nell'abisso insieme a chi lo evoca.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Rancore",
+    "tipo": "Spettro",
+    "categoria": "Supporto",
+    "accuratezza": "Nessuna",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Se l'utilizzatore va KO, l'avversario perde tutti i suoi punti volontà. Per continuare a lottare deve tirare su lealta' e ogni turno serve un successo aggiuntivo per rimanere in campo.",
+    "descrizione": "Un ultimo desiderio di vendetta che sigilla i poteri di chi ha sferrato il colpo fatale.",
+    "parole_chiave": []
+  },
+ {
+    "nome": "Sciagura",
+    "tipo": "Spettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Il Pool Danno aumenta di 2 dadi se il bersaglio è affetto da un'alterazione di stato.",
+    "descrizione": "Una punizione spietata che infierisce sulle debolezze e sulle sofferenze del nemico.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Leccata",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Tira 3 dadi per paralizzare il bersaglio (1 Successo nel tiro Precisione).",
+    "descrizione": "L'utilizzatore lecca il nemico con la sua lingua lunga e gelida.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Raggio d'Ombra",
+    "tipo": "Spettro",
+    "categoria": "Speciale",
+    "accuratezza": "Speciale + Canale",
+    "pool_danno": "Speciale + 4",
+    "effetti_aggiuntivi": "Ignora l'Abilità del bersaglio durante il calcolo dei danni. Non può essere parata. Letale.",
+    "descrizione": "Lunala sprigiona un raggio di luce spettrale che squarcia ogni difesa naturale.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ombra Notturna",
+    "tipo": "Spettro",
+    "categoria": "Speciale",
+    "accuratezza": "Istinto + Canale",
+    "pool_danno": "Speciale",
+    "effetti_aggiuntivi": "Infligge danni pari a 1 dado per rango dell'utilizzatore.",
+    "descrizione": "L'utilizzatore evoca un miraggio terribile che infligge un danno costante alla psiche nemica.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Incubo",
+    "tipo": "Spettro",
+    "categoria": "Supporto",
+    "accuratezza": "Volonta' + Canale",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Funziona solo su bersagli addormentati. Il nemico perde 1 dado di danno alla fine di ogni turno.",
+    "descrizione": "Tormenta il sonno del nemico con visioni orribili che consumano la sua energia.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Funestovento",
+    "tipo": "Spettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 2",
+    "effetti_aggiuntivi": "Tira un dado per aumentare tutte le statistiche dell'utilizzatore di 1 grado.",
+    "descrizione": "Un soffio d'aria spettrale che può risvegliare un potere sopito in chi lo evoca.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Spettrotuffo",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "L'utilizzatore scompare al primo turno e colpisce al secondo. Ignora mosse come Protezione.",
+    "descrizione": "Il Pokémon svanisce nelle ombre per poi riemergere improvvisamente alle spalle del nemico.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Palla Ombra",
+    "tipo": "Spettro",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 3",
+    "effetti_aggiuntivi": "Tira un dado per ridurre la Difesa Speciale del bersaglio di 1 grado (1 Successo nel tiro Precisione).",
+    "descrizione": "L'utilizzatore lancia una sfera di oscurità che scuote l'anima dell'avversario.",
+    "parole_chiave": ["Proiettile"]
+  },
+  {
+    "nome": "Ossotetro",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Tira 2 dadi per ridurre la Difesa del bersaglio di 1 grado.",
+    "descrizione": "L'utilizzatore colpisce selvaggiamente con un osso intriso di fiamme spirituali.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Ombrartigli",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Alta probabilità di colpo critico (riduce di 1 la soglia del successo critico).",
+    "descrizione": "Artigli fatti di ombre taglienti squarciano il nemico puntando ai suoi punti vitali.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Oscurotuffo",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Forza + Rissa",
+    "pool_danno": "Forza + 5",
+    "effetti_aggiuntivi": "Letale. Mossa Carica. Mentre carichi questa Mossa, le altre Mosse non avranno effetto sull'utilizzatore. Se il Bersaglio ha effettuato un'Azione di Scudo, lo scudo viene distrutto e non avrà alcun effetto. I danni inflitti da questa Mossa non possono essere curati per 24 ore.",
+    "descrizione": "Giratina squarcia le dimensioni per colpire con una forza devastante dall'Oltre.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Furtivombra",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Colpisce sempre per primo.",
+    "descrizione": "L'utilizzatore estende la propria ombra per colpire il nemico alle spalle in un istante.",
+    "parole_chiave": ["Contatto", "Priorità"]
+  },
+  {
+    "nome": "Pugnodombra",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 2",
+    "effetti_aggiuntivi": "Questa mossa non può fallire il tiro di Accuratezza.",
+    "descrizione": "Un pugno lanciato dall'oscurità che insegue il nemico ovunque egli sia.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Ombrafurto",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Ruba i potenziamenti alle statistiche del bersaglio prima di infliggere danno.",
+    "descrizione": "L'utilizzatore si fonde con l'ombra del nemico per sottrargli forza e ritorcergliela contro.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Cucitura d'Ombra",
+    "tipo": "Spettro",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Impedisce al bersaglio di fuggire o essere sostituito.",
+    "descrizione": "Decidueye scaglia una freccia d'ombra che inchioda l'ombra del nemico al suolo.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Dispetto",
+    "tipo": "Spettro",
+    "categoria": "Supporto",
+    "accuratezza": "Volonta' + Intimidazione",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce la volonta' a 1 punto e resetta tutte le modifiche apportate con essa.",
+    "descrizione": "Un atto di pura malevolenza che consuma l'energia dell'avversario per una specifica tecnica.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Halloween",
+    "tipo": "Spettro",
+    "categoria": "Supporto",
+    "accuratezza": "Volonta' + Fascino",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Aggiunge il tipo Spettro al bersaglio (se non lo possiede già).",
+    "descrizione": "L'utilizzatore invita il nemico a partecipare a una macabra festa, rendendolo parte del mondo degli spiriti.",
+    "parole_chiave": []
   }
+
 ]
+
 
 
 
