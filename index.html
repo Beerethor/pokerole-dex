@@ -200,7 +200,8 @@ function createPkmnCard(p, userRank) {
             const attr = p.attributi || {};
             const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
             const evo = p.linea_evolutiva || [];
-            const img = p.immagine || 'https://via.placeholder.com/150?text=No+Image';
+            // Recupera l'immagine dal JSON o usa un placeholder se manca
+            const imgUrl = p.immagine || 'https://via.placeholder.com/150?text=No+Image';
 
             return `
             <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden animate-pop text-left shadow-2xl">
@@ -224,18 +225,18 @@ function createPkmnCard(p, userRank) {
 
                 <div class="p-5">
                     <div class="flex gap-4 mb-6 items-center">
-                        <div class="relative">
-                            <div class="absolute -inset-1 bg-yellow-500/20 rounded-full blur"></div>
-                            <img src="${img}" class="relative w-24 h-24 object-contain bg-slate-950 rounded-full p-2 border-2 border-slate-700 shadow-inner">
+                        <div class="relative shrink-0">
+                            <div class="absolute -inset-1 bg-yellow-500/10 rounded-full blur"></div>
+                            <img src="${imgUrl}" class="relative w-24 h-24 object-contain bg-slate-950 rounded-full p-2 border-2 border-slate-700 shadow-inner" onerror="this.src='https://via.placeholder.com/150?text=Error'">
                         </div>
-                        <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/40 p-3 rounded-2xl border-l-2 border-yellow-600">
-                            "${p.descrizione || 'Dati Pokédex non disponibili.'}"
+                        <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/40 p-3 rounded-2xl border-l-2 border-yellow-600 leading-snug">
+                            "${p.descrizione || 'Nessun dato registrato nel database regionale.'}"
                         </div>
                     </div>
 
                     <div class="grid grid-cols-3 gap-3 mb-6">
                         <div class="space-y-2">
-                            <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 italic">Attributes</h4>
+                            <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 italic pb-1">Attributes</h4>
                             ${['Strength', 'Dexterity', 'Vitality', 'Special', 'Insight'].map(s => `
                                 <div class="flex justify-between bg-slate-950/50 p-2 rounded-lg border border-slate-800/50">
                                     <span class="text-[8px] text-slate-400 uppercase font-bold">${s.slice(0,3)}</span>
@@ -244,7 +245,7 @@ function createPkmnCard(p, userRank) {
                             `).join('')}
                         </div>
                         <div class="space-y-2">
-                            <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 italic">Social</h4>
+                            <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 italic pb-1">Social</h4>
                             ${['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'].map(s => `
                                 <div class="flex justify-between bg-black/20 p-1.5 px-2 rounded-md border border-slate-800/30">
                                     <span class="text-[8px] text-slate-500 uppercase">${s}</span>
@@ -253,17 +254,20 @@ function createPkmnCard(p, userRank) {
                             `).join('')}
                         </div>
                         <div class="space-y-2">
-                            <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 italic">Combat</h4>
-                            <div class="bg-slate-950 p-2 rounded-lg text-[8px] text-white border border-slate-800/50">ACC: DEX+INS</div>
-                            <div class="bg-slate-950 p-2 rounded-lg text-[8px] text-white border border-slate-800/50">EVA: DEX+ALE</div>
+                            <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 italic pb-1">Combat</h4>
+                            <div class="bg-slate-950 p-2 rounded-lg text-[8px] text-white border border-slate-800/40">ACC: DEX+INS</div>
+                            <div class="bg-slate-950 p-2 rounded-lg text-[8px] text-white border border-slate-800/40">EVA: DEX+ALE</div>
                             <div class="bg-slate-950 p-2 rounded-lg text-[8px] text-red-400 border border-red-900/20">DEF: VIT+TOU</div>
                         </div>
                     </div>
 
                     <div class="bg-black/30 p-3 rounded-2xl mb-4 text-[9px] border border-slate-800/50">
                         <span class="text-slate-500 block mb-1 uppercase font-black italic">Evo Line:</span>
-                        <div class="flex flex-wrap gap-2">
-                            ${evo.map((e, i) => `<span class="font-bold ${e.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-600'}">${e} ${i < evo.length-1 ? '➔' : ''}</span>`).join('') || 'None'}
+                        <div class="flex flex-wrap gap-2 items-center">
+                            ${evo.length > 0 ? evo.map((e, i) => `
+                                <span class="font-bold ${e.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-600'}">${e}</span>
+                                ${i < evo.length - 1 ? '<span class="text-slate-800 text-[10px]">➔</span>' : ''}
+                            `).join('') : '---'}
                         </div>
                     </div>
 
@@ -344,6 +348,7 @@ function createPkmnCard(p, userRank) {
     </script>
 </body>
 </html>
+
 
 
 
