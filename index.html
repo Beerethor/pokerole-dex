@@ -195,7 +195,7 @@
             }).join('');
         }
 
-        // --- POKEMON CARD RENDERER ---
+// --- RENDER SCHEDA POKEMON FORMATO MONSTER SHEET 2.0 ---
         function createPkmnCard(p, userRank) {
             const rIdx = RANGHI.indexOf(userRank);
             const abils = p.abilita || p.Abilità || [];
@@ -203,75 +203,114 @@
             const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
             const regione = p.regione || REGIONI[p.generazione] || "Sconosciuta";
             const evo = p.linea_evolutiva || [];
+            
+            // Estrazione attributi per il formato Monster Sheet 
+            const attr = p.attributi || {};
 
             return `
-            <div class="bg-slate-900 rounded-[3rem] border border-slate-800/50 overflow-hidden shadow-2xl animate-pop text-left group">
-                <div class="bg-slate-800/40 p-7 flex justify-between items-start border-b border-slate-700/30">
+            <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden shadow-2xl animate-pop text-left">
+                <div class="bg-slate-800/40 p-6 flex justify-between items-center border-b border-slate-700/50">
                     <div>
-                        <span class="text-[9px] font-black text-yellow-500 uppercase tracking-[0.2em] font-mono-data">Region: ${regione}</span>
-                        <h2 class="text-4xl font-black text-white uppercase leading-none mt-1 tracking-tighter">${p.nome}</h2>
-                        <div class="flex gap-2 mt-4">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-black px-3 py-1 rounded-full border border-white/10 uppercase">${t}</span>`).join('')}</div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[9px] font-black text-yellow-500 uppercase tracking-widest font-mono-data">RANK: ${p.rango || userRank}</span>
+                            <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest font-mono-data">| ${regione}</span>
+                        </div>
+                        <h2 class="text-3xl font-black text-white uppercase leading-none mt-1 italic">${p.nome}</h2>
+                        <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[7px] font-black px-2 py-0.5 rounded uppercase border border-white/10">${t}</span>`).join('')}</div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-3xl border border-red-900/30 text-center min-w-[85px] shadow-lg">
-                        <span class="text-[8px] text-red-500 font-black block uppercase mb-1">Vitalità</span>
-                        <span class="text-2xl font-black text-white font-mono-data">${p.vitalita_max?.hp || p.vitalita || 0}</span>
+                    <div class="flex gap-2">
+                        <div class="bg-slate-950 p-2 rounded-xl border border-red-900/30 text-center min-w-[60px]">
+                            <span class="text-[7px] text-red-500 font-black block uppercase italic">HP</span>
+                            <span class="text-xl font-black text-white font-mono-data">${p.vitalita_max?.hp || p.vitalita || 0}</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-xl border border-blue-900/30 text-center min-w-[60px]">
+                            <span class="text-[7px] text-blue-500 font-black block uppercase italic">WILL</span>
+                            <span class="text-xl font-black text-white font-mono-data">${attr.Will?.base || attr.Will || 0}</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="p-7">
-                    <div class="flex gap-5 mb-6 items-center">
-                        <div class="w-24 h-24 bg-slate-950 rounded-[2rem] p-3 border border-slate-800 shadow-inner flex shrink-0 items-center justify-center">
-                            <img src="${p.immagine}" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/100?text=?'">
-                        </div>
-                        <div class="text-[11px] text-slate-400 italic bg-slate-950/40 p-4 rounded-2xl border-l-4 border-yellow-600 leading-relaxed shadow-sm">
-                            "${p.descrizione || 'Dati Pokédex non disponibili.'}"
-                        </div>
-                    </div>
-
-                    ${evo.length > 0 ? `
-                    <div class="mb-6 bg-black/30 p-4 rounded-2xl border border-slate-800/40">
-                        <h4 class="text-[7px] text-slate-600 font-black uppercase mb-3 tracking-widest px-1 italic">Catena Evolutiva</h4>
-                        <div class="flex flex-wrap items-center gap-3 px-1">
-                            ${evo.map((name, i) => `
-                                <span class="text-[10px] font-black ${name.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-500'} uppercase">${name}</span>
-                                ${i < evo.length - 1 ? '<span class="text-slate-800 text-xs">➔</span>' : ''}
+                <div class="p-5">
+                    <div class="grid grid-cols-3 gap-3 mb-6">
+                        <div class="space-y-2">
+                            <h4 class="text-[8px] text-slate-500 font-black uppercase tracking-tighter border-b border-slate-800 pb-1 italic">Attributes</h4>
+                            ${['Strength', 'Dexterity', 'Vitality', 'Special', 'Insight'].map(stat => `
+                                <div class="flex justify-between items-end bg-slate-950/50 p-2 rounded-lg border border-slate-800/50">
+                                    <span class="text-[8px] text-slate-400 uppercase font-bold">${stat.slice(0,3)}</span>
+                                    <span class="text-xs font-black text-yellow-500 font-mono-data">${attr[stat]?.base || attr[stat] || 0}</span>
+                                    <span class="text-[7px] text-slate-600 font-mono-data">/${attr[stat]?.max || attr[stat] || 0}</span>
+                                </div>
                             `).join('')}
                         </div>
-                    </div>
-                    ` : ''}
 
-                    <div class="mb-8">
-                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-3 tracking-widest px-1">Special Abilities</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${abils.map(a => `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-4 py-2 rounded-xl text-[10px] font-black uppercase font-mono-data shadow-sm">${a}</span>`).join('') || '---'}
+                        <div class="space-y-2">
+                            <h4 class="text-[8px] text-slate-500 font-black uppercase tracking-tighter border-b border-slate-800 pb-1 italic">Social</h4>
+                            <div class="grid grid-cols-1 gap-1">
+                                ${['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'].map(skill => `
+                                    <div class="flex justify-between bg-black/20 p-1.5 px-2 rounded-md border border-slate-800/30">
+                                        <span class="text-[8px] text-slate-500 uppercase">${skill}</span>
+                                        <span class="text-[10px] font-black text-emerald-500 font-mono-data">0</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="text-[8px] text-slate-500 font-black uppercase tracking-tighter border-b border-slate-800 pb-1 italic">Combat Data</h4>
+                            <div class="space-y-1">
+                                <div class="bg-slate-950 p-2 rounded-lg border border-slate-800/50">
+                                    <span class="text-[7px] text-slate-600 block uppercase font-black tracking-tighter">Accuracy</span>
+                                    <span class="text-[9px] font-bold text-white font-mono-data">DEX+INS</span>
+                                </div>
+                                <div class="bg-slate-950 p-2 rounded-lg border border-slate-800/50">
+                                    <span class="text-[7px] text-slate-600 block uppercase font-black tracking-tighter">Evasion</span>
+                                    <span class="text-[9px] font-bold text-white font-mono-data">DEX+ALE</span>
+                                </div>
+                                <div class="bg-slate-950 p-2 rounded-lg border border-slate-800/50">
+                                    <span class="text-[7px] text-slate-600 block uppercase font-black tracking-tighter">Defense</span>
+                                    <span class="text-[9px] font-bold text-red-400 font-mono-data">VIT+TOU</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-5 gap-2 mb-8 text-center">
-                        ${Object.entries(p.attributi || {}).map(([k,v]) => `
-                            <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800/50 shadow-sm">
-                                <span class="text-[7px] uppercase text-slate-600 block font-black mb-2">${k.slice(0,3)}</span>
-                                <div class="text-[10px] font-black font-mono-data flex flex-col">
-                                    <span class="text-yellow-500 text-sm mb-1">${v.base || v}</span>
-                                    <span class="text-slate-600 text-[8px] border-t border-slate-800 pt-1 uppercase italic">Max ${v.max || v}</span>
-                                </div>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-black/30 p-3 rounded-2xl border border-slate-800/40">
+                            <h4 class="text-[7px] text-slate-500 font-black uppercase mb-2 tracking-widest">Evo Line</h4>
+                            <div class="flex flex-wrap items-center gap-2">
+                                ${evo.length > 0 ? evo.map((e, i) => `
+                                    <span class="text-[9px] font-black ${e.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-600'} uppercase">${e}</span>
+                                    ${i < evo.length - 1 ? '<span class="text-slate-800 text-[8px]">➔</span>' : ''}
+                                `).join('') : '<span class="text-[9px] text-slate-700 italic uppercase">No Evo</span>'}
                             </div>
-                        `).join('')}
+                        </div>
+                        <div class="bg-emerald-950/10 p-3 rounded-2xl border border-emerald-900/20">
+                            <h4 class="text-[7px] text-emerald-700 font-black uppercase mb-2 tracking-widest italic">Ability</h4>
+                            <div class="flex flex-wrap gap-1">
+                                ${abils.map(a => `<span class="text-[9px] font-black text-emerald-400 uppercase tracking-tighter">${a}</span>`).join(', ') || '---'}
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="space-y-1.5">
-                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-3 tracking-widest px-1 italic">Move Set Pool</h4>
-                        ${techs.map(m => {
-                            const locked = RANGHI.indexOf(m.rango) > rIdx;
-                            return `
-                            <div class="flex justify-between items-center p-3 rounded-xl text-[10px] font-bold font-mono-data transition-all duration-300 ${locked ? 'opacity-15 bg-slate-950' : 'bg-slate-800/40 text-white border-l-4 border-yellow-600 hover:bg-slate-800'}">
-                                <span>${m.nome}</span>
-                                <span class="text-[8px] uppercase px-2 py-0.5 bg-black/40 rounded text-slate-500">${m.rango}</span>
-                            </div>`;
-                        }).join('')}
+                    <div class="space-y-1">
+                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-2 tracking-widest px-1 italic">Move Set</h4>
+                        <div class="grid grid-cols-1 gap-1">
+                            ${techs.map(m => {
+                                const locked = RANGHI.indexOf(m.rango) > rIdx;
+                                return `
+                                <div class="flex justify-between items-center p-2 px-3 rounded-xl text-[10px] font-bold font-mono-data transition-all ${locked ? 'opacity-20 bg-slate-950 grayscale' : 'bg-slate-800/30 text-white border-l-2 border-yellow-600 shadow-sm'}">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-[8px] uppercase text-slate-500 w-12">${m.rango.slice(0,3)}</span>
+                                        <span class="tracking-tight uppercase">${m.nome}</span>
+                                    </div>
+                                    <span class="text-[8px] text-slate-600 uppercase italic">Power: ${m.pool_danno || '--'}</span>
+                                </div>`;
+                            }).join('')}
+                        </div>
                     </div>
                 </div>
             </div>`;
+        }
         }
 
         // --- STANDARD CARD RENDERER (TECH/ABIL) ---
@@ -338,3 +377,4 @@
     </script>
 </body>
 </html>
+
