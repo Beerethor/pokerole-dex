@@ -3838,6 +3838,109 @@
     "effetti_aggiuntivi": "L'utilizzatore accumula danni per 2 turni. Al terzo turno, Aumenta di 2 i danni ricevuti al nemico.",
     "descrizione": "Il Pokémon sopporta stoicamente i colpi avversari per poi sprigionare tutta l'energia accumulata in un colpo solo.",
     "parole_chiave": ["Priorità Bassa"]
+  },
+{
+    "nome": "Legatutto",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Trappola il bersaglio per 4 turni, infliggendo 2 dadi di danno a ogni turno.",
+    "descrizione": "L'utilizzatore usa il proprio corpo o lunghi arti per stringere il nemico in una morsa soffocante.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Blocco",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Impedisce al bersaglio di fuggire o essere sostituito finché l'utilizzatore è attivo.",
+    "descrizione": "L'utilizzatore sbarra la strada al nemico con movimenti calcolati, impedendogli ogni ritirata.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Corposcontro",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Tira 3 dadi per paralizzare il bersaglio.",
+    "descrizione": "Il Pokémon si lancia con tutto il suo peso sul nemico, rischiando di schiacciarlo e paralizzarlo.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Ondaboato",
+    "tipo": "Normale",
+    "categoria": "Speciale",
+    "accuratezza": "Destrezza + Canale",
+    "pool_danno": "Speciale + 6",
+    "effetti_aggiuntivi": "Colpisce tutti i Pokémon adiacenti (inclusi gli alleati).",
+    "descrizione": "Un'esplosione sonora di potenza inaudita che scuote l'area circostante.",
+    "parole_chiave": ["Suono"]
+  },
+  {
+    "nome": "Camuffamento",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Speciale + Natura",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Cambia il tipo dell'utilizzatore in base al terreno circostante (es: Erba in un bosco, Roccia in grotta).",
+    "descrizione": "Il Pokémon muta il colore e la consistenza della propria pelle per mimetizzarsi con l'ambiente.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Incanto",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Bellezza + Fascino",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Se il bersaglio è di sesso opposto, riduce il suo Attacco Speciale di 2 gradi.",
+    "descrizione": "Un fascino ammaliante che distrae il nemico, riducendo drasticamente la sua concentrazione magica.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Insidia",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 3",
+    "effetti_aggiuntivi": "Ignora i cambiamenti alle statistiche difensive del bersaglio (es: Difesa aumentata).",
+    "descrizione": "Un attacco che cerca costantemente i varchi nelle difese nemiche per colpire dove fa più male.",
+    "parole_chiave": ["Contatto"]
+  },
+  {
+    "nome": "Cometapugno",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Colpisce da 2 a 5 volte nello stesso turno.",
+    "descrizione": "Una serie di pugni rapidi come meteore che si abbattono sul nemico.",
+    "parole_chiave": ["Contatto", "Pugno"]
+  },
+  {
+    "nome": "Confidenza",
+    "tipo": "Normale",
+    "categoria": "Supporto",
+    "accuratezza": "Dolcezza + Fascino",
+    "pool_danno": "Nessuno",
+    "effetti_aggiuntivi": "Riduce l'Attacco Speciale del bersaglio di 1 grado. Non può fallire.",
+    "descrizione": "L'utilizzatore chiacchiera con il nemico, distraendolo e facendogli perdere il filo del combattimento.",
+    "parole_chiave": []
+  },
+  {
+    "nome": "Limitazione",
+    "tipo": "Normale",
+    "categoria": "Fisica",
+    "accuratezza": "Destrezza + Rissa",
+    "pool_danno": "Forza + 1",
+    "effetti_aggiuntivi": "Può ridurre la Difesa del bersaglio di 1 grado. Tira due dadi di dannoa lla fine di ogni turno.",
+    "descrizione": "Una stretta fastidiosa che intralcia i movimenti del nemico, rendendolo più lento.",
+    "parole_chiave": ["Contatto"]
   }
+
+    
 ]
+
 
