@@ -2,60 +2,106 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokedex Monster Sheet 2.0 - Dynamic HP</title>
+    <title>Pokérole Pokedex Generator 3.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
-        body { background-color: #1a1a1a; font-family: 'Rajdhani', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+        
+        body { background-color: #1a1a1a; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
         :root { --pokedex-red: #dc2626; --pokedex-dark-red: #991b1b; --screen-bg: #0f172a; --neon-blue: #0ea5e9; --neon-yellow: #facc15; }
-        .pokedex-frame { width: 920px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 30px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 25px; border: 4px solid #334155; color: white; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
+        
+        /* Controlli Filtri */
+        .filter-bar { background: #2d2d2d; border: 2px solid #444; border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        input, select { background: #1a1a1a; border: 1px solid #555; color: white; padding: 8px 12px; border-radius: 8px; font-family: 'Rajdhani'; }
+        input:focus { border-color: var(--neon-blue); outline: none; }
+
+        /* Pokedex Frame */
+        .pokedex-frame { width: 920px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 30px; position: relative; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 25px; border: 4px solid #334155; position: relative; overflow: hidden; }
+        
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; }
         .dot { width: 10px; height: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; display: inline-block; margin-right: 3px; transform: skewX(-15deg); }
         .dot.filled { background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); border: none; }
         .stat-box { background: rgba(0,0,0,0.5); border-left: 3px solid var(--neon-yellow); padding: 5px 12px; border-radius: 4px; }
         .move-slot { border-bottom: 1px solid rgba(14, 165, 233, 0.1); padding: 6px 0; }
-        .btn-scan { background: #22c55e; border-bottom: 4px solid #166534; transition: all 0.1s; cursor: pointer; }
-        .btn-scan:active { transform: translateY(2px); border-bottom-width: 0; }
     </style>
 </head>
 <body>
 
-    <button onclick="generateRandomCard()" class="btn-scan mb-10 px-12 py-4 rounded-xl text-white font-black uppercase tracking-widest text-xl shadow-2xl">
-        SCANNERIZZA POKÉMON
-    </button>
+    <div class="max-w-5xl mx-auto">
+        <div class="filter-bar grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div>
+                <label class="block text-xs uppercase font-bold mb-2 text-gray-400">Cerca Parola Chiave</label>
+                <input type="text" id="searchKey" placeholder="Es. Erba, Volo, Bulba..." class="w-full">
+            </div>
+            <div>
+                <label class="block text-xs uppercase font-bold mb-2 text-gray-400">Regione</label>
+                <select id="regionFilter" class="w-full">
+                    <option value="all">Tutte le Regioni</option>
+                    <option value="Kanto">Kanto</option>
+                    <option value="Johto">Johto</option>
+                    <option value="Hoenn">Hoenn</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs uppercase font-bold mb-2 text-yellow-500">Rango Utilizzatore</label>
+                <select id="userRank" class="w-full">
+                    <option value="1">Starter (Bonus +1)</option>
+                    <option value="2">Beginner (Bonus +2)</option>
+                    <option value="3">Amateur (Bonus +3)</option>
+                    <option value="4">Ace (Bonus +4)</option>
+                    <option value="5">Pro (Bonus +5)</option>
+                </select>
+            </div>
+            <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase tracking-tighter shadow-lg transition-all">
+                GENERAZIONE CASUALE
+            </button>
+        </div>
 
-    <div id="card-display"></div>
+        <div id="card-display">
+            <p class="text-center text-gray-500 italic">Inserisci i filtri e avvia lo scanner...</p>
+        </div>
+    </div>
 
     <script>
     let pokemonData = [];
 
     fetch('pokemon.json')
         .then(res => res.json())
-        .then(data => { pokemonData = data; generateRandomCard(); });
+        .then(data => { pokemonData = data; });
 
-    function generateRandomCard() {
+    function generateFilteredCard() {
         if (pokemonData.length === 0) return;
-        const p = pokemonData[Math.floor(Math.random() * pokemonData.length)];
+
+        const search = document.getElementById('searchKey').value.toLowerCase();
+        const region = document.getElementById('regionFilter').value;
+        const rankBonus = parseInt(document.getElementById('userRank').value);
+
+        // FILTRAGGIO
+        let filtered = pokemonData.filter(p => {
+            const matchesSearch = p.nome.toLowerCase().includes(search) || 
+                                p.tipo.some(t => t.toLowerCase().includes(search));
+            const matchesRegion = region === 'all' || p.regione === region;
+            return matchesSearch && matchesRegion;
+        });
+
+        if (filtered.length === 0) {
+            document.getElementById('card-display').innerHTML = "<p class='text-center text-red-500'>Nessun Pokémon trovato con questi filtri!</p>";
+            return;
+        }
+
+        const p = filtered[Math.floor(Math.random() * filtered.length)];
         const container = document.getElementById('card-display');
         
-        // --- CALCOLO HP DINAMICO ---
-        const hpDalJson = parseInt(p.vitalita_max?.hp || 0); // Prende il valore HP dal file
-        const vitalitaBase = parseInt(p.attributi?.vitalita?.base || 0); // Prende Vitalità Base
-        
-        // Mappatura Bonus Rango
-        const rangoMap = { "starter": 1, "beginner": 2, "amateur": 3, "ace": 4, "pro": 5 };
-        const bonusRango = rangoMap[p.rango_suggerito?.toLowerCase()] || 1;
+        // CALCOLI DINAMICI
+        const hpBaseJson = parseInt(p.vitalita_max?.hp || 0);
+        const vitBase = parseInt(p.attributi?.vitalita?.base || 0);
+        const hpFinale = hpBaseJson + vitBase + rankBonus;
 
-        // FORMULA RICHIESTA: HP del JSON + Vitalità + Rango
-        const hpFinale = hpDalJson + vitalitaBase + bonusRango;
-
-        // --- ALTRE STATISTICHE ---
         const insightBase = parseInt(p.attributi?.insight?.base || 0);
         const willValue = insightBase + 2;
         const initiative = parseInt(p.attributi?.destrezza?.base || 0) + insightBase;
 
-        // Tecniche limitate dagli slot WILL
         const movesToDisplay = p.tecniche.slice(0, willValue);
         const emptySlots = Math.max(0, willValue - movesToDisplay.length);
 
@@ -64,21 +110,21 @@
             <div class="inner-screen">
                 <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-4">
                     <div>
-                        <div class="text-xs text-yellow-400 font-bold mb-1 tracking-widest uppercase">RANK: ${p.rango_suggerito} | #${p.pokedex_id}</div>
+                        <div class="text-[10px] text-yellow-400 font-bold mb-1 tracking-widest uppercase">SCANNER ACTIVE | #${p.pokedex_id} | ${p.regione}</div>
                         <h1 class="text-5xl font-black italic uppercase tracking-tighter" style="font-family: 'Orbitron'">${p.nome}</h1>
                         <div class="flex gap-2 mt-2">
                             ${p.tipo.map(t => `<span class="bg-cyan-950/40 px-3 py-0.5 rounded text-[10px] font-bold uppercase border border-cyan-500/30 text-cyan-300">${t}</span>`).join('')}
                         </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="stat-box"><div class="label text-red-500">Health (HP)</div><div class="text-3xl font-bold">${hpFinale}</div></div>
+                        <div class="stat-box"><div class="label text-red-500">HP (Calculated)</div><div class="text-3xl font-bold">${hpFinale}</div></div>
                         <div class="stat-box"><div class="label">Will</div><div class="text-3xl font-bold">${willValue}</div></div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-12 gap-8">
                     <div class="col-span-4">
-                        <div class="bg-black/40 border border-white/10 rounded-lg p-4 mb-6">
+                        <div class="bg-black/40 border border-white/10 rounded-lg p-4 mb-6 shadow-inner">
                             <img src="${p.immagine}" class="w-full h-48 object-contain drop-shadow-[0_0_15px_rgba(14,165,233,0.4)]">
                         </div>
                         <div class="label mb-3 opacity-70">Primary Attributes</div>
@@ -86,25 +132,18 @@
                             ${['FORZA', 'DESTREZZA', 'VITALITA', 'SPECIAL', 'INSIGHT'].map(attr => {
                                 const key = attr === 'VITALITA' ? 'vitalita' : attr.toLowerCase();
                                 const val = p.attributi?.[key]?.base || 0;
-                                return `
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">${attr}</span>
-                                    <div>${Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('')}</div>
-                                </div>`;
+                                return `<div class="flex justify-between items-center"><span class="text-[11px] font-bold text-slate-400 uppercase">${attr}</span><div>${Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('')}</div></div>`;
                             }).join('')}
                         </div>
                     </div>
 
                     <div class="col-span-4 px-4 border-x border-white/5">
-                        <div class="label mb-3 opacity-70">Skill Matrix</div>
-                        <div class="space-y-2 mb-6">
-                            ${['Brawl', 'Clash', 'Alert', 'Stealth', 'Nature'].map(s => `
-                                <div class="flex justify-between items-center"><span class="text-[10px] text-slate-400 uppercase">${s}</span><div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot"></span>`).join('')}</div></div>
-                            `).join('')}
-                        </div>
-                        <div class="label mb-3 opacity-70">Social Matrix</div>
+                        <div class="label mb-3 opacity-70 text-yellow-500">Abilità</div>
+                        <div class="text-[11px] font-bold uppercase text-white mb-6">${p.abilita.join(' / ')}</div>
+                        
+                        <div class="label mb-3 opacity-70">Social & Skills Matrix</div>
                         <div class="space-y-2">
-                            ${['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'].map(s => `
+                            ${['Brawl', 'Alert', 'Nature', 'Tough', 'Cool'].map(s => `
                                 <div class="flex justify-between items-center"><span class="text-[10px] text-slate-400 uppercase">${s}</span><div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot"></span>`).join('')}</div></div>
                             `).join('')}
                         </div>
@@ -112,31 +151,13 @@
 
                     <div class="col-span-4 space-y-4">
                         <div class="bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/20">
-                            <div class="flex justify-between items-center mb-3">
-                                <div class="label">Moveset</div>
-                                <span class="text-[10px] text-yellow-500 font-bold">${willValue} SLOTS</span>
-                            </div>
+                            <div class="label mb-3">Moveset Slots (${willValue})</div>
                             <div class="space-y-1">
-                                ${movesToDisplay.map(t => `
-                                    <div class="move-slot flex justify-between items-center">
-                                        <span class="text-[11px] font-bold text-cyan-100 italic">>> ${t.nome.toUpperCase()}</span>
-                                        <span class="text-[8px] opacity-60">${t.rango}</span>
-                                    </div>
-                                `).join('')}
-                                ${Array.from({length: emptySlots}, () => `
-                                    <div class="move-slot flex justify-between items-center opacity-10">
-                                        <span class="text-[11px] font-bold">-- EMPTY --</span>
-                                    </div>
-                                `).join('')}
+                                ${movesToDisplay.map(t => `<div class="move-slot flex justify-between items-center"><span class="text-[11px] font-bold text-cyan-100 italic">>> ${t.nome.toUpperCase()}</span><span class="text-[8px] opacity-60">${t.rango}</span></div>`).join('')}
+                                ${Array.from({length: emptySlots}, () => `<div class="move-slot flex justify-between items-center opacity-10"><span class="text-[11px] font-bold">-- EMPTY --</span></div>`).join('')}
                             </div>
                         </div>
-
                         <div class="stat-box"><div class="label">Initiative</div><div class="text-xl font-bold text-yellow-400">${initiative}</div></div>
-                        
-                        <div class="text-[10px] bg-black/40 p-3 rounded border border-white/5 text-slate-400 leading-tight">
-                            <div class="flex justify-between text-white font-bold mb-1"><span>W: ${p.peso}</span><span>S: ${p.altezza}</span></div>
-                            <p class="italic">${p.descrizione}</p>
-                        </div>
                     </div>
                 </div>
             </div>
