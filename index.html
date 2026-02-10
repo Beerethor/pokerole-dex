@@ -172,7 +172,7 @@
             const evo = p.linea_evolutiva || [];
 
             // CALCOLO DINAMICO HP (Vitalità) E WILL (Insight)
-            const hpValue = p.vitalita_max?.hp || p.vitalita || (attr.Vitality?.base ? parseInt(attr.Vitality.base) + 0 : 0);
+            const hpValue = p.vitalita_max?.hp || p.vitalita || (attr.Vitality?.base ? parseInt(attr.Vitality_hp) + 0 : 0);
            const willValue = attr.Will?.base || attr.Will || (attr.Insight?.base ? parseInt(attr.Insight.base) + 2 : 2);
             
             return `
@@ -278,5 +278,6 @@
     </script>
 </body>
 </html>
+
 
 
