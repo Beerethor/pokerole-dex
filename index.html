@@ -172,10 +172,7 @@
             const evo = p.linea_evolutiva || [];
             
             // CALCOLO SALUTE (HP)
-            // Prova a cercare in ordine: Salute, hp, o vitalita_max.hp.
-            // Se trova un oggetto, estrae .base, altrimenti usa il valore così com'è.
-            const resSalute = p.Salute ?? p.hp ?? p.vitalita_max?.hp ?? 0;
-            const hpValue = (typeof resSalute === 'object') ? (resSalute.base ?? 0) : resSalute;
+            const hpValue = p.vitalita_max.hp;
             
             // CALCOLO VOLONTÀ (Insight + 2)
             // Prende la base di insight (es. 2) e aggiunge 2.
@@ -285,6 +282,7 @@
     </script>
 </body>
 </html>
+
 
 
 
