@@ -2,133 +2,221 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokérole Monster Sheet Generator 2.0 - Extended</title>
+    <title>Pokérole Pokedex Monster Sheet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap');
-        body { font-family: 'Roboto Condensed', sans-serif; background: #1a1a1a; color: white; }
-        .monster-sheet { width: 900px; background: #f3f4f6; color: #1f2937; border-radius: 12px; padding: 25px; box-shadow: 0 15px-40px rgba(0,0,0,0.6); margin: 20px auto; border: 1px solid #d1d5db; }
-        .label { font-size: 0.65rem; font-weight: 800; color: #374151; text-transform: uppercase; letter-spacing: 0.05em; }
-        .dot { width: 11px; height: 11px; border: 1.5px solid #4b5563; border-radius: 50%; display: inline-block; margin-right: 2px; }
-        .dot.filled { background: #1f2937; border-color: #1f2937; }
-        .stat-box { border: 2.5px solid #1f2937; text-align: center; border-radius: 10px; background: white; }
-        .section-title { font-family: 'Oswald', sans-serif; font-size: 0.75rem; font-weight: 700; color: #9ca3af; border-bottom: 1px solid #e5e7eb; margin-bottom: 8px; padding-bottom: 2px; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
+
+        body { 
+            background-color: #1a1a1a; 
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+        }
+
+        /* Colori Pokedex */
+        :root {
+            --pokedex-red: #dc2626;
+            --pokedex-dark-red: #991b1b;
+            --screen-bg: #1e293b;
+            --neon-blue: #0ea5e9;
+            --neon-yellow: #facc15;
+        }
+
+        .pokedex-frame {
+            width: 900px;
+            background: var(--pokedex-red);
+            border: 8px solid var(--pokedex-dark-red);
+            border-radius: 20px 20px 60px 20px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.2);
+        }
+
+        /* Luci decorative Pokedex */
+        .pokedex-frame::before {
+            content: "";
+            position: absolute;
+            top: 15px; left: 15px;
+            width: 50px; height: 50px;
+            background: #3b82f6;
+            border: 5px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #3b82f6;
+        }
+
+        .inner-screen {
+            background: var(--screen-bg);
+            border-radius: 15px;
+            padding: 25px;
+            border: 4px solid #334155;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+            color: white;
+        }
+
+        .label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.6rem;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dot {
+            width: 10px; height: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 2px;
+            display: inline-block;
+            margin-right: 3px;
+            transform: skewX(-15deg);
+        }
+
+        .dot.filled {
+            background: var(--neon-blue);
+            box-shadow: 0 0 8px var(--neon-blue);
+            border: none;
+        }
+
+        .stat-box {
+            background: rgba(0,0,0,0.3);
+            border-left: 3px solid var(--neon-yellow);
+            padding: 5px 10px;
+        }
+
+        .btn-generate {
+            background: #22c55e;
+            border-bottom: 4px solid #166534;
+            transition: all 0.1s;
+        }
+
+        .btn-generate:active {
+            transform: translateY(4px);
+            border-bottom-width: 0;
+        }
     </style>
 </head>
 <body>
 
-<div class="flex flex-col items-center p-6">
-    <button onclick="generateRandomCard()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-full shadow-lg transition-all uppercase tracking-widest mb-10 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">
-        Genera Pokémon Casuale
+    <button onclick="generateRandomCard()" class="btn-generate mb-10 px-10 py-4 rounded-xl text-white font-black uppercase tracking-tighter text-xl shadow-2xl">
+        SCANNERIZZA POKÉMON
     </button>
+
     <div id="card-display"></div>
-</div>
 
-<script>
-let pokemonData = [];
+    <script>
+    let pokemonData = [];
 
-fetch('pokemon.json')
-    .then(res => res.json())
-    .then(data => { pokemonData = data; generateRandomCard(); });
+    fetch('pokemon.json')
+        .then(res => res.json())
+        .then(data => { 
+            pokemonData = data; 
+            generateRandomCard(); 
+        });
 
-function generateRandomCard() {
-    if (pokemonData.length === 0) return;
-    const p = pokemonData[Math.floor(Math.random() * pokemonData.length)];
-    const container = document.getElementById('card-display');
-    
-    // Dati dinamici dal JSON 
-    const hp = p.vitalita_max?.hp || 0;
-    const insightBase = parseInt(p.attributi?.insight?.base || 0);
-    const will = insightBase + 2;
+    function generateRandomCard() {
+        if (pokemonData.length === 0) return;
+        const p = pokemonData[Math.floor(Math.random() * pokemonData.length)];
+        const container = document.getElementById('card-display');
+        
+        // Calcoli basati sul tuo JSON
+        const hp = p.vitalita_max?.hp || 0;
+        const insightBase = parseInt(p.attributi?.insight?.base || 0);
+        const will = insightBase + 2;
+        const ini = parseInt(p.attributi?.destrezza?.base || 0) + insightBase;
 
-    container.innerHTML = `
-    <div class="monster-sheet">
-        <div class="flex justify-between items-end mb-6 border-b-8 border-black pb-3">
-            <div>
-                <h1 class="text-6xl font-black uppercase italic leading-none tracking-tighter">${p.nome}</h1>
-                <div class="text-sm font-bold mt-1 text-gray-500">TYPE: ${p.tipo.join(' / ').toUpperCase()} | RANK: ${p.rango_suggerito.toUpperCase()}</div>
-            </div>
-            <div class="flex gap-4">
-                <div class="stat-box w-24 p-2 shadow-sm"><div class="label">HP</div><div class="text-4xl font-black">${hp}</div></div>
-                <div class="stat-box w-24 p-2 shadow-sm"><div class="label">WILL</div><div class="text-4xl font-black">${will}</div></div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-12 gap-8">
-            <div class="col-span-4">
-                <div class="bg-white border-2 border-black rounded-2xl overflow-hidden mb-6 p-4 shadow-inner">
-                    <img src="${p.immagine}" class="w-full h-52 object-contain mx-auto">
-                </div>
+        container.innerHTML = `
+        <div class="pokedex-frame">
+            <div class="inner-screen">
                 
-                <div class="section-title">PRIMARY ATTRIBUTES</div>
-                <div class="space-y-2 px-1">
-                    ${['STRENGTH', 'DEXTERITY', 'VITALITY', 'SPECIAL', 'INSIGHT'].map(attr => {
-                        const key = attr === 'STRENGTH' ? 'forza' : attr === 'DEXTERITY' ? 'destrezza' : attr === 'VITALITY' ? 'vitalita' : attr.toLowerCase();
-                        const val = p.attributi?.[key]?.base || 0;
-                        return `
-                        <div class="flex justify-between items-center">
-                            <span class="label text-[10px]">${attr}</span>
-                            <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('')}</div>
-                        </div>`;
-                    }).join('')}
-                </div>
-            </div>
-
-            <div class="col-span-4 border-x border-gray-200 px-4">
-                <div class="section-title">SKILLS</div>
-                <div class="space-y-2 px-1 mb-6">
-                    ${['Brawl', 'Clash', 'Alert', 'Stealth', 'Nature'].map(skill => `
-                        <div class="flex justify-between items-center">
-                            <span class="label text-[9px] text-gray-500">${skill}</span>
-                            <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < 0 ? 'filled' : ''}"></span>`).join('')}</div>
+                <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-4">
+                    <div>
+                        <div class="text-xs text-yellow-400 font-bold mb-1">ID: #${p.pokedex_id} / RANK: ${p.rango_suggerito.toUpperCase()}</div>
+                        <h1 class="text-5xl font-black italic uppercase tracking-tighter text-white" style="font-family: 'Orbitron'">${p.nome}</h1>
+                        <div class="flex gap-2 mt-2">
+                            ${p.tipo.map(t => `<span class="bg-white/10 px-3 py-0.5 rounded text-[10px] font-bold uppercase border border-white/20 text-cyan-300">${t}</span>`).join('')}
                         </div>
-                    `).join('')}
-                </div>
-
-                <div class="section-title">SOCIAL</div>
-                <div class="space-y-2 px-1">
-                    ${['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'].map(social => `
-                        <div class="flex justify-between items-center">
-                            <span class="label text-[9px] text-gray-500">${social}</span>
-                            <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < 0 ? 'filled' : ''}"></span>`).join('')}</div>
-                        </div>
-                    `).join('')}
-                </div>
-                
-                <div class="mt-6 p-3 bg-white border border-gray-300 rounded-lg">
-                    <div class="label text-blue-600 mb-1">Abilità Speciale</div>
-                    <div class="text-[11px] font-bold uppercase leading-tight">${p.abilita.join(' / ')}</div>
-                </div>
-            </div>
-
-            <div class="col-span-4 space-y-4">
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="stat-box p-1"><div class="label">INITIATIVE</div><div class="text-xl font-bold">${parseInt(p.attributi?.destrezza?.base || 0) + parseInt(p.attributi?.insight?.base || 0)}</div></div>
-                    <div class="stat-box p-1"><div class="label">ACCURACY</div><div class="text-xl font-bold">0</div></div>
-                    <div class="stat-box p-1 bg-gray-100 border-dashed"><div class="label text-[8px]">ACCESORY</div><div class="text-[10px] italic">None</div></div>
-                    <div class="stat-box p-1 bg-gray-100 border-dashed"><div class="label text-[8px]">ITEM</div><div class="text-[10px] italic">None</div></div>
-                </div>
-                
-                <div class="p-3 bg-gray-800 text-white rounded-xl shadow-lg">
-                    <div class="text-[10px] font-bold text-yellow-400 mb-2 border-b border-gray-600 uppercase">Moves / Tecniche</div>
-                    <div class="space-y-2">
-                        ${p.tecniche.slice(0, 5).map(t => `
-                            <div class="flex justify-between items-center border-b border-gray-700 pb-1">
-                                <span class="text-[10px] font-bold tracking-tight">${t.nome.toUpperCase()}</span>
-                                <span class="text-[8px] bg-gray-600 px-1.5 rounded text-gray-200">${t.rango}</span>
-                            </div>
-                        `).join('')}
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="stat-box"><div class="label">Health</div><div class="text-3xl font-bold">${hp}</div></div>
+                        <div class="stat-box"><div class="label">Will</div><div class="text-3xl font-bold">${will}</div></div>
                     </div>
                 </div>
-                
-                <div class="bg-white p-3 border border-gray-300 rounded-xl text-[10px]">
-                    <div class="flex justify-between mb-1"><span><strong>WEIGHT:</strong> ${p.peso}</span><span><strong>SIZE:</strong> ${p.altezza}</span></div>
-                    <div class="border-t pt-1 mt-1 italic text-gray-500 line-clamp-3">${p.descrizione}</div>
+
+                <div class="grid grid-cols-12 gap-8">
+                    <div class="col-span-4">
+                        <div class="bg-cyan-950/30 border-2 border-cyan-500/50 rounded-lg p-4 mb-6 relative group">
+                            <img src="${p.immagine}" class="w-full h-48 object-contain filter drop-shadow-[0_0_10px_rgba(14,165,233,0.5)]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent pointer-events-none"></div>
+                        </div>
+                        
+                        <div class="label mb-3 text-white opacity-50">Primary Attributes</div>
+                        <div class="space-y-3">
+                            ${['FORZA', 'DESTREZZA', 'VITALITA', 'SPECIAL', 'INSIGHT'].map(attr => {
+                                const val = p.attributi?.[attr.toLowerCase()]?.base || 0;
+                                return `
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[11px] font-bold text-slate-400">${attr}</span>
+                                    <div>${Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('')}</div>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="col-span-4 px-4 border-x border-white/5">
+                        <div class="label mb-3 text-white opacity-50">Skill Matrix</div>
+                        <div class="space-y-2 mb-6">
+                            ${['Brawl', 'Clash', 'Alert', 'Stealth', 'Nature'].map(s => `
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-slate-300 uppercase">${s}</span>
+                                    <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < 0 ? 'filled' : ''}"></span>`).join('')}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="label mb-3 text-white opacity-50">Social Matrix</div>
+                        <div class="space-y-2">
+                            ${['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'].map(s => `
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] text-slate-300 uppercase">${s}</span>
+                                    <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < 0 ? 'filled' : ''}"></span>`).join('')}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="col-span-4 space-y-4">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-black/40 p-2 rounded border border-white/10"><div class="label">INITIATIVE</div><div class="text-xl font-bold text-yellow-400">${ini}</div></div>
+                            <div class="bg-black/40 p-2 rounded border border-white/10"><div class="label">ACCURACY</div><div class="text-xl font-bold text-yellow-400">0</div></div>
+                            <div class="bg-black/40 p-2 rounded border border-white/10"><div class="label text-[8px]">DEFENCE</div><div class="text-sm">0</div></div>
+                            <div class="bg-black/40 p-2 rounded border border-white/10"><div class="label text-[8px]">EVASION</div><div class="text-sm">0</div></div>
+                        </div>
+                        
+                        <div class="bg-white/5 p-4 rounded-lg border border-cyan-500/20">
+                            <div class="label mb-3">Moveset Loaded</div>
+                            <div class="space-y-2">
+                                ${p.tecniche.slice(0, 4).map(t => `
+                                    <div class="flex justify-between items-center text-[11px] group">
+                                        <span class="font-bold text-cyan-100 group-hover:text-yellow-400 transition-colors">>> ${t.nome.toUpperCase()}</span>
+                                        <span class="text-[8px] border border-cyan-500/30 px-1 rounded">${t.rango}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="text-[10px] bg-black/50 p-3 rounded italic text-slate-400 leading-tight">
+                            <div class="flex justify-between text-white font-bold mb-1">
+                                <span>W: ${p.peso}</span><span>S: ${p.altezza}</span>
+                            </div>
+                            ${p.descrizione}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>`;
-}
-</script>
+        </div>`;
+    }
+    </script>
 </body>
 </html>
