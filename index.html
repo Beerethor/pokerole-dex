@@ -588,57 +588,40 @@ function createPkmnCard(p, userRank) {
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-3 mb-6">
-                <div class="space-y-1">
-                    <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 pb-1 italic">Attributes (Min/Max)</h4>
+            <div class="mb-6">
+                <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 pb-1 italic mb-2">Attributes (Min/Max)</h4>
+                <div class="grid grid-cols-1 gap-1">
                     ${['Strength', 'Dexterity', 'Vitality', 'Special', 'Insight'].map(s => {
-                        // Cerca se esiste la struttura {base, max} o se è solo un numero
                         const baseVal = attr[s]?.base !== undefined ? attr[s].base : (attr[s] || 0);
                         const maxVal = attr[s]?.max !== undefined ? attr[s].max : (attr[s] || 0);
                         return `
-                        <div class="flex justify-between items-center bg-slate-950/50 p-2 rounded-lg border border-slate-800/50">
-                            <span class="text-[8px] text-slate-400 uppercase font-bold">${s.slice(0,3)}</span>
+                        <div class="flex justify-between items-center bg-slate-950/50 p-3 rounded-xl border border-slate-800/50">
+                            <span class="text-[10px] text-slate-300 uppercase font-black tracking-widest">${s}</span>
                             <div class="text-right">
-                                <span class="text-xs font-black text-yellow-500 font-mono-data">${baseVal}</span>
-                                <span class="text-[9px] text-slate-600 font-mono-data italic ml-1">/ ${maxVal}</span>
+                                <span class="text-sm font-black text-yellow-500 font-mono-data">${baseVal}</span>
+                                <span class="text-[10px] text-slate-600 font-mono-data italic ml-1">/ ${maxVal}</span>
                             </div>
                         </div>`;
                     }).join('')}
-                </div>
-
-                <div class="space-y-1">
-                    <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 pb-1 italic">Social</h4>
-                    ${['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'].map(s => `
-                        <div class="flex justify-between bg-black/20 p-2 rounded-lg text-[10px]">
-                            <span class="text-slate-500 uppercase text-[8px]">${s}</span>
-                            <span class="text-emerald-500 font-black">0</span>
-                        </div>
-                    `).join('')}
-                </div>
-
-                <div class="space-y-1">
-                    <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 pb-1 italic">Combat</h4>
-                    <div class="bg-slate-950 p-2 rounded-lg text-[8px] text-white border border-slate-800/40">ACC: DEX+INS</div>
-                    <div class="bg-slate-950 p-2 rounded-lg text-[8px] text-white border border-slate-800/40">EVA: DEX+ALE</div>
-                    <div class="bg-slate-950 p-2 rounded-lg text-[8px] text-red-400 border border-red-900/20">DEF: VIT+TOU</div>
                 </div>
             </div>
 
             <div class="bg-black/30 p-3 rounded-2xl mb-4 text-[9px] border border-slate-800/50">
                 <span class="text-slate-500 block mb-1 uppercase font-black italic">Evo Line:</span>
-                <div class="flex flex-wrap gap-2 items-center">
+                <div class="flex flex-wrap gap-2 items-center text-white">
                     ${evo.length > 0 ? evo.map((e, i) => `
-                        <span class="font-bold ${e.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-600'}">${e}</span>
+                        <span class="font-bold ${e.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-500'}">${e}</span>
                         ${i < evo.length - 1 ? '<span class="text-slate-800">➔</span>' : ''}
                     `).join('') : '---'}
                 </div>
             </div>
 
             <div class="space-y-1">
+                <h4 class="text-[8px] text-slate-500 font-black uppercase mb-2 italic">Move Pool</h4>
                 ${(p.tecniche || []).map(m => `
                     <div class="flex justify-between p-2 rounded-lg text-[10px] font-bold ${RANGHI.indexOf(m.rango) > rIdx ? 'opacity-20 bg-slate-950 grayscale' : 'bg-slate-800/30 border-l-2 border-yellow-600'}">
-                        <span>${m.nome}</span>
-                        <span class="text-[8px] text-slate-600 italic">PWR: ${m.pool_danno || '--'}</span>
+                        <span class="text-white">${m.nome}</span>
+                        <span class="text-[8px] text-slate-600 italic uppercase">Power: ${m.pool_danno || '--'}</span>
                     </div>
                 `).join('')}
             </div>
@@ -716,6 +699,7 @@ function createPkmnCard(p, userRank) {
     </script>
 </body>
 </html>
+
 
 
 
