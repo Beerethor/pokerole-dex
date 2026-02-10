@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex - Database</title>
+    <title>PokeRole ProDex - Database Online</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
@@ -33,18 +33,12 @@
         .type-folletto { background-color: #f472b6; border-color: #f9a8d4; color: white; }
         .type-normale { background-color: #6b7280; border-color: #9ca3af; color: white; }
 
-        /* --- UI --- */
         .macro-active { background-color: var(--accent); color: #020617; transform: scale(1.05); box-shadow: 0 0 25px rgba(202, 138, 4, 0.4); }
         .macro-inactive { background-color: #0f172a; color: #64748b; border: 1px solid #1e293b; }
         .sub-active { color: var(--accent); border-bottom: 3px solid var(--accent); font-weight: 900; }
         .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(14px); border: 1px solid rgba(51, 65, 85, 0.4); }
         .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        
-        select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ca8a04' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.2rem center; background-repeat: no-repeat; background-size: 1.2em 1.2em; padding-right: 1.5rem; appearance: none; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
 <body class="pb-12 text-slate-100">
@@ -54,43 +48,25 @@
             <h1 class="text-6xl md:text-7xl font-black italic tracking-tighter uppercase font-mono-data">
                 <span class="text-yellow-500">POKEROLE</span> PRODEX
             </h1>
-            <p class="text-[10px] text-slate-500 font-black tracking-[0.7em] uppercase mt-4 italic">The Ultimate Regional Hub • Database Mode</p>
+            <p class="text-[10px] text-slate-500 font-black tracking-[0.7em] uppercase mt-4 italic">Cloud Database Edition</p>
         </header>
 
         <nav class="flex gap-4 mb-12 justify-center">
-            <a href="index.html" class="macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all flex items-center gap-2">📜 Database</a>
-            <a href="generator.html" class="macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all hover:bg-slate-800 flex items-center gap-2">🎲 Generatore</a>
-        </nav>
+            <a href="#" class="macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all flex items-center gap-2">📜 Database</a>
+            <div id="user-profile"></div> </nav>
 
         <div id="pokedexContainer" class="animate-pop">
             <div class="flex flex-wrap justify-center gap-8 mb-8 text-[11px] font-black uppercase tracking-widest border-b border-slate-800 pb-5">
                 <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active transition-all">Pokémon</button>
                 <button onclick="switchSub('tech')" id="subTech" class="text-slate-500 hover:text-white transition-all">Tecniche</button>
                 <button onclick="switchSub('abil')" id="subAbil" class="text-slate-500 hover:text-white transition-all">Abilità</button>
-                <button onclick="switchSub('special')" id="subSpecial" class="text-slate-500 hover:text-white transition-all">Z / G-Max</button>
             </div>
 
             <div class="glass-card p-6 rounded-[2.5rem] mb-12 sticky top-4 z-50 shadow-2xl border border-yellow-500/10">
-                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nome, tipo, regione..." 
+                <input type="text" id="mainSearch" placeholder="Cerca nel Cloud..." 
                        class="w-full bg-slate-950 border-none rounded-2xl p-5 text-white placeholder-slate-700 focus:ring-2 focus:ring-yellow-600 outline-none transition-all shadow-inner font-bold">
                 
                 <div class="flex flex-wrap gap-6 justify-between items-center mt-5 px-3">
-                    <div class="flex gap-6">
-                        <select id="searchRank" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
-                            <option value="Tutti">Rango: Tutti</option>
-                            <option value="Starter">Starter</option><option value="Beginner">Beginner</option>
-                            <option value="Amateur">Amateur</option><option value="Ace">Ace</option>
-                            <option value="Pro">Pro</option><option value="Master">Master</option>
-                        </select>
-                        <select id="searchRegion" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
-                            <option value="Tutte">Regione: Tutte</option>
-                            <option value="Kanto">Kanto</option><option value="Johto">Johto</option>
-                            <option value="Hoenn">Hoenn</option><option value="Sinnoh">Sinnoh</option>
-                            <option value="Unima">Unima</option><option value="Kalos">Kalos</option>
-                            <option value="Alola">Alola</option><option value="Galar">Galar</option>
-                            <option value="Paldea">Paldea</option>
-                        </select>
-                    </div>
                     <div id="counter" class="text-[10px] text-slate-500 font-bold font-mono-data uppercase tracking-widest italic bg-slate-950 px-4 py-1 rounded-full border border-slate-800">
                         Caricamento...
                     </div>
@@ -101,207 +77,129 @@
         </div>
     </div>
 
-    <script>
-        // --- STATO APPLICATIVO ---
-        let db = { pkmn: [], tech: [], abil: [], max: [], zmove: [] };
-        let currentSub = 'pkmn';
-        const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
-        const REGIONI = { 1:"Kanto", 2:"Johto", 3:"Hoenn", 4:"Sinnoh", 5:"Unima", 6:"Kalos", 7:"Alola", 8:"Galar", 9:"Paldea" };
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- INIZIALIZZAZIONE DATI ---
-        async function init() {
-            const v = Date.now();
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
+            authDomain: "pokerole-app.firebaseapp.com",
+            projectId: "pokerole-app",
+            storageBucket: "pokerole-app.firebasestorage.app",
+            messagingSenderId: "385416519668",
+            appId: "1:385416519668:web:908e12b9833f1cdc04a3a1",
+            measurementId: "G-5M1ST6CSV0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        let currentData = [];
+        window.currentSub = 'pkmn';
+
+        // --- AUTH ---
+        window.login = () => signInWithPopup(auth, provider);
+        window.logout = () => signOut(auth);
+
+        onAuthStateChanged(auth, (user) => {
+            const profileDiv = document.getElementById('user-profile');
+            if (user) {
+                profileDiv.innerHTML = `
+                    <div class="flex items-center gap-3 bg-slate-900 p-3 rounded-2xl border border-yellow-500/20">
+                        <img src="${user.photoURL}" class="w-8 h-8 rounded-full border border-yellow-500">
+                        <span class="text-[10px] font-black uppercase">${user.displayName.split(' ')[0]}</span>
+                        <button onclick="logout()" class="text-red-500 font-bold text-[9px] hover:underline">LOGOUT</button>
+                    </div>`;
+            } else {
+                profileDiv.innerHTML = `<button onclick="login()" class="macro-inactive px-6 py-4 rounded-xl font-black uppercase text-[10px]">Accedi con Google</button>`;
+            }
+        });
+
+        // --- DATABASE LOAD ---
+        async function loadCloudData() {
+            const container = document.getElementById('results');
+            const counter = document.getElementById('counter');
+            container.innerHTML = '<div class="col-span-full text-center py-20 animate-pulse text-yellow-500 font-black italic">CONTATTANDO IL DATABASE...</div>';
+            
             try {
-                const loader = (f) => fetch(`${f}?v=${v}`).then(r => {
-                    if(!r.ok) return [];
-                    return r.json();
-                }).catch(() => []);
-
-                // Caricamento unificato di tutti i database
-                const [pkmn, tech, abil, max, zmove] = await Promise.all([
-                    loader('pokemon.json'), loader('tecniche.json'), loader('abilita.json'),
-                    loader('max_moves.json'), loader('mosse_z.json')
-                ]);
-
-                db.pkmn = pkmn;
-                db.tech = tech;
-                db.abil = abil;
-                db.max = max.map(m => ({...m, _origin: 'max'}));
-                db.zmove = zmove.map(m => ({...m, _origin: 'z'}));
+                const snapshot = await getDocs(collection(db, window.currentSub));
+                currentData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 
-                runSearch();
-            } catch (e) { 
-                console.error("Database Sync Error:", e);
-                document.getElementById('counter').innerText = "ERRORE CARICAMENTO";
+                counter.innerText = `${currentData.length} UNITÀ NEL CLOUD`;
+                render(currentData);
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `<div class="col-span-full text-center py-20 text-red-500">Errore: ${err.message}</div>`;
             }
         }
 
-        // --- GESTIONE NAVIGAZIONE SUB-TAB ---
-        function switchSub(s) {
-            currentSub = s;
-            document.querySelectorAll('button[id^="sub"]').forEach(b => {
-                const active = b.id.toLowerCase() === 'sub'+s.toLowerCase();
-                b.className = active ? 'sub-active px-2 transition-all' : 'text-slate-500 hover:text-white px-2 transition-all';
-            });
-            runSearch();
-        }
-
-        // --- MOTORE DI RICERCA ---
-        function runSearch() {
-            const q = document.getElementById('mainSearch').value.toLowerCase();
-            const filterRank = document.getElementById('searchRank').value;
-            const filterReg = document.getElementById('searchRegion').value;
-            
-            let data = [];
-            if (currentSub === 'special') data = [...db.zmove, ...db.max];
-            else if (currentSub === 'tech') data = db.tech;
-            else if (currentSub === 'abil') data = db.abil;
-            else data = db.pkmn;
-
-            const filtered = data.filter(i => {
-                const itemReg = i.regione || REGIONI[i.generazione] || "";
-                const itemRank = i.rango_suggerito || i.rango || "Starter";
-                
-                const matchesText = JSON.stringify(i).toLowerCase().includes(q);
-                const matchesRank = filterRank === "Tutti" || itemRank.toLowerCase() === filterRank.toLowerCase();
-                const matchesReg = filterReg === "Tutte" || itemReg.toLowerCase() === filterReg.toLowerCase();
-                
-                if (currentSub === 'pkmn') return matchesText && matchesRank && matchesReg;
-                return matchesText;
-            });
-
-            document.getElementById('counter').innerText = `${filtered.length} UNITÀ TROVATE`;
-            
-            const resultsContainer = document.getElementById('results');
-            resultsContainer.innerHTML = filtered.map(item => {
-                if(currentSub === 'pkmn') return createPkmnCard(item, filterRank === "Tutti" ? "Master" : filterRank);
-                return createStandardCard(item);
+        function render(items) {
+            const container = document.getElementById('results');
+            if (items.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-500 italic uppercase font-black">Database Vuoto (${window.currentSub})</div>`;
+                return;
+            }
+            container.innerHTML = items.map(item => {
+                return window.currentSub === 'pkmn' ? createPkmnCard(item) : createStandardCard(item);
             }).join('');
         }
 
-        // --- RENDERER SCHEDA POKEMON ---
-        function createPkmnCard(p, userRank) {
-            const rIdx = RANGHI.indexOf(userRank);
-            const attr = p.attributi || {};
-            const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
-            const imgUrl = p.immagine || 'https://via.placeholder.com/150?text=No+Pic';
-            const evo = p.linea_evolutiva || [];
-            
-            const hpValue = p.vitalita_max?.hp || 0;
-            const insightBase = p.attributi?.insight?.base ?? p.attributi?.insight ?? 0;
-            const willValue = parseInt(insightBase) + 2;
-            
+        window.switchSub = (s) => {
+            window.currentSub = s;
+            document.querySelectorAll('button[id^="sub"]').forEach(b => {
+                b.className = b.id === 'sub' + s.charAt(0).toUpperCase() + s.slice(1) ? 'sub-active px-2' : 'text-slate-500 hover:text-white px-2';
+            });
+            loadCloudData();
+        };
+
+        // --- CARD GENERATORS ---
+        function createPkmnCard(p) {
+            const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo || "Normale"];
             return `
-            <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden animate-pop text-left shadow-2xl group hover:border-yellow-500/30 transition-all">
+            <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden animate-pop text-left shadow-2xl transition-all">
                 <div class="bg-slate-800/40 p-6 flex justify-between items-center border-b border-slate-700/50">
                     <div>
-                        <span class="text-[9px] font-black text-yellow-500 uppercase font-mono-data">RANK: ${p.rango || userRank}</span>
+                        <span class="text-[9px] font-black text-yellow-500 uppercase font-mono-data">RANK: ${p.rango || 'Master'}</span>
                         <h2 class="text-3xl font-black text-white uppercase mt-1 italic tracking-tighter">${p.nome}</h2>
                         <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[7px] font-black px-2 py-0.5 rounded border border-white/10 uppercase">${t}</span>`).join('')}</div>
                     </div>
-                    <div class="flex gap-2">
-                        <div class="bg-slate-950 p-2 rounded-xl border border-red-900/30 text-center min-w-[65px] shadow-lg">
-                            <span class="text-[7px] text-red-500 font-black block uppercase italic">Salute</span>
-                            <span class="text-xl font-black text-white font-mono-data">${hpValue}</span>
-                        </div>
-                        <div class="bg-slate-950 p-2 rounded-xl border border-blue-900/30 text-center min-w-[65px] shadow-lg">
-                            <span class="text-[7px] text-blue-500 font-black block uppercase italic">Volontà</span>
-                            <span class="text-xl font-black text-white font-mono-data">${willValue}</span>
-                        </div>
-                    </div>
                 </div>
-
                 <div class="p-5">
-                    <div class="flex gap-4 mb-6 items-center">
-                        <div class="shrink-0">
-                            <img src="${imgUrl}" class="w-24 h-24 object-contain bg-slate-950 rounded-full p-2 border-2 border-slate-700 shadow-inner" onerror="this.src='https://via.placeholder.com/150?text=?'">
-                        </div>
-                        <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/40 p-3 rounded-2xl border-l-2 border-yellow-600 leading-snug shadow-sm">
-                            "${p.descrizione || 'Informazione Pokédex criptata.'}"
-                        </div>
-                    </div>
-
-                    <div class="mb-6">
-                        <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 pb-1 italic mb-2 tracking-widest">Attributi Core (Base/Max)</h4>
-                        <div class="grid grid-cols-1 gap-1">
-                            ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
-                                const baseVal = attr[s]?.base !== undefined ? attr[s].base : (attr[s] || 0);
-                                const maxVal = attr[s]?.max !== undefined ? attr[s].max : (attr[s] || 0);
-                                return `
-                                <div class="flex justify-between items-center bg-slate-950/50 p-3 rounded-xl border border-slate-800/50">
-                                    <span class="text-[10px] text-slate-300 uppercase font-black tracking-widest font-mono-data">${s}</span>
-                                    <div class="text-right">
-                                        <span class="text-sm font-black text-yellow-500 font-mono-data">${baseVal}</span>
-                                        <span class="text-[10px] text-slate-600 font-mono-data italic ml-1">/ ${maxVal}</span>
-                                    </div>
-                                </div>`;
-                            }).join('')}
-                        </div>
-                    </div>
-
-                    <div class="bg-black/30 p-3 rounded-2xl mb-4 text-[9px] border border-slate-800/50">
-                        <span class="text-slate-500 block mb-1 uppercase font-black italic">Linea Evolutiva:</span>
-                        <div class="flex flex-wrap gap-2 items-center">
-                            ${evo.length > 0 ? evo.map((e, i) => `
-                                <span class="font-black ${e.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-500'}">${e}</span>
-                                ${i < evo.length - 1 ? '<span class="text-slate-800 font-bold">➔</span>' : ''}
-                            `).join('') : '---'}
-                        </div>
+                    <div class="flex gap-4 items-center">
+                        <img src="${p.immagine || ''}" class="w-20 h-20 object-contain bg-black rounded-full p-2 border border-slate-700" onerror="this.src='https://via.placeholder.com/150'">
+                        <div class="text-[11px] text-slate-400 italic">${p.descrizione || 'Nessuna descrizione.'}</div>
                     </div>
                 </div>
             </div>`;
         }
 
-        // --- RENDERER TECNICHE E ABILITÀ (CON STATISTICHE) ---
         function createStandardCard(item) {
-            const isAbil = currentSub === 'abil';
-            const typeStr = item.tipo || 'Normale';
-            const typeClass = `type-${typeStr.toLowerCase()}`;
-            const badge = item._origin === 'z' ? `<span class="bg-purple-600 text-[7px] font-black px-3 py-1 rounded-full mr-2 text-white">Z-POWER</span>` : 
-                          item._origin === 'max' ? `<span class="bg-red-600 text-[7px] font-black px-3 py-1 rounded-full mr-2 text-white">DYNAMAX</span>` : "";
-            
-            let combatStats = "";
-            if (currentSub === 'tech' || currentSub === 'special') {
-                combatStats = `
-                    <div class="grid grid-cols-3 gap-2 mb-4 mt-2">
-                        <div class="bg-black/60 p-2 rounded border border-cyan-500/30 text-center">
-                            <span class="text-[8px] text-cyan-400 block uppercase font-bold">Accuratezza</span>
-                            <span class="text-sm font-mono text-white">${item.accuratezza || "-"}</span>
-                        </div>
-                        <div class="bg-black/60 p-2 rounded border border-red-500/30 text-center">
-                            <span class="text-[8px] text-red-400 block uppercase font-bold">Danno</span>
-                            <span class="text-sm font-mono text-white">${item.pool_danno || "-"}</span>
-                        </div>
-                        <div class="bg-black/60 p-2 rounded border border-purple-500/30 text-center">
-                            <span class="text-[8px] text-purple-400 block uppercase font-bold">Categoria</span>
-                            <span class="text-[9px] text-white uppercase">${item.categoria || "-"}</span>
-                        </div>
-                    </div>`;
-            }
-
+            const type = (item.tipo || 'Normale').toLowerCase();
             return `
-            <div class="bg-slate-900 p-6 rounded-[2.5rem] border-l-[10px] animate-pop shadow-2xl flex flex-col h-full ${isAbil ? 'border-emerald-500' : typeClass}">
+            <div class="bg-slate-900 p-6 rounded-[2.5rem] border-l-[10px] type-${type} animate-pop shadow-2xl flex flex-col h-full">
                 <div class="flex justify-between items-start mb-4">
-                    <div>
-                        ${badge}
-                        <h3 class="text-2xl font-black text-white uppercase tracking-tighter">${item.nome}</h3>
-                    </div>
-                    ${!isAbil ? `<span class="${typeClass} text-[10px] px-3 py-1 rounded-full border border-white/20 font-black uppercase text-white">${typeStr}</span>` : ""}
+                    <h3 class="text-2xl font-black text-white uppercase tracking-tighter">${item.nome}</h3>
+                    <span class="type-${type} text-[10px] px-3 py-1 rounded-full border border-white/20 font-black text-white uppercase">${type}</span>
                 </div>
-
-                ${combatStats}
-
-                <div class="flex-grow space-y-3">
-                    <div class="bg-black/40 p-4 rounded-xl border border-white/5 text-[13px] text-slate-300 shadow-inner">
-                        <b class="text-yellow-600 uppercase text-[9px] block mb-1 tracking-widest italic underline decoration-yellow-600/30">Effetto Meccanico</b>
-                        ${item.effetti_aggiuntivi || item.effetto || "Nessun dato disponibile."}
-                    </div>
-                    ${item.descrizione ? `<div class="p-2 text-[11px] text-slate-400 italic leading-snug">${item.descrizione}</div>` : ""}
+                <div class="bg-black/40 p-4 rounded-xl border border-white/5 text-[13px] text-slate-300">
+                    <b class="text-yellow-600 uppercase text-[9px] block mb-1 italic">Effetto</b>
+                    ${item.effetto || item.effetti_aggiuntivi || "Nessun dato."}
                 </div>
             </div>`;
         }
 
-        window.onload = init;
+        // --- SEARCH ---
+        document.getElementById('mainSearch').addEventListener('input', (e) => {
+            const q = e.target.value.toLowerCase();
+            const filtered = currentData.filter(i => i.nome.toLowerCase().includes(q));
+            render(filtered);
+        });
+
+        // Start
+        loadCloudData();
     </script>
 </body>
 </html>
