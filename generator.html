@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokérole Pokedex Scanner 5.0</title>
+    <title>Pokérole Scanner 6.0 - Full Matrix</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
@@ -11,48 +11,46 @@
         :root { --pokedex-red: #dc2626; --pokedex-dark-red: #991b1b; --screen-bg: #0f172a; --neon-blue: #0ea5e9; --neon-yellow: #facc15; }
         
         .pokedex-logo { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--neon-blue); text-transform: uppercase; font-style: italic; text-align: center; margin-bottom: 20px; }
-        
-        .nav-btn { padding: 10px 25px; border-radius: 12px; font-weight: bold; text-transform: uppercase; transition: all 0.3s; background: #2d2d2d; border: 2px solid #444; color: #888; cursor: pointer; }
+        .nav-btn { padding: 8px 20px; border-radius: 10px; font-weight: bold; text-transform: uppercase; transition: all 0.3s; background: #2d2d2d; border: 2px solid #444; color: #888; cursor: pointer; }
         .nav-btn.active { background: var(--pokedex-red); border-color: var(--neon-yellow); color: white; box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); }
 
-        .pokedex-frame { width: 1000px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 30px; position: relative; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 25px; border: 4px solid #334155; }
+        .pokedex-frame { width: 1100px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 25px; position: relative; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 20px; border: 4px solid #334155; }
         
-        .label { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; }
-        .dot { width: 10px; height: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; display: inline-block; margin-right: 3px; transform: skewX(-15deg); }
-        .dot.filled { background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); border: none; }
-        .stat-box { background: rgba(0,0,0,0.5); border-left: 3px solid var(--neon-yellow); padding: 5px 12px; border-radius: 4px; }
-        .skill-group-label { writing-mode: vertical-lr; text-orientation: mixed; font-size: 0.7rem; font-weight: bold; color: rgba(255,255,255,0.3); border-left: 1px solid rgba(255,255,255,0.1); padding-left: 4px; }
+        .label { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; }
+        .dot { width: 9px; height: 9px; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; display: inline-block; margin-right: 2px; transform: skewX(-15deg); }
+        .dot.filled { background: var(--neon-blue); box-shadow: 0 0 6px var(--neon-blue); border: none; }
+        .stat-box { background: rgba(0,0,0,0.5); border-left: 3px solid var(--neon-yellow); padding: 4px 10px; border-radius: 4px; }
+        
+        /* Social Attributes Styling */
+        .social-attr { padding: 2px 8px; border-radius: 20px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: space-between; align-items: center; }
+        .bg-tough { background: #facc15; color: #422006; }
+        .bg-cool { background: #fb923c; color: #431407; }
+        .bg-beauty { background: #60a5fa; color: #1e3a8a; }
+        .bg-cute { background: #f472b6; color: #4c0519; }
+        .bg-clever { background: #4ade80; color: #064e3b; }
     </style>
 </head>
 <body>
 
     <div class="pokedex-logo">Pokérole <span class="text-red-600">Scanner</span></div>
 
-    <div class="flex justify-center gap-4 mb-8">
+    <div class="flex justify-center gap-4 mb-6">
         <button class="nav-btn active">Generatore</button>
         <button onclick="window.location.href='index.html'" class="nav-btn">Database</button>
     </div>
 
     <div class="max-w-6xl mx-auto">
-        <div class="bg-[#2d2d2d] border-2 border-[#444] rounded-xl p-6 mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-            <div>
-                <label class="block text-xs uppercase font-bold mb-2 text-gray-400">Ricerca</label>
-                <input type="text" id="searchKey" placeholder="Nome o Tipo..." class="w-full bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white">
-            </div>
-            <div>
-                <label class="block text-xs uppercase font-bold mb-2 text-yellow-500">Rango Allenatore</label>
-                <select id="userRank" class="w-full bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white">
-                    <option value="1">Starter (+1 HP)</option>
-                    <option value="2">Beginner (+2 HP)</option>
-                    <option value="3">Amateur (+3 HP)</option>
-                    <option value="4">Ace (+4 HP)</option>
-                    <option value="5">Pro (+5 HP)</option>
-                </select>
-            </div>
-            <button onclick="generateFilteredCard()" class="md:col-span-2 bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase transition-all">
-                SINCRONIZZA DATI POKÉDEX
-            </button>
+        <div class="bg-[#2d2d2d] border-2 border-[#444] rounded-xl p-4 mb-6 grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <input type="text" id="searchKey" placeholder="Cerca Pokémon..." class="bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white text-sm">
+            <select id="userRank" class="bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white text-sm">
+                <option value="1">Starter (+1 HP)</option>
+                <option value="2">Beginner (+2 HP)</option>
+                <option value="3">Amateur (+3 HP)</option>
+                <option value="4">Ace (+4 HP)</option>
+                <option value="5">Pro (+5 HP)</option>
+            </select>
+            <button onclick="generateFilteredCard()" class="md:col-span-2 bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase text-sm">Sincronizza Dati</button>
         </div>
 
         <div id="card-display"></div>
@@ -78,74 +76,81 @@
         
         const hpFinale = (p.vitalita_max?.hp || 0) + (p.attributi?.vitalita?.base || 0) + rankBonus;
         const willValue = (p.attributi?.insight?.base || 0) + 2;
+        const initiative = (p.attributi?.destrezza?.base || 0) + (p.attributi?.insight?.base || 0);
 
         const renderDots = (val) => Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('');
         const emptyDots = () => `<div class="flex">${Array.from({length: 5}, () => `<span class="dot"></span>`).join('')}</div>`;
 
         container.innerHTML = `
-        <div class="pokedex-frame">
+        <div class="pokedex-frame animate-in fade-in duration-300">
             <div class="inner-screen">
-                <div class="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
+                <div class="flex justify-between items-start mb-4 border-b border-white/10 pb-2">
                     <div>
-                        <div class="text-[10px] text-yellow-400 font-bold mb-1 uppercase tracking-widest">ID #${p.pokedex_id} | SYSTEM READY</div>
-                        <h1 class="text-5xl font-black italic uppercase" style="font-family: 'Orbitron'">${p.nome}</h1>
-                        <div class="flex gap-2 mt-2">
-                            ${p.tipo.map(t => `<span class="bg-cyan-950/40 px-3 py-0.5 rounded text-[10px] font-bold uppercase border border-cyan-500/30 text-cyan-300">${t}</span>`).join('')}
+                        <div class="text-[9px] text-yellow-400 font-bold uppercase tracking-widest">Scanner Mode | #${p.pokedex_id}</div>
+                        <h1 class="text-4xl font-black italic uppercase" style="font-family: 'Orbitron'">${p.nome}</h1>
+                        <div class="flex gap-2 mt-1">
+                            ${p.tipo.map(t => `<span class="bg-cyan-950/40 px-2 py-0.5 rounded text-[9px] font-bold uppercase border border-cyan-500/30 text-cyan-300">${t}</span>`).join('')}
                         </div>
                     </div>
-                    <div class="flex gap-4 text-center">
-                        <div class="stat-box"><div class="label text-red-500">HP</div><div class="text-3xl font-bold">${hpFinale}</div></div>
-                        <div class="stat-box"><div class="label">Will</div><div class="text-3xl font-bold">${willValue}</div></div>
+                    <div class="flex gap-3">
+                        <div class="stat-box"><div class="label text-red-500">HP</div><div class="text-2xl font-bold">${hpFinale}</div></div>
+                        <div class="stat-box"><div class="label">Will</div><div class="text-2xl font-bold">${willValue}</div></div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-12 gap-6">
-                    <div class="col-span-3">
-                        <div class="bg-black/40 border border-white/10 rounded-lg p-2 mb-4">
-                            <img src="${p.immagine}" class="w-full h-40 object-contain">
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3 space-y-4">
+                        <div class="bg-black/40 border border-white/10 rounded-lg p-2">
+                            <img src="${p.immagine}" class="w-full h-32 object-contain">
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-1">
+                            <div class="label opacity-50 mb-1">Attributes</div>
                             ${['FORZA', 'DESTREZZA', 'VITALITA', 'SPECIAL', 'INSIGHT'].map(attr => {
                                 const key = attr === 'VITALITA' ? 'vitalita' : attr.toLowerCase();
-                                return `<div class="flex justify-between items-center"><span class="text-[10px] font-bold text-slate-400">${attr}</span><div>${renderDots(p.attributi?.[key]?.base || 0)}</div></div>`;
+                                return `<div class="flex justify-between items-center"><span class="text-[9px] font-bold text-slate-400">${attr}</span><div>${renderDots(p.attributi?.[key]?.base || 0)}</div></div>`;
                             }).join('')}
+                        </div>
+                        <div class="space-y-1.5 pt-2 border-t border-white/5">
+                            <div class="label opacity-50 mb-1">Social Attr</div>
+                            <div class="social-attr bg-tough"><span>Tough</span><span>${renderDots(0)}</span></div>
+                            <div class="social-attr bg-cool"><span>Cool</span><span>${renderDots(0)}</span></div>
+                            <div class="social-attr bg-beauty"><span>Beauty</span><span>${renderDots(0)}</span></div>
+                            <div class="social-attr bg-cute"><span>Cute</span><span>${renderDots(0)}</span></div>
+                            <div class="social-attr bg-clever"><span>Clever</span><span>${renderDots(0)}</span></div>
                         </div>
                     </div>
 
-                    <div class="col-span-5 grid grid-cols-1 gap-4 px-4 border-x border-white/10">
-                        <div class="flex">
-                            <div class="flex-1 space-y-1">
-                                <div class="label text-[9px] opacity-50 mb-1">Fight</div>
-                                ${['Brawl', 'Channel', 'Clash', 'Evasion'].map(s => `<div class="flex justify-between items-center"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
+                    <div class="col-span-5 px-4 border-x border-white/10">
+                        <div class="grid grid-cols-1 gap-4">
+                            <div>
+                                <div class="label text-[9px] text-red-400 mb-1">Fight Skills</div>
+                                ${['Brawl', 'Channel', 'Clash', 'Evasion'].map(s => `<div class="flex justify-between items-center py-0.5 border-b border-white/5"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
                             </div>
-                        </div>
-                        <div class="flex">
-                            <div class="flex-1 space-y-1">
-                                <div class="label text-[9px] opacity-50 mb-1">Survival</div>
-                                ${['Alert', 'Athletic', 'Nature', 'Stealth'].map(s => `<div class="flex justify-between items-center"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
+                            <div>
+                                <div class="label text-[9px] text-green-400 mb-1">Survival Skills</div>
+                                ${['Alert', 'Athletic', 'Nature', 'Stealth'].map(s => `<div class="flex justify-between items-center py-0.5 border-b border-white/5"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
                             </div>
-                        </div>
-                        <div class="flex">
-                            <div class="flex-1 space-y-1">
-                                <div class="label text-[9px] opacity-50 mb-1">Social</div>
-                                ${['Allure', 'Etiquette', 'Intimidate', 'Perform'].map(s => `<div class="flex justify-between items-center"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
+                            <div>
+                                <div class="label text-[9px] text-pink-400 mb-1">Social Skills</div>
+                                ${['Allure', 'Etiquette', 'Intimidate', 'Perform'].map(s => `<div class="flex justify-between items-center py-0.5 border-b border-white/5"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
                             </div>
                         </div>
                     </div>
 
                     <div class="col-span-4 space-y-4">
                         <div class="bg-cyan-900/10 p-3 rounded-lg border border-cyan-500/20">
-                            <div class="label mb-2">Primary Techniques</div>
+                            <div class="label mb-2">Techniques Data</div>
                             <div class="space-y-1">
-                                ${p.tecniche.slice(0, 5).map(t => `<div class="border-b border-white/5 py-1 flex justify-between"><span class="text-[11px] font-bold text-cyan-100 italic">>> ${t.nome}</span><span class="text-[8px] opacity-50">${t.rango}</span></div>`).join('')}
+                                ${p.tecniche.slice(0, 6).map(t => `<div class="border-b border-white/5 py-1 flex justify-between"><span class="text-[10px] font-bold text-cyan-100 italic">>> ${t.nome}</span><span class="text-[8px] opacity-50">${t.rango}</span></div>`).join('')}
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
-                             <div class="stat-box"><div class="label">Iniziativa</div><div class="text-lg font-bold">${(p.attributi?.destrezza?.base || 0) + (p.attributi?.insight?.base || 0)}</div></div>
-                             <div class="stat-box"><div class="label">Rango</div><div class="text-lg font-bold text-yellow-500">${p.rango_suggerito}</div></div>
+                             <div class="stat-box"><div class="label">Initiative</div><div class="text-lg font-bold">${initiative}</div></div>
+                             <div class="stat-box"><div class="label">Rank</div><div class="text-lg font-bold text-yellow-500">${p.rango_suggerito}</div></div>
                         </div>
-                        <div class="text-[10px] text-slate-400 italic bg-black/20 p-2 rounded">
-                            ${p.descrizione}
+                        <div class="text-[10px] text-slate-400 leading-tight bg-black/20 p-2 rounded border border-white/5">
+                            <div class="flex justify-between font-bold text-white mb-1"><span>W: ${p.peso}</span><span>S: ${p.altezza}</span></div>
+                            <p class="italic">"${p.descrizione.substring(0, 120)}..."</p>
                         </div>
                     </div>
                 </div>
