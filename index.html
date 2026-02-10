@@ -170,10 +170,15 @@
             const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
             const imgUrl = p.immagine || 'https://via.placeholder.com/150?text=No+Pic';
             const evo = p.linea_evolutiva || [];
-
-            // CALCOLO DINAMICO HP (Vitalità) E WILL (Insight)
-            const hpValue = p.Salute || 0;
-            const willValue = (attr.Insight?.base !== undefined ? parseInt(attr.Insight.base) : (parseInt(attr.Insight) || 0)) + 2;
+            
+            // Cerca 'Salute', poi 'salute', poi il vecchio 'vitalita_max.hp'. 
+            // Se trova un oggetto invece di un numero, prova a prendere .base
+            const rawSalute = p.Salute ?? p.salute ?? p.vitalita_max?.hp ?? 0;
+            const hpValue = (typeof rawSalute === 'object') ? (rawSalute.base ?? 0) : rawSalute;
+            
+            // Calcolo Volontà (Insight Base + 2)
+            const insightBase = parseInt(p.attributi?.insight?.base ?? p.attributi?.insight ?? 0);
+            const willValue = insightBase + 2;
             
             return `
             <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden animate-pop text-left shadow-2xl group hover:border-yellow-500/30 transition-all">
@@ -278,6 +283,7 @@
     </script>
 </body>
 </html>
+
 
 
 
