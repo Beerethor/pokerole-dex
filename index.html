@@ -252,36 +252,118 @@
             </div>`;
         }
 
-        // --- RENDERER TECNICHE E ABILITÀ ---
-        function createStandardCard(item) {
-            const isAbil = currentSub === 'abil';
-            const typeStr = item.tipo || 'Normale';
-            const typeClass = `type-${typeStr.toLowerCase()}`;
-            const badge = item._origin === 'z' ? `<span class="bg-purple-600 text-[7px] font-black px-3 py-1 rounded-full mr-2 text-white">Z-POWER</span>` : 
-                          item._origin === 'max' ? `<span class="bg-red-600 text-[7px] font-black px-3 py-1 rounded-full mr-2 text-white">DYNAMAX</span>` : "";
+// --- VARIABILI GLOBALI ---
+    let allMoves = [];      // Database Tecniche
+    let allAbilities = [];  // Database Abilità
+    let currentSub = 'tech'; // Stato attuale: 'tech' (tecniche) o 'abil' (abilità)
+
+    // --- CARICAMENTO DATI ---
+    async function init() {
+        try {
+            // Carica entrambi i file JSON in parallelo
+            const [movesRes, abilRes] = await Promise.all([
+                fetch('tecniche.json').then(res => res.json()),
+                fetch('abilita.json').then(res => res.json())
+            ]);
             
-            return `
-            <div class="bg-slate-900 p-8 rounded-[3rem] border-l-[10px] animate-pop shadow-2xl flex flex-col h-full ${isAbil ? 'border-emerald-500' : typeClass}">
-                <div class="flex justify-between items-start mb-6">
-                    <div>
-                        ${badge}
-                        <h3 class="text-3xl font-black text-white uppercase tracking-tighter">${item.nome}</h3>
-                    </div>
-                    ${!isAbil ? `<span class="${typeClass} text-[8px] px-4 py-1 rounded-full border border-white/20 font-black uppercase">${typeStr}</span>` : ""}
-                </div>
-                <div class="flex-grow">
-                    <div class="bg-black/40 p-5 rounded-2xl border border-white/5 text-[14px] text-slate-300 leading-relaxed shadow-inner">
-                        <b class="text-yellow-600 uppercase text-[9px] block mb-2 font-mono-data tracking-widest italic underline decoration-yellow-600/30">Effetto Meccanico</b>
-                        ${item.effetti_aggiuntivi || item.effetto || "Nessun dato meccanico disponibile."}
-                    </div>
-                </div>
-            </div>`;
+            allMoves = movesRes;
+            allAbilities = abilRes;
+            
+            // Mostra le tecniche al primo avvio
+            renderContent();
+        } catch (err) {
+            console.error("Errore nel caricamento dei database:", err);
+        }
+    }
+
+    // --- LOGICA DI NAVIGAZIONE ---
+    // Funzione per switchare tra Tecniche e Abilità (da collegare ai tuoi tasti)
+    function switchTab(tab) {
+        currentSub = tab;
+        // Se hai tasti grafici, qui puoi aggiungere la logica per cambiare le classi CSS "active"
+        renderContent();
+    }
+
+    // --- FUNZIONE DI RENDERING PRINCIPALE ---
+    function renderContent() {
+        const container = document.getElementById('main-grid'); // Assicurati di avere un <div id="main-grid">
+        if (!container) return;
+
+        const searchTerm = document.getElementById('search')?.value.toLowerCase() || "";
+        const dataToRender = currentSub === 'tech' ? allMoves : allAbilities;
+
+        // Filtraggio per nome o tipo
+        const filtered = dataToRender.filter(item => {
+            const matchesName = item.nome.toLowerCase().includes(searchTerm);
+            const matchesType = item.tipo ? item.tipo.toLowerCase().includes(searchTerm) : false;
+            return matchesName || matchesType;
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-500 italic">Nessun elemento trovato...</div>`;
+            return;
         }
 
-        window.onload = init;
+        container.innerHTML = filtered.map(item => createStandardCard(item)).join('');
+    }
+
+    // --- GENERATORE DI CARD (IL TUO DESIGN AGGIORNATO) ---
+    function createStandardCard(item) {
+        const isAbil = currentSub === 'abil';
+        const typeStr = item.tipo || 'Normale';
+        const typeClass = `type-${typeStr.toLowerCase()}`;
+        
+        // Costruisce la sezione statistiche solo se è una tecnica
+        let combatStats = "";
+        if (!isAbil) {
+            combatStats = `
+                <div class="grid grid-cols-3 gap-2 mb-4 mt-2">
+                    <div class="bg-black/60 p-2 rounded border border-cyan-500/30 text-center">
+                        <span class="text-[8px] text-cyan-400 block uppercase font-bold">Accuratezza</span>
+                        <span class="text-sm font-mono text-white">${item.accuratezza || "-"}</span>
+                    </div>
+                    <div class="bg-black/60 p-2 rounded border border-red-500/30 text-center">
+                        <span class="text-[8px] text-red-400 block uppercase font-bold">Danno</span>
+                        <span class="text-sm font-mono text-white">${item.pool_danno || "-"}</span>
+                    </div>
+                    <div class="bg-black/60 p-2 rounded border border-purple-500/30 text-center">
+                        <span class="text-[8px] text-purple-400 block uppercase font-bold">Categoria</span>
+                        <span class="text-[9px] text-white uppercase">${item.categoria || "-"}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        return `
+        <div class="bg-slate-900 p-6 rounded-[2.5rem] border-l-[10px] animate-pop shadow-2xl flex flex-col h-full ${isAbil ? 'border-emerald-500' : typeClass}">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-2xl font-black text-white uppercase tracking-tighter">${item.nome}</h3>
+                ${!isAbil ? `<span class="${typeClass} text-[10px] px-3 py-1 rounded-full border border-white/20 font-black uppercase text-white">${typeStr}</span>` : ""}
+            </div>
+
+            ${combatStats}
+
+            <div class="flex-grow space-y-3">
+                <div class="bg-black/40 p-4 rounded-xl border border-white/5 text-[13px] text-slate-300 shadow-inner">
+                    <b class="text-yellow-600 uppercase text-[9px] block mb-1 tracking-widest italic underline decoration-yellow-600/30">Effetto Meccanico</b>
+                    ${item.effetti_aggiuntivi || item.effetto || "Nessun dato meccanico disponibile."}
+                </div>
+                
+                ${item.descrizione ? `
+                    <div class="p-2 text-[11px] text-slate-400 italic leading-snug">
+                        ${item.descrizione}
+                    </div>
+                ` : ""}
+            </div>
+        </div>`;
+    }
+
+    // Avvia il caricamento quando la pagina è pronta
+    window.onload = init;
     </script>
 </body>
 </html>
+
 
 
 
