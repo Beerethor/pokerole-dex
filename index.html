@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex Master Hub 2026</title>
+    <title>PokeRole ProDex - Database</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; scroll-behavior: smooth; }
         .font-mono-data { font-family: 'JetBrains Mono', monospace; }
 
-        /* --- TAVOLOZZA COLORI TIPI POKEROLE --- */
+        /* --- COLORI TIPI --- */
         .type-fuoco { background-color: #ef4444; border-color: #f87171; color: white; }
         .type-acqua { background-color: #3b82f6; border-color: #60a5fa; color: white; }
         .type-erba { background-color: #22c55e; border-color: #4ade80; color: white; }
@@ -33,7 +33,7 @@
         .type-folletto { background-color: #f472b6; border-color: #f9a8d4; color: white; }
         .type-normale { background-color: #6b7280; border-color: #9ca3af; color: white; }
 
-        /* --- INTERFACCIA UTENTE --- */
+        /* --- UI --- */
         .macro-active { background-color: var(--accent); color: #020617; transform: scale(1.05); box-shadow: 0 0 25px rgba(202, 138, 4, 0.4); }
         .macro-inactive { background-color: #0f172a; color: #64748b; border: 1px solid #1e293b; }
         .sub-active { color: var(--accent); border-bottom: 3px solid var(--accent); font-weight: 900; }
@@ -41,28 +41,25 @@
         .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         
-        /* Dropdown custom styling */
-        select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ca8a04' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.2rem center; background-repeat: no-repeat; background-size: 1.2em 1.2em; padding-right: 1.5rem; -webkit-appearance: none; appearance: none; }
-        
-        /* Scrollbar Personalizzata */
+        select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ca8a04' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.2rem center; background-repeat: no-repeat; background-size: 1.2em 1.2em; padding-right: 1.5rem; appearance: none; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; border: 2px solid #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="pb-12 text-slate-100 selection:bg-yellow-500/30">
+<body class="pb-12 text-slate-100">
 
     <div class="max-w-6xl mx-auto p-4">
-        <header class="py-14 flex flex-col items-center text-center">
+        <header class="py-14 text-center">
             <h1 class="text-6xl md:text-7xl font-black italic tracking-tighter uppercase font-mono-data">
                 <span class="text-yellow-500">POKEROLE</span> PRODEX
             </h1>
-            <p class="text-[10px] text-slate-500 font-black tracking-[0.7em] uppercase mt-4 italic">The Ultimate Regional Hub • 2026 Edition</p>
+            <p class="text-[10px] text-slate-500 font-black tracking-[0.7em] uppercase mt-4 italic">The Ultimate Regional Hub • Database Mode</p>
         </header>
 
         <nav class="flex gap-4 mb-12 justify-center">
-            <button onclick="switchMacro('dex')" id="macroDex" class="macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all duration-300">📜 Database</button>
-            <button onclick="switchMacro('gen')" id="macroGen" class="macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all duration-300">🎲 Generatore</button>
+            <a href="index.html" class="macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all flex items-center gap-2">📜 Database</a>
+            <a href="generator.html" class="macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all hover:bg-slate-800 flex items-center gap-2">🎲 Generatore</a>
         </nav>
 
         <div id="pokedexContainer" class="animate-pop">
@@ -73,19 +70,19 @@
                 <button onclick="switchSub('special')" id="subSpecial" class="text-slate-500 hover:text-white transition-all">Z / G-Max</button>
             </div>
 
-            <div class="glass-card p-6 rounded-[2.5rem] mb-12 sticky top-4 z-50 shadow-2xl">
-                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca per nome, regione, tipo o abilità..." 
-                       class="w-full bg-slate-950 border-none rounded-2xl p-5 text-white placeholder-slate-700 focus:ring-2 focus:ring-yellow-600 outline-none transition-all shadow-inner">
+            <div class="glass-card p-6 rounded-[2.5rem] mb-12 sticky top-4 z-50 shadow-2xl border border-yellow-500/10">
+                <input type="text" id="mainSearch" oninput="runSearch()" placeholder="Cerca nome, tipo, regione..." 
+                       class="w-full bg-slate-950 border-none rounded-2xl p-5 text-white placeholder-slate-700 focus:ring-2 focus:ring-yellow-600 outline-none transition-all shadow-inner font-bold">
                 
                 <div class="flex flex-wrap gap-6 justify-between items-center mt-5 px-3">
                     <div class="flex gap-6">
-                        <select id="searchRank" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none">
+                        <select id="searchRank" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
                             <option value="Tutti">Rango: Tutti</option>
                             <option value="Starter">Starter</option><option value="Beginner">Beginner</option>
                             <option value="Amateur">Amateur</option><option value="Ace">Ace</option>
                             <option value="Pro">Pro</option><option value="Master">Master</option>
                         </select>
-                        <select id="searchRegion" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none">
+                        <select id="searchRegion" onchange="runSearch()" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
                             <option value="Tutte">Regione: Tutte</option>
                             <option value="Kanto">Kanto</option><option value="Johto">Johto</option>
                             <option value="Hoenn">Hoenn</option><option value="Sinnoh">Sinnoh</option>
@@ -95,44 +92,23 @@
                         </select>
                     </div>
                     <div id="counter" class="text-[10px] text-slate-500 font-bold font-mono-data uppercase tracking-widest italic bg-slate-950 px-4 py-1 rounded-full border border-slate-800">
-                        Sincronizzazione...
+                        Caricamento...
                     </div>
                 </div>
             </div>
 
             <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-10"></div>
         </div>
-
-        <div id="generatorContainer" class="hidden animate-pop">
-            <div class="glass-card p-10 md:p-16 rounded-[3.5rem] shadow-2xl text-center">
-                <h2 class="text-4xl font-black text-yellow-500 uppercase mb-4 italic tracking-tighter">Incontro Casuale</h2>
-                <p class="text-slate-500 text-[10px] uppercase tracking-[0.3em] mb-12">Configura i parametri di spawn</p>
-                
-                <div class="flex flex-col items-center mb-12">
-                    <label class="text-[9px] text-slate-600 font-black uppercase tracking-widest mb-3">Area Geografica</label>
-                    <select id="genRegion" class="bg-slate-950 text-white px-10 py-4 rounded-2xl border border-slate-800 font-black text-xs uppercase outline-none focus:ring-2 focus:ring-yellow-600 transition-all">
-                        <option value="Tutte">Tutte le Regioni</option>
-                        <option value="Kanto">Kanto</option><option value="Johto">Johto</option>
-                        <option value="Hoenn">Hoenn</option><option value="Sinnoh">Sinnoh</option>
-                        <option value="Unima">Unima</option><option value="Kalos">Kalos</option>
-                        <option value="Alola">Alola</option><option value="Galar">Galar</option>
-                        <option value="Paldea">Paldea</option>
-                    </select>
-                </div>
-
-                <div id="genButtons" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12"></div>
-                <div id="genOutput" class="flex justify-center min-h-[450px]"></div>
-            </div>
-        </div>
     </div>
 
     <script>
-        // --- CORE STATE ---
+        // --- STATO APPLICATIVO ---
         let db = { pkmn: [], tech: [], abil: [], max: [], zmove: [] };
         let currentSub = 'pkmn';
         const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
         const REGIONI = { 1:"Kanto", 2:"Johto", 3:"Hoenn", 4:"Sinnoh", 5:"Unima", 6:"Kalos", 7:"Alola", 8:"Galar", 9:"Paldea" };
 
+        // --- INIZIALIZZAZIONE DATI ---
         async function init() {
             const v = Date.now();
             try {
@@ -142,28 +118,15 @@
                     loader('max_moves.json'), loader('mosse_z.json')
                 ]);
 
+                // Tag per le mosse speciali
                 db.max = db.max.map(m => ({...m, _origin: 'max'}));
                 db.zmove = db.zmove.map(m => ({...m, _origin: 'z'}));
                 
-                setupGenerator();
                 runSearch();
-            } catch (e) { console.error("Data Sync Error:", e); }
+            } catch (e) { console.error("Database Sync Error:", e); }
         }
 
-        // --- UI LOGIC ---
-        function setupGenerator() {
-            document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
-                `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-950 py-4 rounded-xl font-black uppercase text-[10px] border border-slate-700 transition-all font-mono-data">${r}</button>`
-            ).join('');
-        }
-
-        function switchMacro(m) {
-            document.getElementById('pokedexContainer').classList.toggle('hidden', m !== 'dex');
-            document.getElementById('generatorContainer').classList.toggle('hidden', m !== 'gen');
-            document.getElementById('macroDex').className = m === 'dex' ? 'macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all' : 'macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all';
-            document.getElementById('macroGen').className = m === 'gen' ? 'macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all' : 'macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all';
-        }
-
+        // --- GESTIONE NAVIGAZIONE SUB-TAB ---
         function switchSub(s) {
             currentSub = s;
             document.querySelectorAll('button[id^="sub"]').forEach(b => {
@@ -173,100 +136,111 @@
             runSearch();
         }
 
+        // --- MOTORE DI RICERCA ---
         function runSearch() {
             const q = document.getElementById('mainSearch').value.toLowerCase();
             const filterRank = document.getElementById('searchRank').value;
             const filterReg = document.getElementById('searchRegion').value;
+            
             let data = (currentSub === 'special') ? [...db.zmove, ...db.max] : db[currentSub] || [];
 
             const filtered = data.filter(i => {
                 const itemReg = i.regione || REGIONI[i.generazione] || "";
                 const itemRank = i.rango_suggerito || i.rango || "Starter";
+                
+                // Ricerca globale nel testo dell'oggetto
                 const matchesText = JSON.stringify(i).toLowerCase().includes(q) || itemReg.toLowerCase().includes(q);
                 const matchesRank = filterRank === "Tutti" || itemRank.toLowerCase() === filterRank.toLowerCase();
                 const matchesReg = filterReg === "Tutte" || itemReg.toLowerCase() === filterReg.toLowerCase();
+                
                 return matchesText && (currentSub === 'pkmn' ? (matchesRank && matchesReg) : true);
             });
 
-            document.getElementById('counter').innerText = `${filtered.length} RISULTATI`;
+            document.getElementById('counter').innerText = `${filtered.length} UNITÀ TROVATE`;
             document.getElementById('results').innerHTML = filtered.map(item => {
                 if(currentSub === 'pkmn') return createPkmnCard(item, filterRank === "Tutti" ? "Master" : filterRank);
                 return createStandardCard(item);
             }).join('');
         }
 
-        // --- POKEMON CARD RENDERER ---
+        // --- RENDERER SCHEDA POKEMON (MONSTER SHEET 2.0 STYLE) ---
         function createPkmnCard(p, userRank) {
             const rIdx = RANGHI.indexOf(userRank);
-            const abils = p.abilita || p.Abilità || [];
-            const techs = p.tecniche || p.Tecniche || [];
+            const attr = p.attributi || {};
             const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
-            const regione = p.regione || REGIONI[p.generazione] || "Sconosciuta";
+            const imgUrl = p.immagine || 'https://via.placeholder.com/150?text=No+Pic';
             const evo = p.linea_evolutiva || [];
 
+            // CALCOLO DINAMICO HP (Vitalità + 4) E WILL (Insight)
+            const hpValue = p.vitalita_max?.hp || p.vitalita || (attr.Vitality?.base ? parseInt(attr.Vitality.base) + 4 : 0);
+            const willValue = attr.Will?.base || attr.Will || (attr.Insight?.base || 0);
+
             return `
-            <div class="bg-slate-900 rounded-[3rem] border border-slate-800/50 overflow-hidden shadow-2xl animate-pop text-left group">
-                <div class="bg-slate-800/40 p-7 flex justify-between items-start border-b border-slate-700/30">
+            <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden animate-pop text-left shadow-2xl group hover:border-yellow-500/30 transition-all">
+                <div class="bg-slate-800/40 p-6 flex justify-between items-center border-b border-slate-700/50">
                     <div>
-                        <span class="text-[9px] font-black text-yellow-500 uppercase tracking-[0.2em] font-mono-data">Region: ${regione}</span>
-                        <h2 class="text-4xl font-black text-white uppercase leading-none mt-1 tracking-tighter">${p.nome}</h2>
-                        <div class="flex gap-2 mt-4">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-black px-3 py-1 rounded-full border border-white/10 uppercase">${t}</span>`).join('')}</div>
+                        <span class="text-[9px] font-black text-yellow-500 uppercase font-mono-data">RANK: ${p.rango || userRank}</span>
+                        <h2 class="text-3xl font-black text-white uppercase mt-1 italic tracking-tighter">${p.nome}</h2>
+                        <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[7px] font-black px-2 py-0.5 rounded border border-white/10 uppercase">${t}</span>`).join('')}</div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-3xl border border-red-900/30 text-center min-w-[85px] shadow-lg">
-                        <span class="text-[8px] text-red-500 font-black block uppercase mb-1">Vitalità</span>
-                        <span class="text-2xl font-black text-white font-mono-data">${p.Vitality_max?.hp || p.Vitality || 0}</span>
+                    <div class="flex gap-2">
+                        <div class="bg-slate-950 p-2 rounded-xl border border-red-900/30 text-center min-w-[65px] shadow-lg">
+                            <span class="text-[7px] text-red-500 font-black block uppercase italic">Salute</span>
+                            <span class="text-xl font-black text-white font-mono-data">${hpValue}</span>
+                        </div>
+                        <div class="bg-slate-950 p-2 rounded-xl border border-blue-900/30 text-center min-w-[65px] shadow-lg">
+                            <span class="text-[7px] text-blue-500 font-black block uppercase italic">Volontà</span>
+                            <span class="text-xl font-black text-white font-mono-data">${willValue}</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="p-7">
-                    <div class="flex gap-5 mb-6 items-center">
-                        <div class="w-24 h-24 bg-slate-950 rounded-[2rem] p-3 border border-slate-800 shadow-inner flex shrink-0 items-center justify-center">
-                            <img src="${p.immagine}" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/100?text=?'">
+                <div class="p-5">
+                    <div class="flex gap-4 mb-6 items-center">
+                        <div class="shrink-0">
+                            <img src="${imgUrl}" class="w-24 h-24 object-contain bg-slate-950 rounded-full p-2 border-2 border-slate-700 shadow-inner" onerror="this.src='https://via.placeholder.com/150?text=?'">
                         </div>
-                        <div class="text-[11px] text-slate-400 italic bg-slate-950/40 p-4 rounded-2xl border-l-4 border-yellow-600 leading-relaxed shadow-sm">
-                            "${p.descrizione || 'Dati Pokédex non disponibili.'}"
-                        </div>
-                    </div>
-
-                    ${evo.length > 0 ? `
-                    <div class="mb-6 bg-black/30 p-4 rounded-2xl border border-slate-800/40">
-                        <h4 class="text-[7px] text-slate-600 font-black uppercase mb-3 tracking-widest px-1 italic">Catena Evolutiva</h4>
-                        <div class="flex flex-wrap items-center gap-3 px-1">
-                            ${evo.map((name, i) => `
-                                <span class="text-[10px] font-black ${name.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-500'} uppercase">${name}</span>
-                                ${i < evo.length - 1 ? '<span class="text-slate-800 text-xs">➔</span>' : ''}
-                            `).join('')}
-                        </div>
-                    </div>
-                    ` : ''}
-
-                    <div class="mb-8">
-                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-3 tracking-widest px-1">Special Abilities</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${abils.map(a => `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-4 py-2 rounded-xl text-[10px] font-black uppercase font-mono-data shadow-sm">${a}</span>`).join('') || '---'}
+                        <div class="flex-1 text-[11px] text-slate-400 italic bg-slate-950/40 p-3 rounded-2xl border-l-2 border-yellow-600 leading-snug shadow-sm">
+                            "${p.descrizione || 'Informazione Pokédex criptata.'}"
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-5 gap-2 mb-8 text-center">
-                        ${Object.entries(p.attributi || {}).map(([k,v]) => `
-                            <div class="bg-slate-950/80 p-3 rounded-2xl border border-slate-800/50 shadow-sm">
-                                <span class="text-[7px] uppercase text-slate-600 block font-black mb-2">${k.slice(0,3)}</span>
-                                <div class="text-[10px] font-black font-mono-data flex flex-col">
-                                    <span class="text-yellow-500 text-sm mb-1">${v.base || v}</span>
-                                    <span class="text-slate-600 text-[8px] border-t border-slate-800 pt-1 uppercase italic">Max ${v.max || v}</span>
-                                </div>
-                            </div>
-                        `).join('')}
+                    <div class="mb-6">
+                        <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 pb-1 italic mb-2 tracking-widest">Attributi Core (Base/Max)</h4>
+                        <div class="grid grid-cols-1 gap-1">
+                            ${['Strength', 'Dexterity', 'Vitality', 'Special', 'Insight'].map(s => {
+                                const baseVal = attr[s]?.base !== undefined ? attr[s].base : (attr[s] || 0);
+                                const maxVal = attr[s]?.max !== undefined ? attr[s].max : (attr[s] || 0);
+                                return `
+                                <div class="flex justify-between items-center bg-slate-950/50 p-3 rounded-xl border border-slate-800/50">
+                                    <span class="text-[10px] text-slate-300 uppercase font-black tracking-widest font-mono-data">${s}</span>
+                                    <div class="text-right">
+                                        <span class="text-sm font-black text-yellow-500 font-mono-data">${baseVal}</span>
+                                        <span class="text-[10px] text-slate-600 font-mono-data italic ml-1">/ ${maxVal}</span>
+                                    </div>
+                                </div>`;
+                            }).join('')}
+                        </div>
                     </div>
 
-                    <div class="space-y-1.5">
-                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-3 tracking-widest px-1 italic">Move Set Pool</h4>
-                        ${techs.map(m => {
+                    <div class="bg-black/30 p-3 rounded-2xl mb-4 text-[9px] border border-slate-800/50">
+                        <span class="text-slate-500 block mb-1 uppercase font-black italic">Linea Evolutiva:</span>
+                        <div class="flex flex-wrap gap-2 items-center">
+                            ${evo.length > 0 ? evo.map((e, i) => `
+                                <span class="font-black ${e.toLowerCase() === p.nome.toLowerCase() ? 'text-yellow-500' : 'text-slate-500'}">${e}</span>
+                                ${i < evo.length - 1 ? '<span class="text-slate-800 font-bold">➔</span>' : ''}
+                            `).join('') : '---'}
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="text-[8px] text-slate-500 font-black uppercase mb-2 italic px-1 tracking-widest">Potential Move Pool</h4>
+                        ${(p.tecniche || p.Tecniche || []).map(m => {
                             const locked = RANGHI.indexOf(m.rango) > rIdx;
                             return `
-                            <div class="flex justify-between items-center p-3 rounded-xl text-[10px] font-bold font-mono-data transition-all duration-300 ${locked ? 'opacity-15 bg-slate-950' : 'bg-slate-800/40 text-white border-l-4 border-yellow-600 hover:bg-slate-800'}">
-                                <span>${m.nome}</span>
-                                <span class="text-[8px] uppercase px-2 py-0.5 bg-black/40 rounded text-slate-500">${m.rango}</span>
+                            <div class="flex justify-between p-2 rounded-lg text-[10px] font-bold ${locked ? 'opacity-20 bg-slate-950 grayscale' : 'bg-slate-800/30 border-l-2 border-yellow-600'}">
+                                <span class="text-white">${m.nome}</span>
+                                <span class="text-[8px] text-slate-600 italic uppercase">Pwr: ${m.pool_danno || '--'}</span>
                             </div>`;
                         }).join('')}
                     </div>
@@ -274,68 +248,33 @@
             </div>`;
         }
 
-        // --- STANDARD CARD RENDERER (TECH/ABIL) ---
+        // --- RENDERER TECNICHE E ABILITÀ ---
         function createStandardCard(item) {
             const isAbil = currentSub === 'abil';
             const typeStr = item.tipo || 'Normale';
             const typeClass = `type-${typeStr.toLowerCase()}`;
-            const badge = item._origin === 'z' ? `<span class="badge-z text-[7px] font-black px-3 py-1 rounded-full mr-2 uppercase">Z-Power</span>` : 
-                          item._origin === 'max' ? `<span class="badge-max text-[7px] font-black px-3 py-1 rounded-full mr-2 uppercase">G-Max</span>` : "";
-            const eff = item.effetti_aggiuntivi || item.effetto || "Dati non inseriti.";
-            const desc = item.descrizione || item.Descrizione || "";
-
+            const badge = item._origin === 'z' ? `<span class="bg-purple-600 text-[7px] font-black px-3 py-1 rounded-full mr-2 text-white">Z-POWER</span>` : 
+                          item._origin === 'max' ? `<span class="bg-red-600 text-[7px] font-black px-3 py-1 rounded-full mr-2 text-white">DYNAMAX</span>` : "";
+            
             return `
-            <div class="bg-slate-900 p-9 rounded-[3.5rem] border-l-[12px] animate-pop shadow-2xl flex flex-col h-full ${isAbil ? 'border-emerald-500' : typeClass}">
-                <div class="flex justify-between items-start mb-8">
+            <div class="bg-slate-900 p-8 rounded-[3rem] border-l-[10px] animate-pop shadow-2xl flex flex-col h-full ${isAbil ? 'border-emerald-500' : typeClass}">
+                <div class="flex justify-between items-start mb-6">
                     <div>
                         ${badge}
-                        <h3 class="text-3xl font-black ${isAbil ? 'text-emerald-400' : 'text-white'} uppercase tracking-tighter">${item.nome}</h3>
+                        <h3 class="text-3xl font-black text-white uppercase tracking-tighter">${item.nome}</h3>
                     </div>
-                    ${!isAbil ? `<span class="${typeClass} text-[9px] px-5 py-2 rounded-full border border-white/20 font-black uppercase tracking-widest shadow-xl">${typeStr}</span>` : ""}
+                    ${!isAbil ? `<span class="${typeClass} text-[8px] px-4 py-1 rounded-full border border-white/20 font-black uppercase">${typeStr}</span>` : ""}
                 </div>
                 <div class="flex-grow">
-                    ${desc ? `<p class="text-xs text-slate-500 italic mb-5 leading-relaxed">"${desc}"</p>` : ""}
-                    <div class="bg-black/40 p-6 rounded-[2rem] border border-white/5 text-[15px] text-slate-300 leading-relaxed shadow-inner">
-                        <b class="text-yellow-600 uppercase text-[9px] block mb-3 font-mono-data tracking-widest italic underline decoration-yellow-600/30">Effetto Meccanico</b>
-                        ${eff}
+                    <div class="bg-black/40 p-5 rounded-2xl border border-white/5 text-[14px] text-slate-300 leading-relaxed shadow-inner">
+                        <b class="text-yellow-600 uppercase text-[9px] block mb-2 font-mono-data tracking-widest italic underline decoration-yellow-600/30">Effetto Meccanico</b>
+                        ${item.effetti_aggiuntivi || item.effetto || "Nessun dato meccanico disponibile."}
                     </div>
                 </div>
-                ${(item.accuratezza || item.pool_danno) ? `
-                <div class="grid grid-cols-2 gap-4 mt-8 font-mono-data text-center">
-                    <div class="bg-slate-950 p-4 rounded-2xl border border-white/5 shadow-lg">
-                        <span class="text-[8px] block text-slate-500 uppercase font-black mb-1">Accuratezza</span>
-                        <span class="text-xs font-bold text-white">${item.accuratezza}</span>
-                    </div>
-                    <div class="bg-slate-950 p-4 rounded-2xl border border-white/5 shadow-lg">
-                        <span class="text-[8px] block text-slate-500 uppercase font-black mb-1">Danno</span>
-                        <span class="text-xs font-bold text-red-400">${item.pool_danno}</span>
-                    </div>
-                </div>` : ""}
             </div>`;
-        }
-
-        // --- GENERATOR LOGIC ---
-        function generateRandom(r) {
-            const targetReg = document.getElementById('genRegion').value;
-            const filtered = db.pkmn.filter(p => {
-                const pRank = (p.rango_suggerito || p.rango || '').toLowerCase();
-                const pReg = (p.regione || REGIONI[p.generazione] || '').toLowerCase();
-                return pRank === r.toLowerCase() && (targetReg === "Tutte" || pReg === targetReg.toLowerCase());
-            });
-
-            if(!filtered.length) {
-                document.getElementById('genOutput').innerHTML = `
-                <div class="mt-12 p-10 bg-red-950/20 border border-red-900/30 rounded-[2.5rem] text-red-500 font-black uppercase text-[10px] tracking-widest animate-pop">
-                    Nessun Pokémon di rango ${r} trovato nella regione ${targetReg}
-                </div>`;
-                return;
-            }
-            const lucky = filtered[Math.floor(Math.random() * filtered.length)];
-            document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-md mt-10 animate-pop">${createPkmnCard(lucky, r)}</div>`;
         }
 
         window.onload = init;
     </script>
 </body>
 </html>
-
