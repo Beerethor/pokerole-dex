@@ -212,7 +212,7 @@
                     <div class="mb-6">
                         <h4 class="text-[8px] text-slate-500 font-black uppercase border-b border-slate-800 pb-1 italic mb-2 tracking-widest">Attributi Core (Base/Max)</h4>
                         <div class="grid grid-cols-1 gap-1">
-                            ${['Strength', 'Dexterity', 'Vitality', 'Special', 'Insight'].map(s => {
+                            ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
                                 const baseVal = attr[s]?.base !== undefined ? attr[s].base : (attr[s] || 0);
                                 const maxVal = attr[s]?.max !== undefined ? attr[s].max : (attr[s] || 0);
                                 return `
@@ -282,6 +282,7 @@
     </script>
 </body>
 </html>
+
 
 
 
