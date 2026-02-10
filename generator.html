@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeRole ProDex - Generatore Incontri</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --accent: #ca8a04; --bg-dark: #020617; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; }
+        .font-mono-data { font-family: 'JetBrains Mono', monospace; }
+
+        /* --- COLORI TIPI --- */
+        .type-fuoco { background-color: #ef4444; border-color: #f87171; color: white; }
+        .type-acqua { background-color: #3b82f6; border-color: #60a5fa; color: white; }
+        .type-erba { background-color: #22c55e; border-color: #4ade80; color: white; }
+        .type-elettro { background-color: #eab308; border-color: #facc15; color: #020617; }
+        .type-ghiaccio { background-color: #06b6d4; border-color: #22d3ee; color: white; }
+        .type-lotta { background-color: #991b1b; border-color: #b91c1c; color: white; }
+        .type-veleno { background-color: #a855f7; border-color: #c084fc; color: white; }
+        .type-terra { background-color: #b45309; border-color: #d97706; color: white; }
+        .type-volante { background-color: #818cf8; border-color: #a5b4fc; color: white; }
+        .type-psico { background-color: #db2777; border-color: #f472b6; color: white; }
+        .type-coleottero { background-color: #84cc16; border-color: #a3e635; color: white; }
+        .type-roccia { background-color: #78350f; border-color: #92400e; color: white; }
+        .type-spettro { background-color: #6366f1; border-color: #818cf8; color: white; }
+        .type-drago { background-color: #4f46e5; border-color: #6366f1; color: white; }
+        .type-buio { background-color: #1e293b; border-color: #334155; color: white; }
+        .type-acciaio { background-color: #64748b; border-color: #94a3b8; color: white; }
+        .type-folletto { background-color: #f472b6; border-color: #f9a8d4; color: white; }
+        .type-normale { background-color: #6b7280; border-color: #9ca3af; color: white; }
+
+        /* --- UI --- */
+        .macro-active { background-color: var(--accent); color: #020617; transform: scale(1.05); box-shadow: 0 0 25px rgba(202, 138, 4, 0.4); }
+        .macro-inactive { background-color: #0f172a; color: #64748b; border: 1px solid #1e293b; }
+        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(14px); border: 1px solid rgba(51, 65, 85, 0.4); }
+        .animate-pop { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        
+        select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ca8a04' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.2em 1.2em; padding-right: 2rem; appearance: none; }
+    </style>
+</head>
+<body class="pb-12 text-slate-100">
+
+    <div class="max-w-6xl mx-auto p-4">
+        <header class="py-14 text-center">
+            <h1 class="text-6xl md:text-7xl font-black italic tracking-tighter uppercase font-mono-data">
+                <span class="text-yellow-500">POKEROLE</span> PRODEX
+            </h1>
+            <p class="text-[10px] text-slate-500 font-black tracking-[0.7em] uppercase mt-4 italic">The Ultimate Regional Hub • Generator Mode</p>
+        </header>
+
+        <nav class="flex gap-4 mb-12 justify-center">
+            <a href="index.html" class="macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all hover:bg-slate-800 flex items-center gap-2">📜 Database</a>
+            <a href="generator.html" class="macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all flex items-center gap-2">🎲 Generatore</a>
+        </nav>
+
+        <div id="generatorContainer" class="animate-pop">
+            <div class="glass-card p-10 md:p-16 rounded-[3.5rem] shadow-2xl text-center border border-yellow-500/10">
+                <h2 class="text-4xl font-black text-yellow-500 uppercase mb-4 italic tracking-tighter">Incontro Casuale</h2>
+                <p class="text-slate-500 text-[10px] uppercase tracking-[0.3em] mb-12">Seleziona i parametri per generare un Pokémon</p>
+                
+                <div class="flex flex-col items-center mb-12">
+                    <label class="text-[9px] text-slate-600 font-black uppercase tracking-widest mb-3">Area di Ricerca</label>
+                    <select id="genRegion" class="bg-slate-950 text-white px-10 py-4 rounded-2xl border border-slate-800 font-black text-xs uppercase outline-none focus:ring-2 focus:ring-yellow-600 transition-all cursor-pointer shadow-inner">
+                        <option value="Tutte">Tutte le Regioni</option>
+                        <option value="Kanto">Kanto</option><option value="Johto">Johto</option>
+                        <option value="Hoenn">Hoenn</option><option value="Sinnoh">Sinnoh</option>
+                        <option value="Unima">Unima</option><option value="Kalos">Kalos</option>
+                        <option value="Alola">Alola</option><option value="Galar">Galar</option>
+                        <option value="Paldea">Paldea</option>
+                    </select>
+                </div>
+
+                <div id="genButtons" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+                    </div>
+
+                <div id="genOutput" class="flex justify-center min-h-[500px] border-t border-slate-800/50 pt-10">
+                    <div class="text-slate-700 uppercase font-black text-[11px] mt-20 tracking-widest italic animate-pulse">
+                        In attesa di input dai sensori...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- STATO ---
+        let db = { pkmn: [] };
+        const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
+        const REGIONI = { 1:"Kanto", 2:"Johto", 3:"Hoenn", 4:"Sinnoh", 5:"Unima", 6:"Kalos", 7:"Alola", 8:"Galar", 9:"Paldea" };
+
+        // --- INIT ---
+        async function init() {
+            try {
+                const v = Date.now();
+                const response = await fetch(`pokemon.json?v=${v}`);
+                db.pkmn = await response.json();
+                
+                setupGeneratorButtons();
+            } catch (e) { console.error("Errore caricamento database:", e); }
+        }
+
+        function setupGeneratorButtons() {
+            document.getElementById('genButtons').innerHTML = RANGHI.map(r => 
+                `<button onclick="generateRandom('${r}')" class="bg-slate-800 hover:bg-yellow-600 hover:text-slate-950 py-5 rounded-2xl font-black uppercase text-[10px] border border-slate-700 transition-all font-mono-data shadow-lg hover:-translate-y-1">${r}</button>`
+            ).join('');
+        }
+
+        // --- LOGICA GENERAZIONE ---
+        function generateRandom(r) {
+            const targetReg = document.getElementById('genRegion').value;
+            
+            const filtered = db.pkmn.filter(p => {
+                const pRank = (p.rango_suggerito || p.rango || 'Starter').toLowerCase();
+                const pReg = (p.regione || REGIONI[p.generazione] || '').toLowerCase();
+                
+                const matchesRank = pRank === r.toLowerCase();
+                const matchesReg = targetReg === "Tutte" || pReg === targetReg.toLowerCase();
+                
+                return matchesRank && matchesReg;
+            });
+
+            if(!filtered.length) {
+                document.getElementById('genOutput').innerHTML = `
+                <div class="mt-12 p-10 bg-red-950/20 border border-red-900/30 rounded-[2.5rem] text-red-500 font-black uppercase text-[10px] tracking-widest animate-pop">
+                    Nessun esemplare di rango ${r} rilevato nella regione ${targetReg}
+                </div>`;
+                return;
+            }
+
+            const lucky = filtered[Math.floor(Math.random() * filtered.length)];
+            // Passiamo il rango selezionato per colorare correttamente le mosse
+            document.getElementById('genOutput').innerHTML = `<div class="w-full max-w-lg animate-pop">${createPkmnCard(lucky, r)}</div>`;
+        }
+
+        // --- RENDERER SCHEDA (IDENTICO AL DATABASE) ---
+        function createPkmnCard(p, userRank) {
+            const rIdx = RANGHI.indexOf(userRank);
+            const attr = p.attributi || {};
+            const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
+            const imgUrl = p.immagine || 'https://via.placeholder.com/150?text=No+Pic';
+            const evo = p.linea_evolutiva || [];
+
+            // Calcolo HP (Vitality + 4) e Will (Insight)
+            const hpValue = p.vitalita_max?.hp || p.vitalita || (attr.Vitality?.base ? parseInt(attr.Vitality.base) + 4 : 0);
+            const willValue = attr.Will?.base || attr.Will || (attr.Insight?.base || 0);
+
+            return `
+            <div class="bg-slate-900 rounded-[3rem] border border-slate-700/50 overflow-hidden shadow-2xl text-left">
+                <div class="bg-slate-800/60 p-7 flex justify-between items-center border-b border-slate-700">
+                    <div>
+                        <span class="text-[9px] font-black text-yellow-500 uppercase font-mono-data tracking-widest">RANK: ${p.rango || userRank}</span>
+                        <h2 class="text-4xl font-black text-white uppercase mt-1 italic tracking-tighter">${p.nome}</h2>
+                        <div class="flex gap-2 mt-3">${types.map(t => `<span class="type-${t.toLowerCase()} text-[8px] font-black px-3 py-1 rounded-full border border-white/10 uppercase">${t}</span>`).join('')}</div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-red-900/40 text-center min-w-[75px]">
+                            <span class="text-[8px] text-red-500 font-black block uppercase mb-1">HP</span>
+                            <span class="text-2xl font-black text-white font-mono-data">${hpValue}</span>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-2xl border border-blue-900/40 text-center min-w-[75px]">
+                            <span class="text-[8px] text-blue-500 font-black block uppercase mb-1">WILL</span>
+                            <span class="text-2xl font-black text-white font-mono-data">${willValue}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-7">
+                    <div class="flex gap-6 mb-8 items-center">
+                        <img src="${imgUrl}" class="w-28 h-28 object-contain bg-slate-950 rounded-full p-3 border-2 border-slate-700 shadow-inner" onerror="this.src='https://via.placeholder.com/150?text=?'">
+                        <div class="flex-1 text-[12px] text-slate-400 italic bg-slate-950/50 p-4 rounded-2xl border-l-4 border-yellow-600 leading-relaxed shadow-sm">
+                            "${p.descrizione || 'Analisi del soggetto non pervenuta.'}"
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h4 class="text-[9px] text-slate-500 font-black uppercase border-b border-slate-800 pb-2 italic mb-4 tracking-widest">Attributi Core (Base/Max)</h4>
+                        <div class="grid grid-cols-1 gap-1.5">
+                            ${['Strength', 'Dexterity', 'Vitality', 'Special', 'Insight'].map(s => {
+                                const baseVal = attr[s]?.base !== undefined ? attr[s].base : (attr[s] || 0);
+                                const maxVal = attr[s]?.max !== undefined ? attr[s].max : (attr[s] || 0);
+                                return `
+                                <div class="flex justify-between items-center bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                                    <span class="text-[11px] text-slate-300 uppercase font-black tracking-widest font-mono-data">${s}</span>
+                                    <div class="text-right">
+                                        <span class="text-base font-black text-yellow-500 font-mono-data">${baseVal}</span>
+                                        <span class="text-[11px] text-slate-600 font-mono-data italic ml-1">/ ${maxVal}</span>
+                                    </div>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-[9px] text-slate-500 font-black uppercase mb-3 italic px-1 tracking-widest">Move Pool Disponibile</h4>
+                        ${(p.tecniche || p.Tecniche || []).map(m => {
+                            const locked = RANGHI.indexOf(m.rango) > rIdx;
+                            return `
+                            <div class="flex justify-between p-3 rounded-xl text-[11px] font-bold ${locked ? 'opacity-20 bg-slate-950 grayscale' : 'bg-slate-800/40 border-l-4 border-yellow-600'}">
+                                <span class="text-white">${m.nome}</span>
+                                <span class="text-[9px] text-slate-500 italic uppercase">Pwr: ${m.pool_danno || '--'}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
