@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokérole Pokedex Generator 3.0</title>
+    <title>Pokérole Pokedex Generator 4.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
@@ -10,6 +10,38 @@
         body { background-color: #1a1a1a; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
         :root { --pokedex-red: #dc2626; --pokedex-dark-red: #991b1b; --screen-bg: #0f172a; --neon-blue: #0ea5e9; --neon-yellow: #facc15; }
         
+        /* LOGO */
+        .logo-container { text-align: center; margin-bottom: 20px; }
+        .pokedex-logo { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 2.5rem; 
+            font-weight: 900; 
+            color: #fff; 
+            text-shadow: 0 0 10px var(--neon-blue);
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        /* NAVIGATION TABS */
+        .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
+        .nav-btn {
+            padding: 10px 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            background: #2d2d2d;
+            border: 2px solid #444;
+            color: #888;
+        }
+        .nav-btn.active {
+            background: var(--pokedex-red);
+            border-color: var(--neon-yellow);
+            color: white;
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+        }
+        .nav-btn:hover:not(.active) { border-color: var(--neon-blue); color: white; }
+
         /* Controlli Filtri */
         .filter-bar { background: #2d2d2d; border: 2px solid #444; border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         input, select { background: #1a1a1a; border: 1px solid #555; color: white; padding: 8px 12px; border-radius: 8px; font-family: 'Rajdhani'; }
@@ -27,6 +59,16 @@
     </style>
 </head>
 <body>
+
+    <div class="logo-container">
+        <h1 class="pokedex-logo">Pokérole <span class="text-red-600">Scanner</span></h1>
+        <p class="text-xs text-blue-400 mt-1 uppercase tracking-widest font-bold">Monster Management System</p>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="nav-btn active">Generatore</button>
+        <button onclick="window.location.href='index.html'" class="nav-btn">Database</button>
+    </div>
 
     <div class="max-w-5xl mx-auto">
         <div class="filter-bar grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
@@ -59,16 +101,19 @@
         </div>
 
         <div id="card-display">
-            <p class="text-center text-gray-500 italic">Inserisci i filtri e avvia lo scanner...</p>
-        </div>
+            </div>
     </div>
 
     <script>
     let pokemonData = [];
 
+    // Caricamento dati e generazione iniziale
     fetch('pokemon.json')
         .then(res => res.json())
-        .then(data => { pokemonData = data; });
+        .then(data => { 
+            pokemonData = data; 
+            generateFilteredCard(); // Genera un pokemon all'avvio
+        });
 
     function generateFilteredCard() {
         if (pokemonData.length === 0) return;
@@ -86,7 +131,7 @@
         });
 
         if (filtered.length === 0) {
-            document.getElementById('card-display').innerHTML = "<p class='text-center text-red-500'>Nessun Pokémon trovato con questi filtri!</p>";
+            document.getElementById('card-display').innerHTML = "<p class='text-center text-red-500 py-20'>Nessun Pokémon trovato con questi filtri!</p>";
             return;
         }
 
@@ -106,7 +151,7 @@
         const emptySlots = Math.max(0, willValue - movesToDisplay.length);
 
         container.innerHTML = `
-        <div class="pokedex-frame">
+        <div class="pokedex-frame animate-in fade-in duration-500">
             <div class="inner-screen">
                 <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-4">
                     <div>
@@ -124,8 +169,8 @@
 
                 <div class="grid grid-cols-12 gap-8">
                     <div class="col-span-4">
-                        <div class="bg-black/40 border border-white/10 rounded-lg p-4 mb-6 shadow-inner">
-                            <img src="${p.immagine}" class="w-full h-48 object-contain drop-shadow-[0_0_15px_rgba(14,165,233,0.4)]">
+                        <div class="bg-black/40 border border-white/10 rounded-lg p-4 mb-6 shadow-inner text-center">
+                            <img src="${p.immagine}" class="w-full h-48 object-contain drop-shadow-[0_0_15px_rgba(14,165,233,0.4)] mx-auto">
                         </div>
                         <div class="label mb-3 opacity-70">Primary Attributes</div>
                         <div class="space-y-3">
