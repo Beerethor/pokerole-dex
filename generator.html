@@ -2,27 +2,27 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokedex Monster Sheet 2.0</title>
+    <title>Pokedex Monster Sheet 2.0 - Dynamic HP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
         body { background-color: #1a1a1a; font-family: 'Rajdhani', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
         :root { --pokedex-red: #dc2626; --pokedex-dark-red: #991b1b; --screen-bg: #0f172a; --neon-blue: #0ea5e9; --neon-yellow: #facc15; }
         .pokedex-frame { width: 920px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 30px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 25px; border: 4px solid #334155; color: white; }
+        .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 25px; border: 4px solid #334155; color: white; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; }
-        .dot { width: 10px; height: 10px; border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; display: inline-block; margin-right: 3px; transform: skewX(-15deg); }
+        .dot { width: 10px; height: 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; display: inline-block; margin-right: 3px; transform: skewX(-15deg); }
         .dot.filled { background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); border: none; }
         .stat-box { background: rgba(0,0,0,0.5); border-left: 3px solid var(--neon-yellow); padding: 5px 12px; border-radius: 4px; }
-        .move-slot { border-bottom: 1px solid rgba(14, 165, 233, 0.2); padding: 4px 0; }
-        .btn-scan { background: #22c55e; border-bottom: 4px solid #166534; transition: all 0.1s; }
+        .move-slot { border-bottom: 1px solid rgba(14, 165, 233, 0.1); padding: 6px 0; }
+        .btn-scan { background: #22c55e; border-bottom: 4px solid #166534; transition: all 0.1s; cursor: pointer; }
         .btn-scan:active { transform: translateY(2px); border-bottom-width: 0; }
     </style>
 </head>
 <body>
 
     <button onclick="generateRandomCard()" class="btn-scan mb-10 px-12 py-4 rounded-xl text-white font-black uppercase tracking-widest text-xl shadow-2xl">
-        AVVIA SCANNER POKEDEX
+        SCANNERIZZA POKÉMON
     </button>
 
     <div id="card-display"></div>
@@ -39,15 +39,24 @@
         const p = pokemonData[Math.floor(Math.random() * pokemonData.length)];
         const container = document.getElementById('card-display');
         
-        // --- LOGICA POKEROLE ---
-        const hpValue = p.vitalita_max?.hp || 0;
+        // --- CALCOLO HP DINAMICO ---
+        const hpDalJson = parseInt(p.vitalita_max?.hp || 0); // Prende il valore HP dal file
+        const vitalitaBase = parseInt(p.attributi?.vitalita?.base || 0); // Prende Vitalità Base
+        
+        // Mappatura Bonus Rango
+        const rangoMap = { "starter": 1, "beginner": 2, "amateur": 3, "ace": 4, "pro": 5 };
+        const bonusRango = rangoMap[p.rango_suggerito?.toLowerCase()] || 1;
+
+        // FORMULA RICHIESTA: HP del JSON + Vitalità + Rango
+        const hpFinale = hpDalJson + vitalitaBase + bonusRango;
+
+        // --- ALTRE STATISTICHE ---
         const insightBase = parseInt(p.attributi?.insight?.base || 0);
-        const willValue = insightBase + 2; // La Volontà determina gli slot tecniche
+        const willValue = insightBase + 2;
         const initiative = parseInt(p.attributi?.destrezza?.base || 0) + insightBase;
 
-        // Estraiamo le tecniche disponibili nel JSON (massimo pari a Will)
+        // Tecniche limitate dagli slot WILL
         const movesToDisplay = p.tecniche.slice(0, willValue);
-        // Calcoliamo quanti slot vuoti rimangono
         const emptySlots = Math.max(0, willValue - movesToDisplay.length);
 
         container.innerHTML = `
@@ -55,21 +64,21 @@
             <div class="inner-screen">
                 <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-4">
                     <div>
-                        <div class="text-xs text-yellow-400 font-bold mb-1 tracking-widest">RANK: ${p.rango_suggerito.toUpperCase()} | ID: #${p.pokedex_id}</div>
+                        <div class="text-xs text-yellow-400 font-bold mb-1 tracking-widest uppercase">RANK: ${p.rango_suggerito} | #${p.pokedex_id}</div>
                         <h1 class="text-5xl font-black italic uppercase tracking-tighter" style="font-family: 'Orbitron'">${p.nome}</h1>
                         <div class="flex gap-2 mt-2">
-                            ${p.tipo.map(t => `<span class="bg-cyan-900/40 px-3 py-0.5 rounded text-[10px] font-bold uppercase border border-cyan-500/30 text-cyan-300">${t}</span>`).join('')}
+                            ${p.tipo.map(t => `<span class="bg-cyan-950/40 px-3 py-0.5 rounded text-[10px] font-bold uppercase border border-cyan-500/30 text-cyan-300">${t}</span>`).join('')}
                         </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="stat-box"><div class="label text-red-500">HP</div><div class="text-3xl font-bold">${hpValue}</div></div>
-                        <div class="stat-box"><div class="label">WILL</div><div class="text-3xl font-bold">${willValue}</div></div>
+                        <div class="stat-box"><div class="label text-red-500">Health (HP)</div><div class="text-3xl font-bold">${hpFinale}</div></div>
+                        <div class="stat-box"><div class="label">Will</div><div class="text-3xl font-bold">${willValue}</div></div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-12 gap-8">
                     <div class="col-span-4">
-                        <div class="bg-black/40 border border-white/10 rounded-lg p-4 mb-6 shadow-inner">
+                        <div class="bg-black/40 border border-white/10 rounded-lg p-4 mb-6">
                             <img src="${p.immagine}" class="w-full h-48 object-contain drop-shadow-[0_0_15px_rgba(14,165,233,0.4)]">
                         </div>
                         <div class="label mb-3 opacity-70">Primary Attributes</div>
@@ -79,14 +88,14 @@
                                 const val = p.attributi?.[key]?.base || 0;
                                 return `
                                 <div class="flex justify-between items-center">
-                                    <span class="text-[11px] font-bold text-slate-400 tracking-wider">${attr}</span>
+                                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">${attr}</span>
                                     <div>${Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('')}</div>
                                 </div>`;
                             }).join('')}
                         </div>
                     </div>
 
-                    <div class="col-span-4 border-x border-white/5 px-4">
+                    <div class="col-span-4 px-4 border-x border-white/5">
                         <div class="label mb-3 opacity-70">Skill Matrix</div>
                         <div class="space-y-2 mb-6">
                             ${['Brawl', 'Clash', 'Alert', 'Stealth', 'Nature'].map(s => `
@@ -102,7 +111,7 @@
                     </div>
 
                     <div class="col-span-4 space-y-4">
-                        <div class="bg-black/30 p-3 rounded-lg border border-cyan-500/20">
+                        <div class="bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/20">
                             <div class="flex justify-between items-center mb-3">
                                 <div class="label">Moveset</div>
                                 <span class="text-[10px] text-yellow-500 font-bold">${willValue} SLOTS</span>
@@ -115,18 +124,18 @@
                                     </div>
                                 `).join('')}
                                 ${Array.from({length: emptySlots}, () => `
-                                    <div class="move-slot flex justify-between items-center opacity-20">
+                                    <div class="move-slot flex justify-between items-center opacity-10">
                                         <span class="text-[11px] font-bold">-- EMPTY --</span>
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
 
-                        <div class="stat-box"><div class="label">Initiative</div><div class="text-xl font-bold">${initiative}</div></div>
+                        <div class="stat-box"><div class="label">Initiative</div><div class="text-xl font-bold text-yellow-400">${initiative}</div></div>
                         
-                        <div class="text-[10px] bg-black/40 p-3 rounded border border-white/5 italic text-slate-400 leading-tight">
+                        <div class="text-[10px] bg-black/40 p-3 rounded border border-white/5 text-slate-400 leading-tight">
                             <div class="flex justify-between text-white font-bold mb-1"><span>W: ${p.peso}</span><span>S: ${p.altezza}</span></div>
-                            ${p.descrizione}
+                            <p class="italic">${p.descrizione}</p>
                         </div>
                     </div>
                 </div>
