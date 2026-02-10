@@ -2,22 +2,23 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokérole Monster Sheet Generator 2.0</title>
+    <title>Pokérole Monster Sheet Generator 2.0 - Extended</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap');
         body { font-family: 'Roboto Condensed', sans-serif; background: #1a1a1a; color: white; }
-        .monster-sheet { width: 850px; background: #f3f4f6; color: #1f2937; border-radius: 10px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin: 20px auto; }
-        .label { font-size: 0.65rem; font-weight: bold; color: #4b5563; text-transform: uppercase; border-bottom: 1px solid #d1d5db; }
-        .dot { width: 12px; height: 12px; border: 1.5px solid #4b5563; border-radius: 50%; display: inline-block; margin-right: 2px; }
-        .dot.filled { background: #1f2937; }
-        .stat-box { border: 2px solid #1f2937; text-align: center; border-radius: 8px; }
+        .monster-sheet { width: 900px; background: #f3f4f6; color: #1f2937; border-radius: 12px; padding: 25px; box-shadow: 0 15px-40px rgba(0,0,0,0.6); margin: 20px auto; border: 1px solid #d1d5db; }
+        .label { font-size: 0.65rem; font-weight: 800; color: #374151; text-transform: uppercase; letter-spacing: 0.05em; }
+        .dot { width: 11px; height: 11px; border: 1.5px solid #4b5563; border-radius: 50%; display: inline-block; margin-right: 2px; }
+        .dot.filled { background: #1f2937; border-color: #1f2937; }
+        .stat-box { border: 2.5px solid #1f2937; text-align: center; border-radius: 10px; background: white; }
+        .section-title { font-family: 'Oswald', sans-serif; font-size: 0.75rem; font-weight: 700; color: #9ca3af; border-bottom: 1px solid #e5e7eb; margin-bottom: 8px; padding-bottom: 2px; }
     </style>
 </head>
 <body>
 
 <div class="flex flex-col items-center p-6">
-    <button onclick="generateRandomCard()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all uppercase tracking-widest mb-8">
+    <button onclick="generateRandomCard()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-full shadow-lg transition-all uppercase tracking-widest mb-10 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">
         Genera Pokémon Casuale
     </button>
     <div id="card-display"></div>
@@ -26,7 +27,6 @@
 <script>
 let pokemonData = [];
 
-// Caricamento del JSON
 fetch('pokemon.json')
     .then(res => res.json())
     .then(data => { pokemonData = data; generateRandomCard(); });
@@ -36,85 +36,94 @@ function generateRandomCard() {
     const p = pokemonData[Math.floor(Math.random() * pokemonData.length)];
     const container = document.getElementById('card-display');
     
-    // Logica di calcolo 
+    // Dati dinamici dal JSON 
     const hp = p.vitalita_max?.hp || 0;
-    const insightBase = p.attributi?.insight?.base || 0;
-    const will = parseInt(insightBase) + 2;
+    const insightBase = parseInt(p.attributi?.insight?.base || 0);
+    const will = insightBase + 2;
 
     container.innerHTML = `
     <div class="monster-sheet">
-        <div class="flex justify-between items-end mb-4 border-b-4 border-black pb-2">
+        <div class="flex justify-between items-end mb-6 border-b-8 border-black pb-3">
             <div>
-                <h1 class="text-5xl font-black uppercase italic italic">${p.nome}</h1>
-                <div class="text-sm font-bold">TYPE: ${p.tipo.join(' / ')} | RANK: ${p.rango_suggerito}</div>
+                <h1 class="text-6xl font-black uppercase italic leading-none tracking-tighter">${p.nome}</h1>
+                <div class="text-sm font-bold mt-1 text-gray-500">TYPE: ${p.tipo.join(' / ').toUpperCase()} | RANK: ${p.rango_suggerito.toUpperCase()}</div>
             </div>
             <div class="flex gap-4">
-                <div class="stat-box w-20 p-2"><div class="label">HP</div><div class="text-3xl font-black">${hp}</div></div>
-                <div class="stat-box w-20 p-2"><div class="label">WILL</div><div class="text-3xl font-black">${will}</div></div>
+                <div class="stat-box w-24 p-2 shadow-sm"><div class="label">HP</div><div class="text-4xl font-black">${hp}</div></div>
+                <div class="stat-box w-24 p-2 shadow-sm"><div class="label">WILL</div><div class="text-4xl font-black">${will}</div></div>
             </div>
         </div>
 
-        <div class="grid grid-cols-12 gap-6">
+        <div class="grid grid-cols-12 gap-8">
             <div class="col-span-4">
-                <div class="bg-white border-2 border-black rounded-xl overflow-hidden mb-4 p-2">
-                    <img src="${p.immagine}" class="w-full h-48 object-contain">
+                <div class="bg-white border-2 border-black rounded-2xl overflow-hidden mb-6 p-4 shadow-inner">
+                    <img src="${p.immagine}" class="w-full h-52 object-contain mx-auto">
                 </div>
                 
-                <div class="space-y-2">
-                    ${['FORZA', 'DESTREZZA', 'VITALITA', 'SPECIAL', 'INSIGHT'].map(attr => {
-                        const val = p.attributi?.[attr.toLowerCase()]?.base || 0;
+                <div class="section-title">PRIMARY ATTRIBUTES</div>
+                <div class="space-y-2 px-1">
+                    ${['STRENGTH', 'DEXTERITY', 'VITALITY', 'SPECIAL', 'INSIGHT'].map(attr => {
+                        const key = attr === 'STRENGTH' ? 'forza' : attr === 'DEXTERITY' ? 'destrezza' : attr === 'VITALITY' ? 'vitalita' : attr.toLowerCase();
+                        const val = p.attributi?.[key]?.base || 0;
                         return `
                         <div class="flex justify-between items-center">
-                            <span class="label border-none">${attr}</span>
-                            <div>${Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('')}</div>
+                            <span class="label text-[10px]">${attr}</span>
+                            <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('')}</div>
                         </div>`;
                     }).join('')}
                 </div>
             </div>
 
-            <div class="col-span-4 space-y-4">
-                <div class="p-2 bg-gray-200 rounded">
-                    <div class="label">Skills & Social</div>
-                    <div class="text-[10px] mt-1 grid grid-cols-2 gap-x-2 italic">
-                        <span>BRAWL: 00000</span><span>FIGHT: 00000</span>
-                        <span>CLASH: 00000</span><span>COOL: 00000</span>
-                        <span>ALERT: 00000</span><span>TOUGH: 00000</span>
-                        <span>NATURE: 00000</span><span>SOCIAL: 00000</span>
-                    </div>
+            <div class="col-span-4 border-x border-gray-200 px-4">
+                <div class="section-title">SKILLS</div>
+                <div class="space-y-2 px-1 mb-6">
+                    ${['Brawl', 'Clash', 'Alert', 'Stealth', 'Nature'].map(skill => `
+                        <div class="flex justify-between items-center">
+                            <span class="label text-[9px] text-gray-500">${skill}</span>
+                            <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < 0 ? 'filled' : ''}"></span>`).join('')}</div>
+                        </div>
+                    `).join('')}
                 </div>
-                <div class="p-2 border border-gray-300">
-                    <div class="label">Abilità</div>
-                    <div class="text-xs font-bold uppercase">${p.abilita.join(', ')}</div>
+
+                <div class="section-title">SOCIAL</div>
+                <div class="space-y-2 px-1">
+                    ${['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'].map(social => `
+                        <div class="flex justify-between items-center">
+                            <span class="label text-[9px] text-gray-500">${social}</span>
+                            <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < 0 ? 'filled' : ''}"></span>`).join('')}</div>
+                        </div>
+                    `).join('')}
                 </div>
-                <div class="p-2 border border-gray-300">
-                    <div class="label">Descrizione</div>
-                    <div class="text-[10px] leading-tight">${p.descrizione}</div>
+                
+                <div class="mt-6 p-3 bg-white border border-gray-300 rounded-lg">
+                    <div class="label text-blue-600 mb-1">Abilità Speciale</div>
+                    <div class="text-[11px] font-bold uppercase leading-tight">${p.abilita.join(' / ')}</div>
                 </div>
             </div>
 
             <div class="col-span-4 space-y-4">
                 <div class="grid grid-cols-2 gap-2">
-                    <div class="stat-box p-1"><div class="label">ACCURACY</div><div class="font-bold">0</div></div>
-                    <div class="stat-box p-1"><div class="label">DAMAGE</div><div class="font-bold">0</div></div>
-                    <div class="stat-box p-1"><div class="label">EVASION</div><div class="font-bold">0</div></div>
-                    <div class="stat-box p-1"><div class="label">INITIATIVE</div><div class="font-bold">0</div></div>
+                    <div class="stat-box p-1"><div class="label">INITIATIVE</div><div class="text-xl font-bold">${parseInt(p.attributi?.destrezza?.base || 0) + parseInt(p.attributi?.insight?.base || 0)}</div></div>
+                    <div class="stat-box p-1"><div class="label">ACCURACY</div><div class="text-xl font-bold">0</div></div>
+                    <div class="stat-box p-1 bg-gray-100 border-dashed"><div class="label text-[8px]">ACCESORY</div><div class="text-[10px] italic">None</div></div>
+                    <div class="stat-box p-1 bg-gray-100 border-dashed"><div class="label text-[8px]">ITEM</div><div class="text-[10px] italic">None</div></div>
                 </div>
                 
-                <div class="p-2 bg-black text-white rounded">
-                    <div class="label text-gray-400">Moves / Tecniche</div>
-                    <div class="text-[9px] mt-1 space-y-1">
-                        ${p.tecniche.slice(0, 6).map(t => `
-                            <div class="flex justify-between border-b border-gray-700 pb-1">
-                                <span>${t.nome.toUpperCase()}</span>
-                                <span class="text-yellow-500">${t.rango}</span>
+                <div class="p-3 bg-gray-800 text-white rounded-xl shadow-lg">
+                    <div class="text-[10px] font-bold text-yellow-400 mb-2 border-b border-gray-600 uppercase">Moves / Tecniche</div>
+                    <div class="space-y-2">
+                        ${p.tecniche.slice(0, 5).map(t => `
+                            <div class="flex justify-between items-center border-b border-gray-700 pb-1">
+                                <span class="text-[10px] font-bold tracking-tight">${t.nome.toUpperCase()}</span>
+                                <span class="text-[8px] bg-gray-600 px-1.5 rounded text-gray-200">${t.rango}</span>
                             </div>
                         `).join('')}
                     </div>
                 </div>
                 
-                <div class="text-[10px] grid grid-cols-2">
-                    <div><span class="label">WEIGHT:</span> ${p.peso}</div>
-                    <div><span class="label">SIZE:</span> ${p.altezza}</div>
+                <div class="bg-white p-3 border border-gray-300 rounded-xl text-[10px]">
+                    <div class="flex justify-between mb-1"><span><strong>WEIGHT:</strong> ${p.peso}</span><span><strong>SIZE:</strong> ${p.altezza}</span></div>
+                    <div class="border-t pt-1 mt-1 italic text-gray-500 line-clamp-3">${p.descrizione}</div>
                 </div>
             </div>
         </div>
