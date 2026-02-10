@@ -2,161 +2,167 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokérole Scanner 6.0 - Full Matrix</title>
+    <title>Pokérole Scanner 7.0 - Auto-Leveler System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
-        
         body { background-color: #1a1a1a; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
         :root { --pokedex-red: #dc2626; --pokedex-dark-red: #991b1b; --screen-bg: #0f172a; --neon-blue: #0ea5e9; --neon-yellow: #facc15; }
-        
         .pokedex-logo { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--neon-blue); text-transform: uppercase; font-style: italic; text-align: center; margin-bottom: 20px; }
-        .nav-btn { padding: 8px 20px; border-radius: 10px; font-weight: bold; text-transform: uppercase; transition: all 0.3s; background: #2d2d2d; border: 2px solid #444; color: #888; cursor: pointer; }
-        .nav-btn.active { background: var(--pokedex-red); border-color: var(--neon-yellow); color: white; box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); }
-
-        .pokedex-frame { width: 1100px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 25px; position: relative; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .pokedex-frame { width: 1100px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 25px; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 20px; border: 4px solid #334155; }
-        
-        .label { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; }
+        .label { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: var(--neon-blue); text-transform: uppercase; }
         .dot { width: 9px; height: 9px; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; display: inline-block; margin-right: 2px; transform: skewX(-15deg); }
         .dot.filled { background: var(--neon-blue); box-shadow: 0 0 6px var(--neon-blue); border: none; }
+        .dot.social { background: #facc15; box-shadow: 0 0 6px #facc15; border: none; }
         .stat-box { background: rgba(0,0,0,0.5); border-left: 3px solid var(--neon-yellow); padding: 4px 10px; border-radius: 4px; }
-        
-        /* Social Attributes Styling */
-        .social-attr { padding: 2px 8px; border-radius: 20px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: space-between; align-items: center; }
-        .bg-tough { background: #facc15; color: #422006; }
-        .bg-cool { background: #fb923c; color: #431407; }
-        .bg-beauty { background: #60a5fa; color: #1e3a8a; }
-        .bg-cute { background: #f472b6; color: #4c0519; }
-        .bg-clever { background: #4ade80; color: #064e3b; }
+        .social-attr { padding: 2px 8px; border-radius: 20px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
     </style>
 </head>
 <body>
 
-    <div class="pokedex-logo">Pokérole <span class="text-red-600">Scanner</span></div>
-
-    <div class="flex justify-center gap-4 mb-6">
-        <button class="nav-btn active">Generatore</button>
-        <button onclick="window.location.href='index.html'" class="nav-btn">Database</button>
-    </div>
+    <div class="pokedex-logo">Pokérole <span class="text-red-600">Leveler</span></div>
 
     <div class="max-w-6xl mx-auto">
-        <div class="bg-[#2d2d2d] border-2 border-[#444] rounded-xl p-4 mb-6 grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-            <input type="text" id="searchKey" placeholder="Cerca Pokémon..." class="bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white text-sm">
-            <select id="userRank" class="bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white text-sm">
-                <option value="1">Starter (+1 HP)</option>
-                <option value="2">Beginner (+2 HP)</option>
-                <option value="3">Amateur (+3 HP)</option>
-                <option value="4">Ace (+4 HP)</option>
-                <option value="5">Pro (+5 HP)</option>
+        <div class="bg-[#2d2d2d] border-2 border-[#444] rounded-xl p-4 mb-6 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+            <input type="text" id="searchKey" placeholder="Cerca Pokémon..." class="bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white">
+            <select id="userRank" class="bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white font-bold">
+                <option value="1">Starter</option>
+                <option value="2">Beginner</option>
+                <option value="3">Amateur</option>
+                <option value="4">Ace</option>
+                <option value="5">Pro</option>
+                <option value="6">Master</option>
+                <option value="7">Champion</option>
             </select>
-            <button onclick="generateFilteredCard()" class="md:col-span-2 bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase text-sm">Sincronizza Dati</button>
+            <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase">Genera e Distribuisci Punti</button>
         </div>
-
         <div id="card-display"></div>
     </div>
 
     <script>
     let pokemonData = [];
+    fetch('pokemon.json').then(res => res.json()).then(data => { pokemonData = data; generateFilteredCard(); });
 
-    fetch('pokemon.json')
-        .then(res => res.json())
-        .then(data => { pokemonData = data; generateFilteredCard(); });
+    function distributePoints(pool, limit, targetObj, keys) {
+        let attempts = 0;
+        while(pool > 0 && attempts < 100) {
+            let key = keys[Math.floor(Math.random() * keys.length)];
+            if (targetObj[key] < limit) {
+                targetObj[key]++;
+                pool--;
+            }
+            attempts++;
+        }
+    }
 
     function generateFilteredCard() {
         if (pokemonData.length === 0) return;
         const search = document.getElementById('searchKey').value.toLowerCase();
-        const rankBonus = parseInt(document.getElementById('userRank').value);
+        const rank = parseInt(document.getElementById('userRank').value);
 
-        let filtered = pokemonData.filter(p => p.nome.toLowerCase().includes(search) || p.tipo.some(t => t.toLowerCase().includes(search)));
+        let filtered = pokemonData.filter(p => p.nome.toLowerCase().includes(search));
         if (filtered.length === 0) return;
+        const p = JSON.parse(JSON.stringify(filtered[Math.floor(Math.random() * filtered.length)]));
 
-        const p = filtered[Math.floor(Math.random() * filtered.length)];
-        const container = document.getElementById('card-display');
+        // INIZIALIZZAZIONE PUNTI
+        let attr = { forza: p.attributi.forza.base, destrezza: p.attributi.destrezza.base, vitalita: p.attributi.vitalita.base, special: p.attributi.special.base, insight: p.attributi.insight.base };
+        let skills = { Brawl:0, Channel:0, Clash:0, Evasion:0, Alert:0, Athletic:0, Nature:0, Stealth:0, Allure:0, Etiquette:0, Intimidate:0, Perform:0 };
+        let social = { Tough:0, Cool:0, Beauty:0, Cute:0, Clever:0 };
+        let bonusMaster = 0;
+
+        // LOGICA RANGHI (CUMULATIVA)
+        // Starter
+        distributePoints(5, 1, skills, Object.keys(skills));
         
-        const hpFinale = (p.vitalita_max?.hp || 0) + (p.attributi?.vitalita?.base || 0) + rankBonus;
-        const willValue = (p.attributi?.insight?.base || 0) + 2;
-        const initiative = (p.attributi?.destrezza?.base || 0) + (p.attributi?.insight?.base || 0);
+        // Beginner +
+        if(rank >= 2) { 
+            distributePoints(2, 5, attr, Object.keys(attr)); 
+            distributePoints(2, 5, social, Object.keys(social));
+            distributePoints(4, 2, skills, Object.keys(skills));
+        }
+        if(rank >= 3) { // Amateur
+            distributePoints(2, 5, attr, Object.keys(attr));
+            distributePoints(2, 5, social, Object.keys(social));
+            distributePoints(3, 3, skills, Object.keys(skills));
+        }
+        if(rank >= 4) { // Ace
+            distributePoints(2, 5, attr, Object.keys(attr));
+            distributePoints(2, 5, social, Object.keys(social));
+            distributePoints(2, 4, skills, Object.keys(skills));
+        }
+        if(rank >= 5) { // Pro
+            distributePoints(2, 5, attr, Object.keys(attr));
+            distributePoints(2, 5, social, Object.keys(social));
+            distributePoints(1, 5, skills, Object.keys(skills));
+        }
+        if(rank >= 6) { // Master
+            distributePoints(14, 5, social, Object.keys(social));
+            let dadi = (Math.floor(Math.random() * 6) + 1) + (Math.floor(Math.random() * 6) + 1);
+            distributePoints(dadi, 5, skills, Object.keys(skills));
+            bonusMaster = 2;
+        }
+        if(rank >= 7) { // Champion
+            // 14 punti attributi che possono superare il max di 2
+            distributePoints(14, 7, attr, Object.keys(attr));
+            distributePoints(1, 5, skills, Object.keys(skills));
+        }
 
-        const renderDots = (val) => Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('');
-        const emptyDots = () => `<div class="flex">${Array.from({length: 5}, () => `<span class="dot"></span>`).join('')}</div>`;
+        const hpFin = (p.vitalita_max.hp) + attr.vitalita + rank + bonusMaster;
+        const willFin = attr.insight + 2 + bonusMaster;
+        const initFin = attr.destrezza + attr.insight + bonusMaster;
 
-        container.innerHTML = `
-        <div class="pokedex-frame animate-in fade-in duration-300">
+        const renderDots = (val, colorClass = 'filled') => Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? colorClass : ''}"></span>`).join('');
+        const renderChampDots = (val) => Array.from({length: 7}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''} ${i >= 5 ? 'border-yellow-400' : ''}"></span>`).join('');
+
+        document.getElementById('card-display').innerHTML = `
+        <div class="pokedex-frame">
             <div class="inner-screen">
                 <div class="flex justify-between items-start mb-4 border-b border-white/10 pb-2">
                     <div>
-                        <div class="text-[9px] text-yellow-400 font-bold uppercase tracking-widest">Scanner Mode | #${p.pokedex_id}</div>
                         <h1 class="text-4xl font-black italic uppercase" style="font-family: 'Orbitron'">${p.nome}</h1>
-                        <div class="flex gap-2 mt-1">
-                            ${p.tipo.map(t => `<span class="bg-cyan-950/40 px-2 py-0.5 rounded text-[9px] font-bold uppercase border border-cyan-500/30 text-cyan-300">${t}</span>`).join('')}
-                        </div>
+                        <p class="text-yellow-500 font-bold uppercase text-xs">Rango: ${document.getElementById('userRank').selectedOptions[0].text}</p>
                     </div>
                     <div class="flex gap-3">
-                        <div class="stat-box"><div class="label text-red-500">HP</div><div class="text-2xl font-bold">${hpFinale}</div></div>
-                        <div class="stat-box"><div class="label">Will</div><div class="text-2xl font-bold">${willValue}</div></div>
+                        <div class="stat-box"><div class="label text-red-500">HP</div><div class="text-2xl font-bold">${hpFin}</div></div>
+                        <div class="stat-box"><div class="label">Will</div><div class="text-2xl font-bold">${willFin}</div></div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-12 gap-4">
+                <div class="grid grid-cols-12 gap-6">
                     <div class="col-span-3 space-y-4">
-                        <div class="bg-black/40 border border-white/10 rounded-lg p-2">
-                            <img src="${p.immagine}" class="w-full h-32 object-contain">
-                        </div>
-                        <div class="space-y-1">
-                            <div class="label opacity-50 mb-1">Attributes</div>
-                            ${['FORZA', 'DESTREZZA', 'VITALITA', 'SPECIAL', 'INSIGHT'].map(attr => {
-                                const key = attr === 'VITALITA' ? 'vitalita' : attr.toLowerCase();
-                                return `<div class="flex justify-between items-center"><span class="text-[9px] font-bold text-slate-400">${attr}</span><div>${renderDots(p.attributi?.[key]?.base || 0)}</div></div>`;
-                            }).join('')}
-                        </div>
-                        <div class="space-y-1.5 pt-2 border-t border-white/5">
-                            <div class="label opacity-50 mb-1">Social Attr</div>
-                            <div class="social-attr bg-tough"><span>Tough</span><span>${renderDots(0)}</span></div>
-                            <div class="social-attr bg-cool"><span>Cool</span><span>${renderDots(0)}</span></div>
-                            <div class="social-attr bg-beauty"><span>Beauty</span><span>${renderDots(0)}</span></div>
-                            <div class="social-attr bg-cute"><span>Cute</span><span>${renderDots(0)}</span></div>
-                            <div class="social-attr bg-clever"><span>Clever</span><span>${renderDots(0)}</span></div>
-                        </div>
+                        <div class="bg-black/40 p-2 rounded-lg"><img src="${p.immagine}" class="w-full h-32 object-contain"></div>
+                        <div class="label opacity-50">Attributes</div>
+                        ${Object.entries(attr).map(([k, v]) => `<div class="flex justify-between items-center text-[9px] uppercase font-bold text-slate-400"><span>${k}</span><div>${renderChampDots(v)}</div></div>`).join('')}
                     </div>
 
                     <div class="col-span-5 px-4 border-x border-white/10">
-                        <div class="grid grid-cols-1 gap-4">
-                            <div>
-                                <div class="label text-[9px] text-red-400 mb-1">Fight Skills</div>
-                                ${['Brawl', 'Channel', 'Clash', 'Evasion'].map(s => `<div class="flex justify-between items-center py-0.5 border-b border-white/5"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
-                            </div>
-                            <div>
-                                <div class="label text-[9px] text-green-400 mb-1">Survival Skills</div>
-                                ${['Alert', 'Athletic', 'Nature', 'Stealth'].map(s => `<div class="flex justify-between items-center py-0.5 border-b border-white/5"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
-                            </div>
-                            <div>
-                                <div class="label text-[9px] text-pink-400 mb-1">Social Skills</div>
-                                ${['Allure', 'Etiquette', 'Intimidate', 'Perform'].map(s => `<div class="flex justify-between items-center py-0.5 border-b border-white/5"><span class="text-[10px] text-slate-300 uppercase">${s}</span>${emptyDots()}</div>`).join('')}
-                            </div>
+                        <div class="label text-red-400 mb-2">Skills Matrix</div>
+                        <div class="grid grid-cols-1 gap-1">
+                            ${Object.entries(skills).map(([k, v]) => `<div class="flex justify-between items-center py-1 border-b border-white/5 text-[10px] uppercase"><span>${k}</span><div>${renderDots(v)}</div></div>`).join('')}
                         </div>
                     </div>
 
                     <div class="col-span-4 space-y-4">
-                        <div class="bg-cyan-900/10 p-3 rounded-lg border border-cyan-500/20">
-                            <div class="label mb-2">Techniques Data</div>
-                            <div class="space-y-1">
-                                ${p.tecniche.slice(0, 6).map(t => `<div class="border-b border-white/5 py-1 flex justify-between"><span class="text-[10px] font-bold text-cyan-100 italic">>> ${t.nome}</span><span class="text-[8px] opacity-50">${t.rango}</span></div>`).join('')}
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                             <div class="stat-box"><div class="label">Initiative</div><div class="text-lg font-bold">${initiative}</div></div>
-                             <div class="stat-box"><div class="label">Rank</div><div class="text-lg font-bold text-yellow-500">${p.rango_suggerito}</div></div>
-                        </div>
-                        <div class="text-[10px] text-slate-400 leading-tight bg-black/20 p-2 rounded border border-white/5">
-                            <div class="flex justify-between font-bold text-white mb-1"><span>W: ${p.peso}</span><span>S: ${p.altezza}</span></div>
-                            <p class="italic">"${p.descrizione.substring(0, 120)}..."</p>
-                        </div>
+                        <div class="label opacity-50">Social Matrix</div>
+                        ${Object.entries(social).map(([k, v]) => `
+                            <div class="social-attr bg-${k.toLowerCase()}"><span>${k}</span><span>${renderDots(v, 'social')}</span></div>
+                        `).join('')}
+                        <div class="stat-box mt-4"><div class="label">Initiative</div><div class="text-xl font-bold">${initFin}</div></div>
+                        <div class="stat-box"><div class="label">Accuracy / Evasion</div><div class="text-lg font-bold">${attr.destrezza + attr.insight} / ${attr.destrezza + bonusMaster}</div></div>
                     </div>
                 </div>
             </div>
         </div>`;
     }
     </script>
+
+    <style>
+        .bg-tough { background: #eab308; color: black; }
+        .bg-cool { background: #f97316; color: black; }
+        .bg-beauty { background: #3b82f6; color: white; }
+        .bg-cute { background: #ec4899; color: white; }
+        .bg-clever { background: #22c55e; color: black; }
+    </style>
 </body>
 </html>
