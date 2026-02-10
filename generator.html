@@ -2,105 +2,27 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokérole Pokedex Monster Sheet</title>
+    <title>Pokedex Monster Sheet 2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
-
-        body { 
-            background-color: #1a1a1a; 
-            font-family: 'Rajdhani', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px;
-        }
-
-        /* Colori Pokedex */
-        :root {
-            --pokedex-red: #dc2626;
-            --pokedex-dark-red: #991b1b;
-            --screen-bg: #1e293b;
-            --neon-blue: #0ea5e9;
-            --neon-yellow: #facc15;
-        }
-
-        .pokedex-frame {
-            width: 900px;
-            background: var(--pokedex-red);
-            border: 8px solid var(--pokedex-dark-red);
-            border-radius: 20px 20px 60px 20px;
-            padding: 30px;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.2);
-        }
-
-        /* Luci decorative Pokedex */
-        .pokedex-frame::before {
-            content: "";
-            position: absolute;
-            top: 15px; left: 15px;
-            width: 50px; height: 50px;
-            background: #3b82f6;
-            border: 5px solid white;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #3b82f6;
-        }
-
-        .inner-screen {
-            background: var(--screen-bg);
-            border-radius: 15px;
-            padding: 25px;
-            border: 4px solid #334155;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
-            color: white;
-        }
-
-        .label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.6rem;
-            color: var(--neon-blue);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .dot {
-            width: 10px; height: 10px;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 2px;
-            display: inline-block;
-            margin-right: 3px;
-            transform: skewX(-15deg);
-        }
-
-        .dot.filled {
-            background: var(--neon-blue);
-            box-shadow: 0 0 8px var(--neon-blue);
-            border: none;
-        }
-
-        .stat-box {
-            background: rgba(0,0,0,0.3);
-            border-left: 3px solid var(--neon-yellow);
-            padding: 5px 10px;
-        }
-
-        .btn-generate {
-            background: #22c55e;
-            border-bottom: 4px solid #166534;
-            transition: all 0.1s;
-        }
-
-        .btn-generate:active {
-            transform: translateY(4px);
-            border-bottom-width: 0;
-        }
+        body { background-color: #1a1a1a; font-family: 'Rajdhani', sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+        :root { --pokedex-red: #dc2626; --pokedex-dark-red: #991b1b; --screen-bg: #0f172a; --neon-blue: #0ea5e9; --neon-yellow: #facc15; }
+        .pokedex-frame { width: 920px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 30px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 25px; border: 4px solid #334155; color: white; }
+        .label { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; }
+        .dot { width: 10px; height: 10px; border: 1px solid rgba(255,255,255,0.3); border-radius: 2px; display: inline-block; margin-right: 3px; transform: skewX(-15deg); }
+        .dot.filled { background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); border: none; }
+        .stat-box { background: rgba(0,0,0,0.5); border-left: 3px solid var(--neon-yellow); padding: 5px 12px; border-radius: 4px; }
+        .move-slot { border-bottom: 1px solid rgba(14, 165, 233, 0.2); padding: 4px 0; }
+        .btn-scan { background: #22c55e; border-bottom: 4px solid #166534; transition: all 0.1s; }
+        .btn-scan:active { transform: translateY(2px); border-bottom-width: 0; }
     </style>
 </head>
 <body>
 
-    <button onclick="generateRandomCard()" class="btn-generate mb-10 px-10 py-4 rounded-xl text-white font-black uppercase tracking-tighter text-xl shadow-2xl">
-        SCANNERIZZA POKÉMON
+    <button onclick="generateRandomCard()" class="btn-scan mb-10 px-12 py-4 rounded-xl text-white font-black uppercase tracking-widest text-xl shadow-2xl">
+        AVVIA SCANNER POKEDEX
     </button>
 
     <div id="card-display"></div>
@@ -110,106 +32,100 @@
 
     fetch('pokemon.json')
         .then(res => res.json())
-        .then(data => { 
-            pokemonData = data; 
-            generateRandomCard(); 
-        });
+        .then(data => { pokemonData = data; generateRandomCard(); });
 
     function generateRandomCard() {
         if (pokemonData.length === 0) return;
         const p = pokemonData[Math.floor(Math.random() * pokemonData.length)];
         const container = document.getElementById('card-display');
         
-        // Calcoli basati sul tuo JSON
-        const hp = p.vitalita_max?.hp || 0;
+        // --- LOGICA POKEROLE ---
+        const hpValue = p.vitalita_max?.hp || 0;
         const insightBase = parseInt(p.attributi?.insight?.base || 0);
-        const will = insightBase + 2;
-        const ini = parseInt(p.attributi?.destrezza?.base || 0) + insightBase;
+        const willValue = insightBase + 2; // La Volontà determina gli slot tecniche
+        const initiative = parseInt(p.attributi?.destrezza?.base || 0) + insightBase;
+
+        // Estraiamo le tecniche disponibili nel JSON (massimo pari a Will)
+        const movesToDisplay = p.tecniche.slice(0, willValue);
+        // Calcoliamo quanti slot vuoti rimangono
+        const emptySlots = Math.max(0, willValue - movesToDisplay.length);
 
         container.innerHTML = `
         <div class="pokedex-frame">
             <div class="inner-screen">
-                
                 <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-4">
                     <div>
-                        <div class="text-xs text-yellow-400 font-bold mb-1">ID: #${p.pokedex_id} / RANK: ${p.rango_suggerito.toUpperCase()}</div>
-                        <h1 class="text-5xl font-black italic uppercase tracking-tighter text-white" style="font-family: 'Orbitron'">${p.nome}</h1>
+                        <div class="text-xs text-yellow-400 font-bold mb-1 tracking-widest">RANK: ${p.rango_suggerito.toUpperCase()} | ID: #${p.pokedex_id}</div>
+                        <h1 class="text-5xl font-black italic uppercase tracking-tighter" style="font-family: 'Orbitron'">${p.nome}</h1>
                         <div class="flex gap-2 mt-2">
-                            ${p.tipo.map(t => `<span class="bg-white/10 px-3 py-0.5 rounded text-[10px] font-bold uppercase border border-white/20 text-cyan-300">${t}</span>`).join('')}
+                            ${p.tipo.map(t => `<span class="bg-cyan-900/40 px-3 py-0.5 rounded text-[10px] font-bold uppercase border border-cyan-500/30 text-cyan-300">${t}</span>`).join('')}
                         </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="stat-box"><div class="label">Health</div><div class="text-3xl font-bold">${hp}</div></div>
-                        <div class="stat-box"><div class="label">Will</div><div class="text-3xl font-bold">${will}</div></div>
+                        <div class="stat-box"><div class="label text-red-500">HP</div><div class="text-3xl font-bold">${hpValue}</div></div>
+                        <div class="stat-box"><div class="label">WILL</div><div class="text-3xl font-bold">${willValue}</div></div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-12 gap-8">
                     <div class="col-span-4">
-                        <div class="bg-cyan-950/30 border-2 border-cyan-500/50 rounded-lg p-4 mb-6 relative group">
-                            <img src="${p.immagine}" class="w-full h-48 object-contain filter drop-shadow-[0_0_10px_rgba(14,165,233,0.5)]">
-                            <div class="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent pointer-events-none"></div>
+                        <div class="bg-black/40 border border-white/10 rounded-lg p-4 mb-6 shadow-inner">
+                            <img src="${p.immagine}" class="w-full h-48 object-contain drop-shadow-[0_0_15px_rgba(14,165,233,0.4)]">
                         </div>
-                        
-                        <div class="label mb-3 text-white opacity-50">Primary Attributes</div>
+                        <div class="label mb-3 opacity-70">Primary Attributes</div>
                         <div class="space-y-3">
                             ${['FORZA', 'DESTREZZA', 'VITALITA', 'SPECIAL', 'INSIGHT'].map(attr => {
-                                const val = p.attributi?.[attr.toLowerCase()]?.base || 0;
+                                const key = attr === 'VITALITA' ? 'vitalita' : attr.toLowerCase();
+                                const val = p.attributi?.[key]?.base || 0;
                                 return `
                                 <div class="flex justify-between items-center">
-                                    <span class="text-[11px] font-bold text-slate-400">${attr}</span>
+                                    <span class="text-[11px] font-bold text-slate-400 tracking-wider">${attr}</span>
                                     <div>${Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('')}</div>
                                 </div>`;
                             }).join('')}
                         </div>
                     </div>
 
-                    <div class="col-span-4 px-4 border-x border-white/5">
-                        <div class="label mb-3 text-white opacity-50">Skill Matrix</div>
+                    <div class="col-span-4 border-x border-white/5 px-4">
+                        <div class="label mb-3 opacity-70">Skill Matrix</div>
                         <div class="space-y-2 mb-6">
                             ${['Brawl', 'Clash', 'Alert', 'Stealth', 'Nature'].map(s => `
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[10px] text-slate-300 uppercase">${s}</span>
-                                    <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < 0 ? 'filled' : ''}"></span>`).join('')}</div>
-                                </div>
+                                <div class="flex justify-between items-center"><span class="text-[10px] text-slate-400 uppercase">${s}</span><div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot"></span>`).join('')}</div></div>
                             `).join('')}
                         </div>
-
-                        <div class="label mb-3 text-white opacity-50">Social Matrix</div>
+                        <div class="label mb-3 opacity-70">Social Matrix</div>
                         <div class="space-y-2">
                             ${['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'].map(s => `
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[10px] text-slate-300 uppercase">${s}</span>
-                                    <div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot ${i < 0 ? 'filled' : ''}"></span>`).join('')}</div>
-                                </div>
+                                <div class="flex justify-between items-center"><span class="text-[10px] text-slate-400 uppercase">${s}</span><div class="flex">${Array.from({length: 5}, (_, i) => `<span class="dot"></span>`).join('')}</div></div>
                             `).join('')}
                         </div>
                     </div>
 
                     <div class="col-span-4 space-y-4">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="bg-black/40 p-2 rounded border border-white/10"><div class="label">INITIATIVE</div><div class="text-xl font-bold text-yellow-400">${ini}</div></div>
-                            <div class="bg-black/40 p-2 rounded border border-white/10"><div class="label">ACCURACY</div><div class="text-xl font-bold text-yellow-400">0</div></div>
-                            <div class="bg-black/40 p-2 rounded border border-white/10"><div class="label text-[8px]">DEFENCE</div><div class="text-sm">0</div></div>
-                            <div class="bg-black/40 p-2 rounded border border-white/10"><div class="label text-[8px]">EVASION</div><div class="text-sm">0</div></div>
-                        </div>
-                        
-                        <div class="bg-white/5 p-4 rounded-lg border border-cyan-500/20">
-                            <div class="label mb-3">Moveset Loaded</div>
-                            <div class="space-y-2">
-                                ${p.tecniche.slice(0, 4).map(t => `
-                                    <div class="flex justify-between items-center text-[11px] group">
-                                        <span class="font-bold text-cyan-100 group-hover:text-yellow-400 transition-colors">>> ${t.nome.toUpperCase()}</span>
-                                        <span class="text-[8px] border border-cyan-500/30 px-1 rounded">${t.rango}</span>
+                        <div class="bg-black/30 p-3 rounded-lg border border-cyan-500/20">
+                            <div class="flex justify-between items-center mb-3">
+                                <div class="label">Moveset</div>
+                                <span class="text-[10px] text-yellow-500 font-bold">${willValue} SLOTS</span>
+                            </div>
+                            <div class="space-y-1">
+                                ${movesToDisplay.map(t => `
+                                    <div class="move-slot flex justify-between items-center">
+                                        <span class="text-[11px] font-bold text-cyan-100 italic">>> ${t.nome.toUpperCase()}</span>
+                                        <span class="text-[8px] opacity-60">${t.rango}</span>
+                                    </div>
+                                `).join('')}
+                                ${Array.from({length: emptySlots}, () => `
+                                    <div class="move-slot flex justify-between items-center opacity-20">
+                                        <span class="text-[11px] font-bold">-- EMPTY --</span>
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
 
-                        <div class="text-[10px] bg-black/50 p-3 rounded italic text-slate-400 leading-tight">
-                            <div class="flex justify-between text-white font-bold mb-1">
-                                <span>W: ${p.peso}</span><span>S: ${p.altezza}</span>
-                            </div>
+                        <div class="stat-box"><div class="label">Initiative</div><div class="text-xl font-bold">${initiative}</div></div>
+                        
+                        <div class="text-[10px] bg-black/40 p-3 rounded border border-white/5 italic text-slate-400 leading-tight">
+                            <div class="flex justify-between text-white font-bold mb-1"><span>W: ${p.peso}</span><span>S: ${p.altezza}</span></div>
                             ${p.descrizione}
                         </div>
                     </div>
