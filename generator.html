@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pokérole Scanner 8.5 - Ultimate Generator</title>
+    <title>Pokérole Scanner 9.0 - Full Combat System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
@@ -16,50 +16,23 @@
         }
 
         body { background-color: #1a1a1a; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
-        
-        .pokedex-logo { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 2.5rem; 
-            font-weight: 900; 
-            color: #fff; 
-            text-shadow: 0 0 10px var(--neon-blue); 
-            text-transform: uppercase; 
-            font-style: italic; 
-            text-align: center; 
-            margin-bottom: 20px; 
-        }
-
+        .pokedex-logo { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--neon-blue); text-transform: uppercase; font-style: italic; text-align: center; margin-bottom: 20px; }
         .nav-btn { padding: 8px 20px; border-radius: 10px; font-weight: bold; text-transform: uppercase; transition: all 0.3s; background: #2d2d2d; border: 2px solid #444; color: #888; cursor: pointer; }
         .nav-btn.active { background: var(--pokedex-red); border-color: var(--neon-yellow); color: white; box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); }
-
         .pokedex-frame { width: 1100px; background: var(--pokedex-red); border: 8px solid var(--pokedex-dark-red); border-radius: 20px 20px 60px 20px; padding: 25px; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; }
         .inner-screen { background: var(--screen-bg); border-radius: 15px; padding: 20px; border: 4px solid #334155; }
-        
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.6rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1px; }
         .dot { width: 9px; height: 9px; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; display: inline-block; margin-right: 2px; transform: skewX(-15deg); }
         .dot.filled { background: var(--neon-blue); box-shadow: 0 0 6px var(--neon-blue); border: none; }
         .dot.social-dot { background: white; box-shadow: 0 0 8px white; border: none; }
-        
         .stat-box { background: rgba(0,0,0,0.5); border-left: 3px solid var(--neon-yellow); padding: 4px 10px; border-radius: 4px; }
-
-        /* Social Attributes Styling - Migliorato per Tough */
-        .social-attr { 
-            padding: 4px 10px; 
-            border-radius: 20px; 
-            font-weight: 800; 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 4px;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        .bg-tough { background-color: #fbbf24; color: #000000 !important; border-color: #d97706; }
-        .bg-cool { background-color: #f97316; color: #ffffff; border-color: #9a3412; }
-        .bg-beauty { background-color: #3b82f6; color: #ffffff; border-color: #1e3a8a; }
-        .bg-cute { background-color: #ec4899; color: #ffffff; border-color: #9d174d; }
-        .bg-clever { background-color: #22c55e; color: #000000; border-color: #166534; }
+        .social-attr { padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; border: 1px solid rgba(0,0,0,0.1); }
+        .bg-tough { background-color: #fbbf24; color: #000 !important; }
+        .bg-cool { background-color: #f97316; color: #fff; }
+        .bg-beauty { background-color: #3b82f6; color: #fff; }
+        .bg-cute { background-color: #ec4899; color: #fff; }
+        .bg-clever { background-color: #22c55e; color: #000; }
+        .move-slot { border-bottom: 1px solid rgba(14, 165, 233, 0.1); padding: 5px 0; }
     </style>
 </head>
 <body>
@@ -89,20 +62,17 @@
             <div>
                 <label class="block text-xs uppercase font-bold mb-1 text-yellow-500">Rango Allenatore</label>
                 <select id="userRank" class="w-full bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white text-sm font-bold">
-                    <option value="1">Starter (Bonus +1)</option>
-                    <option value="2">Beginner (Bonus +2)</option>
-                    <option value="3">Amateur (Bonus +3)</option>
-                    <option value="4">Ace (Bonus +4)</option>
-                    <option value="5">Pro (Bonus +5)</option>
-                    <option value="6">Master (Bonus +6)</option>
-                    <option value="7">Champion (Bonus +7)</option>
+                    <option value="1">Starter</option>
+                    <option value="2">Beginner</option>
+                    <option value="3">Amateur</option>
+                    <option value="4">Ace</option>
+                    <option value="5">Pro</option>
+                    <option value="6">Master</option>
+                    <option value="7">Champion</option>
                 </select>
             </div>
-            <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase text-sm transition-all transform active:scale-95 shadow-lg">
-                Genera Scanner
-            </button>
+            <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase text-sm transition-all transform active:scale-95 shadow-lg">Genera Scanner</button>
         </div>
-
         <div id="card-display"></div>
     </div>
 
@@ -110,81 +80,66 @@
     let pokemonData = [];
     const rankMapping = { 1: "Starter", 2: "Beginner", 3: "Amateur", 4: "Ace", 5: "Pro", 6: "Master", 7: "Champion" };
 
-    fetch('pokemon.json')
-        .then(res => res.json())
-        .then(data => { 
-            pokemonData = data; 
-            generateFilteredCard(); 
-        });
+    fetch('pokemon.json').then(res => res.json()).then(data => { pokemonData = data; generateFilteredCard(); });
 
     function distributePoints(pool, limit, targetObj, keys) {
         let attempts = 0;
         while(pool > 0 && attempts < 200) {
             let key = keys[Math.floor(Math.random() * keys.length)];
-            if (targetObj[key] < limit) {
-                targetObj[key]++;
-                pool--;
-            }
+            if (targetObj[key] < limit) { targetObj[key]++; pool--; }
             attempts++;
         }
     }
 
     function generateFilteredCard() {
         if (pokemonData.length === 0) return;
-
         const search = document.getElementById('searchKey').value.toLowerCase();
         const region = document.getElementById('regionFilter').value;
         const trainerRankValue = parseInt(document.getElementById('userRank').value);
 
-        // Filtraggio: Rispetta i termini di ricerca, la regione e il rango massimo del pokemon
         let filtered = pokemonData.filter(p => {
             const matchesSearch = p.nome.toLowerCase().includes(search) || p.tipo.some(t => t.toLowerCase().includes(search));
             const matchesRegion = region === 'all' || p.regione === region;
-            
             const pokeRankValue = Object.keys(rankMapping).find(key => rankMapping[key] === p.rango_suggerito) || 1;
-            const matchesRank = parseInt(pokeRankValue) <= trainerRankValue;
-
-            return matchesSearch && matchesRegion && matchesRank;
+            return matchesSearch && matchesRegion && parseInt(pokeRankValue) <= trainerRankValue;
         });
 
         if (filtered.length === 0) {
-            document.getElementById('card-display').innerHTML = `
-                <div class="text-center p-20 bg-black/20 rounded-xl border border-dashed border-red-900/50">
-                    <p class="text-red-500 font-bold text-xl uppercase tracking-tighter">Errore di Sincronizzazione</p>
-                    <p class="text-gray-500 text-sm">Nessun Pokémon compatibile trovato per i filtri selezionati.</p>
-                </div>`;
+            document.getElementById('card-display').innerHTML = "<p class='text-center text-red-500 font-bold py-10'>Nessun Pokémon trovato per questo rango!</p>";
             return;
         }
 
-        const basePoke = filtered[Math.floor(Math.random() * filtered.length)];
-        const p = JSON.parse(JSON.stringify(basePoke));
+        const p = JSON.parse(JSON.stringify(filtered[Math.floor(Math.random() * filtered.length)]));
 
-        // Inizializzazione Logica Punti
+        // Setup Punti
         let attr = { forza: p.attributi.forza.base, destrezza: p.attributi.destrezza.base, vitalita: p.attributi.vitalita.base, special: p.attributi.special.base, insight: p.attributi.insight.base };
         let skills = { Brawl:0, Channel:0, Clash:0, Evasion:0, Alert:0, Athletic:0, Nature:0, Stealth:0, Allure:0, Etiquette:0, Intimidate:0, Perform:0 };
         let social = { Tough:0, Cool:0, Beauty:0, Cute:0, Clever:0 };
         let bonusMaster = 0;
 
-        // Distribuzione Cumulativa in base al Rango Allenatore
-        distributePoints(5, 1, skills, Object.keys(skills)); // Starter
+        // Distribuzione (Starter + Cumulativi)
+        distributePoints(5, 1, skills, Object.keys(skills));
         if(trainerRankValue >= 2) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(4, 2, skills, Object.keys(skills)); }
         if(trainerRankValue >= 3) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(3, 3, skills, Object.keys(skills)); }
         if(trainerRankValue >= 4) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(2, 4, skills, Object.keys(skills)); }
         if(trainerRankValue >= 5) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(1, 5, skills, Object.keys(skills)); }
-        if(trainerRankValue >= 6) { 
-            distributePoints(14, 5, social, Object.keys(social));
-            let d6Sum = (Math.floor(Math.random() * 6) + 1) + (Math.floor(Math.random() * 6) + 1);
-            distributePoints(d6Sum, 5, skills, Object.keys(skills));
-            bonusMaster = 2;
-        }
-        if(trainerRankValue >= 7) { 
-            distributePoints(14, 7, attr, Object.keys(attr)); 
-            distributePoints(1, 5, skills, Object.keys(skills)); 
-        }
+        if(trainerRankValue >= 6) { distributePoints(14, 5, social, Object.keys(social)); let d6s = (Math.floor(Math.random()*6)+1)+(Math.floor(Math.random()*6)+1); distributePoints(d6s, 5, skills, Object.keys(skills)); bonusMaster = 2; }
+        if(trainerRankValue >= 7) { distributePoints(14, 7, attr, Object.keys(attr)); distributePoints(1, 5, skills, Object.keys(skills)); }
 
-        const hpFin = (p.vitalita_max.hp) + attr.vitalita + trainerRankValue + bonusMaster;
+        const hpFin = p.vitalita_max.hp + attr.vitalita + trainerRankValue + bonusMaster;
         const willFin = attr.insight + 2 + bonusMaster;
         const initFin = attr.destrezza + attr.insight + bonusMaster;
+
+        // SELEZIONE TECNICHE RANDOMIZZATE PER RANGO
+        const validMoves = p.tecniche.filter(t => {
+            const moveRankValue = Object.keys(rankMapping).find(key => rankMapping[key] === t.rango) || 1;
+            return parseInt(moveRankValue) <= trainerRankValue;
+        });
+        
+        // Shuffle e selezione in base a Will
+        const shuffledMoves = validMoves.sort(() => 0.5 - Math.random());
+        const selectedMoves = shuffledMoves.slice(0, willFin);
+        const emptySlots = Math.max(0, willFin - selectedMoves.length);
 
         const renderDots = (val, colorClass = 'filled', max=5) => Array.from({length: max}, (_, i) => `<span class="dot ${i < val ? colorClass : ''} ${i >= 5 ? 'border-yellow-500' : ''}"></span>`).join('');
 
@@ -207,49 +162,31 @@
 
                 <div class="grid grid-cols-12 gap-6">
                     <div class="col-span-3 space-y-4">
-                        <div class="bg-black/40 p-2 rounded-lg border border-white/5 shadow-inner">
-                            <img src="${p.immagine}" class="w-full h-32 object-contain mx-auto drop-shadow-lg">
-                        </div>
-                        <div class="space-y-1">
-                            <div class="label opacity-50 mb-1">Primary Attributes</div>
-                            ${Object.entries(attr).map(([k, v]) => `
-                                <div class="flex justify-between items-center text-[9px] uppercase font-bold text-slate-400">
-                                    <span>${k}</span>
-                                    <div>${renderDots(v, 'filled', trainerRankValue >= 7 ? 7 : 5)}</div>
-                                </div>
-                            `).join('')}
-                        </div>
+                        <div class="bg-black/40 p-2 rounded-lg border border-white/5"><img src="${p.immagine}" class="w-full h-32 object-contain mx-auto"></div>
+                        <div class="label opacity-50">Attributes</div>
+                        ${Object.entries(attr).map(([k, v]) => `<div class="flex justify-between items-center text-[9px] uppercase font-bold text-slate-400"><span>${k}</span><div>${renderDots(v, 'filled', trainerRankValue >= 7 ? 7 : 5)}</div></div>`).join('')}
+                        <div class="label opacity-50 mt-4">Social Matrix</div>
+                        ${Object.entries(social).map(([k, v]) => `<div class="social-attr bg-${k.toLowerCase()}"><span>${k}</span><span>${renderDots(v, 'social-dot')}</span></div>`).join('')}
                     </div>
 
                     <div class="col-span-5 px-4 border-x border-white/10">
-                        <div class="label text-red-400 mb-2">Full Skill Matrix</div>
+                        <div class="label text-red-400 mb-2">Skill Matrix</div>
                         <div class="grid grid-cols-1 gap-0.5">
-                            ${Object.entries(skills).map(([k, v]) => `
-                                <div class="flex justify-between items-center py-1 border-b border-white/5 text-[10px] uppercase">
-                                    <span class="text-slate-300">${k}</span>
-                                    <div>${renderDots(v)}</div>
-                                </div>
-                            `).join('')}
+                            ${Object.entries(skills).map(([k, v]) => `<div class="flex justify-between items-center py-1 border-b border-white/5 text-[10px] uppercase"><span>${k}</span><div>${renderDots(v)}</div></div>`).join('')}
                         </div>
                     </div>
 
                     <div class="col-span-4 space-y-4">
-                        <div class="label opacity-50">Social Attributes</div>
-                        <div class="space-y-1">
-                            ${Object.entries(social).map(([k, v]) => `
-                                <div class="social-attr bg-${k.toLowerCase()}">
-                                    <span>${k}</span>
-                                    <span>${renderDots(v, 'social-dot')}</span>
-                                </div>
-                            `).join('')}
+                        <div class="bg-cyan-900/10 p-3 rounded-lg border border-cyan-500/20">
+                            <div class="label mb-2">Combat Techniques (${willFin} Slots)</div>
+                            <div class="space-y-1">
+                                ${selectedMoves.map(t => `<div class="move-slot flex justify-between items-center"><span class="text-[10px] font-bold text-cyan-100 italic">>> ${t.nome.toUpperCase()}</span><span class="text-[8px] opacity-60">${t.rango}</span></div>`).join('')}
+                                ${Array.from({length: emptySlots}, () => `<div class="move-slot flex justify-between items-center opacity-10"><span class="text-[10px] font-bold">-- EMPTY SLOT --</span></div>`).join('')}
+                            </div>
                         </div>
-                        <div class="grid grid-cols-1 gap-2 mt-4">
-                             <div class="stat-box"><div class="label">Initiative</div><div class="text-xl font-bold text-yellow-400">${initFin}</div></div>
-                             <div class="stat-box"><div class="label">Accuracy / Evasion</div><div class="text-lg font-bold">${attr.destrezza + attr.insight} / ${attr.destrezza + bonusMaster}</div></div>
-                        </div>
-                        <div class="text-[10px] text-slate-400 italic bg-black/40 p-2 rounded border border-white/5 leading-tight">
-                            <p>"${p.descrizione.substring(0, 140)}..."</p>
-                        </div>
+                        <div class="stat-box"><div class="label">Initiative</div><div class="text-xl font-bold text-yellow-400">${initFin}</div></div>
+                        <div class="stat-box"><div class="label">Accuracy / Evasion</div><div class="text-lg font-bold">${attr.destrezza + attr.insight} / ${attr.destrezza + bonusMaster}</div></div>
+                        <div class="text-[10px] text-slate-400 italic bg-black/40 p-2 rounded border border-white/5 leading-tight">"${p.descrizione.substring(0, 100)}..."</div>
                     </div>
                 </div>
             </div>
