@@ -3,75 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex - Cloud Edition</title>
+    <title>PokeRole ProDex - Classic Style Cloud</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     
     <style>
         :root { --accent: #ca8a04; --bg-dark: #020617; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; }
         .font-mono-data { font-family: 'JetBrains Mono', monospace; }
 
-        /* --- COLORI TIPI --- */
-        .type-fuoco { background-color: #ef4444; border-color: #f87171; color: white; }
-        .type-acqua { background-color: #3b82f6; border-color: #60a5fa; color: white; }
-        .type-erba { background-color: #22c55e; border-color: #4ade80; color: white; }
-        .type-elettro { background-color: #eab308; border-color: #facc15; color: #020617; }
-        .type-ghiaccio { background-color: #06b6d4; border-color: #22d3ee; color: white; }
-        .type-lotta { background-color: #991b1b; border-color: #b91c1c; color: white; }
-        .type-veleno { background-color: #a855f7; border-color: #c084fc; color: white; }
-        .type-terra { background-color: #b45309; border-color: #d97706; color: white; }
-        .type-volante { background-color: #818cf8; border-color: #a5b4fc; color: white; }
-        .type-psico { background-color: #db2777; border-color: #f472b6; color: white; }
-        .type-coleottero { background-color: #84cc16; border-color: #a3e635; color: white; }
-        .type-roccia { background-color: #78350f; border-color: #92400e; color: white; }
-        .type-spettro { background-color: #6366f1; border-color: #818cf8; color: white; }
-        .type-drago { background-color: #4f46e5; border-color: #6366f1; color: white; }
-        .type-buio { background-color: #1e293b; border-color: #334155; color: white; }
-        .type-acciaio { background-color: #64748b; border-color: #94a3b8; color: white; }
-        .type-folletto { background-color: #f472b6; border-color: #f9a8d4; color: white; }
-        .type-normale { background-color: #6b7280; border-color: #9ca3af; color: white; }
+        /* --- COLORI TIPI ORIGINALI --- */
+        .type-fuoco { background-color: #ef4444; }
+        .type-acqua { background-color: #3b82f6; }
+        .type-erba { background-color: #22c55e; }
+        .type-elettro { background-color: #eab308; color: #000; }
+        .type-ghiaccio { background-color: #06b6d4; }
+        .type-lotta { background-color: #991b1b; }
+        .type-veleno { background-color: #a855f7; }
+        .type-terra { background-color: #b45309; }
+        .type-volante { background-color: #818cf8; }
+        .type-psico { background-color: #db2777; }
+        .type-coleottero { background-color: #84cc16; }
+        .type-roccia { background-color: #78350f; }
+        .type-spettro { background-color: #6366f1; }
+        .type-drago { background-color: #4f46e5; }
+        .type-buio { background-color: #1e293b; }
+        .type-acciaio { background-color: #64748b; }
+        .type-folletto { background-color: #f472b6; }
+        .type-normale { background-color: #6b7280; }
 
-        .macro-active { background-color: var(--accent); color: #020617; transform: scale(1.05); box-shadow: 0 0 25px rgba(202, 138, 4, 0.4); }
         .sub-active { color: var(--accent); border-bottom: 3px solid var(--accent); font-weight: 900; }
         .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(14px); border: 1px solid rgba(51, 65, 85, 0.4); }
-        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .animate-pop { animation: popIn 0.3s ease-out forwards; }
+        @keyframes popIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="pb-12 text-slate-100">
 
     <div class="max-w-6xl mx-auto p-4">
-        <header class="py-14 text-center">
-            <h1 class="text-6xl md:text-7xl font-black italic tracking-tighter uppercase font-mono-data">
+        <header class="py-10 text-center">
+            <h1 class="text-5xl font-black italic tracking-tighter uppercase font-mono-data">
                 <span class="text-yellow-500">POKEROLE</span> PRODEX
             </h1>
-            <p class="text-[10px] text-slate-500 font-black tracking-[0.7em] uppercase mt-4 italic">Memoria Cloud & Profili</p>
+            <div id="user-profile" class="mt-6 flex justify-center gap-4"></div>
         </header>
 
-        <nav class="flex flex-wrap gap-4 mb-12 justify-center items-center">
-            <div id="user-profile"></div>
-            <button onclick="traslocaTutto()" class="bg-red-900/50 text-red-200 border border-red-500/30 px-4 py-2 rounded-xl font-bold text-[9px] uppercase hover:bg-red-600 hover:text-white transition-all">
-                🚀 Trasloca JSON su Cloud
-            </button>
+        <nav class="flex justify-center gap-8 mb-8 text-[11px] font-black uppercase tracking-widest border-b border-slate-800 pb-5">
+            <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active transition-all">Pokémon</button>
+            <button onclick="switchSub('tech')" id="subTech" class="text-slate-500 hover:text-white transition-all">Tecniche</button>
+            <button onclick="switchSub('abil')" id="subAbil" class="text-slate-500 hover:text-white transition-all">Abilità</button>
         </nav>
 
-        <div id="pokedexContainer" class="animate-pop">
-            <div class="flex flex-wrap justify-center gap-8 mb-8 text-[11px] font-black uppercase tracking-widest border-b border-slate-800 pb-5">
-                <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active transition-all">Pokémon</button>
-                <button onclick="switchSub('tech')" id="subTech" class="text-slate-500 hover:text-white transition-all">Tecniche</button>
-                <button onclick="switchSub('abil')" id="subAbil" class="text-slate-500 hover:text-white transition-all">Abilità</button>
+        <div class="glass-card p-6 rounded-[2rem] mb-10 sticky top-4 z-50">
+            <input type="text" id="mainSearch" placeholder="Cerca nel Cloud..." 
+                   class="w-full bg-slate-950 border-none rounded-xl p-4 text-white focus:ring-2 focus:ring-yellow-600 outline-none font-bold">
+            
+            <div class="flex justify-between items-center mt-4 px-2">
+                <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase tracking-widest italic">Inizializzazione...</div>
+                <button onclick="traslocaTutto()" class="bg-red-900/40 text-red-400 px-3 py-1 rounded-lg text-[8px] font-bold uppercase border border-red-500/20 hover:bg-red-600 hover:text-white transition-all">🚀 Trasloca JSON</button>
             </div>
-
-            <div class="glass-card p-6 rounded-[2.5rem] mb-12 sticky top-4 z-50 shadow-2xl">
-                <input type="text" id="mainSearch" placeholder="Cerca nel database online..." 
-                       class="w-full bg-slate-950 border-none rounded-2xl p-5 text-white placeholder-slate-700 focus:ring-2 focus:ring-yellow-600 outline-none transition-all font-bold">
-                <div id="counter" class="mt-4 text-[9px] text-slate-500 font-bold uppercase tracking-widest text-center">In attesa...</div>
-            </div>
-
-            <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-10"></div>
         </div>
+
+        <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
     </div>
 
     <script type="module">
@@ -97,7 +91,7 @@
         let currentData = [];
         window.currentSub = 'pkmn';
 
-        // --- AUTH LOGIC ---
+        // --- AUTH ---
         window.login = () => signInWithPopup(auth, provider);
         window.logout = () => signOut(auth);
 
@@ -105,116 +99,85 @@
             const profileDiv = document.getElementById('user-profile');
             if (user) {
                 profileDiv.innerHTML = `
-                    <div class="flex items-center gap-3 bg-slate-900 p-2 rounded-2xl border border-yellow-500/20">
-                        <img src="${user.photoURL}" class="w-7 h-7 rounded-full border border-yellow-500">
-                        <span class="text-[10px] font-black uppercase">${user.displayName.split(' ')[0]}</span>
-                        <button onclick="logout()" class="text-red-500 font-bold text-[8px] ml-2">ESCI</button>
+                    <div class="flex items-center gap-3 bg-slate-900 px-4 py-2 rounded-xl border border-yellow-500/20">
+                        <img src="${user.photoURL}" class="w-6 h-6 rounded-full border border-yellow-500">
+                        <span class="text-[10px] font-black uppercase tracking-tighter">${user.displayName}</span>
+                        <button onclick="logout()" class="text-red-500 text-[9px] font-bold ml-2">ESCI</button>
                     </div>`;
             } else {
-                profileDiv.innerHTML = `<button onclick="login()" class="bg-white text-black px-5 py-2 rounded-xl font-black uppercase text-[10px] hover:bg-yellow-500 transition-all">Accedi con Google</button>`;
+                profileDiv.innerHTML = `<button onclick="login()" class="bg-white text-black px-6 py-2 rounded-xl font-black uppercase text-[10px]">Accedi con Google</button>`;
             }
         });
 
-        // --- TRASLOCO DATI (USARE UNA VOLTA) ---
-        window.traslocaTutto = async () => {
-            if(!auth.currentUser) return alert("Accedi con Google prima di traslocare!");
-            if(!confirm("Vuoi caricare i JSON locali su Firebase?")) return;
-
-            const mapping = [
-                { id: 'pkmn', file: 'pokemon.json' },
-                { id: 'tech', file: 'tecniche.json' },
-                { id: 'abil', file: 'abilita.json' }
-            ];
-
-            for (const item of mapping) {
-                try {
-                    const res = await fetch(item.file);
-                    const json = await res.json();
-                    for (const obj of json) {
-                        const slug = obj.nome.replace(/\s+/g, '_').toLowerCase();
-                        await setDoc(doc(db, item.id, slug), obj);
-                    }
-                    alert(`${item.id} Caricati!`);
-                } catch (e) { console.error("Errore file " + item.file, e); }
-            }
-            loadCloudData();
-        };
-
-        // --- DATA LOGIC ---
+        // --- DATA LOAD ---
         async function loadCloudData() {
             const container = document.getElementById('results');
-            container.innerHTML = '<div class="col-span-full text-center py-20 animate-pulse text-yellow-500 font-black italic">SINCRONIZZAZIONE...</div>';
+            container.innerHTML = '<div class="col-span-full text-center py-20 text-yellow-500 font-black animate-pulse">SINCRONIZZAZIONE...</div>';
             
             try {
                 const snapshot = await getDocs(collection(db, window.currentSub));
                 currentData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                document.getElementById('counter').innerText = `${currentData.length} VOCI TROVATE NEL CLOUD`;
+                document.getElementById('counter').innerText = `${currentData.length} UNITÀ CARICATE`;
                 render(currentData);
             } catch (err) {
-                container.innerHTML = `<div class="text-red-500 p-10 text-center">Assicurati di aver creato le collezioni su Firestore!</div>`;
+                container.innerHTML = `<div class="text-red-500 text-center">Errore: ${err.message}</div>`;
             }
         }
 
         function render(items) {
             const container = document.getElementById('results');
-            if (items.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-600 font-black uppercase">Nessun dato in questa categoria</div>`;
-                return;
-            }
-            container.innerHTML = items.map(item => {
-                return window.currentSub === 'pkmn' ? createPkmnCard(item) : createStandardCard(item);
-            }).join('');
+            container.innerHTML = items.map(item => createClassicCard(item)).join('');
         }
+
+        // --- LA TUA VECCHIA CARD ---
+        function createClassicCard(item) {
+            const tipoPrimario = Array.isArray(item.tipo) ? item.tipo[0] : (item.tipo || "Normale");
+            const colorClass = `type-${tipoPrimario.toLowerCase()}`;
+            
+            return `
+            <div class="bg-slate-900 rounded-[2rem] border border-slate-800 overflow-hidden animate-pop flex flex-col h-full shadow-xl">
+                <div class="${colorClass} p-4 flex justify-between items-center">
+                    <h3 class="text-xl font-black text-white uppercase italic tracking-tighter">${item.nome}</h3>
+                    <span class="text-[9px] font-bold bg-black/20 px-2 py-1 rounded uppercase border border-white/10">${tipoPrimario}</span>
+                </div>
+                <div class="p-5 flex-grow">
+                    <p class="text-[12px] text-slate-300 leading-relaxed font-medium">
+                        ${item.effetto || item.descrizione || item.effetti_aggiuntivi || "Nessun dettaglio disponibile."}
+                    </p>
+                </div>
+            </div>`;
+        }
+
+        // --- TRASLOCO ---
+        window.traslocaTutto = async () => {
+            if(!auth.currentUser) return alert("Esegui il login prima!");
+            const files = [{id:'pkmn', f:'pokemon.json'}, {id:'tech', f:'tecniche.json'}, {id:'abil', f:'abilita.json'}];
+            for(let cfg of files) {
+                try {
+                    const r = await fetch(cfg.f);
+                    const j = await r.json();
+                    for(let o of j) {
+                        await setDoc(doc(db, cfg.id, o.nome.toLowerCase().replace(/ /g,'_')), o);
+                    }
+                    alert(cfg.id + " completato!");
+                } catch(e) { console.error(e); }
+            }
+            loadCloudData();
+        };
 
         window.switchSub = (s) => {
             window.currentSub = s;
             document.querySelectorAll('button[id^="sub"]').forEach(b => {
-                b.className = b.id.toLowerCase() === 'sub' + s.toLowerCase() ? 'sub-active px-2' : 'text-slate-500 hover:text-white px-2';
+                b.className = b.id.toLowerCase() === 'sub'+s ? 'sub-active' : 'text-slate-500 hover:text-white';
             });
             loadCloudData();
         };
 
-        // --- CARD RENDERERS ---
-        function createPkmnCard(p) {
-            const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo || "Normale"];
-            return `
-            <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden animate-pop shadow-2xl transition-all hover:border-yellow-500/30">
-                <div class="bg-slate-800/40 p-6 flex justify-between items-center border-b border-slate-700/50">
-                    <div>
-                        <span class="text-[9px] font-black text-yellow-500 uppercase font-mono-data">RANK: ${p.rango || 'Iniziato'}</span>
-                        <h2 class="text-3xl font-black text-white uppercase mt-1 italic tracking-tighter">${p.nome}</h2>
-                        <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[7px] font-black px-2 py-0.5 rounded border border-white/10 uppercase">${t}</span>`).join('')}</div>
-                    </div>
-                </div>
-                <div class="p-5 flex gap-5 items-center">
-                    <img src="${p.immagine || ''}" class="w-20 h-20 object-contain bg-black rounded-full p-2 border border-slate-700" onerror="this.src='https://via.placeholder.com/80?text=PKMN'">
-                    <div class="text-[11px] text-slate-400 italic leading-relaxed">${p.descrizione || 'Dati di Pokédex non disponibili.'}</div>
-                </div>
-            </div>`;
-        }
-
-        function createStandardCard(item) {
-            const type = (item.tipo || 'Normale').toLowerCase();
-            return `
-            <div class="bg-slate-900 p-6 rounded-[2.5rem] border-l-[10px] type-${type} animate-pop shadow-2xl flex flex-col">
-                <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-2xl font-black text-white uppercase tracking-tighter">${item.nome}</h3>
-                </div>
-                <div class="bg-black/40 p-4 rounded-xl border border-white/5 text-[12px] text-slate-300 leading-relaxed">
-                    <b class="text-yellow-600 uppercase text-[9px] block mb-2 italic">Effetto</b>
-                    ${item.effetto || item.effetti_aggiuntivi || item.descrizione || "Nessun effetto registrato."}
-                </div>
-            </div>`;
-        }
-
-        // --- SEARCH ENGINE ---
         document.getElementById('mainSearch').addEventListener('input', (e) => {
             const q = e.target.value.toLowerCase();
-            const filtered = currentData.filter(i => i.nome.toLowerCase().includes(q));
-            render(filtered);
+            render(currentData.filter(i => i.nome.toLowerCase().includes(q)));
         });
 
-        // Initialize
         loadCloudData();
     </script>
 </body>
