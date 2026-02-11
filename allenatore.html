@@ -3,68 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProDex - Scheda Allenatore</title>
+    <title>Neural ProDex - Trainer Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --pokedex-red: #dc2626; --bg-dark: #020617; }
+        :root { --pokedex-red: #ef4444; --bg-dark: #020617; --neon-blue: #0ea5e9; }
         body { background-color: var(--bg-dark); font-family: 'JetBrains Mono', monospace; color: white; }
-        .trainer-card { 
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 2px solid #334155;
-            border-radius: 30px;
-            position: relative;
-            overflow: hidden;
+        
+        .trainer-sheet { 
+            background: #e2e8f0; color: #1e293b; border-radius: 20px; 
+            padding: 20px; border: 4px solid #94a3b8; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .stat-bar { background: #000; height: 8px; border-radius: 4px; overflow: hidden; border: 1px solid #334155; }
-        .stat-fill { background: #ca8a04; height: 100%; box-shadow: 0 0 10px #ca8a04; }
+        .header-card { background: #ef4444; color: white; border-radius: 15px 15px 0 0; padding: 10px; font-family: 'Orbitron'; }
+        
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .stat-box { background: #cbd5e1; padding: 5px 10px; border-radius: 8px; border-bottom: 2px solid #94a3b8; }
+        .label-sm { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: #475569; }
+        
+        input, select, textarea { 
+            background: white; border: 1px solid #94a3b8; border-radius: 4px; 
+            padding: 2px 5px; width: 100%; color: #1e293b; font-weight: bold;
+        }
+
+        .dot-input { width: 12px; height: 12px; cursor: pointer; accent-color: #ef4444; }
+        
+        /* Stile Pips Statistici */
+        .pips-container { display: flex; gap: 2px; }
     </style>
 </head>
-<body class="p-6">
+<body class="p-4 md:p-8">
 
-    <div class="max-w-4xl mx-auto">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-4xl font-black font-[Orbitron] italic uppercase">Scheda <span class="text-yellow-500">Allenatore</span></h1>
-            <a href="index.html" class="bg-white/5 border border-white/10 px-6 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-red-600 transition-all">Back to Hub</a>
-        </div>
+    <div class="max-w-6xl mx-auto">
+        <header class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
+            <div>
+                <h1 class="text-4xl font-black font-[Orbitron] italic uppercase">Gestione <span class="text-red-500">Allenatori</span></h1>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest">Protocollo Pokerole 2.0</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="showNewTrainerForm()" class="bg-blue-600 hover:bg-blue-500 px-6 py-2 rounded-xl font-black uppercase text-xs">Nuovo Operatore</button>
+                <a href="index.html" class="bg-white/5 border border-white/10 px-6 py-2 rounded-xl text-xs font-black uppercase hover:bg-white/10">Hub</a>
+            </div>
+        </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="trainer-card p-6 flex flex-col items-center">
-                <img id="t-img" src="" class="w-40 h-40 rounded-2xl border-4 border-yellow-500 mb-4 object-cover">
-                <h2 id="t-name" class="text-2xl font-black font-[Orbitron] uppercase text-center">-</h2>
-                <p id="t-rank" class="text-yellow-500 text-[10px] font-bold tracking-widest uppercase">Rango: Starter</p>
-                
-                <div class="w-full mt-8 space-y-4">
+        <div id="trainer-form" class="hidden mb-12 bg-slate-900/50 p-8 rounded-3xl border border-white/10">
+            <h2 class="text-xl font-black mb-6 uppercase text-blue-400">Registrazione Nuova Matrice</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="space-y-4 text-center">
+                    <div class="relative w-48 h-48 mx-auto bg-slate-800 rounded-2xl border-2 border-dashed border-slate-600 flex items-center justify-center overflow-hidden group">
+                        <img id="preview-img" class="absolute inset-0 w-full h-full object-cover hidden">
+                        <span class="text-[10px] uppercase font-bold text-slate-500 group-hover:text-white transition-colors">Carica Foto</span>
+                        <input type="file" id="t-file" onchange="previewFile()" class="absolute inset-0 opacity-0 cursor-pointer">
+                    </div>
+                    <input type="text" id="t-name" placeholder="NOME ALLENATORE [cite: 7]" class="!bg-slate-800 !text-white !border-slate-700">
+                    <input type="number" id="t-age" placeholder="ETÀ [cite: 8]" class="!bg-slate-800 !text-white !border-slate-700">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="label-sm text-slate-400">Concept & Natura [cite: 10, 11]</label>
+                    <input type="text" id="t-concept" placeholder="Es: Giramondo">
+                    <input type="text" id="t-nature" placeholder="Es: Audace">
+                    <label class="label-sm text-slate-400">Rango [cite: 6]</label>
+                    <select id="t-rank">
+                        <option value="Starter">Starter</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Amateur">Amateur</option>
+                        <option value="Ace">Ace</option>
+                        <option value="Pro">Pro</option>
+                        <option value="Master">Master</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <div class="flex justify-between text-[8px] uppercase mb-1"><span>Reputazione</span><span>45%</span></div>
-                        <div class="stat-bar"><div class="stat-fill" style="width: 45%"></div></div>
+                        <label class="label-sm">Strength [cite: 23]</label>
+                        <input type="number" id="s-str" value="1" max="5">
+                        <label class="label-sm">Dexterity [cite: 27]</label>
+                        <input type="number" id="s-dex" value="1" max="5">
+                        <label class="label-sm">Vitality [cite: 30]</label>
+                        <input type="number" id="s-vit" value="1" max="5">
+                    </div>
+                    <div>
+                        <label class="label-sm">Insight [cite: 33]</label>
+                        <input type="number" id="s-ins" value="1" max="5">
+                        <label class="label-sm">HP [cite: 1]</label>
+                        <input type="number" id="s-hp" value="4">
+                        <label class="label-sm">Will [cite: 2]</label>
+                        <input type="number" id="s-will" value="3">
                     </div>
                 </div>
             </div>
-
-            <div class="md:col-span-2 space-y-6">
-                <div class="trainer-card p-8">
-                    <h3 class="text-xs font-black text-cyan-500 uppercase mb-4 tracking-tighter">Bio & Note Missione</h3>
-                    <textarea class="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-xs text-slate-300 outline-none focus:border-yellow-500" rows="4" placeholder="Inserisci note sulla tua avventura..."></textarea>
-                </div>
-
-                <div class="trainer-card p-8">
-                    <h3 class="text-xs font-black text-yellow-500 uppercase mb-4">Zaino Elettronico</h3>
-                    <div class="grid grid-cols-4 gap-4">
-                        <div class="bg-black/40 aspect-square rounded-xl border border-dashed border-white/10 flex items-center justify-center text-[10px] text-slate-600 uppercase">Slot Vuoto</div>
-                        <div class="bg-black/40 aspect-square rounded-xl border border-dashed border-white/10 flex items-center justify-center text-[10px] text-slate-600 uppercase">Slot Vuoto</div>
-                        <div class="bg-black/40 aspect-square rounded-xl border border-dashed border-white/10 flex items-center justify-center text-[10px] text-slate-600 uppercase">Slot Vuoto</div>
-                        <div class="bg-black/40 aspect-square rounded-xl border border-dashed border-white/10 flex items-center justify-center text-[10px] text-slate-600 uppercase">Slot Vuoto</div>
-                    </div>
-                </div>
-            </div>
+            <button onclick="saveTrainer()" class="w-full mt-8 bg-green-600 py-4 rounded-xl font-black uppercase hover:bg-green-500">Salva nel Database Cloud</button>
         </div>
+
+        <div id="trainer-list" class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
@@ -79,28 +117,119 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                // SICUREZZA: Se non loggato, espelli alla index
-                window.location.href = 'index.html';
-                return;
-            }
+        let currentUser = null;
+        let base64Image = null;
 
-            // Carica dati dal server
-            const userRef = doc(db, "Users", user.uid);
-            const userSnap = await getDoc(userRef);
+        // --- PREVIEW IMMAGINE ---
+        window.previewFile = () => {
+            const file = document.getElementById('t-file').files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                base64Image = reader.result;
+                const img = document.getElementById('preview-img');
+                img.src = base64Image;
+                img.classList.remove('hidden');
+            };
+            if (file) reader.readAsDataURL(file);
+        };
+
+        window.showNewTrainerForm = () => {
+            document.getElementById('trainer-form').classList.toggle('hidden');
+        };
+
+        // --- SALVATAGGIO ---
+        window.saveTrainer = async () => {
+            if (!currentUser) return;
             
-            let name = user.displayName || user.email.split('@')[0];
-            let img = `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`;
+            const trainerData = {
+                id: Date.now(),
+                nome: document.getElementById('t-name').value[cite: 7],
+                eta: document.getElementById('t-age').value[cite: 8],
+                rango: document.getElementById('t-rank').value[cite: 6],
+                concept: document.getElementById('t-concept').value[cite: 10],
+                natura: document.getElementById('t-nature').value[cite: 11],
+                immagine: base64Image || "https://api.dicebear.com/7.x/pixel-art/svg",
+                stats: {
+                    forza: document.getElementById('s-str').value[cite: 23],
+                    destrezza: document.getElementById('s-dex').value[cite: 27],
+                    vitalita: document.getElementById('s-vit').value[cite: 30],
+                    insight: document.getElementById('s-ins').value[cite: 33],
+                    hp: document.getElementById('s-hp').value[cite: 1],
+                    will: document.getElementById('s-will').value [cite: 2]
+                }
+            };
 
-            if (userSnap.exists()) {
-                name = userSnap.data().displayName || name;
-                img = userSnap.data().profilePic || img;
+            try {
+                const userRef = doc(db, "Users", currentUser.uid);
+                await updateDoc(userRef, {
+                    allenatori_generati: arrayUnion(trainerData)
+                });
+                alert("Operatore salvato!");
+                location.reload();
+            } catch (e) { console.error(e); }
+        };
+
+        // --- CARICAMENTO ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userDoc = await getDoc(doc(db, "Users", user.uid));
+                if (userDoc.exists() && userDoc.data().allenatori_generati) {
+                    renderTrainers(userDoc.data().allenatori_generati);
+                }
+            } else {
+                window.location.href = 'index.html';
             }
-
-            document.getElementById('t-name').innerText = name;
-            document.getElementById('t-img').src = img;
         });
+
+        function renderTrainers(list) {
+            const container = document.getElementById('trainer-list');
+            container.innerHTML = list.map(t => `
+                <div class="trainer-sheet">
+                    <div class="header-card flex justify-between items-center">
+                        <span class="text-xs font-black uppercase tracking-widest">Pokémon League [cite: 5]</span>
+                        <span class="text-[10px] font-bold">RANK: ${t.rango} [cite: 6]</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-12 gap-4 mt-4">
+                        <div class="col-span-5 space-y-3">
+                            <img src="${t.immagine}" class="w-full h-40 object-cover rounded-lg border-2 border-slate-400">
+                            <div class="stat-box flex justify-between">
+                                <span class="label-sm">HP [cite: 1]</span>
+                                <span class="font-black text-red-600">${t.stats.hp}</span>
+                            </div>
+                            <div class="stat-box flex justify-between">
+                                <span class="label-sm">WILL [cite: 2]</span>
+                                <span class="font-black text-blue-600">${t.stats.will}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-span-7 space-y-2">
+                            <div class="border-b-2 border-slate-300 pb-1">
+                                <span class="label-sm italic">Name [cite: 7, 16]</span>
+                                <div class="text-xl font-black uppercase leading-tight">${t.nome}</div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><span class="label-sm">Age [cite: 8]</span><div class="font-bold">${t.eta}</div></div>
+                                <div><span class="label-sm">Nature [cite: 11]</span><div class="font-bold">${t.natura}</div></div>
+                            </div>
+                            <div class="stat-grid mt-4">
+                                ${Object.entries(t.stats).filter(([k]) => !['hp', 'will'].includes(k)).map(([key, val]) => `
+                                    <div class="stat-box">
+                                        <div class="label-sm">${key}</div>
+                                        <div class="flex gap-1">
+                                            ${Array.from({length: 5}).map((_, i) => `
+                                                <div class="w-2 h-2 rounded-full ${i < val ? 'bg-slate-800' : 'bg-slate-400'}"></div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
     </script>
 </body>
 </html>
