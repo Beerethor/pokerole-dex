@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Neural ProDex - Universal Scanner</title>
+    <title>Neural ProDex - Tech Randomizer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://rawcdn.githack.com/Beerethor/pokerole-dex/refs/heads/main/pokerole-core.js"></script>
 
@@ -35,7 +35,7 @@
     <div class="max-w-[1300px] mx-auto mb-8 bg-[#2d2d2d] p-6 rounded-2xl border-2 border-[#444] shadow-2xl">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div class="space-y-4">
-                <div><label class="label block mb-1">Cerca Nome</label><input type="text" id="searchKey" placeholder="Es: Mewtwo"></div>
+                <div><label class="label block mb-1">Cerca Specie</label><input type="text" id="searchKey" placeholder="Es: Garchomp"></div>
                 <div><label class="label block mb-1">Rango</label>
                     <select id="userRank">
                         <option value="1">Starter</option><option value="2">Beginner</option><option value="3">Amateur</option>
@@ -49,7 +49,7 @@
                 <div class="grid grid-cols-6 gap-1" id="typeSelector"></div>
             </div>
             <div class="flex flex-col justify-end">
-                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg active:scale-95">Esegui Scansione</button>
+                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg">Esegui Scansione</button>
             </div>
         </div>
     </div>
@@ -77,17 +77,30 @@
                 return mSearch && mType;
             });
 
-            if (filtered.length === 0) return alert("Nessun dato.");
+            if (filtered.length === 0) return alert("Nessun Pokémon trovato.");
             const base = filtered[Math.floor(Math.random() * filtered.length)];
+            
+            // Calcolo statistiche tramite motore esterno
             const data = PokeroleEngine.calculateRank(base, rankVal);
             
-            // LOGICA DI FALLBACK PER CAMPI JSON
+            // --- LOGICA TECNICHE RANDOM (Max = Will) ---
+            const allPossibleMoves = base.tecniche || base.mosse || base.moves || [];
+            const willValue = data.will; // Valore Will calcolato dal rango
+            
+            // Scegliamo un numero casuale tra 1 e Will (non superiore al numero di mosse disponibili)
+            const numMovesToPick = Math.min(willValue, allPossibleMoves.length, Math.floor(Math.random() * willValue) + 1);
+            
+            // Mischiamo l'array delle mosse e ne prendiamo N
+            const selectedMoves = [...allPossibleMoves]
+                .sort(() => 0.5 - Math.random())
+                .slice(0, numMovesToPick);
+
+            // Altri dati
             const num = base.pokedex || base.numero || base.ID || '???';
             const region = base.regione || base.region || 'Unknown';
             const ability = base.abilita || base.abilities || [];
-            const moves = base.tecniche || base.mosse || base.moves || [];
 
-            renderUI(data, document.getElementById('userRank').options[rankVal-1].text, num, region, ability, moves);
+            renderUI(data, document.getElementById('userRank').options[rankVal-1].text, num, region, ability, selectedMoves);
         }
 
         function renderUI(data, rankName, num, region, ability, moves) {
@@ -138,9 +151,12 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="label mb-4 text-red-500">Data Tecniche</div>
+                                <div class="flex justify-between items-center mb-4">
+                                    <div class="label text-red-500">Tecniche Estratte</div>
+                                    <div class="text-[9px] text-white/40 uppercase font-bold">Random: 1 to ${data.will}</div>
+                                </div>
                                 <div class="grid grid-cols-2 gap-2">
-                                    ${moves.length > 0 ? moves.map(m => `<div class="tech-card uppercase border-l-2 border-red-500">${m}</div>`).join('') : '<div class="text-[10px] italic opacity-40">Nessuna tecnica rilevata</div>'}
+                                    ${moves.length > 0 ? moves.map(m => `<div class="tech-card uppercase border-l-2 border-red-500">${m}</div>`).join('') : '<div class="text-[10px] italic opacity-40">Nessuna tecnica disponibile</div>'}
                                 </div>
                             </div>
                         </div>
