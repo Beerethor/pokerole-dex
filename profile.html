@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural ProDex - Profilo Operatore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --pokedex-red: #dc2626; --neon-blue: #0ea5e9; }
+        body { background-color: #020617; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
+        
+        .pokedex-frame { max-width: 800px; background: var(--pokedex-red); border: 8px solid #991b1b; border-radius: 30px; padding: 30px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.6); }
+        .inner-screen { background: #0f172a; border-radius: 20px; padding: 30px; border: 4px solid #334155; position: relative; }
+        
+        .label { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 2px; }
+        .input-field { background: #1e293b; border: 1px solid #334155; color: white; padding: 12px; border-radius: 8px; width: 100%; outline: none; transition: border 0.3s; }
+        .input-field:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(14, 165, 233, 0.3); }
+        
+        .btn-update { background: #0ea5e9; hover:background: #0284c7; color: white; font-weight: 900; text-transform: uppercase; padding: 12px; border-radius: 8px; transition: all 0.3s; border-bottom: 4px solid #075985; }
+        .btn-update:active { transform: translateY(2px); border-bottom-width: 2px; }
+    </style>
+</head>
+<body>
+
+    <div class="pokedex-frame animate-in fade-in duration-500">
+        <div class="inner-screen">
+            
+            <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-6">
+                <div>
+                    <span class="label">ID Sincronizzazione</span>
+                    <h1 id="display-username" class="text-4xl font-black italic uppercase font-[Orbitron] tracking-tighter">Caricamento...</h1>
+                </div>
+                <a href="index.html" class="text-[10px] font-black uppercase bg-white/5 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/10 transition">Chiudi Terminale</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="flex flex-col items-center space-y-4">
+                    <div class="relative">
+                        <img id="profile-img" src="" class="w-40 h-40 rounded-full border-4 border-blue-500 shadow-[0_0_20px_rgba(14,165,233,0.4)] object-cover">
+                        <div class="absolute bottom-2 right-2 w-5 h-5 bg-green-500 rounded-full border-2 border-slate-900 animate-pulse"></div>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Stato Operatore: Online</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="label block mb-2">Cambia Nome Operatore</label>
+                        <input type="text" id="new-username" class="input-field" placeholder="Inserisci nuovo alias...">
+                        <p class="text-[9px] text-slate-500 mt-2 uppercase italic">Questo nome apparirà su ogni scansione Pokémon salvata.</p>
+                    </div>
+
+                    <div class="pt-4">
+                        <button onclick="updateProfile()" class="w-full btn-update">Aggiorna Identità</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
+                <div class="bg-black/40 p-4 rounded-xl text-center border border-white/5">
+                    <div class="label !text-[8px] mb-1">Rango ProDex</div>
+                    <div class="text-xl font-black text-yellow-500">A1</div>
+                </div>
+                <div class="bg-black/40 p-4 rounded-xl text-center border border-white/5">
+                    <div class="label !text-[8px] mb-1">Unità Scansionate</div>
+                    <div class="text-xl font-black text-white">---</div>
+                </div>
+                <div class="bg-black/40 p-4 rounded-xl text-center border border-white/5">
+                    <div class="label !text-[8px] mb-1">Permessi Sync</div>
+                    <div class="text-xl font-black text-green-500">LIVE</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Carica i dati attuali al caricamento della pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentName = localStorage.getItem('user_id') || "Guest_Scanner";
+            document.getElementById('display-username').innerText = currentName;
+            document.getElementById('new-username').value = currentName === "Guest_Scanner" ? "" : currentName;
+            
+            // Avatar dinamico basato sul nome (usa lo stesso stile dell'index)
+            const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${currentName}`;
+            document.getElementById('profile-img').src = avatarUrl;
+        });
+
+        // Funzione per aggiornare il profilo
+        function updateProfile() {
+            const newName = document.getElementById('new-username').value.trim();
+
+            if (newName.length < 3) {
+                alert("ERRORE: L'alias dell'operatore deve contenere almeno 3 caratteri.");
+                return;
+            }
+
+            // Aggiorna il localStorage
+            localStorage.setItem('user_id', newName);
+            
+            // Feedback visivo
+            document.getElementById('display-username').innerText = newName;
+            document.getElementById('profile-img').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${newName}`;
+            
+            alert("✅ IDENTITÀ AGGIORNATA: Il sistema ha sincronizzato il nuovo alias.");
+        }
+    </script>
+</body>
+</html>
