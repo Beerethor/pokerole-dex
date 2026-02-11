@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex - Neural Interface v3.5</title>
+    <title>PokeRole ProDex - Database Sync v3.6</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
 
         body { background-color: var(--bg-deep); font-family: 'JetBrains Mono', monospace; color: #e2e8f0; }
 
-        /* --- COLORI TIPI --- */
+        /* --- Tipi Colorati --- */
         .type-tag { font-size: 9px; font-weight: 900; padding: 4px 12px; border-radius: 6px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); }
         .type-acciaio { background-color: #B7B7CE; color: #1a1a1a; }
         .type-acqua { background-color: #6390F0; color: white; }
@@ -39,7 +39,7 @@
         .type-veleno { background-color: #A33EA1; color: white; }
         .type-volante { background-color: #A98FF3; color: white; }
 
-        /* --- UI COMPONENTS --- */
+        /* --- Search Bar & Filters --- */
         .search-area {
             background: rgba(15, 23, 42, 0.9);
             border: 2px solid var(--holo-cyan);
@@ -64,12 +64,12 @@
 
         .and-lower-btn {
             display: flex; align-items: center; gap: 8px; cursor: pointer;
-            padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 10px 16px; border-radius: 14px; border: 1px solid rgba(34, 211, 238, 0.2);
             background: rgba(0,0,0,0.3); transition: all 0.3s;
         }
-        .and-lower-btn.active { background: var(--holo-cyan); color: black; border-color: white; }
-        .and-lower-btn span { font-size: 10px; font-weight: 900; text-transform: uppercase; }
+        .and-lower-btn.active { background: var(--holo-cyan); color: black; }
 
+        /* --- Cards --- */
         .pokedex-frame {
             background: linear-gradient(145deg, var(--pokedex-red), var(--pokedex-dark));
             border: 4px solid #3a0000; border-radius: 45px; padding: 20px;
@@ -88,9 +88,8 @@
         .tech-pill { 
             background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2); 
             border-radius: 8px; padding: 6px; font-size: 9px; cursor: pointer; 
-            transition: all 0.2s; text-align: center; color: #fff; font-weight: bold;
+            text-align: center; color: #fff; font-weight: bold;
         }
-        .tech-pill:hover { background: var(--holo-cyan); color: #000; }
 
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.95);
@@ -135,7 +134,7 @@
                     <div id="checkbox" class="w-4 h-4 border-2 border-cyan-500 rounded flex items-center justify-center">
                         <div id="checkMark" class="hidden w-2 h-2 bg-black rounded-sm"></div>
                     </div>
-                    <span>And Lower</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">And Lower</span>
                 </div>
             </div>
         </div>
@@ -168,6 +167,7 @@
         window.pokedexCache = [];
         let andLowerActive = false;
 
+        // Gerarchia Ufficiale Pokerole
         const rankHierarchy = { "starter": 1, "beginner": 2, "amateur": 3, "ace": 4, "pro": 5, "master": 6, "champion": 7 };
 
         async function init() {
@@ -190,11 +190,14 @@
                 const matchesText = p.nome.toLowerCase().includes(query) || (p.descrizione && p.descrizione.toLowerCase().includes(query));
                 const matchesType = typeF === "" || (Array.isArray(p.tipo) ? p.tipo.includes(typeF) : p.tipo === typeF);
                 
-                const pRank = p.rango ? p.rango.toString().trim().toLowerCase() : "starter";
-                let matchesRank = rankF === "" || pRank === rankF;
+                // --- LOGICA FILTRO RANGO DAL DATABASE ---
+                const dbRankRaw = p.rango ? p.rango.toString().trim().toLowerCase() : "starter";
+                let matchesRank = rankF === "" || dbRankRaw === rankF;
 
                 if (rankF !== "" && andLowerActive) {
-                    matchesRank = (rankHierarchy[pRank] || 1) <= (rankHierarchy[rankF] || 1);
+                    const dbRankValue = rankHierarchy[dbRankRaw] || 1;
+                    const filterRankValue = rankHierarchy[rankF] || 1;
+                    matchesRank = dbRankValue <= filterRankValue;
                 }
 
                 return matchesText && matchesType && matchesRank;
@@ -222,7 +225,7 @@
                         <div class="flex justify-between items-start border-b border-cyan-500/20 pb-4 mb-5">
                             <div>
                                 <h2 class="text-3xl font-black italic uppercase font-[Orbitron] text-white tracking-tighter">${p.nome}</h2>
-                                <p class="text-[9px] text-cyan-400 font-bold opacity-70 uppercase tracking-widest">RANK: ${p.rango || 'Starter'}</p>
+                                <p class="text-[9px] text-cyan-400 font-bold opacity-70 uppercase tracking-widest">DATABASE SUGGESTED RANK: ${p.rango || 'Starter'}</p>
                             </div>
                             <div class="flex gap-2">
                                 ${tipi.map(t => `<span class="type-tag type-${t.toLowerCase()}">${t}</span>`).join('')}
@@ -275,11 +278,7 @@
             const modal = document.getElementById('infoModal');
             const body = document.getElementById('modalBody');
 
-            // --- LOGICA DI FIX PER DATI STRINGA O OGGETTI ---
-            let nome = "Unknown";
-            let desc = "Modulo dati essenziale caricato."; // Testo di default preso dallo screenshot
-            let pot = "-";
-            let prec = "-";
+            let nome = "Unknown", desc = "Modulo dati essenziale caricato.", pot = "-", prec = "-";
 
             if (typeof data === 'string') {
                 nome = data;
@@ -295,8 +294,7 @@
                     <span class="text-[9px] text-cyan-500 uppercase font-black tracking-[0.3em] mb-1 block">${type === 'abilita' ? 'ABILITÀ' : 'TECNICHE'}</span>
                     <h2 class="text-white font-black text-3xl uppercase italic tracking-tighter">${nome}</h2>
                 </div>
-                <p class="text-white/70 italic text-sm mb-10 leading-relaxed">"${desc}"</p>
-                
+                <p class="text-white/70 italic text-sm mb-10 leading-relaxed font-medium">"${desc}"</p>
                 ${type === 'tecniche' ? `
                 <div class="grid grid-cols-2 gap-6">
                     <div class="bg-cyan-500/5 p-5 rounded-3xl border border-cyan-500/10 text-center">
@@ -309,7 +307,6 @@
                     </div>
                 </div>` : ''}
             `;
-            
             modal.style.display = 'flex';
         };
 
