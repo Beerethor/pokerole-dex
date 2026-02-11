@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex - Neural Interface v3.4</title>
+    <title>PokeRole ProDex - Neural Interface v3.5</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -16,11 +16,7 @@
             --bg-deep: #020617;
         }
 
-        body { 
-            background-color: var(--bg-deep); 
-            font-family: 'JetBrains Mono', monospace; 
-            color: #e2e8f0;
-        }
+        body { background-color: var(--bg-deep); font-family: 'JetBrains Mono', monospace; color: #e2e8f0; }
 
         /* --- COLORI TIPI --- */
         .type-tag { font-size: 9px; font-weight: 900; padding: 4px 12px; border-radius: 6px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); }
@@ -43,7 +39,7 @@
         .type-veleno { background-color: #A33EA1; color: white; }
         .type-volante { background-color: #A98FF3; color: white; }
 
-        /* --- INTERFACCIA --- */
+        /* --- UI COMPONENTS --- */
         .search-area {
             background: rgba(15, 23, 42, 0.9);
             border: 2px solid var(--holo-cyan);
@@ -63,10 +59,9 @@
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid rgba(34, 211, 238, 0.3);
             color: white; padding: 12px; border-radius: 14px;
-            font-size: 11px; font-weight: 800; width: 100%;
+            font-size: 11px; font-weight: 800; width: 100%; cursor: pointer;
         }
 
-        /* --- TOGGLE AND LOWER --- */
         .and-lower-btn {
             display: flex; align-items: center; gap: 8px; cursor: pointer;
             padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(34, 211, 238, 0.2);
@@ -149,9 +144,9 @@
     </div>
 
     <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
-        <div class="bg-[#050505] border-2 border-cyan-500 p-10 rounded-[35px] max-w-lg w-full m-4" onclick="event.stopPropagation()">
+        <div class="bg-[#050505] border-2 border-cyan-500 p-10 rounded-[35px] max-w-lg w-full m-4 shadow-[0_0_50px_rgba(34,211,238,0.3)]" onclick="event.stopPropagation()">
             <div id="modalBody"></div>
-            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-10 py-4 border border-cyan-500 text-cyan-400 font-black uppercase text-xs hover:bg-cyan-500 hover:text-black transition-all rounded-2xl">Close File</button>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-10 py-4 border border-cyan-500 text-cyan-400 font-black uppercase text-xs hover:bg-cyan-500 hover:text-black transition-all rounded-2xl font-[Orbitron] tracking-widest">Sincronizza e Chiudi</button>
         </div>
     </div>
 
@@ -195,11 +190,11 @@
                 const matchesText = p.nome.toLowerCase().includes(query) || (p.descrizione && p.descrizione.toLowerCase().includes(query));
                 const matchesType = typeF === "" || (Array.isArray(p.tipo) ? p.tipo.includes(typeF) : p.tipo === typeF);
                 
-                const pRank = p.rango ? p.rango.toString().trim().toLowerCase() : "";
+                const pRank = p.rango ? p.rango.toString().trim().toLowerCase() : "starter";
                 let matchesRank = rankF === "" || pRank === rankF;
 
                 if (rankF !== "" && andLowerActive) {
-                    matchesRank = rankHierarchy[pRank] <= rankHierarchy[rankF];
+                    matchesRank = (rankHierarchy[pRank] || 1) <= (rankHierarchy[rankF] || 1);
                 }
 
                 return matchesText && matchesType && matchesRank;
@@ -212,17 +207,17 @@
         function renderResults(list) {
             const container = document.getElementById('results');
             if (list.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-20 font-black text-red-500 uppercase tracking-widest italic animate-pulse">Neural mismatch: No records found.</div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-20 font-black text-red-500 uppercase tracking-widest italic">Neural mismatch: No records found.</div>`;
                 return;
             }
 
-            container.innerHTML = list.map((p, idx) => {
+            container.innerHTML = list.map((p) => {
                 const globalIdx = window.pokedexCache.indexOf(p);
                 const stats = p.attributi || {};
                 const tipi = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
 
                 return `
-                <div class="pokedex-frame animate-pop">
+                <div class="pokedex-frame">
                     <div class="holo-screen">
                         <div class="flex justify-between items-start border-b border-cyan-500/20 pb-4 mb-5">
                             <div>
@@ -241,7 +236,10 @@
                                 <div class="bg-black/20 p-4 rounded-2xl border border-white/5">
                                     <span class="text-[8px] text-cyan-500 font-black block mb-3 uppercase tracking-widest">Passive Logs</span>
                                     <div class="flex flex-wrap gap-2">
-                                        ${(p.abilita || []).map((a, aIdx) => `<span onclick="openDetail('abilita', ${globalIdx}, ${aIdx})" class="text-[9px] bg-cyan-500/10 hover:bg-cyan-500 hover:text-black px-2 py-1 rounded cursor-pointer uppercase font-black transition-all italic">${typeof a === 'object' ? a.nome : a}</span>`).join('')}
+                                        ${(p.abilita || []).map((a, aIdx) => {
+                                            const aNome = typeof a === 'object' ? a.nome : a;
+                                            return `<span onclick="openDetail('abilita', ${globalIdx}, ${aIdx})" class="text-[9px] bg-cyan-500/10 hover:bg-cyan-500 hover:text-black px-2 py-1 rounded cursor-pointer uppercase font-black italic">${aNome}</span>`;
+                                        }).join('')}
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +259,10 @@
                         </div>
                         <div class="mt-8 pt-5 border-t border-cyan-500/20">
                             <div class="grid grid-cols-3 gap-2">
-                                ${(p.tecniche || []).map((t, tIdx) => `<div onclick="openDetail('tecniche', ${globalIdx}, ${tIdx})" class="tech-pill italic truncate">${typeof t === 'object' ? t.nome : t}</div>`).join('')}
+                                ${(p.tecniche || []).map((t, tIdx) => {
+                                    const tNome = typeof t === 'object' ? t.nome : t;
+                                    return `<div onclick="openDetail('tecniche', ${globalIdx}, ${tIdx})" class="tech-pill italic truncate">${tNome}</div>`;
+                                }).join('')}
                             </div>
                         </div>
                     </div>
@@ -274,24 +275,41 @@
             const modal = document.getElementById('infoModal');
             const body = document.getElementById('modalBody');
 
-            body.innerHTML = (typeof data !== 'object') ? 
-                `<h2 class="text-cyan-400 font-black text-2xl uppercase italic mb-4">${data}</h2>` : 
-                `
+            // --- LOGICA DI FIX PER DATI STRINGA O OGGETTI ---
+            let nome = "Unknown";
+            let desc = "Modulo dati essenziale caricato."; // Testo di default preso dallo screenshot
+            let pot = "-";
+            let prec = "-";
+
+            if (typeof data === 'string') {
+                nome = data;
+            } else if (typeof data === 'object' && data !== null) {
+                nome = data.nome || data.name || "Unknown";
+                desc = data.effetto || data.descrizione || desc;
+                pot = data.danno || data.pool_dadi || data.potenza || "-";
+                prec = data.accuratezza || data.precisione || "-";
+            }
+
+            body.innerHTML = `
                 <div class="border-b border-cyan-500/20 pb-4 mb-6">
-                    <h2 class="text-cyan-400 font-black text-3xl uppercase italic tracking-tighter">${data.nome || data.name}</h2>
-                    <span class="text-[10px] text-slate-500 uppercase font-black tracking-widest">${type} Record</span>
+                    <span class="text-[9px] text-cyan-500 uppercase font-black tracking-[0.3em] mb-1 block">${type === 'abilita' ? 'ABILITÀ' : 'TECNICHE'}</span>
+                    <h2 class="text-white font-black text-3xl uppercase italic tracking-tighter">${nome}</h2>
                 </div>
-                <p class="text-white/90 italic text-sm mb-10 leading-relaxed font-medium">"${data.effetto || data.descrizione || 'Encrypted log.'}"</p>
+                <p class="text-white/70 italic text-sm mb-10 leading-relaxed">"${desc}"</p>
+                
+                ${type === 'tecniche' ? `
                 <div class="grid grid-cols-2 gap-6">
-                    <div class="bg-cyan-500/5 p-5 rounded-3xl border border-cyan-500/20 text-center">
-                        <span class="text-[9px] text-cyan-500 uppercase block font-black mb-2 opacity-60">Dice Pool</span>
-                        <span class="text-white font-black font-mono text-2xl">${data.danno || data.pool_dadi || '-'}</span>
+                    <div class="bg-cyan-500/5 p-5 rounded-3xl border border-cyan-500/10 text-center">
+                        <span class="text-[9px] text-cyan-500 uppercase block font-black mb-2 opacity-60">Potenza / Dadi</span>
+                        <span class="text-white font-black font-mono text-2xl">${pot}</span>
                     </div>
-                    <div class="bg-cyan-500/5 p-5 rounded-3xl border border-cyan-500/20 text-center">
-                        <span class="text-[9px] text-cyan-500 uppercase block font-black mb-2 opacity-60">Accuracy</span>
-                        <span class="text-white font-black font-mono text-2xl">${data.accuratezza || data.precisione || '-'}</span>
+                    <div class="bg-cyan-500/5 p-5 rounded-3xl border border-cyan-500/10 text-center">
+                        <span class="text-[9px] text-cyan-500 uppercase block font-black mb-2 opacity-60">Precisione</span>
+                        <span class="text-white font-black font-mono text-2xl">${prec}</span>
                     </div>
-                </div>`;
+                </div>` : ''}
+            `;
+            
             modal.style.display = 'flex';
         };
 
