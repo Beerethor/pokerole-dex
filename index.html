@@ -133,21 +133,34 @@
 
         window.logout = () => signOut(auth);
 
-        // Controllo Stato Sessione
-        onAuthStateChanged(auth, (user) => {
-            const authUI = document.getElementById('auth-ui');
-            const userUI = document.getElementById('user-ui');
-            if (user) {
-                authUI.classList.add('hidden');
-                userUI.classList.remove('hidden');
-                document.getElementById('user-img').src = user.photoURL || 'https://via.placeholder.com/100?text=USER';
-                document.getElementById('user-name').innerText = user.displayName || user.email.split('@')[0];
-                document.getElementById('user-email').innerText = user.email;
-            } else {
-                authUI.classList.remove('hidden');
-                userUI.classList.add('hidden');
-            }
-        });
+      // Controllo Stato Sessione - AGGIORNATO
+onAuthStateChanged(auth, (user) => {
+    const authUI = document.getElementById('auth-ui');
+    const userUI = document.getElementById('user-ui');
+    
+    if (user) {
+        // --- COLLEGAMENTO PRODEX ---
+        // Recuperiamo il nome: se è Google userà il nome reale, se è Email userà la parte prima della @
+        const identifier = user.displayName || user.email.split('@')[0];
+        
+        // Salviamo nel localStorage per il ProDex
+        localStorage.setItem('user_id', identifier);
+        // ---------------------------
+
+        authUI.classList.add('hidden');
+        userUI.classList.remove('hidden');
+        document.getElementById('user-img').src = user.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + identifier;
+        document.getElementById('user-name').innerText = identifier;
+        document.getElementById('user-email').innerText = user.email;
+    } else {
+        // Se l'utente si disconnette, puliamo il localStorage
+        localStorage.removeItem('user_id');
+        
+        authUI.classList.remove('hidden');
+        userUI.classList.add('hidden');
+    }
+});
     </script>
 </body>
 </html>
+
