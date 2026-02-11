@@ -1,53 +1,217 @@
-// --- LA TUA VECCHIA CARD POTENZIATA CON TUTTI I DATI ---
-function createClassicCard(item) {
-    // Gestione Tipi (singolo o array)
-    const tipi = Array.isArray(item.tipo) ? item.tipo : [item.tipo || "Normale"];
-    const tipoPrimario = tipi[0].toLowerCase();
-    const colorClass = `type-${tipoPrimario}`;
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeRole ProDex - Classic Cloud</title>
     
-    // Determiniamo se è un Pokémon o una Tecnica/Abilità per mostrare i dati giusti
-    const isPkmn = window.currentSub === 'pkmn';
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --accent: #ca8a04; --bg-dark: #020617; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; }
+        .font-mono-data { font-family: 'JetBrains Mono', monospace; }
 
-    return `
-    <div class="bg-slate-900 rounded-[2rem] border border-slate-800 overflow-hidden animate-pop flex flex-col h-full shadow-xl transition-all hover:scale-[1.02]">
-        <div class="${colorClass} p-4 flex justify-between items-center shadow-lg">
-            <div>
-                <h3 class="text-xl font-black text-white uppercase italic tracking-tighter">${item.nome}</h3>
-                ${item.rango ? `<span class="text-[8px] font-black bg-black/30 px-2 py-0.5 rounded uppercase">Rango: ${item.rango}</span>` : ''}
-            </div>
-            <div class="flex gap-1">
-                ${tipi.map(t => `<span class="text-[8px] font-bold bg-white/20 px-2 py-1 rounded uppercase border border-white/10">${t}</span>`).join('')}
+        /* --- COLORI TIPI ORIGINALI --- */
+        .type-fuoco { background-color: #ef4444; }
+        .type-acqua { background-color: #3b82f6; }
+        .type-erba { background-color: #22c55e; }
+        .type-elettro { background-color: #eab308; color: #000; }
+        .type-ghiaccio { background-color: #06b6d4; }
+        .type-lotta { background-color: #991b1b; }
+        .type-veleno { background-color: #a855f7; }
+        .type-terra { background-color: #b45309; }
+        .type-volante { background-color: #818cf8; }
+        .type-psico { background-color: #db2777; }
+        .type-coleottero { background-color: #84cc16; }
+        .type-roccia { background-color: #78350f; }
+        .type-spettro { background-color: #6366f1; }
+        .type-drago { background-color: #4f46e5; }
+        .type-buio { background-color: #1e293b; }
+        .type-acciaio { background-color: #64748b; }
+        .type-folletto { background-color: #f472b6; }
+        .type-normale { background-color: #6b7280; }
+
+        .sub-active { color: var(--accent); border-bottom: 3px solid var(--accent); font-weight: 900; }
+        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(14px); border: 1px solid rgba(51, 65, 85, 0.4); }
+        .animate-pop { animation: popIn 0.3s ease-out forwards; }
+        @keyframes popIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="pb-12 text-slate-100">
+
+    <div class="max-w-6xl mx-auto p-4">
+        <header class="py-10 text-center">
+            <h1 class="text-5xl font-black italic tracking-tighter uppercase font-mono-data">
+                <span class="text-yellow-500">POKEROLE</span> PRODEX
+            </h1>
+            <div id="user-profile" class="mt-6 flex justify-center gap-4"></div>
+        </header>
+
+        <nav class="flex justify-center gap-8 mb-8 text-[11px] font-black uppercase tracking-widest border-b border-slate-800 pb-5">
+            <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active transition-all">Pokémon</button>
+            <button onclick="switchSub('tech')" id="subTech" class="text-slate-500 hover:text-white transition-all">Tecniche</button>
+            <button onclick="switchSub('abil')" id="subAbil" class="text-slate-500 hover:text-white transition-all">Abilità</button>
+        </nav>
+
+        <div class="glass-card p-6 rounded-[2rem] mb-10 sticky top-4 z-50">
+            <input type="text" id="mainSearch" placeholder="Cerca nel Cloud..." 
+                   class="w-full bg-slate-950 border-none rounded-xl p-4 text-white focus:ring-2 focus:ring-yellow-600 outline-none font-bold">
+            
+            <div class="flex justify-between items-center mt-4 px-2">
+                <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase tracking-widest italic font-mono-data">Sincronizzazione...</div>
+                <button onclick="traslocaTutto()" class="bg-red-900/40 text-red-400 px-3 py-1 rounded-lg text-[8px] font-bold uppercase border border-red-500/20 hover:bg-red-600 hover:text-white transition-all">🚀 Trasloca JSON</button>
             </div>
         </div>
 
-        <div class="p-5 flex flex-col gap-4 flex-grow">
-            ${isPkmn && item.immagine ? `
-                <div class="flex gap-4 items-center border-b border-slate-800 pb-4">
-                    <img src="${item.immagine}" class="w-20 h-20 object-contain bg-black/40 rounded-2xl p-2 border border-white/5" onerror="this.src='https://via.placeholder.com/80?text=PKMN'">
-                    <div class="text-[11px] text-slate-400 italic leading-relaxed">
-                        ${item.descrizione || 'Nessuna voce di Pokédex presente.'}
+        <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
+            authDomain: "pokerole-app.firebaseapp.com",
+            projectId: "pokerole-app",
+            storageBucket: "pokerole-app.firebasestorage.app",
+            messagingSenderId: "385416519668",
+            appId: "1:385416519668:web:908e12b9833f1cdc04a3a1",
+            measurementId: "G-5M1ST6CSV0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        let currentData = [];
+        window.currentSub = 'pkmn';
+
+        // --- AUTH ---
+        window.login = () => signInWithPopup(auth, provider);
+        window.logout = () => signOut(auth);
+
+        onAuthStateChanged(auth, (user) => {
+            const profileDiv = document.getElementById('user-profile');
+            if (user) {
+                profileDiv.innerHTML = `
+                    <div class="flex items-center gap-3 bg-slate-900 px-4 py-2 rounded-xl border border-yellow-500/20">
+                        <img src="${user.photoURL}" class="w-6 h-6 rounded-full border border-yellow-500">
+                        <span class="text-[10px] font-black uppercase tracking-tighter">${user.displayName}</span>
+                        <button onclick="logout()" class="text-red-500 text-[9px] font-bold ml-2">ESCI</button>
+                    </div>`;
+            } else {
+                profileDiv.innerHTML = `<button onclick="login()" class="bg-white text-black px-6 py-2 rounded-xl font-black uppercase text-[10px]">Accedi con Google</button>`;
+            }
+        });
+
+        // --- DATA LOAD ---
+        async function loadCloudData() {
+            const container = document.getElementById('results');
+            container.innerHTML = '<div class="col-span-full text-center py-20 text-yellow-500 font-black animate-pulse">CONTATTANDO IL DATABASE...</div>';
+            
+            try {
+                const snapshot = await getDocs(collection(db, window.currentSub));
+                currentData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                document.getElementById('counter').innerText = `${currentData.length} UNITÀ CARICATE`;
+                render(currentData);
+            } catch (err) {
+                container.innerHTML = `<div class="text-red-500 text-center col-span-full">Errore di connessione. Verifica le regole su Firebase.</div>`;
+            }
+        }
+
+        function render(items) {
+            const container = document.getElementById('results');
+            if (items.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-500 uppercase font-black italic">Nessun dato trovato</div>`;
+                return;
+            }
+            container.innerHTML = items.map(item => createClassicCard(item)).join('');
+        }
+
+        // --- FUNZIONE CARD COMPLETA ---
+        function createClassicCard(item) {
+            const tipi = Array.isArray(item.tipo) ? item.tipo : [item.tipo || "Normale"];
+            const tipoPrimario = tipi[0].toLowerCase();
+            const colorClass = `type-${tipoPrimario}`;
+            const isPkmn = window.currentSub === 'pkmn';
+
+            return `
+            <div class="bg-slate-900 rounded-[2rem] border border-slate-800 overflow-hidden animate-pop flex flex-col h-full shadow-xl">
+                <div class="${colorClass} p-4 flex justify-between items-center shadow-md">
+                    <div>
+                        <h3 class="text-xl font-black text-white uppercase italic tracking-tighter">${item.nome}</h3>
+                        ${item.rango ? `<span class="text-[8px] font-black bg-black/20 px-2 py-0.5 rounded uppercase">RANK: ${item.rango}</span>` : ''}
+                    </div>
+                    <div class="flex gap-1">
+                        ${tipi.map(t => `<span class="text-[8px] font-bold bg-white/20 px-2 py-1 rounded uppercase border border-white/10">${t}</span>`).join('')}
                     </div>
                 </div>
-            ` : ''}
-
-            <div class="flex-grow">
-                ${!isPkmn ? `
-                    <div class="bg-black/40 p-3 rounded-xl border border-white/5">
-                        <b class="text-yellow-600 uppercase text-[9px] block mb-1 italic">Effetto / Descrizione</b>
-                        <p class="text-[12px] text-slate-200 leading-relaxed">
-                            ${item.effetto || item.effetti_aggiuntivi || item.descrizione || "Nessun dato registrato."}
-                        </p>
+                <div class="p-5 flex flex-col gap-4 flex-grow">
+                    ${isPkmn && item.immagine ? `
+                        <div class="flex gap-4 items-center border-b border-slate-800 pb-4">
+                            <img src="${item.immagine}" class="w-20 h-20 object-contain bg-black rounded-2xl p-2 border border-white/5" onerror="this.src='https://via.placeholder.com/80?text=PKMN'">
+                            <div class="text-[11px] text-slate-400 italic leading-relaxed">${item.descrizione || ''}</div>
+                        </div>
+                    ` : ''}
+                    <div class="flex-grow">
+                        ${!isPkmn ? `
+                            <div class="bg-black/40 p-3 rounded-xl border border-white/5">
+                                <b class="text-yellow-600 uppercase text-[9px] block mb-1">Effetto / Descrizione</b>
+                                <p class="text-[12px] text-slate-200 leading-relaxed">${item.effetto || item.effetti_aggiuntivi || item.descrizione || "Dati non disponibili."}</p>
+                            </div>
+                        ` : `
+                            ${!item.immagine ? `<p class="text-[12px] text-slate-300 italic">${item.descrizione || ''}</p>` : ''}
+                        `}
                     </div>
-                ` : `
-                    ${!item.immagine ? `<p class="text-[12px] text-slate-300 italic">${item.descrizione || ''}</p>` : ''}
-                `}
-            </div>
-
-            ${item.note ? `
-                <div class="text-[9px] text-slate-500 uppercase font-bold tracking-tighter border-t border-slate-800 pt-2">
-                    Note: ${item.note}
+                    ${item.note ? `<div class="text-[9px] text-slate-500 font-bold border-t border-slate-800 pt-2 uppercase">Note: ${item.note}</div>` : ''}
                 </div>
-            ` : ''}
-        </div>
-    </div>`;
-}
+            </div>`;
+        }
+
+        // --- TRASLOCO ---
+        window.traslocaTutto = async () => {
+            if(!auth.currentUser) return alert("Esegui il login con Google per caricare i dati!");
+            if(!confirm("Avviare il caricamento dei file JSON su Firebase?")) return;
+            
+            const files = [
+                {id: 'pkmn', file: 'pokemon.json'},
+                {id: 'tech', file: 'tecniche.json'},
+                {id: 'abil', file: 'abilita.json'}
+            ];
+
+            for (let cfg of files) {
+                try {
+                    const res = await fetch(cfg.file);
+                    const json = await res.json();
+                    for (let obj of json) {
+                        const slug = obj.nome.toLowerCase().replace(/\s+/g, '_');
+                        await setDoc(doc(db, cfg.id, slug), obj);
+                    }
+                    alert(`Caricamento ${cfg.id} completato!`);
+                } catch (e) { alert(`Errore caricando ${cfg.file}: assicurati che sia nella cartella del sito.`); }
+            }
+            loadCloudData();
+        };
+
+        window.switchSub = (s) => {
+            window.currentSub = s;
+            document.querySelectorAll('button[id^="sub"]').forEach(b => {
+                b.className = b.id.toLowerCase() === 'sub' + s.toLowerCase() ? 'sub-active transition-all' : 'text-slate-500 hover:text-white transition-all';
+            });
+            loadCloudData();
+        };
+
+        document.getElementById('mainSearch').addEventListener('input', (e) => {
+            const q = e.target.value.toLowerCase();
+            render(currentData.filter(i => i.nome.toLowerCase().includes(q)));
+        });
+
+        loadCloudData();
+    </script>
+</body>
+</html>
