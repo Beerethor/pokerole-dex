@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Neural ProDex - Updated Logo</title>
+    <title>Neural ProDex - Combat Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://rawcdn.githack.com/Beerethor/pokerole-dex/refs/heads/main/pokerole-core.js"></script>
 
@@ -18,9 +18,9 @@
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1.5px; }
         .stat-box { background: rgba(0,0,0,0.4); border-left: 3px solid var(--neon-yellow); padding: 10px; border-radius: 6px; }
         .tech-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
-        input, select { background: #242424; border: 1px solid #444; color: white; padding: 10px; border-radius: 8px; font-size: 0.9rem; width: 100%; }
+        input, select { background: #242424; border: 1px solid #444; color: white; padding: 10px; border-radius: 8px; width: 100%; }
         
-        /* Tipi Colors */
+        /* Tipi */
         .type-label { cursor: pointer; padding: 5px; border-radius: 4px; font-size: 0.65rem; text-align: center; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; text-transform: uppercase; }
         .type-Erba { background: #78C850; } .type-Fuoco { background: #F08030; } .type-Acqua { background: #6890F0; }
         .type-Coleottero { background: #A8B820; } .type-Veleno { background: #A040A0; } .type-Elettro { background: #F8D030; color: black; }
@@ -32,20 +32,15 @@
 </head>
 <body>
 
-    <div class="max-w-[1300px] mx-auto mb-6 flex justify-between items-center px-4">
-        <div class="flex items-center gap-4">
-            <img src="logo.png" alt="Neural ProDex Logo" class="h-14" onerror="this.src='sw.js'">
-        </div>
-        <div class="text-right">
-            <h1 class="text-2xl font-black font-[Orbitron] italic text-white uppercase leading-none">Neural <span class="text-red-600">ProDex</span></h1>
-            <p class="label opacity-50 text-[8px]">Database Link: Stable</p>
-        </div>
+    <div class="max-w-[1300px] mx-auto mb-10 text-center">
+        <h1 class="text-5xl font-black font-[Orbitron] italic text-white uppercase tracking-[0.2em]">Neural <span class="text-red-600">ProDex</span></h1>
+        <div class="w-32 h-1 bg-red-600 mx-auto mt-2"></div>
     </div>
 
     <div class="max-w-[1300px] mx-auto mb-8 bg-[#2d2d2d] p-6 rounded-2xl border-2 border-[#444] shadow-2xl">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div class="space-y-4">
-                <div><label class="label block mb-1">Cerca Specie</label><input type="text" id="searchKey" placeholder="Es: Tyranitar"></div>
+                <div><label class="label block mb-1">Cerca Specie</label><input type="text" id="searchKey" placeholder="Es: Arcanine"></div>
                 <div><label class="label block mb-1">Rango</label>
                     <select id="userRank">
                         <option value="1">Starter</option><option value="2">Beginner</option><option value="3">Amateur</option>
@@ -59,7 +54,7 @@
                 <div class="grid grid-cols-6 gap-1" id="typeSelector"></div>
             </div>
             <div class="flex flex-col justify-end">
-                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg active:scale-95">Inizia Scansione</button>
+                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg active:scale-95">Esegui Scansione</button>
             </div>
         </div>
     </div>
@@ -96,11 +91,9 @@
             const base = filtered[Math.floor(Math.random() * filtered.length)];
             const data = PokeroleEngine.calculateRank(base, rankVal);
             
-            // Abilità randomica (una sola)
             const abilities = base.abilita || base.abilities || [];
-            const randomAbility = abilities.length > 0 ? abilities[Math.floor(Math.random() * abilities.length)] : "Standard";
+            const randomAbility = abilities.length > 0 ? abilities[Math.floor(Math.random() * abilities.length)] : "N/A";
 
-            // Tecniche (Will Slots, <= Rango)
             let allMoves = base.tecniche || base.mosse || [];
             let validMoves = allMoves.filter(m => {
                 if (typeof m === 'object' && m.rango) return RankWeight[m.rango] <= rankVal;
@@ -128,10 +121,10 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(currentPokemon)
                 });
-                if (response.ok) alert("Unità archiviata con successo!");
-                else alert("Errore del database.");
+                if (response.ok) alert("Unità salvata correttamente.");
+                else alert("Errore del server.");
             } catch (e) {
-                alert("Connessione al server fallita.");
+                alert("Server non configurato.");
             }
         }
 
@@ -143,7 +136,7 @@
                 <div class="inner-screen">
                     <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-6">
                         <div>
-                            <div class="mb-2"><span class="label text-yellow-400">AREA: ${p.regione}</span></div>
+                            <div class="mb-2"><span class="label text-yellow-400">ORIGINE: ${p.regione}</span></div>
                             <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter text-white leading-none">${p.nome}</h1>
                             <div class="flex gap-2 mt-4">
                                 ${p.tipo.map(t => `<span class="px-4 py-1 rounded text-[10px] font-black uppercase type-${t}">${t}</span>`).join('')}
@@ -155,7 +148,7 @@
                                 <div class="stat-box min-w-[110px] text-center border-l-cyan-400"><div class="label">WILL</div><div class="text-5xl font-black">${p.will}</div></div>
                             </div>
                             <button onclick="saveToServer()" class="bg-green-600 hover:bg-green-500 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase shadow-lg border-b-4 border-green-900 transition-all active:translate-y-1 active:border-b-0">
-                                💾 ARCHIVIA ${p.nome} (${p.rango})
+                                💾 ARCHIVIA UNITÀ (${p.rango})
                             </button>
                         </div>
                     </div>
@@ -165,23 +158,22 @@
                             <div class="bg-black/40 p-6 rounded-2xl border border-white/10 flex items-center justify-center">
                                 <img src="${p.immagine}" class="max-h-48 object-contain">
                             </div>
-                            <div class="space-y-4">
-                                <div class="label opacity-50 border-b border-white/10 pb-1">Attributi Primari</div>
+                            <div class="space-y-3">
+                                <div class="label opacity-50 border-b border-white/10 pb-1">Attributi</div>
                                 ${Object.entries(p.attr).map(([k,v]) => `<div class="flex justify-between items-center text-[12px] uppercase"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}
                             </div>
                             <div>
-                                <div class="label opacity-50 mb-3">Abilità</div>
+                                <div class="label opacity-50 mb-2">Abilità Estratta</div>
                                 <div class="bg-blue-500/10 border border-blue-500/30 p-3 rounded text-xs font-bold text-blue-300 uppercase text-center">${p.abilita_scelta}</div>
                             </div>
                         </div>
 
                         <div class="col-span-5 px-8 border-x border-white/5 space-y-8">
-                            <div><div class="label mb-4">Skills Matrix</div><div class="grid grid-cols-1 gap-1">${Object.entries(p.skills).map(([k,v]) => `<div class="flex justify-between text-[11px] uppercase border-b border-white/5 pb-1 opacity-80"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}</div></div>
+                            <div><div class="label mb-4">Skill Matrix</div><div class="grid grid-cols-1 gap-1">${Object.entries(p.skills).map(([k,v]) => `<div class="flex justify-between text-[11px] uppercase border-b border-white/5 pb-1 opacity-80"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}</div></div>
                             <div>
                                 <div class="label mb-4 text-red-500">Tecniche (${p.tecniche_scelte.length}/${p.will})</div>
                                 <div class="grid grid-cols-2 gap-2">
                                     ${p.tecniche_scelte.map(m => `<div class="tech-card uppercase border-l-2 border-red-500">${m}</div>`).join('')}
-                                    ${Array(Math.max(0, p.will - p.tecniche_scelte.length)).fill(0).map(() => `<div class="tech-card opacity-20 border-l-2 border-gray-500 italic">Slot Vuoto</div>`).join('')}
                                 </div>
                             </div>
                         </div>
@@ -191,10 +183,16 @@
                                 <div class="label opacity-50 mb-4">Social (Rank: ${p.rango})</div>
                                 ${Object.entries(p.social).map(([k,v]) => `<div class="flex justify-between items-center p-2 rounded mb-1 text-[11px] font-black text-black ${socialColors[k]}"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}
                             </div>
+                            
                             <div class="pt-6 border-t border-white/10">
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="label opacity-50 mb-4">Analisi Combattimento</div>
+                                <div class="grid grid-cols-2 gap-3">
                                     <div class="stat-box !border-l-yellow-500"><div class="label !text-[8px]">Iniziativa</div><div class="text-3xl font-black">${p.combat.iniziativa}</div></div>
-                                    <div class="stat-box !border-l-cyan-400"><div class="label !text-[8px]">Difesa F/S</div><div class="text-3xl font-black">${p.combat.difesa}/${p.combat.difesa_speciale}</div></div>
+                                    <div class="stat-box !border-l-green-500"><div class="label !text-[8px]">Evadere</div><div class="text-3xl font-black">${p.combat.evadere || (p.attr.Destrezza + p.skills.Furtività)}</div></div>
+                                    <div class="stat-box !border-l-orange-500"><div class="label !text-[8px]">Difesa Fis</div><div class="text-3xl font-black">${p.combat.difesa}</div></div>
+                                    <div class="stat-box !border-l-blue-500"><div class="label !text-[8px]">Difesa Spec</div><div class="text-3xl font-black">${p.combat.difesa_speciale}</div></div>
+                                    <div class="stat-box !border-l-white"><div class="label !text-[8px]">Parata Fis</div><div class="text-3xl font-black">${p.combat.parata}</div></div>
+                                    <div class="stat-box !border-l-cyan-300"><div class="label !text-[8px]">Parata Spec</div><div class="text-3xl font-black">${p.combat.parata_speciale}</div></div>
                                 </div>
                             </div>
                         </div>
