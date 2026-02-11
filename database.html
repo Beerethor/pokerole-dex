@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex - Search Only v3.9</title>
+    <title>PokeRole Neural ProDex - MultiView v4.0</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -18,64 +18,49 @@
 
         body { background-color: var(--bg-deep); font-family: 'JetBrains Mono', monospace; color: #e2e8f0; overflow-x: hidden; }
 
-        /* --- COLORI TIPI --- */
-        .type-tag { font-size: 9px; font-weight: 900; padding: 4px 12px; border-radius: 6px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); }
-        .type-acciaio { background-color: #B7B7CE; color: #1a1a1a; }
-        .type-acqua { background-color: #6390F0; color: white; }
-        .type-buio { background-color: #705746; color: white; }
-        .type-coleottero { background-color: #A6B91A; color: white; }
-        .type-drago { background-color: #6F35FC; color: white; }
-        .type-elettro { background-color: #F7D02C; color: #1a1a1a; }
-        .type-erba { background-color: #7AC74C; color: white; }
-        .type-folletto { background-color: #D685AD; color: white; }
-        .type-fuoco { background-color: #EE8130; color: white; }
-        .type-ghiaccio { background-color: #96D9D6; color: #1a1a1a; }
-        .type-lotta { background-color: #C22E28; color: white; }
-        .type-normale { background-color: #A8A77A; color: white; }
-        .type-psico { background-color: #F95587; color: white; }
-        .type-roccia { background-color: #B6A136; color: white; }
-        .type-spettro { background-color: #735797; color: white; }
-        .type-terra { background-color: #E2BF65; color: #1a1a1a; }
-        .type-veleno { background-color: #A33EA1; color: white; }
-        .type-volante { background-color: #A98FF3; color: white; }
+        /* --- NAVIGATION SWITCHER --- */
+        .nav-container {
+            display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;
+        }
+        .nav-btn {
+            background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 12px 24px; border-radius: 12px; font-family: 'Orbitron', sans-serif;
+            font-size: 10px; font-weight: 900; color: var(--holo-cyan); cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .nav-btn.active {
+            background: var(--holo-cyan); color: black; box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+            border-color: white; transform: translateY(-2px);
+        }
 
         /* --- UI COMPONENTS --- */
         .search-area {
-            background: rgba(15, 23, 42, 0.9);
-            border: 2px solid var(--holo-cyan);
-            border-radius: 24px; padding: 24px;
+            background: rgba(15, 23, 42, 0.9); border: 2px solid var(--holo-cyan);
+            border-radius: 24px; padding: 20px; backdrop-filter: blur(10px);
             box-shadow: 0 0 30px rgba(34, 211, 238, 0.1);
-            backdrop-filter: blur(10px);
         }
-
         .search-input-alt {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(34, 211, 238, 0.5);
+            background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(34, 211, 238, 0.5);
             border-radius: 50px; padding: 12px 25px; width: 100%;
             color: var(--holo-cyan); font-family: 'Orbitron', sans-serif; outline: none;
         }
 
-        /* --- CARDS --- */
+        /* --- CARDS & GRIDS --- */
         .pokedex-frame {
             background: linear-gradient(145deg, var(--pokedex-red), var(--pokedex-dark));
-            border: 4px solid #3a0000; border-radius: 45px; padding: 20px;
-            margin-bottom: 1rem;
+            border: 4px solid #3a0000; border-radius: 40px; padding: 15px; margin-bottom: 1rem;
         }
-
         .holo-screen {
             background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(15, 23, 42, 0.98));
             backdrop-filter: blur(12px); border: 1px solid rgba(34, 211, 238, 0.2);
-            border-radius: 30px; padding: 22px;
+            border-radius: 25px; padding: 20px; height: 100%;
         }
 
-        .stat-bar-container { height: 6px; background: rgba(0,0,0,0.8); border-radius: 10px; overflow: hidden; margin-top: 4px; }
-        .stat-fill { height: 100%; background: var(--holo-cyan); box-shadow: 0 0 12px var(--holo-cyan); transition: width 1s ease-out; }
-
-        .tech-pill { 
-            background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2); 
-            border-radius: 8px; padding: 6px; font-size: 9px; cursor: pointer; 
-            text-align: center; color: #fff; font-weight: bold; overflow: hidden; text-overflow: ellipsis;
-        }
+        .type-tag { font-size: 8px; font-weight: 900; padding: 3px 10px; border-radius: 5px; text-transform: uppercase; }
+        .stat-bar-container { height: 4px; background: rgba(0,0,0,0.8); border-radius: 10px; margin-top: 4px; overflow: hidden; }
+        .stat-fill { height: 100%; background: var(--holo-cyan); }
+        .tech-pill { background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 6px; padding: 4px 8px; font-size: 9px; cursor: pointer; }
 
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.95);
@@ -83,28 +68,35 @@
         }
     </style>
 </head>
-<body class="p-4 md:p-12">
+<body class="p-4 md:p-10">
 
     <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-10">
-            <h1 class="text-4xl font-black italic text-white font-[Orbitron]">NEURAL PRODEX</h1>
-            <p id="resultCount" class="text-cyan-500 font-bold text-xs font-[Orbitron] uppercase tracking-widest"></p>
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-black italic text-white font-[Orbitron] mb-2 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-cyan-400">NEURAL PRODEX</h1>
+            <div id="statusPulse" class="text-[9px] text-cyan-500 font-bold uppercase tracking-[0.5em] animate-pulse">System Online - Database Synced</div>
         </div>
 
-        <div class="search-area mb-16">
-            <div class="flex flex-col md:flex-row gap-4">
-                <input type="text" id="searchInput" oninput="performSearch()" placeholder="SEARCH BY NAME, TRAITS OR HABITAT..." class="search-input-alt">
-                <button onclick="performSearch()" class="bg-cyan-500 text-black font-black px-12 py-3 rounded-full text-xs hover:bg-white transition-all font-[Orbitron]">INITIALIZE</button>
+        <div class="nav-container">
+            <button onclick="switchMode('pkmn')" id="btn-pkmn" class="nav-btn active">Pokémon</button>
+            <button onclick="switchMode('abilita')" id="btn-abilita" class="nav-btn">Abilità</button>
+            <button onclick="switchMode('tecniche')" id="btn-tecniche" class="nav-btn">Tecniche</button>
+        </div>
+
+        <div class="search-area mb-12">
+            <div class="relative">
+                <input type="text" id="searchInput" oninput="performSearch()" placeholder="ACCESSING GLOBAL DATABASE..." class="search-input-alt">
+                <div class="absolute right-6 top-3 text-cyan-500/30 font-black text-xs">IDX_SERIAL_00</div>
             </div>
+            <div id="resultCount" class="text-right mt-3 text-[10px] text-cyan-500 font-bold uppercase">Units Found: 0</div>
         </div>
 
-        <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-12"></div>
+        <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-8"></div>
     </div>
 
     <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
-        <div class="bg-[#050505] border-2 border-cyan-500 p-10 rounded-[35px] max-w-lg w-full m-4 shadow-[0_0_50px_rgba(34,211,238,0.3)]" onclick="event.stopPropagation()">
+        <div class="bg-[#050505] border-2 border-cyan-500 p-8 rounded-[30px] max-w-lg w-full m-4 shadow-[0_0_50px_rgba(34,211,238,0.3)]" onclick="event.stopPropagation()">
             <div id="modalBody"></div>
-            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-10 py-4 border border-cyan-500 text-cyan-400 font-black uppercase text-xs hover:bg-cyan-500 hover:text-black transition-all rounded-2xl font-[Orbitron] tracking-widest">SINCRONIZZA E CHIUDI</button>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-8 py-4 bg-cyan-500 text-black font-black uppercase text-xs rounded-xl font-[Orbitron]">CLOSE CONNECTION</button>
         </div>
     </div>
 
@@ -123,135 +115,139 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        window.pokedexCache = [];
+        
+        window.currentMode = 'pkmn';
+        window.dataStore = { pkmn: [], abilita: [], tecniche: [] };
 
         async function init() {
-            const snap = await getDocs(collection(db, "pkmn"));
-            window.pokedexCache = snap.docs.map(doc => doc.data());
-            performSearch(); 
+            // Carica Pokémon
+            const pkmnSnap = await getDocs(collection(db, "pkmn"));
+            window.dataStore.pkmn = pkmnSnap.docs.map(doc => doc.data());
+
+            // Estrazione automatica Abilità e Tecniche univoche (se non hai collezioni separate)
+            // Se hai collezioni separate su Firebase, usa getDocs(collection(db, "abilita")) ecc.
+            extractUniqueData();
+            
+            performSearch();
         }
+
+        function extractUniqueData() {
+            const abSet = new Map();
+            const teSet = new Map();
+
+            window.dataStore.pkmn.forEach(p => {
+                (p.abilita || []).forEach(a => {
+                    const name = typeof a === 'string' ? a : a.nome;
+                    if(!abSet.has(name)) abSet.set(name, a);
+                });
+                (p.tecniche || []).forEach(t => {
+                    const name = typeof t === 'string' ? t : t.nome;
+                    if(!teSet.has(name)) teSet.set(name, t);
+                });
+            });
+
+            window.dataStore.abilita = Array.from(abSet.values());
+            window.dataStore.tecniche = Array.from(teSet.values());
+        }
+
+        window.switchMode = (mode) => {
+            window.currentMode = mode;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-${mode}`).classList.add('active');
+            document.getElementById('searchInput').value = '';
+            performSearch();
+        };
 
         window.performSearch = () => {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const source = window.dataStore[window.currentMode];
 
-            const filtered = window.pokedexCache.filter(p => {
-                return p.nome.toLowerCase().includes(query) || 
-                       (p.descrizione && p.descrizione.toLowerCase().includes(query)) || 
-                       (p.habitat && p.habitat.toLowerCase().includes(query));
+            const filtered = source.filter(item => {
+                const name = (item.nome || item.name || (typeof item === 'string' ? item : '')).toLowerCase();
+                return name.includes(query);
             });
 
-            document.getElementById('resultCount').innerText = `UNITS FOUND: ${filtered.length}`;
-            renderResults(filtered);
+            document.getElementById('resultCount').innerText = `${window.currentMode.toUpperCase()} UNITS: ${filtered.length}`;
+            renderUI(filtered);
         };
 
-        function renderResults(list) {
+        function renderUI(list) {
             const container = document.getElementById('results');
-            if (list.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-20 font-black text-red-500 uppercase font-[Orbitron] italic animate-pulse tracking-widest">NEURAL MISMATCH: NO RECORDS FOUND.</div>`;
-                return;
+            container.innerHTML = '';
+
+            if (window.currentMode === 'pkmn') {
+                container.innerHTML = list.map(p => renderPkmnCard(p)).join('');
+            } else {
+                // Vista Griglia per Abilità e Tecniche
+                container.className = "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4";
+                container.innerHTML = list.map(item => {
+                    const nome = typeof item === 'string' ? item : (item.nome || item.name);
+                    return `
+                        <div onclick="showSimpleDetail('${window.currentMode}', '${nome}')" class="bg-black/40 border border-cyan-500/20 p-4 rounded-xl hover:bg-cyan-500 hover:text-black cursor-pointer transition-all group">
+                            <div class="text-[10px] text-cyan-500 group-hover:text-black/50 font-black mb-1">${window.currentMode === 'abilita' ? 'ABIL' : 'TECH'}</div>
+                            <div class="font-bold uppercase italic text-xs truncate">${nome}</div>
+                        </div>
+                    `;
+                }).join('');
             }
-
-            container.innerHTML = list.map((p) => {
-                const globalIdx = window.pokedexCache.indexOf(p);
-                const stats = p.attributi || {};
-                const tipi = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
-
-                return `
-                <div class="pokedex-frame">
-                    <div class="holo-screen">
-                        <div class="flex justify-between items-start border-b border-cyan-500/20 pb-4 mb-5">
-                            <div>
-                                <h2 class="text-3xl font-black italic uppercase font-[Orbitron] text-white tracking-tighter">${p.nome}</h2>
-                                <p class="text-[9px] text-cyan-400 font-bold opacity-70 uppercase tracking-widest">RANK: ${p.rango || 'Starter'}</p>
-                            </div>
-                            <div class="flex gap-2">
-                                ${tipi.map(t => `<span class="type-tag type-${t.toLowerCase()}">${t}</span>`).join('')}
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-12 gap-6">
-                            <div class="col-span-5">
-                                <div class="bg-black/40 rounded-3xl py-6 mb-5 border border-white/5 flex justify-center">
-                                    <img src="${p.immagine}" class="max-h-36 drop-shadow-[0_0_20px_rgba(34,211,238,0.6)]">
-                                </div>
-                                <div class="bg-black/20 p-4 rounded-2xl border border-white/5">
-                                    <span class="text-[8px] text-cyan-500 font-black block mb-3 uppercase tracking-widest">Passive Logs</span>
-                                    <div class="flex flex-wrap gap-2">
-                                        ${(p.abilita || []).map((a, aIdx) => {
-                                            const aNome = typeof a === 'object' ? a.nome : a;
-                                            return `<span onclick="openDetail('abilita', ${globalIdx}, ${aIdx})" class="text-[9px] bg-cyan-500/10 hover:bg-cyan-500 hover:text-black px-2 py-1 rounded cursor-pointer uppercase font-black italic transition-all">${aNome}</span>`;
-                                        }).join('')}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-span-7 space-y-4">
-                                ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
-                                    const val = stats[s]?.base !== undefined ? stats[s].base : (typeof stats[s] === 'number' ? stats[s] : 0);
-                                    return `
-                                    <div>
-                                        <div class="flex justify-between text-[8px] uppercase font-black tracking-widest mb-1">
-                                            <span class="opacity-50">${s}</span>
-                                            <span class="text-cyan-400">${val}</span>
-                                        </div>
-                                        <div class="stat-bar-container"><div class="stat-fill" style="width: ${val*10}%"></div></div>
-                                    </div>`;
-                                }).join('')}
-                            </div>
-                        </div>
-                        <div class="mt-8 pt-5 border-t border-cyan-500/20">
-                            <div class="grid grid-cols-3 gap-2">
-                                ${(p.tecniche || []).map((t, tIdx) => {
-                                    const tNome = typeof t === 'object' ? t.nome : t;
-                                    return `<div onclick="openDetail('tecniche', ${globalIdx}, ${tIdx})" class="tech-pill italic truncate">${tNome}</div>`;
-                                }).join('')}
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
         }
 
-        window.openDetail = (type, pIdx, itemIdx) => {
-            const data = window.pokedexCache[pIdx][type][itemIdx];
-            const modal = document.getElementById('infoModal');
+        function renderPkmnCard(p) {
+            const tipi = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
+            const stats = p.attributi || {};
+            return `
+            <div class="pokedex-frame">
+                <div class="holo-screen">
+                    <div class="flex justify-between items-start mb-4 border-b border-cyan-500/10 pb-2">
+                        <h2 class="text-xl font-black italic uppercase font-[Orbitron]">${p.nome}</h2>
+                        <div class="flex gap-1">${tipi.map(t => `<span class="bg-white/10 text-[7px] px-2 py-1 rounded">${t}</span>`).join('')}</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <img src="${p.immagine}" class="h-24 w-24 object-contain bg-black/20 rounded-full p-2">
+                        <div class="flex-1 space-y-1">
+                            ${['forza', 'destrezza', 'vitalita', 'special'].map(s => `
+                                <div class="text-[8px] uppercase opacity-70">${s}</div>
+                                <div class="stat-bar-container"><div class="stat-fill" style="width:${(stats[s]?.base || 0)*10}%"></div></div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        window.showSimpleDetail = (type, name) => {
+            const item = window.dataStore[type].find(i => (i.nome || i.name || i) === name);
             const body = document.getElementById('modalBody');
+            
+            let desc = "Nessuna descrizione trovata.";
+            let pot = "-", prec = "-";
 
-            let nome = "DATO CRIPTATO";
-            let desc = "Record descrizione non disponibile nel database locale.";
-            let pot = "-";
-            let prec = "-";
-
-            if (typeof data === 'string') {
-                nome = data.toUpperCase();
-            } else if (typeof data === 'object' && data !== null) {
-                nome = (data.nome || data.name || "SCONOSCIUTO").toUpperCase();
-                desc = data.effetto || data.descrizione || desc;
-                pot = data.danno || data.pool_dadi || data.potenza || "-";
-                prec = data.accuratezza || data.precisione || "-";
+            if (typeof item === 'object') {
+                desc = item.effetto || item.descrizione || desc;
+                pot = item.danno || item.potenza || "-";
+                prec = item.accuratezza || item.precisione || "-";
             }
 
             body.innerHTML = `
-                <div class="border-b border-cyan-500/20 pb-4 mb-6 flex justify-between items-end">
-                    <div>
-                        <span class="text-[9px] text-cyan-500 uppercase font-black tracking-[0.3em] mb-1 block">${type === 'abilita' ? 'ABILITÀ' : 'TECNICHE'}</span>
-                        <h2 class="text-white font-black text-3xl uppercase italic font-[Orbitron] tracking-tighter">${nome}</h2>
-                    </div>
-                </div>
-                <div class="bg-cyan-500/5 p-6 rounded-2xl border border-cyan-500/10 mb-8">
-                    <p class="text-white/80 italic text-sm leading-relaxed font-medium">"${desc}"</p>
+                <span class="text-[9px] text-cyan-500 font-black tracking-widest uppercase">${type} Analysis</span>
+                <h2 class="text-3xl font-black italic text-white font-[Orbitron] mb-6">${name.toUpperCase()}</h2>
+                <div class="bg-cyan-500/5 border border-cyan-500/20 p-5 rounded-2xl italic text-sm text-white/80 leading-relaxed mb-6">
+                    "${desc}"
                 </div>
                 ${type === 'tecniche' ? `
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="bg-black/40 p-5 rounded-3xl border border-white/5 text-center">
-                        <span class="text-[9px] text-cyan-500 uppercase block font-black mb-2 opacity-60 tracking-widest">POTENZA / DADI</span>
-                        <span class="text-white font-black font-mono text-2xl">${pot}</span>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-black p-4 rounded-xl border border-white/5 text-center">
+                            <div class="text-[8px] text-cyan-500 mb-1 uppercase">Dadi / Pot</div>
+                            <div class="font-bold text-xl">${pot}</div>
+                        </div>
+                        <div class="bg-black p-4 rounded-xl border border-white/5 text-center">
+                            <div class="text-[8px] text-cyan-500 mb-1 uppercase">Accuratezza</div>
+                            <div class="font-bold text-xl">${prec}</div>
+                        </div>
                     </div>
-                    <div class="bg-black/40 p-5 rounded-3xl border border-white/5 text-center">
-                        <span class="text-[9px] text-cyan-500 uppercase block font-black mb-2 opacity-60 tracking-widest">PRECISIONE</span>
-                        <span class="text-white font-black font-mono text-2xl">${prec}</span>
-                    </div>
-                </div>` : ''}
+                ` : ''}
             `;
-            modal.style.display = 'flex';
+            document.getElementById('infoModal').style.display = 'flex';
         };
 
         init();
