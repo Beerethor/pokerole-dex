@@ -3,69 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex - Classic Cloud</title>
+    <title>PokeRole ProDex - Database Cloud</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
     
     <style>
         :root { --accent: #ca8a04; --bg-dark: #020617; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; scroll-behavior: smooth; }
         .font-mono-data { font-family: 'JetBrains Mono', monospace; }
 
-        /* --- COLORI TIPI ORIGINALI --- */
-        .type-fuoco { background-color: #ef4444; }
-        .type-acqua { background-color: #3b82f6; }
-        .type-erba { background-color: #22c55e; }
-        .type-elettro { background-color: #eab308; color: #000; }
-        .type-ghiaccio { background-color: #06b6d4; }
-        .type-lotta { background-color: #991b1b; }
-        .type-veleno { background-color: #a855f7; }
-        .type-terra { background-color: #b45309; }
-        .type-volante { background-color: #818cf8; }
-        .type-psico { background-color: #db2777; }
-        .type-coleottero { background-color: #84cc16; }
-        .type-roccia { background-color: #78350f; }
-        .type-spettro { background-color: #6366f1; }
-        .type-drago { background-color: #4f46e5; }
-        .type-buio { background-color: #1e293b; }
-        .type-acciaio { background-color: #64748b; }
-        .type-folletto { background-color: #f472b6; }
-        .type-normale { background-color: #6b7280; }
+        /* --- COLORI TIPI --- */
+        .type-fuoco { background-color: #ef4444; border-color: #f87171; color: white; }
+        .type-acqua { background-color: #3b82f6; border-color: #60a5fa; color: white; }
+        .type-erba { background-color: #22c55e; border-color: #4ade80; color: white; }
+        .type-elettro { background-color: #eab308; border-color: #facc15; color: #020617; }
+        .type-ghiaccio { background-color: #06b6d4; border-color: #22d3ee; color: white; }
+        .type-lotta { background-color: #991b1b; border-color: #b91c1c; color: white; }
+        .type-veleno { background-color: #a855f7; border-color: #c084fc; color: white; }
+        .type-terra { background-color: #b45309; border-color: #d97706; color: white; }
+        .type-volante { background-color: #818cf8; border-color: #a5b4fc; color: white; }
+        .type-psico { background-color: #db2777; border-color: #f472b6; color: white; }
+        .type-coleottero { background-color: #84cc16; border-color: #a3e635; color: white; }
+        .type-roccia { background-color: #78350f; border-color: #92400e; color: white; }
+        .type-spettro { background-color: #6366f1; border-color: #818cf8; color: white; }
+        .type-drago { background-color: #4f46e5; border-color: #6366f1; color: white; }
+        .type-buio { background-color: #1e293b; border-color: #334155; color: white; }
+        .type-acciaio { background-color: #64748b; border-color: #94a3b8; color: white; }
+        .type-folletto { background-color: #f472b6; border-color: #f9a8d4; color: white; }
+        .type-normale { background-color: #6b7280; border-color: #9ca3af; color: white; }
 
+        /* --- UI --- */
+        .macro-active { background-color: var(--accent); color: #020617; transform: scale(1.05); box-shadow: 0 0 25px rgba(202, 138, 4, 0.4); }
+        .macro-inactive { background-color: #0f172a; color: #64748b; border: 1px solid #1e293b; }
         .sub-active { color: var(--accent); border-bottom: 3px solid var(--accent); font-weight: 900; }
         .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(14px); border: 1px solid rgba(51, 65, 85, 0.4); }
-        .animate-pop { animation: popIn 0.3s ease-out forwards; }
-        @keyframes popIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        
+        select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ca8a04' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.2rem center; background-repeat: no-repeat; background-size: 1.2em 1.2em; padding-right: 1.5rem; appearance: none; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
 <body class="pb-12 text-slate-100">
 
     <div class="max-w-6xl mx-auto p-4">
-        <header class="py-10 text-center">
-            <h1 class="text-5xl font-black italic tracking-tighter uppercase font-mono-data">
+        <header class="py-14 text-center">
+            <h1 class="text-6xl md:text-7xl font-black italic tracking-tighter uppercase font-mono-data">
                 <span class="text-yellow-500">POKEROLE</span> PRODEX
             </h1>
-            <div id="user-profile" class="mt-6 flex justify-center gap-4"></div>
+            <div id="user-profile" class="mt-6 flex justify-center gap-4 min-h-[40px]"></div>
         </header>
 
-        <nav class="flex justify-center gap-8 mb-8 text-[11px] font-black uppercase tracking-widest border-b border-slate-800 pb-5">
-            <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active transition-all">Pokémon</button>
-            <button onclick="switchSub('tech')" id="subTech" class="text-slate-500 hover:text-white transition-all">Tecniche</button>
-            <button onclick="switchSub('abil')" id="subAbil" class="text-slate-500 hover:text-white transition-all">Abilità</button>
+        <nav class="flex gap-4 mb-12 justify-center">
+            <button class="macro-active px-10 py-5 rounded-2xl font-black uppercase text-xs transition-all flex items-center gap-2">📜 Database</button>
+            <button onclick="traslocaTutto()" class="macro-inactive px-10 py-5 rounded-2xl font-black uppercase text-[10px] transition-all hover:bg-red-900/20 border-red-900/30 text-red-400">🚀 Sincronizza Cloud</button>
         </nav>
 
-        <div class="glass-card p-6 rounded-[2rem] mb-10 sticky top-4 z-50">
-            <input type="text" id="mainSearch" placeholder="Cerca nel Cloud..." 
-                   class="w-full bg-slate-950 border-none rounded-xl p-4 text-white focus:ring-2 focus:ring-yellow-600 outline-none font-bold">
-            
-            <div class="flex justify-between items-center mt-4 px-2">
-                <div id="counter" class="text-[9px] text-slate-500 font-bold uppercase tracking-widest italic font-mono-data">Sincronizzazione...</div>
-                <button onclick="traslocaTutto()" class="bg-red-900/40 text-red-400 px-3 py-1 rounded-lg text-[8px] font-bold uppercase border border-red-500/20 hover:bg-red-600 hover:text-white transition-all">🚀 Trasloca JSON</button>
+        <div id="pokedexContainer" class="animate-pop">
+            <div class="flex flex-wrap justify-center gap-8 mb-8 text-[11px] font-black uppercase tracking-widest border-b border-slate-800 pb-5">
+                <button onclick="switchSub('pkmn')" id="subPkmn" class="sub-active transition-all">Pokémon</button>
+                <button onclick="switchSub('tech')" id="subTech" class="text-slate-500 hover:text-white transition-all">Tecniche</button>
+                <button onclick="switchSub('abil')" id="subAbil" class="text-slate-500 hover:text-white transition-all">Abilità</button>
+                <button onclick="switchSub('special')" id="subSpecial" class="text-slate-500 hover:text-white transition-all">Z / G-Max</button>
             </div>
-        </div>
 
-        <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+            <div class="glass-card p-6 rounded-[2.5rem] mb-12 sticky top-4 z-50 shadow-2xl border border-yellow-500/10">
+                <input type="text" id="mainSearch" placeholder="Cerca nome, tipo, regione..." 
+                       class="w-full bg-slate-950 border-none rounded-2xl p-5 text-white placeholder-slate-700 focus:ring-2 focus:ring-yellow-600 outline-none transition-all shadow-inner font-bold">
+                
+                <div class="flex flex-wrap gap-6 justify-between items-center mt-5 px-3">
+                    <div class="flex gap-6">
+                        <select id="searchRank" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
+                            <option value="Tutti">Rango: Tutti</option>
+                            <option value="Starter">Starter</option><option value="Beginner">Beginner</option>
+                            <option value="Amateur">Amateur</option><option value="Ace">Ace</option>
+                            <option value="Pro">Pro</option><option value="Master">Master</option>
+                        </select>
+                        <select id="searchRegion" class="bg-transparent text-yellow-500 font-black uppercase text-[10px] outline-none cursor-pointer">
+                            <option value="Tutte">Regione: Tutte</option>
+                            <option value="Kanto">Kanto</option><option value="Johto">Johto</option>
+                            <option value="Hoenn">Hoenn</option><option value="Sinnoh">Sinnoh</option>
+                            <option value="Unima">Unima</option><option value="Kalos">Kalos</option>
+                            <option value="Alola">Alola</option><option value="Galar">Galar</option>
+                            <option value="Paldea">Paldea</option>
+                        </select>
+                    </div>
+                    <div id="counter" class="text-[10px] text-slate-500 font-bold font-mono-data uppercase tracking-widest italic bg-slate-950 px-4 py-1 rounded-full border border-slate-800">
+                        Inizializzazione...
+                    </div>
+                </div>
+            </div>
+
+            <div id="results" class="grid grid-cols-1 md:grid-cols-2 gap-10"></div>
+        </div>
     </div>
 
     <script type="module">
@@ -79,8 +112,7 @@
             projectId: "pokerole-app",
             storageBucket: "pokerole-app.firebasestorage.app",
             messagingSenderId: "385416519668",
-            appId: "1:385416519668:web:908e12b9833f1cdc04a3a1",
-            measurementId: "G-5M1ST6CSV0"
+            appId: "1:385416519668:web:908e12b9833f1cdc04a3a1"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -89,7 +121,9 @@
         const provider = new GoogleAuthProvider();
 
         let currentData = [];
-        window.currentSub = 'pkmn';
+        let currentSub = 'pkmn';
+        const RANGHI = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master"];
+        const REGIONI = { 1:"Kanto", 2:"Johto", 3:"Hoenn", 4:"Sinnoh", 5:"Unima", 6:"Kalos", 7:"Alola", 8:"Galar", 9:"Paldea" };
 
         // --- AUTH ---
         window.login = () => signInWithPopup(auth, provider);
@@ -99,119 +133,154 @@
             const profileDiv = document.getElementById('user-profile');
             if (user) {
                 profileDiv.innerHTML = `
-                    <div class="flex items-center gap-3 bg-slate-900 px-4 py-2 rounded-xl border border-yellow-500/20">
+                    <div class="flex items-center gap-3 bg-slate-900 px-4 py-2 rounded-xl border border-yellow-500/20 animate-pop">
                         <img src="${user.photoURL}" class="w-6 h-6 rounded-full border border-yellow-500">
-                        <span class="text-[10px] font-black uppercase tracking-tighter">${user.displayName}</span>
-                        <button onclick="logout()" class="text-red-500 text-[9px] font-bold ml-2">ESCI</button>
+                        <span class="text-[10px] font-black uppercase tracking-tighter text-slate-300">${user.displayName}</span>
+                        <button onclick="logout()" class="text-red-500 text-[9px] font-bold ml-2 hover:underline">ESCI</button>
                     </div>`;
             } else {
-                profileDiv.innerHTML = `<button onclick="login()" class="bg-white text-black px-6 py-2 rounded-xl font-black uppercase text-[10px]">Accedi con Google</button>`;
+                profileDiv.innerHTML = `<button onclick="login()" class="bg-white text-black px-6 py-2 rounded-xl font-black uppercase text-[10px] hover:bg-yellow-500 transition-all">Accedi con Google</button>`;
             }
         });
 
-        // --- DATA LOAD ---
-        async function loadCloudData() {
-            const container = document.getElementById('results');
-            container.innerHTML = '<div class="col-span-full text-center py-20 text-yellow-500 font-black animate-pulse">CONTATTANDO IL DATABASE...</div>';
+        // --- CARICAMENTO DATI ---
+        async function loadData() {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '<div class="col-span-full text-center py-20 text-yellow-500 font-black animate-pulse uppercase tracking-widest">Sincronizzazione Cloud...</div>';
             
             try {
-                const snapshot = await getDocs(collection(db, window.currentSub));
-                currentData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                document.getElementById('counter').innerText = `${currentData.length} UNITÀ CARICATE`;
-                render(currentData);
-            } catch (err) {
-                container.innerHTML = `<div class="text-red-500 text-center col-span-full">Errore di connessione. Verifica le regole su Firebase.</div>`;
+                let collectionsToFetch = [currentSub];
+                if (currentSub === 'special') collectionsToFetch = ['zmove', 'max'];
+
+                let allDocs = [];
+                for (const col of collectionsToFetch) {
+                    const snap = await getDocs(collection(db, col));
+                    allDocs = allDocs.concat(snap.docs.map(d => ({ ...d.data(), _origin: col })));
+                }
+
+                currentData = allDocs;
+                runSearch();
+            } catch (e) {
+                resultsContainer.innerHTML = `<div class="col-span-full text-center text-red-500 font-bold uppercase">Errore: ${e.message}</div>`;
             }
         }
 
-        function render(items) {
-            const container = document.getElementById('results');
-            if (items.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-500 uppercase font-black italic">Nessun dato trovato</div>`;
-                return;
-            }
-            container.innerHTML = items.map(item => createClassicCard(item)).join('');
+        function runSearch() {
+            const q = document.getElementById('mainSearch').value.toLowerCase();
+            const filterRank = document.getElementById('searchRank').value;
+            const filterReg = document.getElementById('searchRegion').value;
+
+            const filtered = currentData.filter(i => {
+                const itemReg = i.regione || REGIONI[i.generazione] || "";
+                const itemRank = i.rango_suggerito || i.rango || "Starter";
+                
+                const matchesText = JSON.stringify(i).toLowerCase().includes(q);
+                const matchesRank = filterRank === "Tutti" || itemRank.toLowerCase() === filterRank.toLowerCase();
+                const matchesReg = filterReg === "Tutte" || itemReg.toLowerCase() === filterReg.toLowerCase();
+                
+                return matchesText && (currentSub !== 'pkmn' || (matchesRank && matchesReg));
+            });
+
+            document.getElementById('counter').innerText = `${filtered.length} UNITÀ TROVATE`;
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = filtered.map(item => {
+                return currentSub === 'pkmn' ? createPkmnCard(item) : createStandardCard(item);
+            }).join('');
         }
 
-        // --- FUNZIONE CARD COMPLETA ---
-        function createClassicCard(item) {
-            const tipi = Array.isArray(item.tipo) ? item.tipo : [item.tipo || "Normale"];
-            const tipoPrimario = tipi[0].toLowerCase();
-            const colorClass = `type-${tipoPrimario}`;
-            const isPkmn = window.currentSub === 'pkmn';
+        // --- RENDERER (LE TUE SCHEDE) ---
+        function createPkmnCard(p) {
+            const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
+            const hp = p.vitalita_max?.hp || 0;
+            const insight = p.attributi?.insight?.base ?? p.attributi?.insight ?? 0;
+            const will = parseInt(insight) + 2;
 
             return `
-            <div class="bg-slate-900 rounded-[2rem] border border-slate-800 overflow-hidden animate-pop flex flex-col h-full shadow-xl">
-                <div class="${colorClass} p-4 flex justify-between items-center shadow-md">
+            <div class="bg-slate-900 rounded-[2.5rem] border border-slate-800 overflow-hidden animate-pop shadow-2xl group hover:border-yellow-500/30 transition-all">
+                <div class="bg-slate-800/40 p-6 flex justify-between items-center border-b border-slate-700/50">
                     <div>
-                        <h3 class="text-xl font-black text-white uppercase italic tracking-tighter">${item.nome}</h3>
-                        ${item.rango ? `<span class="text-[8px] font-black bg-black/20 px-2 py-0.5 rounded uppercase">RANK: ${item.rango}</span>` : ''}
+                        <span class="text-[9px] font-black text-yellow-500 uppercase font-mono-data">RANK: ${p.rango || 'Starter'}</span>
+                        <h2 class="text-3xl font-black text-white uppercase mt-1 italic tracking-tighter">${p.nome}</h2>
+                        <div class="flex gap-1 mt-2">${types.map(t => `<span class="type-${t.toLowerCase()} text-[7px] font-black px-2 py-0.5 rounded border border-white/10 uppercase">${t}</span>`).join('')}</div>
                     </div>
-                    <div class="flex gap-1">
-                        ${tipi.map(t => `<span class="text-[8px] font-bold bg-white/20 px-2 py-1 rounded uppercase border border-white/10">${t}</span>`).join('')}
+                    <div class="flex gap-2">
+                        <div class="bg-slate-950 p-2 rounded-xl border border-red-900/30 text-center min-w-[65px]"><span class="text-[7px] text-red-500 font-black block uppercase italic">HP</span><span class="text-xl font-black text-white font-mono-data">${hp}</span></div>
+                        <div class="bg-slate-950 p-2 rounded-xl border border-blue-900/30 text-center min-w-[65px]"><span class="text-[7px] text-blue-500 font-black block uppercase italic">WILL</span><span class="text-xl font-black text-white font-mono-data">${will}</span></div>
                     </div>
                 </div>
-                <div class="p-5 flex flex-col gap-4 flex-grow">
-                    ${isPkmn && item.immagine ? `
-                        <div class="flex gap-4 items-center border-b border-slate-800 pb-4">
-                            <img src="${item.immagine}" class="w-20 h-20 object-contain bg-black rounded-2xl p-2 border border-white/5" onerror="this.src='https://via.placeholder.com/80?text=PKMN'">
-                            <div class="text-[11px] text-slate-400 italic leading-relaxed">${item.descrizione || ''}</div>
-                        </div>
-                    ` : ''}
-                    <div class="flex-grow">
-                        ${!isPkmn ? `
-                            <div class="bg-black/40 p-3 rounded-xl border border-white/5">
-                                <b class="text-yellow-600 uppercase text-[9px] block mb-1">Effetto / Descrizione</b>
-                                <p class="text-[12px] text-slate-200 leading-relaxed">${item.effetto || item.effetti_aggiuntivi || item.descrizione || "Dati non disponibili."}</p>
-                            </div>
-                        ` : `
-                            ${!item.immagine ? `<p class="text-[12px] text-slate-300 italic">${item.descrizione || ''}</p>` : ''}
-                        `}
+                <div class="p-5">
+                    <div class="flex gap-4 mb-4 items-center">
+                        <img src="${p.immagine || ''}" class="w-20 h-20 object-contain bg-slate-950 rounded-full p-2 border border-slate-700" onerror="this.src='https://via.placeholder.com/80?text=?'">
+                        <p class="text-[11px] text-slate-400 italic bg-slate-950/40 p-3 rounded-2xl border-l-2 border-yellow-600 leading-snug flex-1">"${p.descrizione || '...'}"</p>
                     </div>
-                    ${item.note ? `<div class="text-[9px] text-slate-500 font-bold border-t border-slate-800 pt-2 uppercase">Note: ${item.note}</div>` : ''}
+                    <div class="grid grid-cols-1 gap-1">
+                        ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
+                            const val = p.attributi?.[s]?.base ?? p.attributi?.[s] ?? 0;
+                            const max = p.attributi?.[s]?.max ?? val;
+                            return `<div class="flex justify-between items-center bg-slate-950/50 p-2 rounded-xl px-4 border border-slate-800/50">
+                                <span class="text-[9px] text-slate-400 uppercase font-black font-mono-data">${s}</span>
+                                <span class="text-sm font-black text-yellow-500 font-mono-data">${val} <span class="text-[10px] text-slate-600">/ ${max}</span></span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function createStandardCard(item) {
+            const typeStr = item.tipo || 'Normale';
+            const typeClass = `type-${typeStr.toLowerCase()}`;
+            const isAbil = currentSub === 'abil';
+            
+            return `
+            <div class="bg-slate-900 p-6 rounded-[2.5rem] border-l-[10px] animate-pop shadow-2xl flex flex-col h-full ${isAbil ? 'border-emerald-500' : typeClass}">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-2xl font-black text-white uppercase tracking-tighter">${item.nome}</h3>
+                    ${!isAbil ? `<span class="${typeClass} text-[9px] px-3 py-1 rounded-full border border-white/20 font-black uppercase text-white">${typeStr}</span>` : ""}
+                </div>
+                <div class="flex-grow space-y-3">
+                    <div class="bg-black/40 p-4 rounded-xl border border-white/5 text-[12px] text-slate-300">
+                        <b class="text-yellow-600 uppercase text-[8px] block mb-1 italic">Effetto Meccanico</b>
+                        ${item.effetti_aggiuntivi || item.effetto || "..."}
+                    </div>
+                    ${item.descrizione ? `<p class="text-[11px] text-slate-400 italic px-2">${item.descrizione}</p>` : ""}
                 </div>
             </div>`;
         }
 
         // --- TRASLOCO ---
         window.traslocaTutto = async () => {
-            if(!auth.currentUser) return alert("Esegui il login con Google per caricare i dati!");
-            if(!confirm("Avviare il caricamento dei file JSON su Firebase?")) return;
-            
-            const files = [
-                {id: 'pkmn', file: 'pokemon.json'},
-                {id: 'tech', file: 'tecniche.json'},
-                {id: 'abil', file: 'abilita.json'}
-            ];
-
-            for (let cfg of files) {
+            if(!auth.currentUser) return alert("Esegui il login per sincronizzare!");
+            const files = [{id:'pkmn', f:'pokemon.json'}, {id:'tech', f:'tecniche.json'}, {id:'abil', f:'abilita.json'}, {id:'max', f:'max_moves.json'}, {id:'zmove', f:'mosse_z.json'}];
+            for(let cfg of files) {
                 try {
-                    const res = await fetch(cfg.file);
-                    const json = await res.json();
-                    for (let obj of json) {
-                        const slug = obj.nome.toLowerCase().replace(/\s+/g, '_');
-                        await setDoc(doc(db, cfg.id, slug), obj);
+                    const r = await fetch(cfg.f);
+                    const j = await r.json();
+                    for(let o of j) {
+                        const slug = o.nome.toLowerCase().replace(/\s+/g, '_');
+                        await setDoc(doc(db, cfg.id, slug), o);
                     }
-                    alert(`Caricamento ${cfg.id} completato!`);
-                } catch (e) { alert(`Errore caricando ${cfg.file}: assicurati che sia nella cartella del sito.`); }
+                    alert(`Sync ${cfg.id} OK!`);
+                } catch(e) { console.error(e); }
             }
-            loadCloudData();
+            loadData();
         };
 
+        // --- EVENTI ---
         window.switchSub = (s) => {
-            window.currentSub = s;
+            currentSub = s;
             document.querySelectorAll('button[id^="sub"]').forEach(b => {
-                b.className = b.id.toLowerCase() === 'sub' + s.toLowerCase() ? 'sub-active transition-all' : 'text-slate-500 hover:text-white transition-all';
+                b.className = b.id.toLowerCase() === 'sub'+s.toLowerCase() ? 'sub-active px-2 transition-all' : 'text-slate-500 hover:text-white px-2 transition-all';
             });
-            loadCloudData();
+            loadData();
         };
 
-        document.getElementById('mainSearch').addEventListener('input', (e) => {
-            const q = e.target.value.toLowerCase();
-            render(currentData.filter(i => i.nome.toLowerCase().includes(q)));
-        });
+        document.getElementById('mainSearch').oninput = runSearch;
+        document.getElementById('searchRank').onchange = runSearch;
+        document.getElementById('searchRegion').onchange = runSearch;
 
-        loadCloudData();
+        loadData();
     </script>
 </body>
 </html>
+
