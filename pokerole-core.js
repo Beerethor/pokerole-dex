@@ -1,8 +1,3 @@
-/**
- * Pokérole Core Engine - 2026 Edition
- * Gestisce la progressione, i ranghi e il calcolo delle statistiche.
- */
-
 const PokeroleEngine = {
     renderDots: function(val) {
         let html = '';
@@ -35,7 +30,7 @@ const PokeroleEngine = {
         let social = { Tough:0, Cool:0, Beauty:0, Cute:0, Clever:0 };
         let flatBonus = 0;
 
-        // Starter
+        // Regole Cumulative
         this.distribute(skills, 5, 1);
         if (rank >= 2) { this.distribute(attr, 2, 10, maxAttrs); this.distribute(social, 2, 5); this.distribute(skills, 4, 2); }
         if (rank >= 3) { this.distribute(attr, 2, 10, maxAttrs); this.distribute(social, 2, 5); this.distribute(skills, 3, 3); }
