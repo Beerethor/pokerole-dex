@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole ProDex - Neural Interface v2.2</title>
+    <title>PokeRole ProDex - Neural Search Interface</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -13,113 +13,136 @@
             --pokedex-red: #d32f2f;
             --pokedex-dark-red: #8e0000;
             --holo-cyan: #22d3ee;
-            --holo-border: rgba(34, 211, 238, 0.4);
             --bg-deep: #020617;
         }
 
         body { 
             background-color: var(--bg-deep); 
             font-family: 'JetBrains Mono', monospace; 
-            color: #e2e8f0; 
-            overflow-x: hidden;
+            color: #e2e8f0;
         }
 
-        /* --- STRUTTURA ESTERNA POKEDEX --- */
+        /* --- BARRA DI RICERCA STILE RETRÒ (Immagine 7) --- */
+        .search-container {
+            background: #44433e;
+            border-radius: 50px;
+            padding: 5px 20px;
+            border: 3px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            width: 100%;
+            outline: none;
+        }
+
+        .filter-box {
+            background: #c9c5b4;
+            border-radius: 20px;
+            padding: 15px;
+            color: #1a1a1a;
+            border: 3px solid #1a1a1a;
+        }
+
+        /* --- CARD POKEDEX (Immagine 4/5) --- */
         .pokedex-frame {
             background: linear-gradient(145deg, var(--pokedex-red), var(--pokedex-dark-red));
             border: 4px solid #330000;
             border-radius: 40px;
             padding: 20px;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 5px 15px rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* --- SCHERMO OLOGRAFICO --- */
         .holo-screen {
             background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(15, 23, 42, 0.95));
-            backdrop-filter: blur(15px);
-            border: 2px solid var(--holo-border);
+            border: 2px solid rgba(34, 211, 238, 0.3);
             border-radius: 25px;
             padding: 20px;
             position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 0 30px rgba(6, 182, 212, 0.2);
         }
 
-        /* Effetto scanline (linee orizzontali monitor) */
-        .holo-screen::after {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
-            background-size: 100% 4px; pointer-events: none; z-index: 5;
-        }
+        .stat-bar-container { height: 8px; background: rgba(0,0,0,0.6); border-radius: 4px; overflow: hidden; }
+        .stat-fill { height: 100%; background: #22d3ee; box-shadow: 0 0 10px #22d3ee; transition: width 0.5s; }
 
-        /* --- STATISTICHE --- */
-        .stat-bar-container { height: 8px; background: rgba(0,0,0,0.6); border-radius: 4px; border: 1px solid rgba(34, 211, 238, 0.2); overflow: hidden; }
-        .stat-fill { height: 100%; background: linear-gradient(90deg, #0891b2, #22d3ee); box-shadow: 0 0 10px #22d3ee; }
+        .type-tag { font-size: 9px; padding: 2px 8px; border-radius: 4px; color: #fff; text-transform: uppercase; font-weight: bold; }
 
-        /* --- TAG TIPI (Colori manuale) --- */
-        .type-tag { font-family: 'Orbitron', sans-serif; font-size: 9px; padding: 4px 10px; border-radius: 6px; font-weight: 900; color: white; border: 1px solid rgba(255,255,255,0.3); text-transform: uppercase; }
-        .type-fuoco { background-color: #ef4444; } .type-acqua { background-color: #3b82f6; }
-        .type-erba { background-color: #22c55e; } .type-elettro { background-color: #eab308; color: black; }
-        .type-psico { background-color: #ec4899; } .type-lotta { background-color: #991b1b; }
-        .type-normale { background-color: #94a3b8; } .type-buio { background-color: #1e293b; }
-        .type-acciaio { background-color: #64748b; } .type-folletto { background-color: #f472b6; }
-        .type-drago { background-color: #6366f1; } .type-ghiaccio { background-color: #67e8f9; color: black; }
-        .type-terra { background-color: #b45309; } .type-roccia { background-color: #78350f; }
-        .type-spettro { background-color: #4338ca; } .type-veleno { background-color: #a855f7; }
-        .type-coleottero { background-color: #84cc16; } .type-volante { background-color: #818cf8; }
-
-        /* --- COMPONENTI INTERATTIVI --- */
-        .tech-pill { 
-            background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2); 
-            border-radius: 6px; padding: 5px; font-size: 10px; cursor: pointer; 
-            transition: all 0.2s; text-align: center; color: #fff;
-        }
-        .tech-pill:hover { background: rgba(34, 211, 238, 0.2); border-color: var(--holo-cyan); transform: translateY(-2px); }
-
-        /* --- MODALE (Pop-up) --- */
+        /* MODALE */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-            display: none; justify-content: center; align-items: center; z-index: 9999;
+            background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 100;
         }
-        .modal-content {
-            background: #111; border: 2px solid var(--holo-cyan);
-            border-radius: 20px; padding: 30px; max-width: 450px; width: 90%;
-            box-shadow: 0 0 50px rgba(6, 182, 212, 0.4);
-        }
-
-        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-8">
 
-    <div id="infoModal" class="modal-overlay" onclick="closeModal()">
-        <div class="modal-content animate-pop" onclick="event.stopPropagation()">
-            <div id="modalData"></div>
-            <button onclick="closeModal()" class="w-full mt-6 bg-cyan-600/20 border border-cyan-500 text-cyan-400 py-2 rounded-lg font-black uppercase text-xs hover:bg-cyan-500 hover:text-white transition-all italic">Sincronizza e Chiudi</button>
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-black italic text-white font-[Orbitron]">PRODEX NEURAL SEARCH</h1>
+            <p class="text-[10px] text-cyan-500 tracking-[0.4em]">SYNCING WITH POKEROLE DATABASE</p>
+        </div>
+
+        <div class="space-y-4 mb-12">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="SEARCH NAME OR KEYWORDS..." class="search-input py-2">
+                <button onclick="performSearch()" class="bg-cyan-500 text-black font-black px-6 py-1 rounded-full text-xs hover:bg-white transition-all font-[Orbitron]">SEARCH</button>
+            </div>
+
+            <div class="filter-box">
+                <h3 class="font-black text-xs mb-3 uppercase tracking-widest border-b border-black/10 pb-1">Filters</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="text-[10px] font-bold block mb-1">TYPE:</label>
+                        <select id="filterType" class="w-full bg-white/50 border border-black/20 rounded p-1 text-xs outline-none">
+                            <option value="">ALL TYPES</option>
+                            <option value="Fuoco">FUOCO</option><option value="Acqua">ACQUA</option>
+                            <option value="Erba">ERBA</option><option value="Elettro">ELETTRO</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold block mb-1">RANK:</label>
+                        <select id="filterRank" class="w-full bg-white/50 border border-black/20 rounded p-1 text-xs outline-none">
+                            <option value="">ALL RANKS</option>
+                            <option value="Starter">STARTER</option>
+                            <option value="Amateur">AMATEUR</option>
+                            <option value="Ace">ACE</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold block mb-1">HABITAT:</label>
+                        <select id="filterHabitat" class="w-full bg-white/50 border border-black/20 rounded p-1 text-xs outline-none">
+                            <option value="">ALL HABITATS</option>
+                            <option value="Forest">FOREST</option>
+                            <option value="Urban">URBAN</option>
+                            <option value="Mountain">MOUNTAIN</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="col-span-full text-center opacity-30 py-20 border-2 border-dashed border-cyan-500/20 rounded-3xl">
+                <p class="font-[Orbitron] text-sm italic">POKEDEX STANDBY... AWAITING QUERY</p>
+            </div>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto p-4 md:p-8">
-        <header class="flex justify-between items-center mb-10 border-b border-cyan-900/30 pb-6">
-            <div>
-                <h1 class="text-4xl font-black italic text-white font-[Orbitron] tracking-tighter">PRODEX <span class="text-cyan-500">2.2</span></h1>
-                <p class="text-[9px] uppercase tracking-[0.6em] text-cyan-700 font-bold">Neural Link: Connected</p>
-            </div>
-            <a href="index.html" class="px-6 py-2 border border-red-900/50 text-red-500 rounded-full text-[10px] font-black uppercase hover:bg-red-950 transition-all">Disconnetti</a>
-        </header>
-
-        <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            </div>
+    <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
+        <div class="bg-[#111] border-2 border-cyan-500 p-8 rounded-3xl max-w-md w-full m-4 shadow-[0_0_50px_rgba(34,211,238,0.3)]" onclick="event.stopPropagation()">
+            <div id="modalData"></div>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-6 border border-cyan-500 text-cyan-500 py-2 rounded-xl font-black text-xs uppercase hover:bg-cyan-500 hover:text-black transition-all">Close Record</button>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Configurazione Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
             authDomain: "pokerole-app.firebaseapp.com",
@@ -132,141 +155,108 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Cache globale per risolvere il bug [object Object] nei popup
-        window.pokedexCache = [];
+        let allPokemon = [];
 
-        async function loadPokedex() {
-            const container = document.getElementById('results');
-            container.innerHTML = '<p class="col-span-full text-center text-cyan-500 animate-pulse font-black uppercase">Interrogazione Neural Link...</p>';
-
-            try {
-                const snap = await getDocs(collection(db, "pkmn"));
-                window.pokedexCache = snap.docs.map(doc => doc.data());
-                
-                // Generazione card utilizzando l'indice della cache
-                container.innerHTML = window.pokedexCache.map((p, index) => createPkmnCard(p, index)).join('');
-            } catch (err) {
-                container.innerHTML = `<p class="text-red-500 text-center col-span-full uppercase italic">Errore Sync: ${err.message}</p>`;
-            }
+        // Carica tutto il DB all'avvio ma non mostrarlo
+        async function preloadData() {
+            const snap = await getDocs(collection(db, "pkmn"));
+            allPokemon = snap.docs.map(doc => doc.data());
         }
 
-        function createPkmnCard(p, pIdx) {
-            const types = Array.isArray(p.tipo) ? p.tipo : [p.tipo || 'normale'];
-            const stats = p.attributi || {};
-            const abils = Array.isArray(p.abilita) ? p.abilita : [];
-            const techs = Array.isArray(p.tecniche) ? p.tecniche : [];
+        window.performSearch = () => {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const typeF = document.getElementById('filterType').value;
+            const rankF = document.getElementById('filterRank').value;
+            const habitatF = document.getElementById('filterHabitat').value;
 
-            return `
-            <div class="pokedex-frame animate-pop">
-                <div class="holo-screen">
-                    <div class="flex justify-between items-start mb-4 border-b border-cyan-500/20 pb-2">
-                        <div>
-                            <span class="text-[10px] text-cyan-400 font-black tracking-widest uppercase italic">SYS ID: ${p.pokedex_id || 'UNK'}</span>
-                            <h2 class="text-2xl font-black text-white uppercase italic tracking-tighter">${p.nome}</h2>
-                        </div>
-                        <div class="flex gap-1">
-                            ${types.map(t => `<span class="type-tag type-${t.toLowerCase()}">${t}</span>`).join('')}
-                        </div>
-                    </div>
+            const filtered = allPokemon.filter(p => {
+                // Ricerca testuale (Nome o Descrizione/Aggettivi)
+                const matchesText = p.nome.toLowerCase().includes(query) || 
+                                   (p.descrizione && p.descrizione.toLowerCase().includes(query));
+                
+                // Filtri dropdown
+                const matchesType = typeF === "" || (Array.isArray(p.tipo) ? p.tipo.includes(typeF) : p.tipo === typeF);
+                const matchesRank = rankF === "" || p.rango === rankF;
+                const matchesHabitat = habitatF === "" || p.habitat === habitatF;
 
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                        <div class="md:col-span-5 space-y-4">
-                            <div class="bg-black/40 rounded-2xl p-4 border border-white/5 h-40 flex items-center justify-center group relative">
-                                <img src="${p.immagine}" class="max-h-full object-contain drop-shadow-[0_0_15px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform">
-                            </div>
-                            
-                            <div class="bg-cyan-950/20 border border-cyan-500/10 p-3 rounded-xl">
-                                <span class="text-[8px] text-cyan-500 font-black uppercase mb-2 block italic tracking-widest">Abilità Passive</span>
-                                <div class="flex flex-wrap gap-2">
-                                    ${abils.map((a, aIdx) => {
-                                        const name = (typeof a === 'object') ? (a.nome || a.name) : a;
-                                        return `<span onclick="openInfo('abilita', ${pIdx}, ${aIdx})" class="text-[9px] text-white font-bold px-2 py-1 bg-white/10 rounded cursor-pointer hover:bg-cyan-500/40 transition-all uppercase italic">${name}</span>`;
-                                    }).join('')}
+                return matchesText && matchesType && matchesRank && matchesHabitat;
+            });
+
+            renderResults(filtered);
+        };
+
+        function renderResults(list) {
+            const container = document.getElementById('results');
+            if (list.length === 0) {
+                container.innerHTML = `<p class="col-span-full text-center text-red-500 font-bold uppercase py-10">No Neural Records Found for this Query.</p>`;
+                return;
+            }
+
+            container.innerHTML = list.map((p, idx) => {
+                // Salviamo l'oggetto in modo che sia accessibile al click
+                const dataString = btoa(unescape(encodeURIComponent(JSON.stringify(p))));
+                
+                return `
+                <div class="pokedex-frame animate-pop">
+                    <div class="holo-screen">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-2xl font-black text-white italic uppercase font-[Orbitron]">${p.nome}</h2>
+                            <span class="text-[8px] text-cyan-400 font-bold border border-cyan-500/30 px-2 py-1 rounded">SYS_ID: ${p.pokedex_id || '??'}</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-12 gap-4">
+                            <div class="col-span-5">
+                                <img src="${p.immagine}" class="w-full h-32 object-contain drop-shadow-[0_0_10px_cyan]">
+                                <div class="mt-4 flex flex-wrap gap-1">
+                                    ${(Array.isArray(p.tipo) ? p.tipo : [p.tipo]).map(t => `<span class="type-tag bg-cyan-900 border border-cyan-400 text-[8px]">${t}</span>`).join('')}
                                 </div>
                             </div>
+                            <div class="col-span-7 space-y-2">
+                                <p class="text-[9px] text-slate-400 italic leading-tight mb-2">${p.descrizione || 'No neural data logs.'}</p>
+                                ${['forza', 'destrezza', 'vitalita'].map(s => `
+                                    <div class="text-[8px] uppercase font-bold flex justify-between"><span>${s}</span><span>${p.attributi?.[s] || 0}</span></div>
+                                    <div class="stat-bar-container"><div class="stat-fill" style="width:${(p.attributi?.[s] || 0)*10}%"></div></div>
+                                `).join('')}
+                            </div>
                         </div>
 
-                        <div class="md:col-span-7 space-y-3">
-                            <div class="flex justify-between text-[10px] font-black border-b border-white/5 pb-2 uppercase italic">
-                                <span class="text-slate-500">Base HP: <span class="text-white">${p.vitalita_max?.hp || 3}</span></span>
-                                <span class="text-slate-500">Class: <span class="text-cyan-400 font-black">${p.rango?.toUpperCase() || 'STARTER'}</span></span>
-                            </div>
-                            ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
-                                const val = stats[s]?.base || stats[s] || 0;
-                                const perc = (val / 10) * 100;
-                                return `
-                                <div class="space-y-1">
-                                    <div class="flex justify-between text-[7px] uppercase font-black tracking-tighter">
-                                        <span>${s}</span>
-                                        <span class="text-cyan-400">${val}/10</span>
-                                    </div>
-                                    <div class="stat-bar-container"><div class="stat-fill" style="width: ${perc}%"></div></div>
-                                </div>`;
-                            }).join('')}
+                        <div class="mt-4 pt-4 border-t border-cyan-500/20 grid grid-cols-2 gap-2">
+                             <button onclick="showDetails('${dataString}')" class="col-span-full py-2 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 text-[10px] font-black uppercase rounded hover:bg-cyan-500 hover:text-black transition-all">Open Full Record</button>
                         </div>
                     </div>
+                </div>`;
+            }).join('');
+        }
 
-                    <div class="mt-6 pt-4 border-t border-cyan-500/20">
-                        <span class="text-[8px] text-cyan-500 font-black uppercase mb-3 block tracking-[0.3em] text-center italic">Neural Move Repository</span>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-                            ${techs.map((t, tIdx) => {
-                                const name = (typeof t === 'object') ? (t.nome || t.name) : t;
-                                return `<div onclick="openInfo('tecniche', ${pIdx}, ${tIdx})" class="tech-pill truncate uppercase italic font-bold">${name}</div>`;
-                            }).join('')}
+        window.showDetails = (encoded) => {
+            const p = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+            const modal = document.getElementById('infoModal');
+            const dataBox = document.getElementById('modalData');
+
+            dataBox.innerHTML = `
+                <h2 class="text-2xl font-black text-cyan-400 mb-2 uppercase italic">${p.nome}</h2>
+                <div class="space-y-4 text-sm">
+                    <div class="border-l-2 border-cyan-500 pl-4 py-1 italic text-slate-300">"${p.descrizione || 'Record vuoto'}"</div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white/5 p-3 rounded-xl">
+                            <span class="text-[9px] text-cyan-500 font-bold block uppercase mb-1">Moves</span>
+                            <div class="text-[10px] space-y-1">
+                                ${(p.tecniche || []).map(t => `<div class="border-b border-white/5 pb-1">• ${t.nome || t}</div>`).join('')}
+                            </div>
+                        </div>
+                        <div class="bg-white/5 p-3 rounded-xl">
+                            <span class="text-[9px] text-cyan-500 font-bold block uppercase mb-1">Abilities</span>
+                            <div class="text-[10px] space-y-1">
+                                ${(p.abilita || []).map(a => `<div class="border-b border-white/5 pb-1">• ${a.nome || a}</div>`).join('')}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>`;
-        }
-
-        // FUNZIONE GESTIONE MODALE (Pop-up dettagli)
-        window.openInfo = (type, pIdx, itemIdx) => {
-            const pokemon = window.pokedexCache[pIdx];
-            const data = pokemon[type][itemIdx];
-            const modal = document.getElementById('infoModal');
-            const content = document.getElementById('modalData');
-            
-            let html = '';
-            if (typeof data !== 'object') {
-                html = `
-                    <h2 class="text-cyan-400 font-black text-xl uppercase italic mb-2 tracking-tighter">${type === 'abilita' ? 'Abilità' : 'Tecnica'}</h2>
-                    <p class="text-white text-lg font-bold uppercase italic">${data}</p>
-                    <p class="text-slate-500 text-[10px] mt-4 italic uppercase tracking-widest">Modulo dati essenziale caricato.</p>
-                `;
-            } else {
-                html = `
-                    <div class="flex justify-between items-center mb-4 border-b border-cyan-500/30 pb-2">
-                        <h2 class="text-cyan-400 font-black text-xl uppercase italic tracking-tighter">${data.nome || data.name}</h2>
-                        <span class="text-[9px] text-slate-500 uppercase font-black tracking-widest italic">${type}</span>
-                    </div>
-                    <p class="text-white italic text-sm leading-relaxed mb-6">"${data.effetto || data.descrizione || 'Record descrizione non disponibile.'}"</p>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-black/50 p-3 rounded-lg border border-cyan-500/20">
-                            <span class="text-[8px] text-cyan-500 uppercase block font-black mb-1 italic">Potenza / Dadi</span>
-                            <span class="text-white font-bold font-mono text-lg">${data.danno || data.pool_dadi || '-'}</span>
-                        </div>
-                        <div class="bg-black/50 p-3 rounded-lg border border-cyan-500/20">
-                            <span class="text-[8px] text-cyan-500 uppercase block font-black mb-1 italic">Precisione</span>
-                            <span class="text-white font-bold font-mono text-lg">${data.accuratezza || data.precisione || '-'}</span>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            content.innerHTML = html;
+            `;
             modal.style.display = 'flex';
         };
 
-        window.closeModal = () => {
-            document.getElementById('infoModal').style.display = 'none';
-        };
-
-        // Chiudi modale cliccando sullo sfondo
-        window.onclick = (e) => { if(e.target == document.getElementById('infoModal')) closeModal(); };
-
-        // Caricamento iniziale dei dati
-        loadPokedex();
+        preloadData();
     </script>
 </body>
 </html>
