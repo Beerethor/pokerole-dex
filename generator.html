@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Neural ProDex - Final Engine</title>
+    <title>Neural ProDex - Save System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://rawcdn.githack.com/Beerethor/pokerole-dex/refs/heads/main/pokerole-core.js"></script>
 
@@ -11,24 +11,19 @@
         :root { --pokedex-red: #dc2626; --neon-blue: #0ea5e9; --neon-yellow: #facc15; }
         body { background-color: #1a1a1a; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
         
-        /* Frame Pokedex */
         .pokedex-frame { max-width: 1300px; background: #dc2626; border: 8px solid #991b1b; border-radius: 30px; padding: 30px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.6); }
         .inner-screen { background: #0f172a; border-radius: 20px; padding: 30px; border: 4px solid #334155; position: relative; }
 
-        /* Dot System */
         .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); display: inline-block; margin-right: 2px; transform: skewX(-20deg); }
         .dot.filled { background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); border: none; }
         .dot.overcap { background: var(--neon-yellow); box-shadow: 0 0 12px var(--neon-yellow); border: none; }
 
-        /* Typography & Labels */
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1.5px; }
         .stat-box { background: rgba(0,0,0,0.4); border-left: 3px solid var(--neon-yellow); padding: 10px; border-radius: 6px; }
         .tech-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
         
-        /* Inputs */
         input, select { background: #242424; border: 1px solid #444; color: white; padding: 10px; border-radius: 8px; font-size: 0.9rem; width: 100%; }
         
-        /* Tipi */
         .type-label { cursor: pointer; padding: 5px; border-radius: 4px; font-size: 0.65rem; text-align: center; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; text-transform: uppercase; }
         .type-Erba { background: #78C850; } .type-Fuoco { background: #F08030; } .type-Acqua { background: #6890F0; }
         .type-Coleottero { background: #A8B820; } .type-Veleno { background: #A040A0; } .type-Elettro { background: #F8D030; color: black; }
@@ -40,11 +35,19 @@
 </head>
 <body>
 
+    <div class="max-w-[1300px] mx-auto mb-6 flex justify-between items-center px-4">
+        <img src="https://vignette.wikia.nocookie.net/logopedia/images/2/2b/Pokemon_Logo.png/revision/latest?cb=20160621213454" alt="Logo" class="h-16">
+        <div class="text-right">
+            <h1 class="text-2xl font-black font-[Orbitron] italic text-white uppercase leading-none">Neural <span class="text-red-600">ProDex</span></h1>
+            <p class="label opacity-50 text-[8px]">Uplink Status: Active</p>
+        </div>
+    </div>
+
     <div class="max-w-[1300px] mx-auto mb-8 bg-[#2d2d2d] p-6 rounded-2xl border-2 border-[#444] shadow-2xl">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div class="space-y-4">
-                <div><label class="label block mb-1">Cerca Specie</label><input type="text" id="searchKey" placeholder="Es: Dragonite"></div>
-                <div><label class="label block mb-1">Rango</label>
+                <div><label class="label block mb-1">Specie</label><input type="text" id="searchKey" placeholder="Es: Gengar"></div>
+                <div><label class="label block mb-1">Rango Generazione</label>
                     <select id="userRank">
                         <option value="1">Starter</option><option value="2">Beginner</option><option value="3">Amateur</option>
                         <option value="4">Ace</option><option value="5">Professional</option><option value="6">Master</option>
@@ -57,7 +60,7 @@
                 <div class="grid grid-cols-6 gap-1" id="typeSelector"></div>
             </div>
             <div class="flex flex-col justify-end">
-                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg">Analisi</button>
+                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg">Analizza Unità</button>
             </div>
         </div>
     </div>
@@ -73,44 +76,73 @@
         });
 
         let pokemonData = [];
+        let currentGeneratedPokemon = null; // Memorizza l'ultimo generato
+
         fetch('pokemon.json').then(res => res.json()).then(data => { pokemonData = data; });
 
-function generateFilteredCard() {
-    if (pokemonData.length === 0) return;
-    const search = document.getElementById('searchKey').value.toLowerCase();
-    const rankVal = parseInt(document.getElementById('userRank').value);
-    const rankName = document.getElementById('userRank').options[rankVal-1].text;
-    const selectedTypes = Array.from(document.querySelectorAll('.type-checkbox:checked')).map(cb => cb.value);
+        function generateFilteredCard() {
+            if (pokemonData.length === 0) return;
+            const search = document.getElementById('searchKey').value.toLowerCase();
+            const rankVal = parseInt(document.getElementById('userRank').value);
+            const rankName = document.getElementById('userRank').options[rankVal-1].text;
+            const selectedTypes = Array.from(document.querySelectorAll('.type-checkbox:checked')).map(cb => cb.value);
 
-    let filtered = pokemonData.filter(p => {
-        const mSearch = p.nome.toLowerCase().includes(search);
-        const mType = selectedTypes.length === 0 || selectedTypes.some(t => p.tipo.includes(t));
-        return mSearch && mType;
-    });
+            let filtered = pokemonData.filter(p => {
+                const mSearch = p.nome.toLowerCase().includes(search);
+                const mType = selectedTypes.length === 0 || selectedTypes.some(t => p.tipo.includes(t));
+                return mSearch && mType;
+            });
 
-    if (filtered.length === 0) return alert("Nessun Pokémon trovato.");
-    const base = filtered[Math.floor(Math.random() * filtered.length)];
-    
-    const data = PokeroleEngine.calculateRank(base, rankVal);
-    
-    // --- SISTEMA DI RECUPERO ID FLESSIBILE ---
-    // Cerca pokemon_id, poi pokemonid, poi ID, poi pokedex
-    const finalID = base.pokemon_id || base.pokemonid || base.id || base.ID || base.pokedex || "???";
+            if (filtered.length === 0) return alert("Nessun Pokémon trovato.");
+            const base = filtered[Math.floor(Math.random() * filtered.length)];
+            const data = PokeroleEngine.calculateRank(base, rankVal);
+            
+            const abilities = base.abilita || base.abilities || [];
+            const randomAbility = abilities.length > 0 ? abilities[Math.floor(Math.random() * abilities.length)] : "Nessuna";
 
-    // --- GESTIONE TECNICHE ---
-    let allMoves = base.tecniche || base.mosse || base.moves || [];
-    let validMoves = allMoves.filter(m => {
-        if (typeof m === 'object' && m.rango) return RankWeight[m.rango] <= rankVal;
-        return true;
-    }).sort(() => 0.5 - Math.random());
+            let allMoves = base.tecniche || base.mosse || [];
+            let validMoves = allMoves.filter(m => {
+                if (typeof m === 'object' && m.rango) return RankWeight[m.rango] <= rankVal;
+                return true;
+            }).sort(() => 0.5 - Math.random());
 
-    const selectedMoves = validMoves.slice(0, data.will).map(m => typeof m === 'object' ? m.nome : m);
+            const selectedMoves = validMoves.slice(0, data.will).map(m => typeof m === 'object' ? m.nome : m);
 
-    // Passiamo finalID alla funzione di rendering
-    renderUI(data, rankName, finalID, base.regione || base.region, base.abilita || base.abilities || [], selectedMoves);
-}
+            // Salvataggio stato corrente per l'invio al server
+            currentGeneratedPokemon = {
+                ...data,
+                rango_attuale: rankName,
+                abilita_scelta: randomAbility,
+                tecniche_scelte: selectedMoves,
+                regione: base.regione || "N/A"
+            };
 
-        function renderUI(data, rankName, pokemon_id, region, ability, moves) {
+            renderUI(currentGeneratedPokemon, rankName);
+        }
+
+        async function saveToDB() {
+            if (!currentGeneratedPokemon) return alert("Genera prima un Pokémon!");
+
+            try {
+                // Sostituisci '/save-pokemon' con l'URL reale del tuo endpoint server
+                const response = await fetch('/save-pokemon', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentGeneratedPokemon)
+                });
+
+                if (response.ok) {
+                    alert("Unità salvata con successo nel database!");
+                } else {
+                    alert("Errore durante il salvataggio. Controlla il server.");
+                }
+            } catch (error) {
+                console.error("Save Error:", error);
+                alert("Impossibile connettersi al server.");
+            }
+        }
+
+        function renderUI(data, rankName) {
             const socialColors = {Tough:'bg-[#fbbf24]', Cool:'bg-[#f97316]', Beauty:'bg-[#3b82f6]', Cute:'bg-[#ec4899]', Clever:'bg-[#22c55e]'};
             
             document.getElementById('card-display').innerHTML = `
@@ -118,18 +150,22 @@ function generateFilteredCard() {
                 <div class="inner-screen">
                     <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-6">
                         <div>
-                            <div class="flex items-center gap-3 mb-2">
-                                <span class="bg-white text-black px-2 py-0.5 rounded text-[10px] font-black italic tracking-widest">ID: ${pokemon_id || '???' }</span>
-                                <span class="label text-yellow-400">AREA: ${region || 'N/A'}</span>
+                            <div class="mb-2">
+                                <span class="label text-yellow-400">ORIGINE: ${data.regione}</span>
                             </div>
                             <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter text-white leading-none">${data.nome}</h1>
                             <div class="flex gap-2 mt-4">
                                 ${data.tipo.map(t => `<span class="px-4 py-1 rounded text-[10px] font-black uppercase type-${t}">${t}</span>`).join('')}
                             </div>
                         </div>
-                        <div class="flex gap-4">
-                            <div class="stat-box min-w-[110px] text-center border-l-red-500"><div class="label">HP</div><div class="text-5xl font-black">${data.hp}</div></div>
-                            <div class="stat-box min-w-[110px] text-center border-l-cyan-400"><div class="label">WILL</div><div class="text-5xl font-black">${data.will}</div></div>
+                        <div class="flex flex-col items-end gap-4">
+                            <div class="flex gap-4">
+                                <div class="stat-box min-w-[110px] text-center border-l-red-500"><div class="label">HP</div><div class="text-5xl font-black">${data.hp}</div></div>
+                                <div class="stat-box min-w-[110px] text-center border-l-cyan-400"><div class="label">WILL</div><div class="text-5xl font-black">${data.will}</div></div>
+                            </div>
+                            <button onclick="saveToDB()" class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg font-black text-xs uppercase transition-all shadow-lg border-b-4 border-green-800 flex items-center gap-2">
+                                💾 SAVE TO SERVER (RANK: ${rankName})
+                            </button>
                         </div>
                     </div>
 
@@ -138,35 +174,22 @@ function generateFilteredCard() {
                             <div class="bg-black/40 p-6 rounded-2xl border border-white/10 flex items-center justify-center">
                                 <img src="${data.immagine}" class="max-h-48 object-contain">
                             </div>
-                            
                             <div class="space-y-4">
                                 <div class="label opacity-50 border-b border-white/10 pb-1">Attributi Primari</div>
-                                ${Object.entries(data.attr).map(([k,v]) => `
-                                    <div class="flex justify-between items-center text-[12px] uppercase">
-                                        <span class="font-bold">${k}</span>
-                                        <div>${PokeroleEngine.renderDots(v)}</div>
-                                    </div>
-                                `).join('')}
+                                ${Object.entries(data.attr).map(([k,v]) => `<div class="flex justify-between items-center text-[12px] uppercase"><span class="font-bold">${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}
                             </div>
-
                             <div>
                                 <div class="label opacity-50 mb-3">Abilità</div>
-                                <div class="space-y-1">${ability.map(a => `<div class="bg-blue-500/10 border border-blue-500/30 p-2 rounded text-[10px] font-bold text-blue-300 uppercase text-center">${a}</div>`).join('')}</div>
+                                <div class="bg-blue-500/10 border border-blue-500/30 p-3 rounded text-xs font-bold text-blue-300 uppercase text-center">${data.abilita_scelta}</div>
                             </div>
                         </div>
 
                         <div class="col-span-5 px-8 border-x border-white/5 space-y-8">
+                            <div><div class="label mb-4">Skills</div><div class="grid grid-cols-1 gap-1">${Object.entries(data.skills).map(([k,v]) => `<div class="flex justify-between text-[11px] uppercase border-b border-white/5 pb-1 opacity-80"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}</div></div>
                             <div>
-                                <div class="label mb-4">Skills Matrix</div>
-                                <div class="grid grid-cols-1 gap-1">
-                                    ${Object.entries(data.skills).map(([k,v]) => `<div class="flex justify-between text-[11px] uppercase border-b border-white/5 pb-1 opacity-80"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}
-                                </div>
-                            </div>
-                            <div>
-                                <div class="label mb-4 text-red-500">Tecniche (${moves.length}/${data.will})</div>
+                                <div class="label mb-4 text-red-500">Tecniche (${data.tecniche_scelte.length}/${data.will})</div>
                                 <div class="grid grid-cols-2 gap-2">
-                                    ${moves.map(m => `<div class="tech-card uppercase border-l-2 border-red-500">${m}</div>`).join('')}
-                                    ${Array(Math.max(0, data.will - moves.length)).fill(0).map(() => `<div class="tech-card opacity-20 border-l-2 border-gray-500 italic">Slot Vuoto</div>`).join('')}
+                                    ${data.tecniche_scelte.map(m => `<div class="tech-card uppercase border-l-2 border-red-500">${m}</div>`).join('')}
                                 </div>
                             </div>
                         </div>
@@ -177,14 +200,9 @@ function generateFilteredCard() {
                                 ${Object.entries(data.social).map(([k,v]) => `<div class="flex justify-between items-center p-2 rounded mb-1 text-[11px] font-black text-black ${socialColors[k]}"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}
                             </div>
                             <div class="pt-6 border-t border-white/10">
-                                <div class="label opacity-50 mb-4">Analisi Combattimento</div>
-                                <div class="grid grid-cols-2 gap-4 text-white">
+                                <div class="grid grid-cols-2 gap-4">
                                     <div class="stat-box !border-l-yellow-500"><div class="label !text-[8px]">Iniziativa</div><div class="text-3xl font-black">${data.combat.iniziativa}</div></div>
-                                    <div class="stat-box !border-l-cyan-400"><div class="label !text-[8px]">Difesa F/S</div><div class="text-3xl font-black">${data.combat.difesa}/${data.combat.difesa_speciale}</div></div>
-                                    <div class="stat-box !border-l-white col-span-2 text-center">
-                                        <div class="label !text-[8px]">Parata Fisica | Speciale</div>
-                                        <div class="text-3xl font-black">${data.combat.parata} | ${data.combat.parata_speciale}</div>
-                                    </div>
+                                    <div class="stat-box !border-l-cyan-400"><div class="label !text-[8px]">Def F/S</div><div class="text-3xl font-black">${data.combat.difesa}/${data.combat.difesa_speciale}</div></div>
                                 </div>
                             </div>
                         </div>
