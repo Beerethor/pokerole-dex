@@ -1,72 +1,194 @@
-window.openDetail = (type, name) => {
-    // Cerca l'oggetto corrispondente nel database (es. tecniche.json)
-    const entry = window.dataStore[type].find(i => (i.nome || i).toLowerCase() === name.toLowerCase());
-    const body = document.getElementById('modalBody');
-
-    if (!entry) {
-        body.innerHTML = `<p class="text-red-500">Errore: Record non trovato nel database ${type}.</p>`;
-        document.getElementById('infoModal').style.display = 'flex';
-        return;
-    }
-
-    // Estrazione dati specifica per le TECNICHE
-    if (type === 'tecniche') {
-        const nome = entry.nome || "Sconosciuto";
-        const tipo = entry.tipo || "Normale";
-        const categoria = entry.categoria || "Fisico"; // Es. Fisico, Speciale, Stato
-        const accuratezza = entry.accuratezza || entry.accuracy || "-";
-        const pool_danno = entry.pool_danno || entry.danno || entry.damage || "-";
-        const descrizione = entry.descrizione || "Nessun log descrittivo disponibile.";
-        const effetti_aggiuntivi = entry.effetti_aggiuntivi || entry.effetto || "Nessun effetto aggiuntivo rilevato.";
-
-        body.innerHTML = `
-            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
-                <div>
-                    <span class="text-cyan-500 font-bold text-[10px] uppercase tracking-widest">DATA RECORD: ${categoria}</span>
-                    <h2 class="text-4xl font-black font-[Orbitron] uppercase italic text-white">${nome}</h2>
-                </div>
-                <div class="text-right">
-                    <span class="type-tag type-${tipo.toLowerCase()}">${tipo}</span>
-                </div>
-            </div>
-            
-            <div class="space-y-6">
-                <div>
-                    <span class="data-label">DESCRIZIONE</span>
-                    <div class="bg-black/60 p-5 rounded-2xl border border-white/5 text-sm text-slate-300 leading-relaxed mt-1">
-                        "${descrizione}"
-                    </div>
-                </div>
-
-                <div>
-                    <span class="data-label">EFFETTI AGGIUNTIVI</span>
-                    <div class="bg-cyan-900/20 p-5 rounded-2xl border border-cyan-500/30 text-sm text-cyan-100 italic mt-1 shadow-inner">
-                        ${effetti_aggiuntivi}
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-black/80 p-5 rounded-3xl border border-white/10 text-center">
-                        <span class="data-label">ACCURATEZZA</span><br>
-                        <span class="text-xl font-black text-white uppercase mt-1 block">${accuratezza}</span>
-                    </div>
-                    <div class="bg-black/80 p-5 rounded-3xl border border-white/10 text-center">
-                        <span class="data-label">POOL DANNO</span><br>
-                        <span class="text-xl font-black text-red-500 uppercase mt-1 block">${pool_danno}</span>
-                    </div>
-                </div>
-            </div>
-        `;
-    } else {
-        // Fallback per ABILITÀ o altro
-        body.innerHTML = `
-            <span class="text-cyan-500 font-bold text-[10px] uppercase tracking-widest">${type} record</span>
-            <h2 class="text-3xl font-black font-[Orbitron] uppercase text-white mb-6">${entry.nome || name}</h2>
-            <div class="bg-black/60 p-6 rounded-2xl border border-white/10 italic text-slate-300 text-sm">
-                "${entry.effetto || entry.descrizione || 'Nessun dato.'}"
-            </div>
-        `;
-    }
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural ProDex - Pokerole Final v13</title>
     
-    document.getElementById('infoModal').style.display = 'flex';
-};
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --pokedex-red: #d32f2f;
+            --pokedex-dark: #8e0000;
+            --holo-cyan: #22d3ee;
+            --bg-deep: #020617;
+        }
+
+        body { background-color: var(--bg-deep); font-family: 'JetBrains Mono', monospace; color: #e2e8f0; }
+
+        /* --- TYPE COLORS --- */
+        .type-acciaio { background-color: #B7B7CE; color: #1a1a1a; }
+        .type-acqua { background-color: #6390F0; color: white; }
+        .type-buio { background-color: #705746; color: white; }
+        .type-coleottero { background-color: #A6B91A; color: white; }
+        .type-drago { background-color: #6F35FC; color: white; }
+        .type-elettro { background-color: #F7D02C; color: #1a1a1a; }
+        .type-erba { background-color: #7AC74C; color: white; }
+        .type-folletto { background-color: #D685AD; color: white; }
+        .type-fuoco { background-color: #EE8130; color: white; }
+        .type-ghiaccio { background-color: #96D9D6; color: #1a1a1a; }
+        .type-lotta { background-color: #C22E28; color: white; }
+        .type-normale { background-color: #A8A77A; color: white; }
+        .type-psico { background-color: #F95587; color: white; }
+        .type-roccia { background-color: #B6A136; color: white; }
+        .type-spettro { background-color: #735797; color: white; }
+        .type-terra { background-color: #E2BF65; color: #1a1a1a; }
+        .type-veleno { background-color: #A33EA1; color: white; }
+        .type-volante { background-color: #A98FF3; color: white; }
+
+        /* --- UI & SCROLL --- */
+        .pip { width: 12px; height: 10px; border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 2px; background: rgba(0,0,0,0.5); }
+        .pip.filled { background: var(--holo-cyan); box-shadow: 0 0 10px var(--holo-cyan); border-color: var(--holo-cyan); transform: skewX(-15deg); }
+        
+        .moves-scroll { max-height: 200px; overflow-y: auto; padding-right: 8px; }
+        .moves-scroll::-webkit-scrollbar { width: 4px; }
+        .moves-scroll::-webkit-scrollbar-thumb { background: var(--holo-cyan); border-radius: 10px; }
+
+        .pokedex-frame { background: linear-gradient(145deg, var(--pokedex-red), var(--pokedex-dark)); border: 4px solid #3a0000; border-radius: 40px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .holo-screen { background: linear-gradient(135deg, rgba(6, 182, 212, 0.01), rgba(15, 23, 42, 0.99)); backdrop-filter: blur(10px); border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 25px; padding: 24px; }
+
+        .type-tag { font-size: 8px; font-weight: 900; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; }
+        .data-label { font-size: 8px; color: var(--holo-cyan); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .tech-row { background: rgba(255,255,255,0.03); border-left: 3px solid var(--holo-cyan); padding: 10px; margin-bottom: 6px; cursor: pointer; transition: 0.2s; border-radius: 4px; }
+        .tech-row:hover { background: rgba(34, 211, 238, 0.1); transform: translateX(5px); }
+    </style>
+</head>
+<body class="p-6">
+
+    <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto"></div>
+
+    <div id="infoModal" class="fixed inset-0 bg-black/95 hidden z-[4000] items-center justify-center p-4" onclick="this.style.display='none'">
+        <div class="bg-slate-950 border-2 border-cyan-500 p-8 rounded-[40px] max-w-2xl w-full shadow-2xl" onclick="event.stopPropagation()">
+            <div id="modalBody"></div>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-8 py-4 bg-cyan-500 text-black font-black uppercase rounded-xl font-[Orbitron]">CHIUDI RECORD</button>
+        </div>
+    </div>
+
+    <script>
+        window.dataStore = { pkmn: [], abilita: [], tecniche: [] };
+
+        async function init() {
+            try {
+                const [p, a, t] = await Promise.all([
+                    fetch('pokemon.json').then(r => r.json()),
+                    fetch('abilita.json').then(r => r.json()),
+                    fetch('tecniche.json').then(r => r.json())
+                ]);
+                window.dataStore.pkmn = p;
+                window.dataStore.abilita = a;
+                window.dataStore.tecniche = t;
+                renderUI(p);
+            } catch (e) { console.error("Database offline"); }
+        }
+
+        function renderUI(list) {
+            const container = document.getElementById('results');
+            container.innerHTML = list.map(p => {
+                const stats = p.attributi || {};
+                return `
+                <div class="pokedex-frame">
+                    <div class="holo-screen">
+                        <div class="flex justify-between items-start border-b border-cyan-500/20 pb-4 mb-5">
+                            <div>
+                                <h2 class="text-2xl font-black font-[Orbitron] uppercase text-white tracking-tighter">${p.nome}</h2>
+                                <div class="flex gap-2 mt-2">${(p.tipo || []).map(t => `<span class="type-tag type-${t.toLowerCase()}">${t}</span>`).join('')}</div>
+                            </div>
+                            <div class="text-right">
+                                <span class="data-label">REC. RANK</span><br>
+                                <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest">${p.rango_suggerito || 'ROOKIE'}</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3 mb-6 bg-black/40 p-4 rounded-2xl border border-white/5">
+                            <div class="text-center border-r border-white/10">
+                                <span class="data-label">BASE HP</span><br><span class="text-lg font-black text-red-500">${p.hp || 3}</span>
+                            </div>
+                            <div class="text-center border-r border-white/10">
+                                <span class="data-label">HEIGHT</span><br><span class="text-white">${p.altezza || '-'}</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="data-label">WEIGHT</span><br><span class="text-white">${p.peso || '-'}</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-12 gap-6">
+                            <div class="col-span-5">
+                                <div class="bg-black/60 rounded-[30px] p-4 border border-white/5 mb-4">
+                                    <img src="${p.immagine}" class="max-h-32 mx-auto drop-shadow-2xl">
+                                </div>
+                                <span class="data-label">ABILITIES LOG</span>
+                                <div class="text-[10px] font-bold uppercase text-white/70 mt-2 space-y-1">
+                                    ${(p.abilita || []).map(a => `<div onclick="openDetail('abilita', '${(a.nome||a).replace(/'/g, "\\'")}')" class="cursor-pointer hover:text-cyan-400">▶ ${a.nome || a}</div>`).join('')}
+                                </div>
+                            </div>
+
+                            <div class="col-span-7 space-y-3">
+                                ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
+                                    const val = stats[s]?.base || stats[s] || 0;
+                                    let pips = '';
+                                    for(let i=1; i<=5; i++) pips += `<div class="pip ${i <= val ? 'filled' : ''}"></div>`;
+                                    return `<div class="flex flex-col"><span class="text-[9px] font-black uppercase opacity-40 mb-1">${s}</span><div class="flex gap-1">${pips}</div></div>`;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <span class="data-label">MOVESET SYNCED</span>
+                            <div class="moves-scroll mt-2">
+                                ${(p.tecniche || []).map(t => `
+                                    <div onclick="openDetail('tecniche', '${(t.nome||t).replace(/'/g, "\\'")}')" class="tech-row flex justify-between items-center group">
+                                        <span class="font-bold text-white/90 text-xs">${t.nome || t}</span>
+                                        <span class="text-[8px] text-cyan-500/40 group-hover:text-cyan-400">ACCESSING...</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        window.openDetail = (type, name) => {
+            const entry = window.dataStore[type].find(i => (i.nome || i).toLowerCase() === name.toLowerCase());
+            const body = document.getElementById('modalBody');
+
+            if (type === 'tecniche' && entry) {
+                body.innerHTML = `
+                    <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                        <div>
+                            <span class="text-cyan-500 font-bold text-[10px] uppercase tracking-widest">${entry.categoria || 'TECNICA'} RECORD</span>
+                            <h2 class="text-4xl font-black font-[Orbitron] uppercase italic text-white">${entry.nome}</h2>
+                        </div>
+                        <span class="type-tag type-${(entry.tipo || 'Normale').toLowerCase()}">${entry.tipo}</span>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <span class="data-label">DESCRIZIONE</span>
+                            <div class="bg-black/60 p-5 rounded-2xl border border-white/5 text-sm text-slate-300 leading-relaxed mt-1">"${entry.descrizione || 'N/A'}"</div>
+                        </div>
+                        <div>
+                            <span class="data-label">EFFETTI AGGIUNTIVI</span>
+                            <div class="bg-cyan-900/20 p-5 rounded-2xl border border-cyan-500/30 text-sm text-cyan-100 italic mt-1">${entry.effetti_aggiuntivi || 'Nessuno.'}</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-black/80 p-5 rounded-3xl border border-white/10 text-center">
+                                <span class="data-label">ACCURATEZZA</span><br><span class="text-xl font-black text-white uppercase mt-1 block">${entry.accuratezza || '-'}</span>
+                            </div>
+                            <div class="bg-black/80 p-5 rounded-3xl border border-white/10 text-center">
+                                <span class="data-label">POOL DANNO</span><br><span class="text-xl font-black text-red-500 uppercase mt-1 block">${entry.pool_danno || '-'}</span>
+                            </div>
+                        </div>
+                    </div>`;
+            } else {
+                body.innerHTML = `<h2 class="text-3xl font-black font-[Orbitron] uppercase text-white mb-6">${name}</h2><p class="italic text-slate-300">"${entry?.effetto || entry?.descrizione || 'Dati non disponibili'}"</p>`;
+            }
+            document.getElementById('infoModal').style.display = 'flex';
+        };
+
+        init();
+    </script>
+</body>
+</html>
