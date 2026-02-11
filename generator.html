@@ -2,9 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - Advanced Galar Edition</title>
-    
+    <title>Neural ProDex - Full Scanner & Cloud Uplink</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -25,29 +23,33 @@
             background-color: #1a1a1a; 
             font-family: 'Rajdhani', sans-serif; 
             color: white; 
-            padding: 20px; 
-            overflow-x: hidden;
+            padding: 20px;
         }
 
-        /* Logo Stilizzato */
-        .pokedex-logo { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 2.5rem; 
-            font-weight: 900; 
-            color: #fff; 
-            text-shadow: 0 0 10px var(--neon-blue); 
-            text-transform: uppercase; 
-            font-style: italic; 
-            text-align: center; 
-            margin-bottom: 20px; 
+        /* --- STILE PALLINI INCLINATI (IMAGE_B6AADC.PNG) --- */
+        .dot { 
+            width: 14px; height: 10px; 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.15); 
+            display: inline-block; 
+            margin-right: 4px; 
+            transform: skewX(-25deg); /* Inclinazione parallelogramma */
+            border-radius: 1px;
+            transition: all 0.4s ease;
         }
 
-        /* Cornice Pokedex Esterna */
+        .dot.filled { 
+            background: var(--neon-blue); 
+            box-shadow: 0 0 12px var(--neon-blue), inset 0 0 4px rgba(255,255,255,0.6); 
+            border: none; 
+        }
+
+        /* Cornice Pokedex */
         .pokedex-frame { 
-            max-width: 1200px; 
+            max-width: 1150px; 
             background: var(--pokedex-red); 
             border: 8px solid var(--pokedex-dark-red); 
-            border-radius: 20px 20px 60px 20px; 
+            border-radius: 25px; 
             padding: 25px; 
             margin: 0 auto; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
@@ -59,132 +61,66 @@
             border-radius: 15px; 
             padding: 25px; 
             border: 4px solid #334155; 
-            background-image: linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
         }
 
-        /* --- STILE PALLINI (PARALLELOGRAMMI) --- */
-        .dot { 
-            width: 14px; 
-            height: 10px; 
-            background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255,255,255,0.15); 
-            display: inline-block; 
-            margin-right: 4px; 
-            transform: skewX(-25deg); /* Inclinazione come richiesto */
-            border-radius: 1px;
-            transition: all 0.4s ease;
-        }
-
-        .dot.filled { 
-            background: var(--neon-blue); 
-            box-shadow: 0 0 12px var(--neon-blue), inset 0 0 4px rgba(255,255,255,0.6); 
-            border: none; 
-        }
-
-        /* Box Statistiche */
-        .stat-box { 
-            background: rgba(0,0,0,0.4); 
-            border-left: 3px solid var(--neon-blue); 
-            padding: 10px; 
-            border-radius: 4px; 
-            height: 100%;
-        }
-
+        /* Etichette e Font */
         .label { 
             font-family: 'Orbitron', sans-serif; 
             font-size: 0.65rem; 
             color: var(--neon-blue); 
             text-transform: uppercase; 
-            letter-spacing: 1px; 
-            margin-bottom: 4px;
+            letter-spacing: 1px;
         }
 
-        /* Selettori e Input */
-        select, input { 
-            background: #1a1a1a !important; 
-            border: 1px solid #444 !important; 
-            color: white !important; 
-            padding: 8px !important; 
-            border-radius: 6px !important; 
-            font-size: 0.8rem !important; 
-            outline: none;
+        .stat-box { 
+            background: rgba(0,0,0,0.4); 
+            border-left: 3px solid var(--neon-yellow); 
+            padding: 10px; 
+            border-radius: 4px; 
         }
-        select:focus, input:focus { border-color: var(--neon-blue) !important; }
 
-        /* Tag Sociali */
-        .social-attr { 
-            padding: 4px 10px; border-radius: 4px; font-weight: 800; font-size: 0.7rem; 
-            text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; 
-        }
-        .bg-tough { background-color: #fbbf24; color: #000; }
-        .bg-cool { background-color: #f97316; color: #fff; }
-        .bg-beauty { background-color: #3b82f6; color: #fff; }
-        .bg-cute { background-color: #ec4899; color: #fff; }
-        .bg-clever { background-color: #22c55e; color: #000; }
+        /* Social Matrix Colors */
+        .social-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 10px; border-radius: 4px; margin-bottom: 4px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
+        .bg-tough { background: #fbbf24; color: #000; }
+        .bg-cool { background: #f97316; color: #fff; }
+        .bg-beauty { background: #3b82f6; color: #fff; }
+        .bg-cute { background: #ec4899; color: #fff; }
+        .bg-clever { background: #22c55e; color: #000; }
 
-        .habitat-tag { background: #1e293b; color: var(--neon-yellow); padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; border: 1px solid var(--neon-yellow); font-family: 'Orbitron'; }
+        /* Input Styles */
+        select, input { background: #2d2d2d !important; border: 1px solid #444 !important; color: white !important; padding: 6px !important; border-radius: 6px !important; font-size: 0.75rem !important; }
     </style>
 </head>
 <body>
 
-    <div class="pokedex-logo">Pokérole <span class="text-red-600">Scanner</span></div>
-
-    <div class="max-w-[1200px] mx-auto mb-6">
-        <div class="bg-[#2d2d2d] border-2 border-[#444] rounded-xl p-4 grid grid-cols-2 md:grid-cols-7 gap-3 items-end shadow-2xl">
-            <div>
-                <label class="label block text-center">Specie</label>
-                <input type="text" id="searchKey" placeholder="Nome..." class="w-full">
-            </div>
-            <div>
-                <label class="label block text-center">Regione</label>
+    <div class="max-w-[1150px] mx-auto mb-6 bg-[#2d2d2d] p-4 rounded-xl border-2 border-[#444] shadow-2xl">
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-4 items-end">
+            <div><label class="label block mb-1">Cerca Specie</label><input type="text" id="searchKey" class="w-full" placeholder="Es: Weedle"></div>
+            <div><label class="label block mb-1">Regione</label>
                 <select id="regionFilter" class="w-full">
-                    <option value="all">Tutte</option>
-                    <option value="Kanto">Kanto</option>
-                    <option value="Johto">Johto</option>
-                    <option value="Hoenn">Hoenn</option>
-                    <option value="Sinnoh">Sinnoh</option>
-                    <option value="Unima">Unima</option>
-                    <option value="Kalos">Kalos</option>
-                    <option value="Alola">Alola</option>
-                    <option value="Galar">Galar</option>
+                    <option value="all">Tutte (Kanto-Galar)</option>
+                    <option value="Kanto">Kanto</option><option value="Johto">Johto</option>
+                    <option value="Hoenn">Hoenn</option><option value="Sinnoh">Sinnoh</option>
+                    <option value="Unima">Unima</option><option value="Kalos">Kalos</option>
+                    <option value="Alola">Alola</option><option value="Galar">Galar</option>
                 </select>
             </div>
-            <div>
-                <label class="label block text-center">Tipo</label>
+            <div><label class="label block mb-1">Tipo</label>
                 <select id="typeFilter" class="w-full">
-                    <option value="all">Tutti</option>
-                    <option value="Fuoco">Fuoco</option><option value="Acqua">Acqua</option><option value="Erba">Erba</option>
-                    <option value="Elettro">Elettro</option><option value="Ghiaccio">Ghiaccio</option><option value="Lotta">Lotta</option>
-                    <option value="Veleno">Veleno</option><option value="Terra">Terra</option><option value="Volante">Volante</option>
-                    <option value="Psico">Psico</option><option value="Coleottero">Coleottero</option><option value="Roccia">Roccia</option>
-                    <option value="Spettro">Spettro</option><option value="Drago">Drago</option><option value="Buio">Buio</option>
-                    <option value="Acciaio">Acciaio</option><option value="Folletto">Folletto</option><option value="Normale">Normale</option>
+                    <option value="all">Qualsiasi</option>
+                    <option value="Erba">Erba</option><option value="Fuoco">Fuoco</option><option value="Acqua">Acqua</option>
+                    <option value="Elettro">Elettro</option><option value="Coleottero">Coleottero</option><option value="Veleno">Veleno</option>
                 </select>
             </div>
-            <div>
-                <label class="label block text-center">Habitat</label>
-                <select id="habitatFilter" class="w-full">
-                    <option value="all">Tutti</option>
-                    <option value="Foresta">Foresta</option><option value="Montagna">Montagna</option>
-                    <option value="Mare">Mare</option><option value="Grotta">Grotta</option>
-                    <option value="Città">Città</option><option value="Prateria">Prateria</option>
-                    <option value="Palude">Palude</option><option value="Artico">Artico</option>
+            <div><label class="label block mb-1">Rango (Difficoltà)</label>
+                <select id="userRank" class="w-full">
+                    <option value="1">Starter</option><option value="2">Beginner</option><option value="3">Amateur</option>
+                    <option value="4">Ace</option><option value="5">Pro</option>
                 </select>
             </div>
-            <div>
-                <label class="label block text-center text-yellow-500">Rango</label>
-                <select id="userRank" class="w-full border-yellow-500/50">
-                    <option value="1">Starter</option>
-                    <option value="2">Beginner</option>
-                    <option value="3">Amateur</option>
-                    <option value="4">Ace</option>
-                    <option value="5">Pro</option>
-                    <option value="6">Master</option>
-                    <option value="7">Champion</option>
-                </select>
-            </div>
-            <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase text-[10px] transition-all h-[38px] shadow-lg">Analizza</button>
-            <button id="saveBtn" onclick="openSaveModal()" class="hidden bg-green-700 hover:bg-green-600 text-white font-black py-2 rounded-lg uppercase text-[10px] transition-all h-[38px] shadow-lg">Salva Cloud</button>
+            <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-2 rounded font-black text-[10px] uppercase shadow-lg">Analisi Area</button>
+            <button id="saveBtn" onclick="openSaveModal()" class="hidden bg-green-700 hover:bg-green-600 py-2 rounded font-black text-[10px] uppercase shadow-lg">Sincronizza Cloud</button>
         </div>
     </div>
 
@@ -192,84 +128,58 @@
 
     <div id="saveModal" class="fixed inset-0 bg-black/80 z-[9999] hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-slate-900 border-2 border-cyan-500 rounded-2xl p-6 max-w-sm w-full shadow-[0_0_30px_rgba(14,165,233,0.5)]">
-            <div class="text-center mb-6">
-                <div class="label text-yellow-500 mb-1">Archiviazione Unità</div>
-                <h2 class="text-xl font-black font-[Orbitron] uppercase text-white tracking-widest">Inserisci Nickname</h2>
-            </div>
-            <input type="text" id="customNickname" placeholder="Esempio: Sparky..." class="w-full bg-black/50 border border-cyan-500/30 p-3 rounded-lg text-cyan-400 font-bold mb-6 text-center">
+            <h2 class="text-xl font-black font-[Orbitron] uppercase text-white mb-4 text-center">Data Uplink</h2>
+            <input type="text" id="customNickname" placeholder="Identificativo Unità..." class="w-full bg-black/50 border border-cyan-500/30 p-3 rounded-lg text-cyan-400 font-bold mb-6 text-center">
             <div class="flex gap-3">
-                <button onclick="closeSaveModal()" class="flex-1 px-4 py-2 bg-slate-800 text-slate-400 font-bold rounded-lg uppercase text-[10px]">Annulla</button>
-                <button onclick="confirmFirebaseSave()" class="flex-1 px-4 py-2 bg-cyan-600 text-white font-black rounded-lg uppercase text-[10px]">Invia Unità</button>
+                <button onclick="closeSaveModal()" class="flex-1 px-4 py-2 bg-slate-800 text-slate-400 font-bold rounded-lg uppercase text-[10px]">Abort</button>
+                <button onclick="confirmFirebaseSave()" class="flex-1 px-4 py-2 bg-cyan-600 text-white font-black rounded-lg uppercase text-[10px]">Link Now</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURAZIONE FIREBASE ---
-        const firebaseConfig = {
-            projectId: "pokerole-app" // Assicurati che corrisponda al tuo progetto
-        };
+        // Configurazione Firebase (Sostituisci con la tua se diversa)
+        const firebaseConfig = { projectId: "pokerole-app" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
         let pokemonData = [];
         let currentPKMN = null;
-        const rankMapping = { 1: "Starter", 2: "Beginner", 3: "Amateur", 4: "Ace", 5: "Pro", 6: "Master", 7: "Champion" };
 
-        // Caricamento Database JSON
-        fetch('pokemon.json').then(res => res.json()).then(data => { 
-            pokemonData = data; 
-            console.log("Database caricato con successo.");
-        });
-
-        // Funzione per distribuire i punti extra basati sul rango (Logica Pokérole)
-        function distributePoints(pool, limit, targetObj, keys) {
-            let attempts = 0;
-            while(pool > 0 && attempts < 200) {
-                let key = keys[Math.floor(Math.random() * keys.length)];
-                if (targetObj[key] < limit) { targetObj[key]++; pool--; }
-                attempts++;
-            }
-        }
+        // Caricamento dati
+        fetch('pokemon.json').then(res => res.json()).then(data => { pokemonData = data; });
 
         function generateFilteredCard() {
             if (pokemonData.length === 0) return;
             
             const search = document.getElementById('searchKey').value.toLowerCase();
             const region = document.getElementById('regionFilter').value;
-            const pType = document.getElementById('typeFilter').value;
-            const habitat = document.getElementById('habitatFilter').value;
-            const rankVal = parseInt(document.getElementById('userRank').value);
+            const type = document.getElementById('typeFilter').value;
+            const rank = parseInt(document.getElementById('userRank').value);
 
-            // Filtraggio
             let filtered = pokemonData.filter(p => {
                 const matchesSearch = p.nome.toLowerCase().includes(search);
                 const matchesRegion = region === 'all' || p.regione === region;
-                const matchesType = pType === 'all' || p.tipo.includes(pType);
-                const matchesHabitat = habitat === 'all' || (p.habitat && p.habitat.includes(habitat));
-                return matchesSearch && matchesRegion && matchesType && matchesHabitat;
+                const matchesType = type === 'all' || p.tipo.includes(type);
+                return matchesSearch && matchesRegion && matchesType;
             });
 
-            if (filtered.length === 0) {
-                document.getElementById('card-display').innerHTML = "<div class='text-center text-red-500 font-bold p-10 bg-black/20 rounded-xl border border-red-900/30 uppercase tracking-widest'>Firma Biometrica non trovata</div>";
-                document.getElementById('saveBtn').classList.add('hidden');
-                return;
+            if (filtered.length === 0) return alert("Nessun dato trovato.");
+
+            const p = JSON.parse(JSON.stringify(filtered[Math.floor(Math.random() * filtered.length)]));
+            
+            // Logica Statistiche basata sul Rango selezionato
+            let attr = { forza: p.attributi.forza.base, destrezza: p.attributi.destrezza.base, vitalita: p.attributi.vitalita.base, special: p.attributi.special.base, insight: p.attributi.insight.base };
+            let skills = { Brawl:1, Channel:0, Clash:1, Evasion:1, Alert:1, Athletic:1, Nature:0, Stealth:1, Allure:0, Etiquette:1, Intimidate:1, Perform:0 };
+            let social = { Tough:1, Cool:1, Beauty:1, Cute:1, Clever:1 };
+
+            // Potenziamento in base al rango
+            for(let i=1; i<rank; i++) {
+                Object.keys(attr).forEach(k => { if(attr[k]<5) attr[k]++; });
+                Object.keys(skills).forEach(k => { if(skills[k]<5) skills[k]++; });
             }
 
-            // Selezione casuale tra i risultati filtrati
-            const p = JSON.parse(JSON.stringify(filtered[Math.floor(Math.random() * filtered.length)]));
-
-            // Inizializzazione Statistiche Base
-            let attr = { forza: p.attributi.forza.base, destrezza: p.attributi.destrezza.base, vitalita: p.attributi.vitalita.base, special: p.attributi.special.base, insight: p.attributi.insight.base };
-            let skills = { Brawl:0, Channel:0, Clash:0, Evasion:0, Alert:0, Athletic:0, Nature:0, Stealth:0, Allure:0, Etiquette:0, Intimidate:0, Perform:0 };
-            let social = { Tough:0, Cool:0, Beauty:0, Cute:0, Clever:0 };
-            
-            // Distribuzione punti per Rango (Simulazione progressione manuale)
-            distributePoints(5, 1, skills, Object.keys(skills));
-            if(rankVal >= 2) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(4, 2, skills, Object.keys(skills)); }
-            if(rankVal >= 4) { distributePoints(4, 5, attr, Object.keys(attr)); distributePoints(4, 5, social, Object.keys(social)); distributePoints(6, 4, skills, Object.keys(skills)); }
-
-            // CALCOLO PARAMETRI COMBATTIMENTO (Tua richiesta specifica)
+            // --- NUOVA LOGICA DIFESA/COMBATTIMENTO RICHIESTA ---
             const combat = {
                 iniziativa: attr.destrezza + skills.Alert,
                 evadere: attr.destrezza + skills.Evasion,
@@ -279,160 +189,104 @@
                 parata_speciale: attr.special + skills.Clash
             };
 
-            const hp = p.vitalita_max.hp + attr.vitalita + rankVal;
-            const will = attr.insight + 2;
-            const abi = p.abilita[Math.floor(Math.random() * p.abilita.length)];
-            const moves = p.tecniche.slice(0, will);
-
             currentPKMN = { 
-                nome: p.nome, tipo: p.tipo, attr, skills, social, combat, 
-                hp, will, abi, moves: moves.map(m => m.nome), 
-                immagine: p.immagine, regione: p.regione, habitat: p.habitat,
-                descrizione: p.descrizione, rank: rankMapping[rankVal] 
+                ...p, attr, skills, social, combat, 
+                hp: p.vitalita_max.hp + attr.vitalita + rank,
+                will: attr.insight + 2,
+                rank_label: document.getElementById('userRank').options[document.getElementById('userRank').selectedIndex].text
             };
-            
+
             document.getElementById('saveBtn').classList.remove('hidden');
             renderUI(currentPKMN);
         }
 
         function renderUI(data) {
-            const renderDots = (val, max=5) => Array.from({length: max}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('');
+            const dots = (val) => Array.from({length: 5}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('');
             
             document.getElementById('card-display').innerHTML = `
             <div class="pokedex-frame animate-in fade-in zoom-in duration-500">
                 <div class="inner-screen">
-                    <div class="flex justify-between items-start border-b border-white/10 pb-4 mb-6">
+                    <div class="flex justify-between items-start mb-6">
                         <div>
-                            <div class="flex gap-2 mb-2">
-                                ${data.habitat ? data.habitat.map(h => `<span class="habitat-tag">${h}</span>`).join('') : ''}
-                                <span class="habitat-tag border-blue-500 text-blue-400">RANK: ${data.rank}</span>
+                            <div class="label text-yellow-500 mb-1">IDENTITY VERIFIED | SCANNER: ${data.rank_label}</div>
+                            <h1 class="text-6xl font-black italic uppercase font-[Orbitron] text-white tracking-tighter">${data.nome}</h1>
+                            <div class="flex gap-2 mt-2">
+                                ${data.tipo.map(t => `<span class="bg-cyan-900/40 border border-cyan-500/30 px-3 py-0.5 rounded text-[10px] font-bold text-cyan-400 uppercase tracking-widest">${t}</span>`).join('')}
                             </div>
-                            <h1 class="text-5xl font-black italic uppercase font-[Orbitron] text-white tracking-tighter">${data.nome}</h1>
-                            <p class="text-cyan-400 font-bold text-xs mt-1 uppercase">Sincronizzazione Area: ${data.regione}</p>
                         </div>
                         <div class="flex gap-4">
-                            <div class="stat-box text-center min-w-[70px] border-l-red-500">
-                                <div class="label text-red-500">HP</div>
-                                <div class="text-3xl font-black">${data.hp}</div>
-                            </div>
-                            <div class="stat-box text-center min-w-[120px]">
-                                <div class="label">TIPO</div>
-                                <div class="text-[10px] font-bold uppercase mt-2 text-cyan-200">${data.tipo.join(' / ')}</div>
-                            </div>
+                            <div class="stat-box text-center min-w-[70px] border-l-red-500"><div class="label text-red-500">HP</div><div class="text-3xl font-black">${data.hp}</div></div>
+                            <div class="stat-box text-center min-w-[70px] border-l-cyan-400"><div class="label text-cyan-400">WILL</div><div class="text-3xl font-black">${data.will}</div></div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-12 gap-6">
+                    <div class="grid grid-cols-12 gap-8">
                         <div class="col-span-3 space-y-6">
-                            <div class="bg-black/40 p-4 rounded-xl border border-white/5 shadow-inner">
-                                <img src="${data.immagine}" class="w-full h-40 object-contain drop-shadow-[0_0_15px_rgba(0,255,255,0.2)]">
+                            <div class="bg-black/50 p-4 rounded-xl border border-white/10 shadow-inner">
+                                <img src="${data.immagine}" class="w-full h-44 object-contain drop-shadow-[0_0_15px_rgba(14,165,233,0.3)]">
                             </div>
                             <div class="space-y-2">
-                                <div class="label opacity-50 border-b border-white/5 pb-1">Attributi Core</div>
-                                <div class="flex justify-between items-center text-xs uppercase"><span>Forza</span><div>${renderDots(data.attr.forza)}</div></div>
-                                <div class="flex justify-between items-center text-xs uppercase"><span>Destrezza</span><div>${renderDots(data.attr.destrezza)}</div></div>
-                                <div class="flex justify-between items-center text-xs uppercase"><span>Vitalità</span><div>${renderDots(data.attr.vitalita)}</div></div>
-                                <div class="flex justify-between items-center text-xs uppercase"><span>Special</span><div>${renderDots(data.attr.special)}</div></div>
-                                <div class="flex justify-between items-center text-xs uppercase"><span>Insight</span><div>${renderDots(data.attr.insight)}</div></div>
+                                <div class="label opacity-50 border-b border-white/5 pb-1">Primary Attributes</div>
+                                ${Object.entries(data.attr).map(([k,v]) => `<div class="flex justify-between text-[11px] uppercase"><span>${k}</span><div>${dots(v)}</div></div>`).join('')}
                             </div>
                         </div>
 
-                        <div class="col-span-5 px-4 border-x border-white/5">
-                            <div class="label text-yellow-500 mb-4 italic">Vitals & Defense Matrix</div>
-                            <div class="grid grid-cols-2 gap-4 mb-6">
-                                <div class="stat-box">
-                                    <div class="label">Iniziativa</div>
-                                    <div class="text-2xl font-black text-yellow-400">${data.combat.iniziativa}</div>
-                                    <div class="text-[8px] text-slate-500">DESTREZZA + ALLERT</div>
-                                </div>
-                                <div class="stat-box">
-                                    <div class="label">Evadere</div>
-                                    <div class="text-2xl font-black text-yellow-400">${data.combat.evadere}</div>
-                                    <div class="text-[8px] text-slate-500">DESTREZZA + EVASIONE</div>
-                                </div>
-                                <div class="stat-box border-l-cyan-500">
-                                    <div class="label">Difesa FIS | SPE</div>
-                                    <div class="text-2xl font-black text-white">${data.combat.difesa} | ${data.combat.difesa_speciale}</div>
-                                    <div class="text-[8px] text-slate-500">VITALITÀ | INSIGHT</div>
-                                </div>
-                                <div class="stat-box border-l-cyan-500">
-                                    <div class="label">Parata FIS | SPE</div>
-                                    <div class="text-2xl font-black text-cyan-400">${data.combat.parata} | ${data.combat.parata_speciale}</div>
-                                    <div class="text-[8px] text-slate-500">FORZA/SPEC + CLASH</div>
-                                </div>
-                            </div>
-
-                            <div class="label opacity-50 border-b border-white/5 pb-1 mb-2">Skill Matrix</div>
-                            <div class="grid grid-cols-2 gap-x-6 gap-y-1">
-                                ${Object.entries(data.skills).map(([k,v]) => `
-                                    <div class="flex justify-between items-center text-[10px] uppercase border-b border-white/5">
-                                        <span class="text-slate-400">${k}</span>
-                                        <span>${renderDots(v)}</span>
-                                    </div>
-                                `).join('')}
+                        <div class="col-span-5 px-6 border-x border-white/5">
+                            <div class="label mb-4 flex justify-between"><span>Skill Matrix</span><span class="text-red-500">STATUS: OPERATIONAL</span></div>
+                            <div class="grid grid-cols-1 gap-1">
+                                ${Object.entries(data.skills).map(([k,v]) => `<div class="flex justify-between items-center text-[11px] uppercase border-b border-white/5 pb-0.5"><span class="text-slate-400">${k}</span><div>${dots(v)}</div></div>`).join('')}
                             </div>
                         </div>
 
                         <div class="col-span-4 space-y-6">
+                            <div class="bg-cyan-900/10 p-4 rounded-xl border border-cyan-500/20">
+                                <div class="label mb-3">Combat Log <span class="float-right text-[8px] animate-pulse">RECORDING...</span></div>
+                                <div class="space-y-1 text-[10px] font-bold text-cyan-100 italic">
+                                    ${data.tecniche ? data.tecniche.slice(0,3).map(m => `<div>>> ${m.nome.toUpperCase()}</div>`).join('') : 'NESSUNA TECNICA RILEVATA'}
+                                </div>
+                            </div>
+
                             <div class="space-y-1">
-                                <div class="label opacity-50 border-b border-white/5 pb-1 mb-2">Social Matrix</div>
-                                ${Object.entries(data.social).map(([k,v]) => `
-                                    <div class="social-attr bg-${k.toLowerCase()}">
-                                        <span>${k}</span><div>${renderDots(v)}</div>
-                                    </div>
-                                `).join('')}
+                                <div class="label opacity-50 mb-2">Social Matrix</div>
+                                ${Object.entries(data.social).map(([k,v]) => `<div class="social-row bg-${k.toLowerCase()}"><span>${k}</span><div>${dots(v)}</div></div>`).join('')}
                             </div>
 
-                            <div class="stat-box border-l-yellow-500">
-                                <div class="label text-yellow-500">Abilità Speciale</div>
-                                <div class="text-sm font-bold uppercase tracking-wider text-white">${data.abi}</div>
-                            </div>
-
-                            <div class="bg-cyan-950/20 p-4 rounded-xl border border-cyan-500/20">
-                                <div class="label text-cyan-400 mb-2">Registry Tecniche (${data.will} slots)</div>
-                                <div class="space-y-1">
-                                    ${data.moves.map(m => `<div class="text-[10px] font-bold text-cyan-100 italic">>> ${m.toUpperCase()}</div>`).join('')}
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="stat-box !border-l-yellow-500 p-2">
+                                    <div class="label !text-[8px]">Iniziativa | Evadere</div>
+                                    <div class="text-lg font-black text-yellow-500">${data.combat.iniziativa} | ${data.combat.evadere}</div>
+                                </div>
+                                <div class="stat-box !border-l-cyan-400 p-2">
+                                    <div class="label !text-[8px]">Difesa F | S</div>
+                                    <div class="text-lg font-black text-cyan-400">${data.combat.difesa} | ${data.combat.difesa_speciale}</div>
+                                </div>
+                                <div class="stat-box !border-l-white col-span-2 p-2">
+                                    <div class="label !text-[8px]">Parata Fisica | Speciale</div>
+                                    <div class="text-lg font-black text-white">${data.combat.parata} | ${data.combat.parata_speciale}</div>
+                                    <div class="text-[7px] text-slate-500 uppercase mt-1">Forza/Spec + Clash</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-6 pt-4 border-t border-white/10">
-                        <div class="label opacity-30">Pokedex Entry</div>
-                        <p class="text-sm text-slate-400 italic leading-relaxed">"${data.descrizione}"</p>
+                    <div class="mt-8 pt-4 border-t border-white/5 text-[11px] text-slate-400 italic">
+                        "${data.descrizione || 'Nessuna voce Pokedex disponibile per questa unità.'}"
                     </div>
                 </div>
             </div>`;
         }
 
-        // Funzioni Modale
+        // Funzioni Modale e Firebase
         function openSaveModal() { document.getElementById('saveModal').classList.remove('hidden'); }
         function closeSaveModal() { document.getElementById('saveModal').classList.add('hidden'); }
-
         async function confirmFirebaseSave() {
             const nick = document.getElementById('customNickname').value.trim();
-            if(!nick) return alert("Inserisci un identificativo!");
-            
-            const btn = event.target;
-            btn.disabled = true;
-            btn.innerText = "Sincronizzazione...";
-
+            if(!nick) return alert("Identificativo richiesto.");
             try {
-                await db.collection("pokemon_generati").add({
-                    ...currentPKMN,
-                    nickname: nick,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                alert("Unità archiviata con successo!");
+                await db.collection("pokemon_generati").add({ ...currentPKMN, nickname: nick, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+                alert("Unità '" + nick + "' archiviata!");
                 closeSaveModal();
-                document.getElementById('saveBtn').innerText = "Archiviato ✓";
-                document.getElementById('saveBtn').disabled = true;
-            } catch(e) {
-                console.error(e);
-                alert("Errore durante l'upload.");
-                btn.disabled = false;
-                btn.innerText = "Riprova";
-            }
+            } catch(e) { alert("Errore connessione Firebase: " + e.message); }
         }
     </script>
 </body>
