@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Neural ProDex - Full Spectrum v18</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --pokedex-red: #d32f2f; --pokedex-dark: #8e0000; --holo-cyan: #22d3ee; --bg-deep: #020617; }
+        body { background-color: var(--bg-deep); font-family: 'JetBrains Mono', monospace; color: #e2e8f0; }
+        
+        /* --- Tipi Colori Ufficiali --- */
+        .t-acciaio { background-color: #B7B7CE; color: #1a1a1a; }
+        .t-acqua { background-color: #6390F0; color: white; }
+        .t-buio { background-color: #705746; color: white; }
+        .t-coleottero { background-color: #A6B91A; color: white; }
+        .t-drago { background-color: #6F35FC; color: white; }
+        .t-elettro { background-color: #F7D02C; color: #1a1a1a; }
+        .t-erba { background-color: #7AC74C; color: white; }
+        .t-folletto { background-color: #D685AD; color: white; }
+        .t-fuoco { background-color: #EE8130; color: white; }
+        .t-ghiaccio { background-color: #96D9D6; color: #1a1a1a; }
+        .t-lotta { background-color: #C22E28; color: white; }
+        .t-normale { background-color: #A8A77A; color: white; }
+        .t-psico { background-color: #F95587; color: white; }
+        .t-roccia { background-color: #B6A136; color: white; }
+        .t-spettro { background-color: #735797; color: white; }
+        .t-terra { background-color: #E2BF65; color: #1a1a1a; }
+        .t-veleno { background-color: #A33EA1; color: white; }
+        .t-volante { background-color: #A98FF3; color: white; }
+
+        /* --- UI Elements --- */
+        .pip { width: 10px; height: 10px; border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 2px; background: rgba(0,0,0,0.5); }
+        .pip.filled { background: var(--holo-cyan); box-shadow: 0 0 10px var(--holo-cyan); transform: skewX(-15deg); }
+        .pokedex-frame { background: linear-gradient(145deg, var(--pokedex-red), var(--pokedex-dark)); border-radius: 40px; padding: 20px; border: 4px solid #3a0000; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .holo-screen { background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(10px); border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 25px; padding: 20px; }
+        
+        /* --- Pillole Tipi Filtro --- */
+        .type-pill { font-size: 9px; font-weight: 900; padding: 5px 10px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; opacity: 0.3; transition: 0.3s; text-transform: uppercase; text-align: center; }
+        .type-pill.active { opacity: 1; border-color: white; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .type-pill:hover { opacity: 0.8; }
+
+        .search-input { background: rgba(0,0,0,0.6); border: 1px solid rgba(34,211,238,0.3); color: white; border-radius: 12px; outline: none; transition: 0.3s; }
+        .search-input:focus { border-color: var(--holo-cyan); box-shadow: 0 0 15px rgba(34,211,238,0.2); }
+        .btn-toggle.active { background: var(--holo-cyan); color: black; font-weight: 900; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="max-w-7xl mx-auto mb-10 border-b border-cyan-500/20 pb-8">
+        <div class="flex flex-col xl:flex-row justify-between items-center gap-8 mb-8">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-cyan-500 rounded-full flex items-center justify-center shadow-[0_0_20px_#22d3ee]">
+                    <span class="text-black font-black text-2xl font-[Orbitron]">G</span>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-black font-[Orbitron] text-white tracking-tighter uppercase">Neural ProDex</h1>
+                    <p class="text-[8px] text-cyan-400 font-bold tracking-[0.4em]">TACTICAL SCANNER</p>
+                </div>
+            </div>
+
+            <div class="w-full xl:w-1/3">
+                <input type="text" id="globalSearch" oninput="applyFilters()" placeholder="Cerca nome, tipo o descrizione..." class="search-input w-full px-6 py-4 text-cyan-400 font-bold">
+            </div>
+
+            <div class="flex items-center gap-3 bg-black/40 p-2 rounded-xl border border-white/5">
+                <select id="rankFilter" onchange="applyFilters()" class="search-input px-4 py-2 text-[10px] font-bold">
+                    <option value="all">TUTTI I RANGHI</option>
+                    <option value="STARTER">STARTER</option><option value="BEGINNER">BEGINNER</option>
+                    <option value="AMATEUR">AMATEUR</option><option value="ACE">ACE</option>
+                    <option value="PRO">PRO</option><option value="MASTER">MASTER</option>
+                </select>
+                <button id="lowerBtn" onclick="toggleLower()" class="border border-cyan-500 px-4 py-2 rounded-lg text-[9px] font-black text-cyan-500 uppercase btn-toggle transition-all">And Lower</button>
+            </div>
+        </div>
+
+        <div id="typeCloud" class="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-9 gap-2 bg-black/20 p-4 rounded-3xl border border-white/5">
+            </div>
+    </header>
+
+    <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto"></div>
+
+    <div id="infoModal" class="fixed inset-0 bg-black/95 hidden z-[5000] items-center justify-center p-4" onclick="this.style.display='none'">
+        <div class="bg-slate-950 border-2 border-cyan-500 p-8 rounded-[40px] max-w-2xl w-full shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+            <div id="modalBody"></div>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-8 py-4 bg-cyan-500 text-black font-black uppercase rounded-xl font-[Orbitron] hover:bg-white transition-all">CHIUDI RECORD</button>
+        </div>
+    </div>
+
+    <script>
+        const TIPI = ["Acciaio", "Acqua", "Buio", "Coleottero", "Drago", "Elettro", "Erba", "Folletto", "Fuoco", "Ghiaccio", "Lotta", "Normale", "Psico", "Roccia", "Spettro", "Terra", "Veleno", "Volante"];
+        const rankOrder = ["STARTER", "BEGINNER", "AMATEUR", "ACE", "PRO", "MASTER"];
+        
+        let dataStore = { pkmn: [], abilita: [], tecniche: [] };
+        let activeTypes = new Set();
+        let showLower = false;
+
+        async function init() {
+            const cloud = document.getElementById('typeCloud');
+            cloud.innerHTML = TIPI.map(t => `<div class="type-pill t-${t.toLowerCase()}" onclick="toggleType('${t}')">${t}</div>`).join('');
+            
+            try {
+                const [p, a, t] = await Promise.all([
+                    fetch('pokemon.json').then(r => r.json()),
+                    fetch('abilita.json').then(r => r.json()),
+                    fetch('tecniche.json').then(r => r.json())
+                ]);
+                dataStore = { pkmn: p, abilita: a, tecniche: t };
+                applyFilters();
+            } catch (e) { console.error("Sync Error"); }
+        }
+
+        function toggleType(type) {
+            if(activeTypes.has(type)) activeTypes.delete(type);
+            else activeTypes.add(type);
+            
+            document.querySelectorAll('.type-pill').forEach(pill => {
+                pill.classList.toggle('active', activeTypes.has(pill.innerText));
+            });
+            applyFilters();
+        }
+
+        function toggleLower() {
+            showLower = !showLower;
+            document.getElementById('lowerBtn').classList.toggle('active');
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('globalSearch').value.toLowerCase();
+            const rankQ = document.getElementById('rankFilter').value;
+
+            const filtered = dataStore.pkmn.filter(p => {
+                // Ricerca Estesa
+                const searchStr = `${p.nome} ${p.tipo?.join(' ')} ${p.descrizione || ''}`.toLowerCase();
+                const matchQ = searchStr.includes(query);
+
+                // Multi-Tipo
+                const matchT = activeTypes.size === 0 || p.tipo?.some(t => activeTypes.has(t));
+
+                // Rango Pokerole
+                let matchR = true;
+                if (rankQ !== 'all') {
+                    const pRank = (p.rango_suggerito || "STARTER").toUpperCase();
+                    const targetIdx = rankOrder.indexOf(rankQ);
+                    const pIdx = rankOrder.indexOf(pRank);
+                    matchR = showLower ? (pIdx <= targetIdx) : (pRank === rankQ);
+                }
+                return matchQ && matchT && matchR;
+            });
+            renderUI(filtered);
+        }
+
+        function renderUI(list) {
+            const container = document.getElementById('results');
+            container.innerHTML = list.map(p => `
+                <div class="pokedex-frame">
+                    <div class="holo-screen">
+                        <div class="flex justify-between items-start border-b border-cyan-500/10 pb-4 mb-4">
+                            <div>
+                                <h2 class="text-2xl font-black font-[Orbitron] uppercase text-white">${p.nome}</h2>
+                                <div class="flex gap-2 mt-2">${(p.tipo || []).map(t => `<span class="text-[8px] font-black px-3 py-1 rounded t-${t.toLowerCase()}">${t}</span>`).join('')}</div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[8px] text-cyan-500 font-bold uppercase">RANK SFERA</span><br>
+                                <span class="text-xs font-bold text-white uppercase">${p.rango_suggerito || 'STARTER'}</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-12 gap-6">
+                            <div class="col-span-4">
+                                <div class="bg-black/40 rounded-3xl p-4 border border-white/5 mb-4">
+                                    <img src="${p.immagine}" class="max-h-24 mx-auto drop-shadow-2xl">
+                                </div>
+                                <span class="text-[8px] text-cyan-500 font-bold uppercase">Abilità</span>
+                                <div class="space-y-1 mt-1">
+                                    ${(p.abilita || []).map(a => `<div onclick="openDetail('abilita', '${(a.nome||a).replace(/'/g, "\\'")}')" class="text-[9px] text-white/50 cursor-pointer hover:text-cyan-400 truncate">▶ ${a.nome || a}</div>`).join('')}
+                                </div>
+                            </div>
+                            <div class="col-span-8 space-y-2">
+                                ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
+                                    const val = p.attributi?.[s]?.base || p.attributi?.[s] || 0;
+                                    let pips = '';
+                                    for(let i=1; i<=5; i++) pips += `<div class="pip ${i <= val ? 'filled' : ''}"></div>`;
+                                    return `<div class="flex items-center justify-between"><span class="text-[9px] uppercase opacity-30">${s}</span><div class="flex gap-1">${pips}</div></div>`;
+                                }).join('')}
+                                <div class="flex justify-between mt-4 pt-3 border-t border-white/5">
+                                    <div class="text-center"><span class="text-[8px] opacity-40">HP</span><div class="text-lg font-bold text-red-500 leading-none">${p.hp||3}</div></div>
+                                    <div class="text-center"><span class="text-[8px] opacity-40">ALT</span><div class="text-[10px] text-white font-bold leading-none mt-1">${p.altezza||'-'}</div></div>
+                                    <div class="text-center"><span class="text-[8px] opacity-40">PESO</span><div class="text-[10px] text-white font-bold leading-none mt-1">${p.peso||'-'}</div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 border-t border-white/5 pt-3">
+                            <div class="max-h-32 overflow-y-auto pr-2 custom-scroll">
+                                ${(p.tecniche || []).map(t => `
+                                    <div onclick="openDetail('tecniche', '${(t.nome||t).replace(/'/g, "\\'")}')" class="bg-white/5 p-2 rounded mb-1 flex justify-between items-center cursor-pointer hover:bg-cyan-500/10 transition-colors">
+                                        <span class="text-[10px] font-bold text-white/80 uppercase">${t.nome || t}</span>
+                                        <span class="text-[7px] text-cyan-500 opacity-40">DATALINK ></span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.openDetail = (type, name) => {
+            const entry = dataStore[type].find(i => (i.nome || "").toLowerCase() === name.toLowerCase());
+            const body = document.getElementById('modalBody');
+
+            if (type === 'tecniche' && entry) {
+                body.innerHTML = `
+                    <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                        <h2 class="text-3xl font-black font-[Orbitron] uppercase text-white tracking-tighter">${entry.nome}</h2>
+                        <span class="text-[10px] font-black px-4 py-1.5 rounded t-${(entry.tipo || '').toLowerCase()}">${entry.tipo}</span>
+                    </div>
+                    <div class="space-y-5">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-black/60 p-4 rounded-2xl text-center"><span class="text-[8px] text-cyan-500 font-black uppercase">Accuratezza</span><div class="text-lg font-bold text-white mt-1">${entry.accuratezza || '-'}</div></div>
+                            <div class="bg-black/60 p-4 rounded-2xl text-center"><span class="text-[8px] text-cyan-500 font-black uppercase">Pool Danno</span><div class="text-lg font-bold text-red-500 mt-1">${entry.pool_danno || '-'}</div></div>
+                        </div>
+                        <div><span class="text-[8px] text-cyan-500 font-black uppercase">Descrizione Tecnica</span><div class="bg-black/40 p-5 rounded-2xl text-xs text-slate-300 mt-1 leading-relaxed">"${entry.descrizione || 'N/A'}"</div></div>
+                        <div><span class="text-[8px] text-cyan-500 font-black uppercase">Effetti Aggiuntivi</span><div class="bg-cyan-900/20 p-5 rounded-2xl text-xs text-cyan-100 mt-1 border border-cyan-500/20 italic">${entry.effetti_aggiuntivi || entry.effetto || 'Nessuno.'}</div></div>
+                    </div>`;
+            } else {
+                body.innerHTML = `<h2 class="text-2xl font-black text-white mb-6 uppercase font-[Orbitron]">${name}</h2><div class="bg-black/60 p-6 rounded-2xl italic text-slate-300 text-sm">"${entry?.effetto || entry?.descrizione || 'Dati non disponibili.'}"</div>`;
+            }
+            document.getElementById('infoModal').style.display = 'flex';
+        };
+
+        init();
+    </script>
+</body>
+</html>
