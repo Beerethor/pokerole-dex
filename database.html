@@ -115,7 +115,7 @@
             renderTypeFilters();
 
             try {
-                const response = await fetch('pokedex.json');
+                const response = await fetch('pokemon.json');
                 const rawData = await response.json();
                 
                 loader.style.width = '70%';
