@@ -3,89 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - Full Trainer Sheet</title>
+    <title>Neural ProDex - Trainer Card 2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --pokedex-red: #ef4444; --bg-dark: #020617; }
         body { background-color: var(--bg-dark); font-family: 'JetBrains Mono', monospace; color: white; }
         
-        /* Estetica Scheda PDF */
         .trainer-sheet { 
-            background: #e2e8f0; color: #1e293b; border-radius: 20px; 
-            padding: 20px; border: 4px solid #94a3b8; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            max-width: 800px; margin: auto;
+            background: #cbd5e1; color: #1e293b; border-radius: 20px; 
+            padding: 15px; border: 4px solid #94a3b8; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            max-width: 950px; margin: auto;
         }
-        .header-card { background: #ef4444; color: white; border-radius: 15px 15px 0 0; padding: 10px; font-family: 'Orbitron'; }
-        .label-sm { font-size: 0.55rem; font-weight: 800; text-transform: uppercase; color: #475569; display: block; }
-        .stat-box { background: #cbd5e1; padding: 4px; border-radius: 6px; border-bottom: 2px solid #94a3b8; }
+        .header-card { background: #ef4444; color: white; padding: 8px 15px; font-family: 'Orbitron'; clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%); }
+        .label-xs { font-size: 0.5rem; font-weight: 900; text-transform: uppercase; color: #475569; }
+        .stat-value { font-weight: 900; font-size: 14px; }
         
-        /* Form Inputs */
+        /* Input styling */
+        .input-group { background: rgba(0,0,0,0.05); padding: 5px; border-radius: 5px; margin-bottom: 5px; }
         input, select, textarea { 
-            background: #1e293b; border: 1px solid #334155; border-radius: 6px; 
-            padding: 8px; width: 100%; color: white; font-size: 12px;
+            background: #0f172a; border: 1px solid #334155; border-radius: 4px; 
+            padding: 4px 8px; width: 100%; color: #38bdf8; font-size: 11px;
         }
-        .section-title { color: #ef4444; font-weight: 900; font-size: 10px; border-bottom: 1px solid #334155; margin-bottom: 10px; padding-top: 15px; }
+        .section-header { background: #1e293b; color: #f8fafc; font-size: 9px; padding: 2px 8px; font-weight: 900; margin: 10px 0 5px 0; border-radius: 3px; }
+        
+        /* Skill dots */
+        .dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid #64748b; }
+        .dot.filled { background: #1e293b; }
     </style>
 </head>
-<body class="p-4">
+<body class="p-4 md:p-10">
 
     <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
-            <h1 class="text-3xl font-black font-[Orbitron] italic uppercase">Trainer <span class="text-red-500">Registry</span></h1>
-            <div class="flex gap-2">
-                <button onclick="showNewTrainerForm()" class="bg-blue-600 px-4 py-2 rounded-lg font-black uppercase text-[10px]">Aggiungi Operatore</button>
-                <a href="index.html" class="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-black uppercase">Hub</a>
-            </div>
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-black font-[Orbitron] italic uppercase tracking-tighter">Trainer <span class="text-red-500 underline">Database</span></h1>
+            <button onclick="showNewTrainerForm()" class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-full font-black uppercase text-xs transition-all shadow-lg shadow-red-600/20">Nuovo Record</button>
         </header>
 
-        <div id="trainer-form" class="hidden mb-10 bg-slate-900/80 p-6 rounded-2xl border border-white/10">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div id="trainer-form" class="hidden mb-12 bg-slate-900 border border-blue-500/30 p-8 rounded-3xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
-                <div class="space-y-3">
-                    <div class="h-40 bg-slate-800 rounded-xl border-2 border-dashed border-slate-600 flex items-center justify-center relative overflow-hidden">
-                        <img id="preview-img" class="absolute inset-0 w-full h-full object-cover hidden">
-                        <input type="file" id="t-file" onchange="previewFile()" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <span class="text-[8px] text-slate-500 uppercase">Foto</span>
-                    </div>
-                    <input type="text" id="t-name" placeholder="NOME">
+                <div class="space-y-4">
+                    <div class="section-header">PAGINA 1: IDENTITÀ</div>
+                    <input type="file" id="t-file" onchange="previewFile()" class="text-[9px]">
+                    <input type="text" id="t-name" placeholder="NOME ALLENATORE">
                     <input type="number" id="t-age" placeholder="ANNI">
-                    <select id="t-rank">
-                        <option>Starter</option><option>Beginner</option><option>Amateur</option><option>Ace</option><option>Pro</option><option>Master</option>
-                    </select>
-                </div>
-
-                <div class="space-y-3">
-                    <div class="section-title">Personalità</div>
                     <input type="text" id="t-nature" placeholder="NATURA">
-                    <input type="number" id="t-confidence" placeholder="CONFIDENCE">
-                    <input type="number" id="t-money" placeholder="MONEY ($)">
+                    <input type="number" id="t-money" placeholder="SOLDI ($)">
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="number" id="s-hp" placeholder="HP">
-                        <input type="number" id="s-will" placeholder="WILL">
+                        <input type="number" id="s-hp" placeholder="HP MAX">
+                        <input type="number" id="s-will" placeholder="WILL MAX">
                     </div>
                 </div>
 
-                <div class="space-y-3">
-                    <div class="section-title">Attributi (1-5)</div>
-                    <input type="number" id="s-str" placeholder="STRENGTH" max="5">
-                    <input type="number" id="s-dex" placeholder="DEXTERITY" max="5">
-                    <input type="number" id="s-vit" placeholder="VITALITY" max="5">
-                    <input type="number" id="s-ins" placeholder="INSIGHT" max="5">
+                <div class="space-y-4">
+                    <div class="section-header">PAGINA 2: ABILITÀ</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="sk-brawl" placeholder="BRAWL (Fight)">
+                        <input type="number" id="sk-throw" placeholder="THROW (Fight)">
+                        <input type="number" id="sk-alert" placeholder="ALERT (Survival)">
+                        <input type="number" id="sk-stealth" placeholder="STEALTH (Survival)">
+                        <input type="number" id="sk-allure" placeholder="ALLURE (Social)">
+                        <input type="number" id="sk-lore" placeholder="LORE (Knowl.)">
+                        <input type="number" id="sk-med" placeholder="MEDICINE (Knowl.)">
+                        <input type="number" id="sk-sci" placeholder="SCIENCE (Knowl.)">
+                    </div>
+                    <div class="section-header">VIRTÙ (0-5)</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="v-tough" placeholder="TOUGH">
+                        <input type="number" id="v-cool" placeholder="COOL">
+                        <input type="number" id="v-beauty" placeholder="BEAUTY">
+                        <input type="number" id="v-cute" placeholder="CUTE">
+                    </div>
                 </div>
 
-                <div class="space-y-3">
-                    <div class="section-title">Specialità (0-5)</div>
-                    <input type="number" id="sk-allure" placeholder="ALLURE (Social)">
-                    <input type="number" id="sk-lore" placeholder="LORE (Knowledge)">
-                    <input type="number" id="sk-brawl" placeholder="BRAWL (Fight)">
-                    <textarea id="t-backpack" placeholder="ZAINO (Pozioni, Strumenti...)" rows="3"></textarea>
+                <div class="space-y-4">
+                    <div class="section-header">ZAINO & OBIETTIVI</div>
+                    <textarea id="t-backpack" placeholder="CONTENUTO ZAINO..." rows="4"></textarea>
+                    <textarea id="t-achievements" placeholder="ACHIEVEMENTS / OBIETTIVI..." rows="4"></textarea>
+                    <input type="number" id="t-pokedex" placeholder="POKÉMON CAUGHT/SEEN">
                 </div>
             </div>
-            <button onclick="saveTrainer()" class="w-full mt-6 bg-red-600 py-3 rounded-xl font-black uppercase text-xs">Sincronizza nel Cloud</button>
+            <button onclick="saveTrainer()" class="w-full mt-8 bg-blue-600 hover:bg-blue-400 text-white py-4 rounded-xl font-black uppercase tracking-widest transition-all">Sincronizza Dati Operatore</button>
         </div>
 
-        <div id="trainer-list" class="space-y-10"></div>
+        <div id="trainer-list" class="space-y-16"></div>
     </div>
 
     <script type="module">
@@ -93,6 +95,7 @@
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+        // Configurazione (Stessa del tuo progetto)
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
             authDomain: "pokerole-app.firebaseapp.com",
@@ -114,12 +117,7 @@
         window.previewFile = () => {
             const file = document.getElementById('t-file').files[0];
             const reader = new FileReader();
-            reader.onloadend = () => {
-                base64Image = reader.result;
-                const img = document.getElementById('preview-img');
-                img.src = base64Image;
-                img.classList.remove('hidden');
-            };
+            reader.onloadend = () => { base64Image = reader.result; };
             if (file) reader.readAsDataURL(file);
         };
 
@@ -128,28 +126,32 @@
             const trainerData = {
                 id: Date.now(),
                 nome: document.getElementById('t-name').value,
-                rango: document.getElementById('t-rank').value,
                 anni: document.getElementById('t-age').value,
                 natura: document.getElementById('t-nature').value,
-                confidence: document.getElementById('t-confidence').value,
-                money: document.getElementById('t-money').value,
+                soldi: document.getElementById('t-money').value,
                 hp: document.getElementById('s-hp').value,
                 will: document.getElementById('s-will').value,
+                viste: document.getElementById('t-pokedex').value,
                 zaino: document.getElementById('t-backpack').value,
+                obiettivi: document.getElementById('t-achievements').value,
                 immagine: base64Image || "https://api.dicebear.com/7.x/pixel-art/svg",
-                stats: {
-                    strength: document.getElementById('s-str').value,
-                    dexterity: document.getElementById('s-dex').value,
-                    vitality: document.getElementById('s-vit').value,
-                    insight: document.getElementById('s-ins').value,
-                },
                 skills: {
+                    brawl: document.getElementById('sk-brawl').value,
+                    throw: document.getElementById('sk-throw').value,
+                    alert: document.getElementById('sk-alert').value,
+                    stealth: document.getElementById('sk-stealth').value,
                     allure: document.getElementById('sk-allure').value,
                     lore: document.getElementById('sk-lore').value,
-                    brawl: document.getElementById('sk-brawl').value
+                    med: document.getElementById('sk-med').value,
+                    sci: document.getElementById('sk-sci').value
+                },
+                virtue: {
+                    tough: document.getElementById('v-tough').value,
+                    cool: document.getElementById('v-cool').value,
+                    beauty: document.getElementById('v-beauty').value,
+                    cute: document.getElementById('v-cute').value
                 }
             };
-
             const userRef = doc(db, "Users", currentUser.uid);
             await updateDoc(userRef, { allenatori_generati: arrayUnion(trainerData) });
             location.reload();
@@ -166,45 +168,76 @@
         function renderTrainers(list) {
             document.getElementById('trainer-list').innerHTML = list.map(t => `
                 <div class="trainer-sheet">
-                    <div class="header-card flex justify-between px-4">
-                        <span class="text-[9px] font-black uppercase">Pokémon League Card</span>
-                        <span class="text-[9px] font-bold">RANGO: ${t.rango}</span>
+                    <div class="header-card flex justify-between items-center mb-4">
+                        <span class="text-[10px] font-black tracking-widest">POKÉMON LEAGUE OFFICIAL</span>
+                        <span class="text-xs bg-black/20 px-3 py-1 rounded">REC ID: ${t.id.toString().slice(-6)}</span>
                     </div>
-                    <div class="grid grid-cols-12 gap-4 mt-4">
-                        <div class="col-span-4 space-y-2">
-                            <img src="${t.immagine}" class="w-full h-44 object-cover rounded-lg border-2 border-slate-400">
+
+                    <div class="grid grid-cols-12 gap-6">
+                        <div class="col-span-12 md:col-span-4 space-y-4">
+                            <img src="${t.immagine}" class="w-full h-56 object-cover rounded-xl border-4 border-white shadow-lg">
                             <div class="flex gap-2">
-                                <div class="stat-box flex-1 text-center"><span class="label-sm">HP</span><div class="font-black">${t.hp}</div></div>
-                                <div class="stat-box flex-1 text-center"><span class="label-sm">WILL</span><div class="font-black">${t.will}</div></div>
-                            </div>
-                            <div class="stat-box text-center"><span class="label-sm">MONEY</span><div class="font-black">$ ${t.money}</div></div>
-                        </div>
-                        <div class="col-span-8">
-                            <div class="grid grid-cols-2 border-b border-slate-400 mb-2">
-                                <div><span class="label-sm">Name:</span><div class="font-black uppercase">${t.nome}</div></div>
-                                <div><span class="label-sm">Age:</span><div class="font-bold">${t.anni}</div></div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <span class="label-sm">Nature:</span><div class="text-[10px] font-bold uppercase mb-2">${t.natura}</div>
-                                    <span class="label-sm">Confidence:</span><div class="font-bold mb-4">${t.confidence} / 5</div>
-                                    <span class="label-sm">Backpack:</span><div class="text-[9px] bg-white/50 p-2 rounded h-20 overflow-auto italic">"${t.zaino}"</div>
+                                <div class="bg-white/60 p-2 rounded-lg flex-1 text-center">
+                                    <span class="label-xs">HP</span><div class="stat-value text-red-600">${t.hp}</div>
                                 </div>
-                                <div class="space-y-1">
-                                    <span class="label-sm">Main Attributes:</span>
-                                    ${Object.entries(t.stats).map(([k, v]) => `
-                                        <div class="flex justify-between items-center text-[9px] bg-slate-300 p-1 rounded">
-                                            <span class="font-bold uppercase">${k}</span>
-                                            <div class="flex gap-0.5">${Array.from({length:5}).map((_,i)=>`<div class="w-1.5 h-1.5 rounded-full ${i<v?'bg-slate-800':'bg-white'}"></div>`).join('')}</div>
-                                        </div>
-                                    `).join('')}
+                                <div class="bg-white/60 p-2 rounded-lg flex-1 text-center">
+                                    <span class="label-xs">WILL</span><div class="stat-value text-blue-600">${t.will}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-12 md:col-span-8">
+                            <div class="grid grid-cols-2 gap-y-4 border-b border-slate-400 pb-4 mb-4">
+                                <div><span class="label-xs">Name</span><div class="font-black text-2xl uppercase">${t.nome}</div></div>
+                                <div><span class="label-xs">Age</span><div class="font-bold text-xl">${t.anni}</div></div>
+                                <div><span class="label-xs">Nature</span><div class="font-bold uppercase">${t.natura}</div></div>
+                                <div><span class="label-xs">Money</span><div class="font-black text-green-700">$ ${t.soldi}</div></div>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <span class="label-xs text-red-800">FIGHT / SURVIVAL</span>
+                                    <div class="text-[9px] font-bold">BRAWL: ${t.skills.brawl}</div>
+                                    <div class="text-[9px] font-bold">THROW: ${t.skills.throw}</div>
+                                    <div class="text-[9px] font-bold">ALERT: ${t.skills.alert}</div>
+                                </div>
+                                <div>
+                                    <span class="label-xs text-blue-800">SOCIAL / KNOWLEDGE</span>
+                                    <div class="text-[9px] font-bold">ALLURE: ${t.skills.allure}</div>
+                                    <div class="text-[9px] font-bold">LORE: ${t.skills.lore}</div>
+                                    <div class="text-[9px] font-bold">SCIENCE: ${t.skills.sci}</div>
+                                </div>
+                                <div>
+                                    <span class="label-xs text-orange-800">VIRTUES</span>
+                                    <div class="text-[9px] font-bold">TOUGH: ${t.virtue.tough}</div>
+                                    <div class="text-[9px] font-bold">COOL: ${t.virtue.cool}</div>
+                                    <div class="text-[9px] font-bold">BEAUTY: ${t.virtue.beauty}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4 flex gap-2 overflow-x-auto pb-2">
-                        ${Array.from({length:8}).map((_,i)=>`<div class="w-8 h-8 rounded-full border-2 border-slate-400 flex items-center justify-center text-[8px] text-slate-400 font-bold">${i+1}</div>`).join('')}
-                        <span class="label-sm self-center ml-2">Gym Badges</span>
+
+                    <div class="mt-6 border-t-2 border-dashed border-slate-400 pt-6 grid grid-cols-2 gap-8">
+                        <div>
+                            <span class="label-xs">Backpack / Inventory</span>
+                            <div class="bg-white/40 p-3 rounded-lg text-[10px] italic h-32 overflow-auto">"${t.zaino}"</div>
+                        </div>
+                        <div>
+                            <span class="label-xs">Achievements & Progress</span>
+                            <div class="bg-white/40 p-3 rounded-lg text-[10px] h-32 overflow-auto">
+                                <p class="font-bold mb-2">Pokémon Seen/Caught: ${t.viste}</p>
+                                ${t.obiettivi}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-between items-center bg-black/5 p-4 rounded-xl">
+                        <span class="label-xs font-black">Gym Badges</span>
+                        <div class="flex gap-3">
+                            ${Array.from({length:8}).map((_,i)=>`
+                                <div class="w-10 h-10 rounded-full bg-white/50 border-2 border-white flex items-center justify-center text-[10px] font-black text-slate-400 shadow-inner">${i+1}</div>
+                            `).join('')}
+                        </div>
                     </div>
                 </div>
             `).join('');
