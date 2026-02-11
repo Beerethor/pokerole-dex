@@ -57,7 +57,7 @@
         .stat-bar-container { height: 8px; background: rgba(0,0,0,0.6); border-radius: 4px; border: 1px solid rgba(34, 211, 238, 0.2); overflow: hidden; }
         .stat-fill { height: 100%; background: linear-gradient(90deg, #0891b2, #22d3ee); box-shadow: 0 0 10px #22d3ee; }
 
-        /* --- TAG TIPI --- */
+        /* --- TAG TIPI (Colori manuale) --- */
         .type-tag { font-family: 'Orbitron', sans-serif; font-size: 9px; padding: 4px 10px; border-radius: 6px; font-weight: 900; color: white; border: 1px solid rgba(255,255,255,0.3); text-transform: uppercase; }
         .type-fuoco { background-color: #ef4444; } .type-acqua { background-color: #3b82f6; }
         .type-erba { background-color: #22c55e; } .type-elettro { background-color: #eab308; color: black; }
@@ -98,7 +98,7 @@
     <div id="infoModal" class="modal-overlay" onclick="closeModal()">
         <div class="modal-content animate-pop" onclick="event.stopPropagation()">
             <div id="modalData"></div>
-            <button onclick="closeModal()" class="w-full mt-6 bg-cyan-600/20 border border-cyan-500 text-cyan-400 py-2 rounded-lg font-black uppercase text-xs hover:bg-cyan-500 hover:text-white transition-all">Sincronizza e Chiudi</button>
+            <button onclick="closeModal()" class="w-full mt-6 bg-cyan-600/20 border border-cyan-500 text-cyan-400 py-2 rounded-lg font-black uppercase text-xs hover:bg-cyan-500 hover:text-white transition-all italic">Sincronizza e Chiudi</button>
         </div>
     </div>
 
@@ -106,7 +106,7 @@
         <header class="flex justify-between items-center mb-10 border-b border-cyan-900/30 pb-6">
             <div>
                 <h1 class="text-4xl font-black italic text-white font-[Orbitron] tracking-tighter">PRODEX <span class="text-cyan-500">2.2</span></h1>
-                <p class="text-[9px] uppercase tracking-[0.6em] text-cyan-700 font-bold">Neural Link: Online</p>
+                <p class="text-[9px] uppercase tracking-[0.6em] text-cyan-700 font-bold">Neural Link: Connected</p>
             </div>
             <a href="index.html" class="px-6 py-2 border border-red-900/50 text-red-500 rounded-full text-[10px] font-black uppercase hover:bg-red-950 transition-all">Disconnetti</a>
         </header>
@@ -119,7 +119,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // CONFIGURAZIONE FIREBASE
+        // Configurazione Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
             authDomain: "pokerole-app.firebaseapp.com",
@@ -132,20 +132,21 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Cache globale per i dati
+        // Cache globale per risolvere il bug [object Object] nei popup
         window.pokedexCache = [];
 
         async function loadPokedex() {
             const container = document.getElementById('results');
-            container.innerHTML = '<p class="col-span-full text-center text-cyan-500 animate-pulse font-black uppercase">Interrogazione Database...</p>';
+            container.innerHTML = '<p class="col-span-full text-center text-cyan-500 animate-pulse font-black uppercase">Interrogazione Neural Link...</p>';
 
             try {
                 const snap = await getDocs(collection(db, "pkmn"));
                 window.pokedexCache = snap.docs.map(doc => doc.data());
                 
+                // Generazione card utilizzando l'indice della cache
                 container.innerHTML = window.pokedexCache.map((p, index) => createPkmnCard(p, index)).join('');
             } catch (err) {
-                container.innerHTML = `<p class="text-red-500 text-center col-span-full uppercase">Errore di rete: ${err.message}</p>`;
+                container.innerHTML = `<p class="text-red-500 text-center col-span-full uppercase italic">Errore Sync: ${err.message}</p>`;
             }
         }
 
@@ -160,7 +161,7 @@
                 <div class="holo-screen">
                     <div class="flex justify-between items-start mb-4 border-b border-cyan-500/20 pb-2">
                         <div>
-                            <span class="text-[10px] text-cyan-400 font-black tracking-widest uppercase">SYS ID: ${p.pokedex_id || 'UNK'}</span>
+                            <span class="text-[10px] text-cyan-400 font-black tracking-widest uppercase italic">SYS ID: ${p.pokedex_id || 'UNK'}</span>
                             <h2 class="text-2xl font-black text-white uppercase italic tracking-tighter">${p.nome}</h2>
                         </div>
                         <div class="flex gap-1">
@@ -170,25 +171,25 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                         <div class="md:col-span-5 space-y-4">
-                            <div class="bg-black/40 rounded-2xl p-4 border border-white/5 h-40 flex items-center justify-center relative group">
+                            <div class="bg-black/40 rounded-2xl p-4 border border-white/5 h-40 flex items-center justify-center group relative">
                                 <img src="${p.immagine}" class="max-h-full object-contain drop-shadow-[0_0_15px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform">
                             </div>
                             
                             <div class="bg-cyan-950/20 border border-cyan-500/10 p-3 rounded-xl">
-                                <span class="text-[8px] text-cyan-500 font-black uppercase mb-2 block">Abilità Passive</span>
+                                <span class="text-[8px] text-cyan-500 font-black uppercase mb-2 block italic tracking-widest">Abilità Passive</span>
                                 <div class="flex flex-wrap gap-2">
                                     ${abils.map((a, aIdx) => {
                                         const name = (typeof a === 'object') ? (a.nome || a.name) : a;
-                                        return `<span onclick="openInfo('abilita', ${pIdx}, ${aIdx})" class="text-[9px] text-white font-bold px-2 py-1 bg-white/10 rounded cursor-pointer hover:bg-cyan-500/30 transition-all uppercase italic">${name}</span>`;
+                                        return `<span onclick="openInfo('abilita', ${pIdx}, ${aIdx})" class="text-[9px] text-white font-bold px-2 py-1 bg-white/10 rounded cursor-pointer hover:bg-cyan-500/40 transition-all uppercase italic">${name}</span>`;
                                     }).join('')}
                                 </div>
                             </div>
                         </div>
 
                         <div class="md:col-span-7 space-y-3">
-                            <div class="flex justify-between text-[10px] font-black border-b border-white/5 pb-2">
-                                <span class="text-slate-500">HP: <span class="text-white">${p.vitalita_max?.hp || 3}</span></span>
-                                <span class="text-slate-500">RANK: <span class="text-cyan-400 font-black">${p.rango?.toUpperCase() || 'STARTER'}</span></span>
+                            <div class="flex justify-between text-[10px] font-black border-b border-white/5 pb-2 uppercase italic">
+                                <span class="text-slate-500">Base HP: <span class="text-white">${p.vitalita_max?.hp || 3}</span></span>
+                                <span class="text-slate-500">Class: <span class="text-cyan-400 font-black">${p.rango?.toUpperCase() || 'STARTER'}</span></span>
                             </div>
                             ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
                                 const val = stats[s]?.base || stats[s] || 0;
@@ -206,11 +207,11 @@
                     </div>
 
                     <div class="mt-6 pt-4 border-t border-cyan-500/20">
-                        <span class="text-[8px] text-cyan-500 font-black uppercase mb-3 block tracking-[0.3em] text-center">Neural Move Repository</span>
+                        <span class="text-[8px] text-cyan-500 font-black uppercase mb-3 block tracking-[0.3em] text-center italic">Neural Move Repository</span>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
                             ${techs.map((t, tIdx) => {
                                 const name = (typeof t === 'object') ? (t.nome || t.name) : t;
-                                return `<div onclick="openInfo('tecniche', ${pIdx}, ${tIdx})" class="tech-pill truncate uppercase italic">${name}</div>`;
+                                return `<div onclick="openInfo('tecniche', ${pIdx}, ${tIdx})" class="tech-pill truncate uppercase italic font-bold">${name}</div>`;
                             }).join('')}
                         </div>
                     </div>
@@ -218,7 +219,7 @@
             </div>`;
         }
 
-        // LOGICA POPUP DEFINITIVA
+        // FUNZIONE GESTIONE MODALE (Pop-up dettagli)
         window.openInfo = (type, pIdx, itemIdx) => {
             const pokemon = window.pokedexCache[pIdx];
             const data = pokemon[type][itemIdx];
@@ -228,26 +229,26 @@
             let html = '';
             if (typeof data !== 'object') {
                 html = `
-                    <h2 class="text-cyan-400 font-black text-xl uppercase italic mb-2">${type === 'abilita' ? 'Abilità' : 'Tecnica'}</h2>
-                    <p class="text-white text-lg font-bold uppercase">${data}</p>
-                    <p class="text-slate-500 text-xs mt-4 italic">Modulo dati essenziale caricato.</p>
+                    <h2 class="text-cyan-400 font-black text-xl uppercase italic mb-2 tracking-tighter">${type === 'abilita' ? 'Abilità' : 'Tecnica'}</h2>
+                    <p class="text-white text-lg font-bold uppercase italic">${data}</p>
+                    <p class="text-slate-500 text-[10px] mt-4 italic uppercase tracking-widest">Modulo dati essenziale caricato.</p>
                 `;
             } else {
                 html = `
                     <div class="flex justify-between items-center mb-4 border-b border-cyan-500/30 pb-2">
-                        <h2 class="text-cyan-400 font-black text-xl uppercase italic">${data.nome || data.name}</h2>
-                        <span class="text-[10px] text-slate-500 uppercase font-black tracking-widest">${type}</span>
+                        <h2 class="text-cyan-400 font-black text-xl uppercase italic tracking-tighter">${data.nome || data.name}</h2>
+                        <span class="text-[9px] text-slate-500 uppercase font-black tracking-widest italic">${type}</span>
                     </div>
                     <p class="text-white italic text-sm leading-relaxed mb-6">"${data.effetto || data.descrizione || 'Record descrizione non disponibile.'}"</p>
                     
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-black/50 p-3 rounded-lg border border-cyan-500/20">
-                            <span class="text-[8px] text-cyan-500 uppercase block font-black mb-1">Potenza / Dadi</span>
-                            <span class="text-white font-bold font-mono">${data.danno || data.pool_dadi || '-'}</span>
+                            <span class="text-[8px] text-cyan-500 uppercase block font-black mb-1 italic">Potenza / Dadi</span>
+                            <span class="text-white font-bold font-mono text-lg">${data.danno || data.pool_dadi || '-'}</span>
                         </div>
                         <div class="bg-black/50 p-3 rounded-lg border border-cyan-500/20">
-                            <span class="text-[8px] text-cyan-500 uppercase block font-black mb-1">Precisione</span>
-                            <span class="text-white font-bold font-mono">${data.accuratezza || data.precisione || '-'}</span>
+                            <span class="text-[8px] text-cyan-500 uppercase block font-black mb-1 italic">Precisione</span>
+                            <span class="text-white font-bold font-mono text-lg">${data.accuratezza || data.precisione || '-'}</span>
                         </div>
                     </div>
                 `;
@@ -261,7 +262,10 @@
             document.getElementById('infoModal').style.display = 'none';
         };
 
-        // Caricamento iniziale
+        // Chiudi modale cliccando sullo sfondo
+        window.onclick = (e) => { if(e.target == document.getElementById('infoModal')) closeModal(); };
+
+        // Caricamento iniziale dei dati
         loadPokedex();
     </script>
 </body>
