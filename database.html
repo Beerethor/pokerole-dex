@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole Neural ProDex - Final v5.0</title>
+    <title>PokeRole Neural ProDex - Ultimate v6.0</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -18,338 +18,254 @@
 
         body { background-color: var(--bg-deep); font-family: 'JetBrains Mono', monospace; color: #e2e8f0; overflow-x: hidden; }
 
-        /* --- LOADING BAR --- */
-        #loader-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 4px;
-            background: rgba(0,0,0,0.5); z-index: 2000;
-        }
-        #loader-bar {
-            width: 0%; height: 100%; background: var(--holo-cyan);
-            box-shadow: 0 0 15px var(--holo-cyan); transition: width 0.3s ease;
-        }
+        /* --- UI COMPONENTS --- */
+        #loader-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: rgba(0,0,0,0.5); z-index: 2000; }
+        #loader-bar { width: 0%; height: 100%; background: var(--holo-cyan); box-shadow: 0 0 15px var(--holo-cyan); transition: width 0.3s; }
 
-        /* --- NAVIGATION --- */
-        .nav-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
         .nav-btn {
             background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2);
-            padding: 12px 24px; border-radius: 12px; font-family: 'Orbitron', sans-serif;
+            padding: 10px 20px; border-radius: 8px; font-family: 'Orbitron', sans-serif;
             font-size: 10px; font-weight: 900; color: var(--holo-cyan); cursor: pointer;
-            transition: all 0.3s; text-transform: uppercase; letter-spacing: 2px;
+            transition: all 0.3s; text-transform: uppercase;
         }
-        .nav-btn.active { background: var(--holo-cyan); color: black; box-shadow: 0 0 20px rgba(34, 211, 238, 0.4); }
+        .nav-btn.active { background: var(--holo-cyan); color: black; box-shadow: 0 0 15px rgba(34, 211, 238, 0.4); }
 
-        /* --- UI COMPONENTS --- */
-        .search-area {
-            background: rgba(15, 23, 42, 0.9); border: 2px solid var(--holo-cyan);
-            border-radius: 24px; padding: 24px; backdrop-filter: blur(10px);
-            box-shadow: 0 0 30px rgba(34, 211, 238, 0.1);
+        .type-pill-filter {
+            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; opacity: 0.6;
         }
-        .search-input-alt {
-            background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(34, 211, 238, 0.5);
-            border-radius: 50px; padding: 12px 25px; width: 100%; color: var(--holo-cyan);
-            font-family: 'Orbitron', sans-serif; outline: none;
-        }
+        .type-pill-filter:hover { opacity: 1; transform: scale(1.1); }
+        .type-pill-filter.active { opacity: 1; border-color: white; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
 
-        /* --- POKEMON CARD STYLE --- */
+        /* --- CARD & DESIGN --- */
         .pokedex-frame {
             background: linear-gradient(145deg, var(--pokedex-red), var(--pokedex-dark));
-            border: 4px solid #3a0000; border-radius: 45px; padding: 20px;
+            border: 4px solid #3a0000; border-radius: 40px; padding: 18px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         .holo-screen {
             background: linear-gradient(135deg, rgba(6, 182, 212, 0.05), rgba(15, 23, 42, 0.98));
             backdrop-filter: blur(12px); border: 1px solid rgba(34, 211, 238, 0.2);
-            border-radius: 30px; padding: 22px; height: 100%;
+            border-radius: 25px; padding: 20px; height: 100%;
         }
-        
-        /* Tipi Colori */
-        .type-tag { font-size: 9px; font-weight: 900; padding: 4px 12px; border-radius: 6px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); }
-        .type-acciaio { background-color: #B7B7CE; color: #1a1a1a; }
-        .type-acqua { background-color: #6390F0; color: white; }
-        .type-buio { background-color: #705746; color: white; }
-        .type-coleottero { background-color: #A6B91A; color: white; }
-        .type-drago { background-color: #6F35FC; color: white; }
-        .type-elettro { background-color: #F7D02C; color: #1a1a1a; }
-        .type-erba { background-color: #7AC74C; color: white; }
-        .type-folletto { background-color: #D685AD; color: white; }
-        .type-fuoco { background-color: #EE8130; color: white; }
-        .type-ghiaccio { background-color: #96D9D6; color: #1a1a1a; }
-        .type-lotta { background-color: #C22E28; color: white; }
-        .type-normale { background-color: #A8A77A; color: white; }
-        .type-psico { background-color: #F95587; color: white; }
-        .type-roccia { background-color: #B6A136; color: white; }
-        .type-spettro { background-color: #735797; color: white; }
-        .type-terra { background-color: #E2BF65; color: #1a1a1a; }
-        .type-veleno { background-color: #A33EA1; color: white; }
-        .type-volante { background-color: #A98FF3; color: white; }
 
-        .stat-bar-container { height: 6px; background: rgba(0,0,0,0.8); border-radius: 10px; overflow: hidden; margin-top: 4px; }
-        .stat-fill { height: 100%; background: var(--holo-cyan); box-shadow: 0 0 12px var(--holo-cyan); transition: width 1s ease-out; }
-        
-        .tech-pill { 
-            background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2); 
-            border-radius: 8px; padding: 6px; font-size: 9px; cursor: pointer; 
-            text-align: center; color: #fff; font-weight: bold; overflow: hidden; text-overflow: ellipsis;
-            transition: all 0.2s;
-        }
+        .type-tag { font-size: 8px; font-weight: 900; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; color: white; }
+        /* Tipi color map */
+        .type-fuoco { background: #EE8130; } .type-acqua { background: #6390F0; }
+        .type-erba { background: #7AC74C; } .type-elettro { background: #F7D02C; color: #000; }
+        .type-ghiaccio { background: #96D9D6; color: #000; } .type-lotta { background: #C22E28; }
+        .type-veleno { background: #A33EA1; } .type-terra { background: #E2BF65; }
+        .type-volante { background: #A98FF3; } .type-psico { background: #F95587; }
+        .type-coleottero { background: #A6B91A; } .type-roccia { background: #B6A136; }
+        .type-spettro { background: #735797; } .type-drago { background: #6F35FC; }
+        .type-buio { background: #705746; } .type-acciaio { background: #B7B7CE; }
+        .type-folletto { background: #D685AD; } .type-normale { background: #A8A77A; }
+
+        .stat-fill { height: 100%; background: var(--holo-cyan); box-shadow: 0 0 10px var(--holo-cyan); transition: width 1s ease; }
+        .tech-pill { background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2); padding: 5px; border-radius: 6px; font-size: 8px; cursor: pointer; text-align: center; }
         .tech-pill:hover { background: var(--holo-cyan); color: black; }
-
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            display: none; justify-content: center; align-items: center; z-index: 1000;
-        }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-4">
 
     <div id="loader-container"><div id="loader-bar"></div></div>
 
-    <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-4xl font-black italic text-white font-[Orbitron] tracking-tighter">NEURAL PRODEX</h1>
-            <p id="resultCount" class="text-cyan-500 font-bold text-xs font-[Orbitron] uppercase tracking-widest"></p>
-        </div>
+    <div class="max-w-6xl mx-auto mt-6">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-5xl font-black italic text-white font-[Orbitron] tracking-tighter">PRODEX <span class="text-cyan-500">v6</span></h1>
+                <p id="resultCount" class="text-[10px] text-cyan-400 font-bold opacity-70 tracking-[0.3em] mt-1"></p>
+            </div>
+            
+            <div class="flex gap-2">
+                <button onclick="switchMode('pkmn')" id="btn-pkmn" class="nav-btn active">Units</button>
+                <button onclick="switchMode('abilita')" id="btn-abilita" class="nav-btn">Abilities</button>
+                <button onclick="switchMode('tecniche')" id="btn-tecniche" class="nav-btn">Skills</button>
+            </div>
+        </header>
 
-        <div class="nav-container">
-            <button onclick="switchMode('pkmn')" id="btn-pkmn" class="nav-btn active">Pokémon</button>
-            <button onclick="switchMode('abilita')" id="btn-abilita" class="nav-btn">Abilità</button>
-            <button onclick="switchMode('tecniche')" id="btn-tecniche" class="nav-btn">Tecniche</button>
-        </div>
+        <section class="bg-slate-900/50 border border-white/10 p-6 rounded-[30px] mb-10 backdrop-blur-md">
+            <input type="text" id="searchInput" oninput="performSearch()" placeholder="SCANNING DATABASE..." class="w-full bg-black/50 border border-cyan-500/30 rounded-full py-4 px-8 text-cyan-400 font-[Orbitron] outline-none focus:border-cyan-500 transition-all mb-4">
+            
+            <div id="typeFilters" class="flex flex-wrap justify-center gap-2 mt-4">
+                </div>
+        </section>
 
-        <div class="search-area mb-12">
-            <input type="text" id="searchInput" oninput="performSearch()" placeholder="INITIALIZING ENCRYPTED UPLINK..." class="search-input-alt">
-        </div>
-
-        <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-12"></div>
+        <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-8"></div>
     </div>
 
-    <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
-        <div class="bg-[#050505] border-2 border-cyan-500 p-10 rounded-[35px] max-w-lg w-full m-4 shadow-[0_0_50px_rgba(34,211,238,0.3)]" onclick="event.stopPropagation()">
+    <div id="infoModal" class="fixed inset-0 bg-black/95 hidden z-[3000] items-center justify-center p-4" onclick="this.style.display='none'">
+        <div class="bg-slate-900 border-2 border-cyan-500 p-8 rounded-[40px] max-w-xl w-full shadow-2xl shadow-cyan-500/20" onclick="event.stopPropagation()">
             <div id="modalBody"></div>
-            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-10 py-4 border border-cyan-500 text-cyan-400 font-black uppercase text-xs hover:bg-cyan-500 hover:text-black transition-all rounded-2xl font-[Orbitron]">CLOSE CONNECTION</button>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-8 py-3 bg-cyan-500 text-black font-black uppercase rounded-xl font-[Orbitron]">CLOSE LINK</button>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
-            authDomain: "pokerole-app.firebaseapp.com",
-            projectId: "pokerole-app",
-            storageBucket: "pokerole-app.firebasestorage.app",
-            messagingSenderId: "385416519668",
-            appId: "1:385416519668:web:908e12b9833f1cdc04a3a1"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        
+    <script>
         window.currentMode = 'pkmn';
+        window.selectedType = null;
         window.dataStore = { pkmn: [], abilita: [], tecniche: [] };
+
+        const tipiList = ["Fuoco", "Acqua", "Erba", "Elettro", "Ghiaccio", "Lotta", "Veleno", "Terra", "Volante", "Psico", "Coleottero", "Roccia", "Spettro", "Drago", "Buio", "Acciaio", "Folletto", "Normale"];
 
         async function init() {
             const loader = document.getElementById('loader-bar');
-            loader.style.width = '20%';
+            loader.style.width = '30%';
+            
+            renderTypeFilters();
 
             try {
-                const snap = await getDocs(collection(db, "pkmn"));
-                loader.style.width = '60%';
+                const response = await fetch('pokedex.json');
+                const rawData = await response.json();
                 
-                window.dataStore.pkmn = snap.docs.map(doc => doc.data()).filter(p => p.nome);
+                loader.style.width = '70%';
+                window.dataStore.pkmn = rawData;
                 
+                // Generazione database dinamici
                 const abMap = new Map();
                 const teMap = new Map();
 
-                // FUNZIONE ESTRAZIONE UNIVERSALE (Stringhe e Oggetti)
-                const extractData = (sourceArray, targetMap) => {
-                    if (!sourceArray || !Array.isArray(sourceArray)) return;
-                    sourceArray.forEach(item => {
-                        let nome = "";
-                        let fullData = {};
-
-                        if (typeof item === 'string') {
-                            nome = item.trim();
-                            fullData = { nome: nome, effetto: "Dati non disponibili." };
-                        } else if (typeof item === 'object' && item !== null) {
-                            nome = (item.nome || item.name || "").trim();
-                            fullData = item;
-                        }
-
-                        if (nome && !targetMap.has(nome.toLowerCase())) {
-                            targetMap.set(nome.toLowerCase(), fullData);
-                        }
-                    });
-                };
-
-                // Scansione di ogni Pokémon caricato
                 window.dataStore.pkmn.forEach(p => {
-                    extractData(p.abilita, abMap);
-                    extractData(p.tecniche, teMap);
+                    if (p.abilita) p.abilita.forEach(a => {
+                        const n = typeof a === 'object' ? a.nome : a;
+                        if (!abMap.has(n.toLowerCase())) abMap.set(n.toLowerCase(), typeof a === 'object' ? a : {nome: n, effetto: "Nessun dato."});
+                    });
+                    if (p.tecniche) p.tecniche.forEach(t => {
+                        const n = typeof t === 'object' ? t.nome : t;
+                        if (!teMap.has(n.toLowerCase())) teMap.set(n.toLowerCase(), typeof t === 'object' ? t : {nome: n, effetto: "Nessun dato."});
+                    });
                 });
 
-                window.dataStore.abilita = Array.from(abMap.values()).sort((a,b) => (a.nome||a).localeCompare(b.nome||b));
-                window.dataStore.tecniche = Array.from(teMap.values()).sort((a,b) => (a.nome||a).localeCompare(b.nome||b));
-                
+                window.dataStore.abilita = Array.from(abMap.values());
+                window.dataStore.tecniche = Array.from(teMap.values());
+
                 loader.style.width = '100%';
                 setTimeout(() => loader.parentElement.style.display = 'none', 500);
-                
-                performSearch(); 
+                performSearch();
             } catch (e) {
-                console.error(e);
-                document.getElementById('results').innerHTML = `<div class="col-span-full text-center text-red-500 font-bold uppercase">UPLINK ERROR: ${e.message}</div>`;
+                document.getElementById('results').innerHTML = `<div class="col-span-full text-center text-red-500">ERRORE: Assicurati che 'pokedex.json' sia presente.</div>`;
             }
         }
+
+        function renderTypeFilters() {
+            const container = document.getElementById('typeFilters');
+            container.innerHTML = tipiList.map(t => `
+                <div onclick="filterByType('${t}')" id="filter-${t}" class="type-pill-filter type-${t.toLowerCase()}" title="${t}">
+                    ${t.substring(0, 2)}
+                </div>
+            `).join('');
+        }
+
+        window.filterByType = (tipo) => {
+            if (window.selectedType === tipo) {
+                window.selectedType = null;
+                document.getElementById(`filter-${tipo}`).classList.remove('active');
+            } else {
+                if (window.selectedType) document.getElementById(`filter-${window.selectedType}`).classList.remove('active');
+                window.selectedType = tipo;
+                document.getElementById(`filter-${tipo}`).classList.add('active');
+                switchMode('pkmn');
+            }
+            performSearch();
+        };
 
         window.switchMode = (mode) => {
             window.currentMode = mode;
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`btn-${mode}`).classList.add('active');
-            document.getElementById('searchInput').value = '';
             performSearch();
         };
 
         window.performSearch = () => {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const list = window.dataStore[window.currentMode] || [];
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            let list = window.dataStore[window.currentMode];
 
-            const filtered = list.filter(item => {
-                const nome = (item.nome || item.name || (typeof item === 'string' ? item : '')).toLowerCase();
-                const habitat = (item.habitat || "").toLowerCase();
-                const desc = (item.effetto || item.descrizione || "").toLowerCase();
-                return nome.includes(query) || habitat.includes(query) || desc.includes(query);
+            if (window.currentMode === 'pkmn' && window.selectedType) {
+                list = list.filter(p => p.tipo && p.tipo.includes(window.selectedType));
+            }
+
+            const filtered = list.filter(i => {
+                const name = (i.nome || i.name || "").toLowerCase();
+                return name.includes(query);
             });
 
-            document.getElementById('resultCount').innerText = `${window.currentMode.toUpperCase()} UNITS: ${filtered.length}`;
+            document.getElementById('resultCount').innerText = `${filtered.length} ${window.currentMode.toUpperCase()} DETECTED`;
             renderUI(filtered);
         };
 
         function renderUI(list) {
             const container = document.getElementById('results');
-            container.innerHTML = '';
-
-            if (window.currentMode === 'pkmn') {
-                container.className = "grid grid-cols-1 lg:grid-cols-2 gap-12";
-                container.innerHTML = list.map(p => renderPkmnCard(p)).join('');
-            } else {
-                container.className = "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4";
-                container.innerHTML = list.map(item => {
-                    const nome = typeof item === 'object' ? (item.nome || item.name) : item;
-                    // Escape apostrofo per JavaScript onclick
-                    const safeName = nome.replace(/'/g, "\\'");
-                    return `
-                        <div onclick="openDirectDetail('${window.currentMode}', '${safeName}')" class="bg-black/40 border border-cyan-500/20 p-4 rounded-xl hover:bg-cyan-500 hover:text-black cursor-pointer transition-all group">
-                            <div class="text-[8px] text-cyan-500 group-hover:text-black/50 font-black mb-1 uppercase">${window.currentMode}</div>
-                            <div class="font-bold uppercase italic text-xs truncate">${nome}</div>
-                        </div>
-                    `;
-                }).join('');
-            }
-        }
-
-        function renderPkmnCard(p) {
-            const stats = p.attributi || {};
-            const tipi = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
-            
-            return `
-            <div class="pokedex-frame">
-                <div class="holo-screen">
-                    <div class="flex justify-between items-start border-b border-cyan-500/20 pb-4 mb-5">
-                        <div>
-                            <h2 class="text-3xl font-black italic uppercase font-[Orbitron] text-white tracking-tighter">${p.nome}</h2>
-                            <p class="text-[9px] text-cyan-400 font-bold opacity-70 uppercase tracking-widest">RANK: ${p.rango || 'Starter'}</p>
-                        </div>
-                        <div class="flex gap-2">
-                            ${tipi.map(t => `<span class="type-tag type-${t.toLowerCase()}">${t}</span>`).join('')}
-                        </div>
+            if (window.currentMode !== 'pkmn') {
+                container.className = "grid grid-cols-2 md:grid-cols-4 gap-4";
+                container.innerHTML = list.map(i => `
+                    <div onclick="openDetail('${window.currentMode}', '${(i.nome||i).replace(/'/g, "\\'")}')" class="bg-black/40 border border-white/10 p-4 rounded-xl hover:bg-cyan-500 hover:text-black cursor-pointer transition-all uppercase font-bold text-[10px] truncate">
+                        ${i.nome || i}
                     </div>
-                    <div class="grid grid-cols-12 gap-6">
-                        <div class="col-span-5">
-                            <div class="bg-black/40 rounded-3xl py-6 mb-5 border border-white/5 flex justify-center">
-                                <img src="${p.immagine}" class="max-h-36 drop-shadow-[0_0_20px_rgba(34,211,238,0.6)]">
+                `).join('');
+                return;
+            }
+
+            container.className = "grid grid-cols-1 lg:grid-cols-2 gap-8";
+            container.innerHTML = list.map(p => {
+                const stats = p.attributi || {};
+                return `
+                <div class="pokedex-frame">
+                    <div class="holo-screen">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h2 class="text-2xl font-black font-[Orbitron] uppercase italic">${p.nome}</h2>
+                                <p class="text-[8px] text-cyan-400 tracking-widest">${p.rango || 'BASE'}</p>
                             </div>
-                            <div class="bg-black/20 p-4 rounded-2xl border border-white/5">
-                                <span class="text-[8px] text-cyan-500 font-black block mb-3 uppercase tracking-widest">Passive Logs</span>
-                                <div class="flex flex-wrap gap-2">
-                                    ${(p.abilita || []).map(a => {
-                                        const n = typeof a === 'object' ? (a.nome || a.name) : a;
-                                        const safeN = n.replace(/'/g, "\\'");
-                                        return `<span onclick="jumpToDetail('abilita', '${safeN}')" class="text-[9px] bg-cyan-500/10 hover:bg-cyan-500 hover:text-black px-2 py-1 rounded cursor-pointer uppercase font-black italic transition-all">${n}</span>`;
-                                    }).join('')}
+                            <div class="flex gap-1">${(p.tipo || []).map(t => `<span class="type-tag type-${t.toLowerCase()}">${t}</span>`).join('')}</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-12 gap-4">
+                            <div class="col-span-5">
+                                <div class="bg-black/50 rounded-2xl p-4 flex justify-center border border-white/5">
+                                    <img src="${p.immagine}" class="max-h-32 drop-shadow-2xl">
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-span-7 space-y-4">
-                            ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => {
-                                const val = stats[s]?.base !== undefined ? stats[s].base : (typeof stats[s] === 'number' ? stats[s] : 0);
-                                return `
-                                <div>
-                                    <div class="flex justify-between text-[8px] uppercase font-black tracking-widest mb-1">
-                                        <span class="opacity-50">${s}</span>
-                                        <span class="text-cyan-400">${val}</span>
+                            <div class="col-span-7 space-y-2">
+                                ${['forza', 'destrezza', 'vitalita', 'special', 'insight'].map(s => `
+                                    <div class="text-[7px] uppercase font-bold flex justify-between">
+                                        <span>${s}</span><span>${stats[s]?.base || stats[s] || 0}</span>
                                     </div>
-                                    <div class="stat-bar-container"><div class="stat-fill" style="width: ${val*10}%"></div></div>
-                                </div>`;
-                            }).join('')}
+                                    <div class="h-1 bg-black rounded-full overflow-hidden">
+                                        <div class="stat-fill" style="width: ${(stats[s]?.base || stats[s] || 0)*10}%"></div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-3 gap-2">
+                            ${(p.tecniche || []).slice(0,6).map(t => `<div onclick="openDetail('tecniche', '${(t.nome||t).replace(/'/g, "\\'")}')" class="tech-pill truncate font-bold">${t.nome || t}</div>`).join('')}
                         </div>
                     </div>
-                    <div class="mt-8 pt-5 border-t border-cyan-500/20">
-                        <div class="grid grid-cols-3 gap-2">
-                            ${(p.tecniche || []).map(t => {
-                                const n = typeof t === 'object' ? (t.nome || t.name) : t;
-                                const safeN = n.replace(/'/g, "\\'");
-                                return `<div onclick="jumpToDetail('tecniche', '${safeN}')" class="tech-pill italic truncate">${n}</div>`;
-                            }).join('')}
-                        </div>
-                    </div>
-                </div>
-            </div>`;
+                </div>`;
+            }).join('');
         }
 
-        window.jumpToDetail = (type, name) => {
-            switchMode(type);
-            document.getElementById('searchInput').value = name;
-            performSearch();
-            openDirectDetail(type, name);
-        };
-
-        window.openDirectDetail = (type, name) => {
-            const data = window.dataStore[type].find(i => {
-                const n = typeof i === 'object' ? (i.nome || i.name) : i;
-                return n.toLowerCase() === name.toLowerCase();
-            });
-            
-            const modal = document.getElementById('infoModal');
-            const body = document.getElementById('modalBody');
-
-            let desc = "Descrizione non disponibile nel log di questa unità.";
-            let pot = "-", prec = "-";
-
-            if (typeof data === 'object' && data !== null) {
-                desc = data.effetto || data.descrizione || desc;
-                pot = data.danno || data.pool_dadi || data.potenza || "-";
-                prec = data.accuratezza || data.precisione || "-";
-            }
-
-            body.innerHTML = `
-                <div class="border-b border-cyan-500/20 pb-4 mb-6">
-                    <span class="text-[9px] text-cyan-500 uppercase font-black tracking-widest block mb-1">${type} Analysis</span>
-                    <h2 class="text-white font-black text-3xl uppercase italic font-[Orbitron] tracking-tighter">${name}</h2>
+        window.openDetail = (type, name) => {
+            const data = window.dataStore[type].find(i => (i.nome||i).toLowerCase() === name.toLowerCase());
+            if (!data) return;
+            document.getElementById('modalBody').innerHTML = `
+                <h3 class="text-cyan-500 font-bold text-[10px] uppercase mb-1">${type} Analysis</h3>
+                <h2 class="text-3xl font-black font-[Orbitron] uppercase italic text-white mb-6">${name}</h2>
+                <div class="bg-black/50 p-6 rounded-2xl border border-white/10 italic text-sm text-slate-300">
+                    "${data.effetto || data.descrizione || 'Dati criptati o non disponibili.'}"
                 </div>
-                <div class="bg-cyan-500/5 p-6 rounded-2xl border border-cyan-500/10 mb-8 italic text-sm leading-relaxed text-white/90">"${desc}"</div>
-                ${type === 'tecniche' ? `
-                <div class="grid grid-cols-2 gap-6 text-center">
-                    <div class="bg-black/40 p-4 rounded-3xl border border-white/5">
-                        <span class="text-[9px] text-cyan-500 block font-black mb-1 opacity-60">DADI / POTENZA</span>
-                        <span class="text-white font-black text-2xl">${pot}</span>
+                ${data.danno ? `<div class="mt-4 flex gap-4">
+                    <div class="bg-black/50 p-4 rounded-xl flex-1 text-center">
+                        <span class="block text-[8px] text-cyan-500">POTENZA</span>
+                        <span class="text-xl font-black">${data.danno}</span>
                     </div>
-                    <div class="bg-black/40 p-4 rounded-3xl border border-white/5">
-                        <span class="text-[9px] text-cyan-500 block font-black mb-1 opacity-60">ACCURATEZZA</span>
-                        <span class="text-white font-black text-2xl">${prec}</span>
+                    <div class="bg-black/50 p-4 rounded-xl flex-1 text-center">
+                        <span class="block text-[8px] text-cyan-500">ACCURACY</span>
+                        <span class="text-xl font-black">${data.accuratezza || '-'}</span>
                     </div>
                 </div>` : ''}
             `;
-            modal.style.display = 'flex';
+            document.getElementById('infoModal').style.display = 'flex';
         };
 
         init();
