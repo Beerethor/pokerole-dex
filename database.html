@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PokeRole Neural ProDex - MultiView v4.5</title>
+    <title>PokeRole Neural ProDex - Final v4.8</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -17,6 +17,16 @@
         }
 
         body { background-color: var(--bg-deep); font-family: 'JetBrains Mono', monospace; color: #e2e8f0; overflow-x: hidden; }
+
+        /* --- LOADING BAR --- */
+        #loader-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(0,0,0,0.5); z-index: 2000;
+        }
+        #loader-bar {
+            width: 0%; height: 100%; background: var(--holo-cyan);
+            box-shadow: 0 0 15px var(--holo-cyan); transition: width 0.3s ease;
+        }
 
         /* --- NAVIGATION --- */
         .nav-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
@@ -49,18 +59,30 @@
             backdrop-filter: blur(12px); border: 1px solid rgba(34, 211, 238, 0.2);
             border-radius: 30px; padding: 22px; height: 100%;
         }
+        
+        /* Tipi Colori */
         .type-tag { font-size: 9px; font-weight: 900; padding: 4px 12px; border-radius: 6px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.1); }
-        .type-acciaio { background-color: #B7B7CE; color: #1a1a1a; }
         .type-fuoco { background-color: #EE8130; color: white; }
-        /* Aggiungere altri tipi se necessario... */
+        .type-acqua { background-color: #6390F0; color: white; }
+        .type-erba { background-color: #7AC74C; color: white; }
+        .type-elettro { background-color: #F7D02C; color: #1a1a1a; }
+        .type-psico { background-color: #F95587; color: white; }
+        .type-ghiaccio { background-color: #96D9D6; color: #1a1a1a; }
+        .type-drago { background-color: #6F35FC; color: white; }
+        .type-buio { background-color: #705746; color: white; }
+        .type-acciaio { background-color: #B7B7CE; color: #1a1a1a; }
+        .type-normale { background-color: #A8A77A; color: white; }
 
         .stat-bar-container { height: 6px; background: rgba(0,0,0,0.8); border-radius: 10px; overflow: hidden; margin-top: 4px; }
         .stat-fill { height: 100%; background: var(--holo-cyan); box-shadow: 0 0 12px var(--holo-cyan); transition: width 1s ease-out; }
-        .tech-pill { 
-            background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2); 
-            border-radius: 8px; padding: 6px; font-size: 9px; cursor: pointer; 
+        
+        .tech-pill { 
+            background: rgba(34, 211, 238, 0.05); border: 1px solid rgba(34, 211, 238, 0.2); 
+            border-radius: 8px; padding: 6px; font-size: 9px; cursor: pointer; 
             text-align: center; color: #fff; font-weight: bold; overflow: hidden; text-overflow: ellipsis;
+            transition: all 0.2s;
         }
+        .tech-pill:hover { background: var(--holo-cyan); color: black; }
 
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.95);
@@ -70,20 +92,22 @@
 </head>
 <body class="p-4 md:p-10">
 
+    <div id="loader-container"><div id="loader-bar"></div></div>
+
     <div class="max-w-6xl mx-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-4xl font-black italic text-white font-[Orbitron]">NEURAL PRODEX</h1>
+            <h1 class="text-4xl font-black italic text-white font-[Orbitron] tracking-tighter">NEURAL PRODEX</h1>
             <p id="resultCount" class="text-cyan-500 font-bold text-xs font-[Orbitron] uppercase"></p>
         </div>
 
         <div class="nav-container">
-            <button onclick="switchMode('pkmn')" id="btn-pkmn" class="nav-btn active">Units</button>
-            <button onclick="switchMode('abilita')" id="btn-abilita" class="nav-btn">Abilities</button>
-            <button onclick="switchMode('tecniche')" id="btn-tecniche" class="nav-btn">Techniques</button>
+            <button onclick="switchMode('pkmn')" id="btn-pkmn" class="nav-btn active">Pokémon</button>
+            <button onclick="switchMode('abilita')" id="btn-abilita" class="nav-btn">Abilità</button>
+            <button onclick="switchMode('tecniche')" id="btn-tecniche" class="nav-btn">Tecniche</button>
         </div>
 
         <div class="search-area mb-12">
-            <input type="text" id="searchInput" oninput="performSearch()" placeholder="ACCESSING ENCRYPTED DATA..." class="search-input-alt">
+            <input type="text" id="searchInput" oninput="performSearch()" placeholder="INITIALIZING ENCRYPTED UPLINK..." class="search-input-alt">
         </div>
 
         <div id="results" class="grid grid-cols-1 lg:grid-cols-2 gap-12"></div>
@@ -92,7 +116,7 @@
     <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
         <div class="bg-[#050505] border-2 border-cyan-500 p-10 rounded-[35px] max-w-lg w-full m-4 shadow-[0_0_50px_rgba(34,211,238,0.3)]" onclick="event.stopPropagation()">
             <div id="modalBody"></div>
-            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-10 py-4 border border-cyan-500 text-cyan-400 font-black uppercase text-xs hover:bg-cyan-500 hover:text-black transition-all rounded-2xl font-[Orbitron]">CLOSE CONNECTION</button>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="w-full mt-10 py-4 border border-cyan-500 text-cyan-400 font-black uppercase text-xs hover:bg-cyan-500 hover:text-black transition-all rounded-2xl font-[Orbitron]">DISCONNECT</button>
         </div>
     </div>
 
@@ -116,28 +140,46 @@
         window.dataStore = { pkmn: [], abilita: [], tecniche: [] };
 
         async function init() {
-            const snap = await getDocs(collection(db, "pkmn"));
-            window.dataStore.pkmn = snap.docs.map(doc => doc.data());
-            
-            // Estrai database unici per abilità e tecniche
-            const abMap = new Map();
-            const teMap = new Map();
+            const loader = document.getElementById('loader-bar');
+            loader.style.width = '20%';
 
-            window.dataStore.pkmn.forEach(p => {
-                (p.abilita || []).forEach(a => {
-                    const nome = (typeof a === 'object' ? a.nome : a).toLowerCase();
-                    if(!abMap.has(nome)) abMap.set(nome, a);
-                });
-                (p.tecniche || []).forEach(t => {
-                    const nome = (typeof t === 'object' ? t.nome : t).toLowerCase();
-                    if(!teMap.has(nome)) teMap.set(nome, t);
-                });
-            });
+            try {
+                const snap = await getDocs(collection(db, "pkmn"));
+                loader.style.width = '60%';
+                
+                // Caricamento e pulizia dati
+                window.dataStore.pkmn = snap.docs.map(doc => doc.data()).filter(p => p.nome);
+                
+                // Estrazione database unici
+                const abMap = new Map();
+                const teMap = new Map();
 
-            window.dataStore.abilita = Array.from(abMap.values());
-            window.dataStore.tecniche = Array.from(teMap.values());
-            
-            performSearch(); 
+                window.dataStore.pkmn.forEach(p => {
+                    if(p.abilita) {
+                        p.abilita.forEach(a => {
+                            const n = typeof a === 'object' ? a.nome : a;
+                            if(n) abMap.set(n.toLowerCase(), a);
+                        });
+                    }
+                    if(p.tecniche) {
+                        p.tecniche.forEach(t => {
+                            const n = typeof t === 'object' ? t.nome : t;
+                            if(n) teMap.set(n.toLowerCase(), t);
+                        });
+                    }
+                });
+
+                window.dataStore.abilita = Array.from(abMap.values());
+                window.dataStore.tecniche = Array.from(teMap.values());
+                
+                loader.style.width = '100%';
+                setTimeout(() => loader.parentElement.style.display = 'none', 500);
+                
+                performSearch(); 
+            } catch (e) {
+                console.error(e);
+                document.getElementById('results').innerHTML = `<div class="col-span-full text-center text-red-500 font-bold">UPLINK ERROR: ${e.message}</div>`;
+            }
         }
 
         window.switchMode = (mode) => {
@@ -150,20 +192,22 @@
 
         window.performSearch = () => {
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const list = window.dataStore[window.currentMode];
+            const list = window.dataStore[window.currentMode] || [];
 
             const filtered = list.filter(item => {
                 const nome = (item.nome || item.name || (typeof item === 'string' ? item : '')).toLowerCase();
-                const desc = (item.effetto || item.descrizione || "").toLowerCase();
-                return nome.includes(query) || desc.includes(query);
+                const habitat = (item.habitat || "").toLowerCase();
+                return nome.includes(query) || habitat.includes(query);
             });
 
-            document.getElementById('resultCount').innerText = `${window.currentMode.toUpperCase()} FOUND: ${filtered.length}`;
+            document.getElementById('resultCount').innerText = `${window.currentMode.toUpperCase()} UNITS: ${filtered.length}`;
             renderUI(filtered);
         };
 
         function renderUI(list) {
             const container = document.getElementById('results');
+            container.innerHTML = '';
+
             if (window.currentMode === 'pkmn') {
                 container.className = "grid grid-cols-1 lg:grid-cols-2 gap-12";
                 container.innerHTML = list.map(p => renderPkmnCard(p)).join('');
@@ -184,6 +228,7 @@
         function renderPkmnCard(p) {
             const stats = p.attributi || {};
             const tipi = Array.isArray(p.tipo) ? p.tipo : [p.tipo];
+            const globalIdx = window.dataStore.pkmn.indexOf(p);
             
             return `
             <div class="pokedex-frame">
@@ -238,7 +283,6 @@
             </div>`;
         }
 
-        // Funzione per saltare alla modalità corretta e aprire il dettaglio
         window.jumpToDetail = (type, name) => {
             switchMode(type);
             document.getElementById('searchInput').value = name;
@@ -247,11 +291,15 @@
         };
 
         window.openDirectDetail = (type, name) => {
-            const data = window.dataStore[type].find(i => (typeof i === 'string' ? i : i.nome) === name);
+            const data = window.dataStore[type].find(i => {
+                const n = typeof i === 'object' ? i.nome : i;
+                return n.toLowerCase() === name.toLowerCase();
+            });
+            
             const modal = document.getElementById('infoModal');
             const body = document.getElementById('modalBody');
 
-            let desc = "Dato non disponibile.";
+            let desc = "Descrizione non disponibile.";
             let pot = "-", prec = "-";
 
             if (typeof data === 'object' && data !== null) {
@@ -265,15 +313,15 @@
                     <span class="text-[9px] text-cyan-500 uppercase font-black tracking-widest block mb-1">${type} Analysis</span>
                     <h2 class="text-white font-black text-3xl uppercase italic font-[Orbitron] tracking-tighter">${name}</h2>
                 </div>
-                <div class="bg-cyan-500/5 p-6 rounded-2xl border border-cyan-500/10 mb-8 italic text-sm leading-relaxed">"${desc}"</div>
+                <div class="bg-cyan-500/5 p-6 rounded-2xl border border-cyan-500/10 mb-8 italic text-sm leading-relaxed text-white/90">"${desc}"</div>
                 ${type === 'tecniche' ? `
                 <div class="grid grid-cols-2 gap-6 text-center">
                     <div class="bg-black/40 p-4 rounded-3xl border border-white/5">
-                        <span class="text-[9px] text-cyan-500 block font-black mb-1 opacity-60">POTENZA</span>
+                        <span class="text-[9px] text-cyan-500 block font-black mb-1 opacity-60">DADI / POTENZA</span>
                         <span class="text-white font-black text-2xl">${pot}</span>
                     </div>
                     <div class="bg-black/40 p-4 rounded-3xl border border-white/5">
-                        <span class="text-[9px] text-cyan-500 block font-black mb-1 opacity-60">PRECISIONE</span>
+                        <span class="text-[9px] text-cyan-500 block font-black mb-1 opacity-60">ACCURATEZZA</span>
                         <span class="text-white font-black text-2xl">${prec}</span>
                     </div>
                 </div>` : ''}
