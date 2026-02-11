@@ -2,7 +2,9 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Neural ProDex - Scanner & Cloud Sync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural ProDex - Advanced Galar Edition</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -27,6 +29,7 @@
             overflow-x: hidden;
         }
 
+        /* Logo Stilizzato */
         .pokedex-logo { 
             font-family: 'Orbitron', sans-serif; 
             font-size: 2.5rem; 
@@ -39,46 +42,27 @@
             margin-bottom: 20px; 
         }
 
-        .btn-ui { 
-            padding: 8px 20px; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            transition: all 0.3s; 
-            background: #2d2d2d; 
-            border: 2px solid #444; 
-            color: #fff; 
-            cursor: pointer; 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: 0.7rem; 
-        }
-
-        .btn-ui:hover { 
-            border-color: var(--neon-blue); 
-            box-shadow: 0 0 10px rgba(14, 165, 233, 0.3); 
-        }
-
+        /* Cornice Pokedex Esterna */
         .pokedex-frame { 
-            width: 1100px; 
+            max-width: 1200px; 
             background: var(--pokedex-red); 
             border: 8px solid var(--pokedex-dark-red); 
             border-radius: 20px 20px 60px 20px; 
             padding: 25px; 
             margin: 0 auto; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
-            position: relative; 
         }
 
+        /* Schermo Interno */
         .inner-screen { 
             background: var(--screen-bg); 
             border-radius: 15px; 
             padding: 25px; 
             border: 4px solid #334155; 
-            position: relative;
-            background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            background-image: linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
         }
 
-        /* Stats: I Pallini Inclinati dello Screenshot */
+        /* --- STILE PALLINI (PARALLELOGRAMMI) --- */
         .dot { 
             width: 14px; 
             height: 10px; 
@@ -86,7 +70,7 @@
             border: 1px solid rgba(255,255,255,0.15); 
             display: inline-block; 
             margin-right: 4px; 
-            transform: skewX(-25deg); 
+            transform: skewX(-25deg); /* Inclinazione come richiesto */
             border-radius: 1px;
             transition: all 0.4s ease;
         }
@@ -97,10 +81,13 @@
             border: none; 
         }
 
-        .dot.social-dot { 
-            background: white; 
-            box-shadow: 0 0 8px white; 
-            border: none; 
+        /* Box Statistiche */
+        .stat-box { 
+            background: rgba(0,0,0,0.4); 
+            border-left: 3px solid var(--neon-blue); 
+            padding: 10px; 
+            border-radius: 4px; 
+            height: 100%;
         }
 
         .label { 
@@ -109,78 +96,84 @@
             color: var(--neon-blue); 
             text-transform: uppercase; 
             letter-spacing: 1px; 
-            opacity: 0.8;
+            margin-bottom: 4px;
         }
 
-        .stat-box { 
-            background: rgba(0,0,0,0.4); 
-            border-left: 3px solid var(--neon-yellow); 
-            padding: 6px 12px; 
-            border-radius: 4px; 
+        /* Selettori e Input */
+        select, input { 
+            background: #1a1a1a !important; 
+            border: 1px solid #444 !important; 
+            color: white !important; 
+            padding: 8px !important; 
+            border-radius: 6px !important; 
+            font-size: 0.8rem !important; 
+            outline: none;
         }
+        select:focus, input:focus { border-color: var(--neon-blue) !important; }
 
+        /* Tag Sociali */
         .social-attr { 
-            padding: 5px 12px; 
-            border-radius: 4px; 
-            font-weight: 800; 
-            font-size: 0.75rem; 
-            text-transform: uppercase; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 5px; 
+            padding: 4px 10px; border-radius: 4px; font-weight: 800; font-size: 0.7rem; 
+            text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; 
         }
-
         .bg-tough { background-color: #fbbf24; color: #000; }
         .bg-cool { background-color: #f97316; color: #fff; }
         .bg-beauty { background-color: #3b82f6; color: #fff; }
         .bg-cute { background-color: #ec4899; color: #fff; }
         .bg-clever { background-color: #22c55e; color: #000; }
 
-        .move-slot { 
-            border-bottom: 1px solid rgba(14, 165, 233, 0.1); 
-            padding: 6px 0; 
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* Modal Overlay */
-        #saveModal {
-            display: none;
-            backdrop-filter: blur(8px);
-        }
+        .habitat-tag { background: #1e293b; color: var(--neon-yellow); padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; border: 1px solid var(--neon-yellow); font-family: 'Orbitron'; }
     </style>
 </head>
 <body>
 
     <div class="pokedex-logo">Pokérole <span class="text-red-600">Scanner</span></div>
 
-    <div class="flex justify-center mb-6">
-        <button onclick="window.location.href='index.html'" class="btn-ui flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            Home Database
-        </button>
-    </div>
-
-    <div class="max-w-6xl mx-auto">
-        <div class="bg-[#2d2d2d] border-2 border-[#444] rounded-xl p-4 mb-8 grid grid-cols-1 md:grid-cols-5 gap-4 items-end shadow-2xl">
+    <div class="max-w-[1200px] mx-auto mb-6">
+        <div class="bg-[#2d2d2d] border-2 border-[#444] rounded-xl p-4 grid grid-cols-2 md:grid-cols-7 gap-3 items-end shadow-2xl">
             <div>
-                <label class="block text-xs uppercase font-bold mb-1 text-gray-400">Specie / Tipo</label>
-                <input type="text" id="searchKey" placeholder="Cerca..." class="w-full bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white text-sm outline-none focus:border-blue-500">
+                <label class="label block text-center">Specie</label>
+                <input type="text" id="searchKey" placeholder="Nome..." class="w-full">
             </div>
             <div>
-                <label class="block text-xs uppercase font-bold mb-1 text-gray-400">Regione</label>
-                <select id="regionFilter" class="w-full bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white text-sm">
+                <label class="label block text-center">Regione</label>
+                <select id="regionFilter" class="w-full">
                     <option value="all">Tutte</option>
                     <option value="Kanto">Kanto</option>
                     <option value="Johto">Johto</option>
                     <option value="Hoenn">Hoenn</option>
+                    <option value="Sinnoh">Sinnoh</option>
+                    <option value="Unima">Unima</option>
+                    <option value="Kalos">Kalos</option>
+                    <option value="Alola">Alola</option>
+                    <option value="Galar">Galar</option>
                 </select>
             </div>
             <div>
-                <label class="block text-xs uppercase font-bold mb-1 text-yellow-500">Rango Scanner</label>
-                <select id="userRank" class="w-full bg-[#1a1a1a] border border-gray-600 p-2 rounded text-white text-sm font-bold">
+                <label class="label block text-center">Tipo</label>
+                <select id="typeFilter" class="w-full">
+                    <option value="all">Tutti</option>
+                    <option value="Fuoco">Fuoco</option><option value="Acqua">Acqua</option><option value="Erba">Erba</option>
+                    <option value="Elettro">Elettro</option><option value="Ghiaccio">Ghiaccio</option><option value="Lotta">Lotta</option>
+                    <option value="Veleno">Veleno</option><option value="Terra">Terra</option><option value="Volante">Volante</option>
+                    <option value="Psico">Psico</option><option value="Coleottero">Coleottero</option><option value="Roccia">Roccia</option>
+                    <option value="Spettro">Spettro</option><option value="Drago">Drago</option><option value="Buio">Buio</option>
+                    <option value="Acciaio">Acciaio</option><option value="Folletto">Folletto</option><option value="Normale">Normale</option>
+                </select>
+            </div>
+            <div>
+                <label class="label block text-center">Habitat</label>
+                <select id="habitatFilter" class="w-full">
+                    <option value="all">Tutti</option>
+                    <option value="Foresta">Foresta</option><option value="Montagna">Montagna</option>
+                    <option value="Mare">Mare</option><option value="Grotta">Grotta</option>
+                    <option value="Città">Città</option><option value="Prateria">Prateria</option>
+                    <option value="Palude">Palude</option><option value="Artico">Artico</option>
+                </select>
+            </div>
+            <div>
+                <label class="label block text-center text-yellow-500">Rango</label>
+                <select id="userRank" class="w-full border-yellow-500/50">
                     <option value="1">Starter</option>
                     <option value="2">Beginner</option>
                     <option value="3">Amateur</option>
@@ -190,235 +183,257 @@
                     <option value="7">Champion</option>
                 </select>
             </div>
-            <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase text-xs transition-all transform active:scale-95 shadow-lg">Analizza Area</button>
-            <button id="saveBtn" onclick="openSaveModal()" class="hidden bg-green-700 hover:bg-green-600 text-white font-black py-2 rounded-lg uppercase text-xs transition-all shadow-lg">Sincronizza Cloud</button>
+            <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 text-white font-black py-2 rounded-lg uppercase text-[10px] transition-all h-[38px] shadow-lg">Analizza</button>
+            <button id="saveBtn" onclick="openSaveModal()" class="hidden bg-green-700 hover:bg-green-600 text-white font-black py-2 rounded-lg uppercase text-[10px] transition-all h-[38px] shadow-lg">Salva Cloud</button>
         </div>
-        
-        <div id="card-display"></div>
     </div>
 
-    <div id="saveModal" class="fixed inset-0 bg-black/80 z-[9999] flex items-center justify-center p-4">
-        <div class="bg-slate-900 border-2 border-cyan-500 rounded-2xl p-6 max-w-sm w-full shadow-[0_0_40px_rgba(14,165,233,0.4)] animate-in zoom-in duration-200">
+    <div id="card-display"></div>
+
+    <div id="saveModal" class="fixed inset-0 bg-black/80 z-[9999] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-slate-900 border-2 border-cyan-500 rounded-2xl p-6 max-w-sm w-full shadow-[0_0_30px_rgba(14,165,233,0.5)]">
             <div class="text-center mb-6">
-                <div class="label text-yellow-500 mb-1">Data Uplink</div>
-                <h2 class="text-xl font-black font-[Orbitron] uppercase text-white tracking-widest">Assegna ID</h2>
-                <p class="text-[10px] text-slate-500 uppercase mt-1 italic">Connessione al database: pokerole-app</p>
+                <div class="label text-yellow-500 mb-1">Archiviazione Unità</div>
+                <h2 class="text-xl font-black font-[Orbitron] uppercase text-white tracking-widest">Inserisci Nickname</h2>
             </div>
-            <input type="text" id="customNickname" placeholder="Es: Alpha-One..." 
-                   class="w-full bg-black/50 border border-cyan-500/30 p-3 rounded-lg text-cyan-400 font-bold outline-none focus:border-cyan-500 mb-6 text-center placeholder:opacity-30">
+            <input type="text" id="customNickname" placeholder="Esempio: Sparky..." class="w-full bg-black/50 border border-cyan-500/30 p-3 rounded-lg text-cyan-400 font-bold mb-6 text-center">
             <div class="flex gap-3">
-                <button onclick="closeSaveModal()" class="flex-1 px-4 py-3 bg-slate-800 text-slate-400 font-bold rounded-lg uppercase text-[10px] hover:bg-slate-700 transition-all">Abort</button>
-                <button id="confirmSaveBtn" onclick="confirmFirebaseSave()" class="flex-1 px-4 py-3 bg-cyan-600 text-white font-black rounded-lg uppercase text-[10px] hover:bg-cyan-500 shadow-lg transition-all">Link Now</button>
+                <button onclick="closeSaveModal()" class="flex-1 px-4 py-2 bg-slate-800 text-slate-400 font-bold rounded-lg uppercase text-[10px]">Annulla</button>
+                <button onclick="confirmFirebaseSave()" class="flex-1 px-4 py-2 bg-cyan-600 text-white font-black rounded-lg uppercase text-[10px]">Invia Unità</button>
             </div>
         </div>
     </div>
 
     <script>
-    // --- CONFIGURAZIONE FIREBASE ---
-    const firebaseConfig = {
-        apiKey: "INSERISCI_TUA_API_KEY",
-        authDomain: "pokerole-app.firebaseapp.com",
-        projectId: "pokerole-app",
-        storageBucket: "pokerole-app.appspot.com",
-        messagingSenderId: "TUA_SENDER_ID",
-        appId: "TUO_APP_ID"
-    };
+        // --- CONFIGURAZIONE FIREBASE ---
+        const firebaseConfig = {
+            projectId: "pokerole-app" // Assicurati che corrisponda al tuo progetto
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+        let pokemonData = [];
+        let currentPKMN = null;
+        const rankMapping = { 1: "Starter", 2: "Beginner", 3: "Amateur", 4: "Ace", 5: "Pro", 6: "Master", 7: "Champion" };
 
-    let pokemonData = [];
-    let currentPKMN = null;
-    const rankMapping = { 1: "Starter", 2: "Beginner", 3: "Amateur", 4: "Ace", 5: "Pro", 6: "Master", 7: "Champion" };
-
-    fetch('pokemon.json').then(res => res.json()).then(data => { 
-        pokemonData = data; 
-        generateFilteredCard(); 
-    });
-
-    function distributePoints(pool, limit, targetObj, keys) {
-        let attempts = 0;
-        while(pool > 0 && attempts < 200) {
-            let key = keys[Math.floor(Math.random() * keys.length)];
-            if (targetObj[key] < limit) { targetObj[key]++; pool--; }
-            attempts++;
-        }
-    }
-
-    function generateFilteredCard() {
-        if (pokemonData.length === 0) return;
-        const search = document.getElementById('searchKey').value.toLowerCase();
-        const region = document.getElementById('regionFilter').value;
-        const rankVal = parseInt(document.getElementById('userRank').value);
-
-        let filtered = pokemonData.filter(p => {
-            const matchesSearch = p.nome.toLowerCase().includes(search) || p.tipo.some(t => t.toLowerCase().includes(search));
-            const matchesRegion = region === 'all' || p.regione === region;
-            const pRank = Object.keys(rankMapping).find(k => rankMapping[k] === p.rango_suggerito) || 1;
-            return matchesSearch && matchesRegion && parseInt(pRank) <= rankVal;
+        // Caricamento Database JSON
+        fetch('pokemon.json').then(res => res.json()).then(data => { 
+            pokemonData = data; 
+            console.log("Database caricato con successo.");
         });
 
-        if (filtered.length === 0) {
-            document.getElementById('card-display').innerHTML = "<p class='text-center text-red-500 font-bold py-10 uppercase tracking-widest bg-black/20 rounded-xl'>[!] NESSUNA FIRMA BIOMETRICA RILEVATA NEL SETTORE</p>";
-            document.getElementById('saveBtn').classList.add('hidden');
-            return;
+        // Funzione per distribuire i punti extra basati sul rango (Logica Pokérole)
+        function distributePoints(pool, limit, targetObj, keys) {
+            let attempts = 0;
+            while(pool > 0 && attempts < 200) {
+                let key = keys[Math.floor(Math.random() * keys.length)];
+                if (targetObj[key] < limit) { targetObj[key]++; pool--; }
+                attempts++;
+            }
         }
 
-        const p = JSON.parse(JSON.stringify(filtered[Math.floor(Math.random() * filtered.length)]));
+        function generateFilteredCard() {
+            if (pokemonData.length === 0) return;
+            
+            const search = document.getElementById('searchKey').value.toLowerCase();
+            const region = document.getElementById('regionFilter').value;
+            const pType = document.getElementById('typeFilter').value;
+            const habitat = document.getElementById('habitatFilter').value;
+            const rankVal = parseInt(document.getElementById('userRank').value);
 
-        let attr = { forza: p.attributi.forza.base, destrezza: p.attributi.destrezza.base, vitalita: p.attributi.vitalita.base, special: p.attributi.special.base, insight: p.attributi.insight.base };
-        let skills = { Brawl:0, Channel:0, Clash:0, Evasion:0, Alert:0, Athletic:0, Nature:0, Stealth:0, Allure:0, Etiquette:0, Intimidate:0, Perform:0 };
-        let social = { Tough:0, Cool:0, Beauty:0, Cute:0, Clever:0 };
-        let bonus = (rankVal >= 6) ? 2 : 0;
-
-        distributePoints(5, 1, skills, Object.keys(skills));
-        if(rankVal >= 2) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(4, 2, skills, Object.keys(skills)); }
-        if(rankVal >= 3) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(3, 3, skills, Object.keys(skills)); }
-        if(rankVal >= 4) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(2, 4, skills, Object.keys(skills)); }
-        if(rankVal >= 5) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(1, 5, skills, Object.keys(skills)); }
-        if(rankVal >= 6) { distributePoints(14, 5, social, Object.keys(social)); distributePoints(12, 5, skills, Object.keys(skills)); }
-        if(rankVal >= 7) { distributePoints(14, 7, attr, Object.keys(attr)); distributePoints(1, 5, skills, Object.keys(skills)); }
-
-        const hp = p.vitalita_max.hp + attr.vitalita + rankVal + bonus;
-        const will = attr.insight + 2 + bonus;
-        const abi = p.abilita[Math.floor(Math.random() * p.abilita.length)];
-        const moves = p.tecniche.filter(t => (Object.keys(rankMapping).find(k => rankMapping[k] === t.rango) || 1) <= rankVal).sort(() => 0.5-Math.random()).slice(0, will);
-
-        currentPKMN = { 
-            nome: p.nome, tipo: p.tipo, attr, skills, social, hp, will, 
-            abi, moves: moves.map(m => m.nome), immagine: p.immagine, 
-            rank: rankMapping[rankVal], description: p.descrizione 
-        };
-        
-        document.getElementById('saveBtn').classList.remove('hidden');
-        renderUI(currentPKMN, rankVal, bonus);
-    }
-
-    function renderUI(data, rankVal, bonus) {
-        const renderDots = (val, max=5) => Array.from({length: max}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('');
-        
-        document.getElementById('card-display').innerHTML = `
-        <div class="pokedex-frame animate-in fade-in zoom-in duration-500">
-            <div class="inner-screen">
-                <div class="flex justify-between items-start border-b border-cyan-500/20 pb-4 mb-6">
-                    <div>
-                        <div class="label text-yellow-500 font-bold mb-1">Identity Verified | Scanner: ${data.rank}</div>
-                        <h1 class="text-5xl font-black italic uppercase font-[Orbitron] tracking-tighter text-white">${data.nome}</h1>
-                        <div class="flex gap-2 mt-3 text-cyan-400">
-                            ${data.tipo.map(t => `<span class="bg-cyan-950/40 px-3 py-1 rounded text-[10px] font-bold border border-cyan-500/30 uppercase tracking-widest">${t}</span>`).join('')}
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="stat-box text-center min-w-[70px]"><div class="label text-red-500">HP</div><div class="text-3xl font-black">${data.hp}</div></div>
-                        <div class="stat-box text-center min-w-[70px]"><div class="label text-cyan-400">Will</div><div class="text-3xl font-black">${data.will}</div></div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-12 gap-8">
-                    <div class="col-span-3 space-y-6">
-                        <div class="bg-black/50 p-4 rounded-xl border border-white/10 shadow-inner">
-                            <img src="${data.immagine}" class="w-full h-40 object-contain drop-shadow-[0_0_15px_rgba(14,165,233,0.3)]">
-                        </div>
-                        <div class="space-y-3">
-                            <div class="label opacity-50 border-b border-white/5 pb-1">Primary Attributes</div>
-                            ${Object.entries(data.attr).map(([k,v]) => `
-                                <div class="flex justify-between items-center group">
-                                    <span class="text-[10px] uppercase font-bold text-slate-400 group-hover:text-cyan-400 transition-colors">${k}</span>
-                                    <div>${renderDots(v, rankVal >= 7 ? 7 : 5)}</div>
-                                </div>`).join('')}
-                        </div>
-                    </div>
-
-                    <div class="col-span-5 px-6 border-x border-white/5">
-                        <div class="label text-red-400 mb-4 flex justify-between"><span>Skill Matrix</span><span>Status: Operational</span></div>
-                        <div class="grid grid-cols-1 gap-2">
-                            ${Object.entries(data.skills).map(([k,v]) => `
-                                <div class="flex justify-between items-center text-[11px] uppercase border-b border-white/5 pb-1 hover:bg-white/5 transition-all">
-                                    <span class="font-medium">${k}</span>
-                                    <div>${renderDots(v)}</div>
-                                </div>`).join('')}
-                        </div>
-                    </div>
-
-                    <div class="col-span-4 space-y-6">
-                        <div class="bg-cyan-900/10 p-4 rounded-xl border border-cyan-500/20">
-                            <div class="label mb-3 flex justify-between"><span>Combat Log</span><span class="text-[8px] animate-pulse">Recording...</span></div>
-                            <div class="space-y-2">
-                                ${data.moves.map(m => `<div class="move-slot text-[10px] font-bold text-cyan-100 italic">>> ${m.toUpperCase()}</div>`).join('')}
-                            </div>
-                        </div>
-
-                        <div class="space-y-2">
-                            <div class="label opacity-50 mb-2">Social Matrix</div>
-                            ${Object.entries(data.social).map(([k,v]) => `
-                                <div class="social-attr bg-${k.toLowerCase()}">
-                                    <span class="tracking-widest">${k}</span>
-                                    <div>${renderDots(v, 5)}</div>
-                                </div>`).join('')}
-                        </div>
-
-                        <div class="stat-box">
-                            <div class="label">Initiative / Accuracy / Evasion</div>
-                            <div class="text-lg font-black text-yellow-400 mt-1">
-                                ${data.attr.destrezza + data.attr.insight + bonus} | ${data.attr.destrezza + data.attr.insight} | ${data.attr.destrezza + bonus}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-6 pt-4 border-t border-white/5 text-[10px] text-slate-500 italic uppercase tracking-wider">
-                    " ${data.description.substring(0, 150)}... "
-                </div>
-            </div>
-        </div>`;
-    }
-
-    // Modal Control
-    function openSaveModal() {
-        document.getElementById('saveModal').style.display = 'flex';
-        document.getElementById('customNickname').focus();
-    }
-
-    function closeSaveModal() {
-        document.getElementById('saveModal').style.display = 'none';
-        document.getElementById('customNickname').value = '';
-    }
-
-    async function confirmFirebaseSave() {
-        const nick = document.getElementById('customNickname').value.trim();
-        if(!nick) return alert("Inserire un identificativo!");
-        
-        const btn = document.getElementById('confirmSaveBtn');
-        btn.disabled = true;
-        btn.innerText = "Sincronizzando...";
-
-        try {
-            // Tentativo reale di scrittura
-            const savePromise = db.collection("pokemon_generati").add({ 
-                ...currentPKMN, 
-                nickname: nick, 
-                timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+            // Filtraggio
+            let filtered = pokemonData.filter(p => {
+                const matchesSearch = p.nome.toLowerCase().includes(search);
+                const matchesRegion = region === 'all' || p.regione === region;
+                const matchesType = pType === 'all' || p.tipo.includes(pType);
+                const matchesHabitat = habitat === 'all' || (p.habitat && p.habitat.includes(habitat));
+                return matchesSearch && matchesRegion && matchesType && matchesHabitat;
             });
 
-            // Timeout di sicurezza 5s
-            const timeout = new Promise((_, r) => setTimeout(() => r(new Error("Timeout: Database offline o regole errate")), 5000));
+            if (filtered.length === 0) {
+                document.getElementById('card-display').innerHTML = "<div class='text-center text-red-500 font-bold p-10 bg-black/20 rounded-xl border border-red-900/30 uppercase tracking-widest'>Firma Biometrica non trovata</div>";
+                document.getElementById('saveBtn').classList.add('hidden');
+                return;
+            }
 
-            const docRef = await Promise.race([savePromise, timeout]);
+            // Selezione casuale tra i risultati filtrati
+            const p = JSON.parse(JSON.stringify(filtered[Math.floor(Math.random() * filtered.length)]));
+
+            // Inizializzazione Statistiche Base
+            let attr = { forza: p.attributi.forza.base, destrezza: p.attributi.destrezza.base, vitalita: p.attributi.vitalita.base, special: p.attributi.special.base, insight: p.attributi.insight.base };
+            let skills = { Brawl:0, Channel:0, Clash:0, Evasion:0, Alert:0, Athletic:0, Nature:0, Stealth:0, Allure:0, Etiquette:0, Intimidate:0, Perform:0 };
+            let social = { Tough:0, Cool:0, Beauty:0, Cute:0, Clever:0 };
             
-            console.log("Successo:", docRef.id);
-            alert("Unità '" + nick + "' archiviata nel Cloud.");
-            closeSaveModal();
+            // Distribuzione punti per Rango (Simulazione progressione manuale)
+            distributePoints(5, 1, skills, Object.keys(skills));
+            if(rankVal >= 2) { distributePoints(2, 5, attr, Object.keys(attr)); distributePoints(2, 5, social, Object.keys(social)); distributePoints(4, 2, skills, Object.keys(skills)); }
+            if(rankVal >= 4) { distributePoints(4, 5, attr, Object.keys(attr)); distributePoints(4, 5, social, Object.keys(social)); distributePoints(6, 4, skills, Object.keys(skills)); }
+
+            // CALCOLO PARAMETRI COMBATTIMENTO (Tua richiesta specifica)
+            const combat = {
+                iniziativa: attr.destrezza + skills.Alert,
+                evadere: attr.destrezza + skills.Evasion,
+                difesa: attr.vitalita,
+                difesa_speciale: attr.insight,
+                parata: attr.forza + skills.Clash,
+                parata_speciale: attr.special + skills.Clash
+            };
+
+            const hp = p.vitalita_max.hp + attr.vitalita + rankVal;
+            const will = attr.insight + 2;
+            const abi = p.abilita[Math.floor(Math.random() * p.abilita.length)];
+            const moves = p.tecniche.slice(0, will);
+
+            currentPKMN = { 
+                nome: p.nome, tipo: p.tipo, attr, skills, social, combat, 
+                hp, will, abi, moves: moves.map(m => m.nome), 
+                immagine: p.immagine, regione: p.regione, habitat: p.habitat,
+                descrizione: p.descrizione, rank: rankMapping[rankVal] 
+            };
             
-            const mainSaveBtn = document.getElementById('saveBtn');
-            mainSaveBtn.innerText = "Archiviato ✓";
-            mainSaveBtn.classList.replace('bg-green-700', 'bg-slate-600');
-            mainSaveBtn.disabled = true;
-        } catch(e) {
-            console.error("Firebase Error:", e);
-            alert("Errore Critico: " + e.message + "\n\nSuggerimento: Controlla che il Project ID sia corretto e le Regole siano 'allow write: if true'");
-            btn.disabled = false;
-            btn.innerText = "Riprova Link";
+            document.getElementById('saveBtn').classList.remove('hidden');
+            renderUI(currentPKMN);
         }
-    }
+
+        function renderUI(data) {
+            const renderDots = (val, max=5) => Array.from({length: max}, (_, i) => `<span class="dot ${i < val ? 'filled' : ''}"></span>`).join('');
+            
+            document.getElementById('card-display').innerHTML = `
+            <div class="pokedex-frame animate-in fade-in zoom-in duration-500">
+                <div class="inner-screen">
+                    <div class="flex justify-between items-start border-b border-white/10 pb-4 mb-6">
+                        <div>
+                            <div class="flex gap-2 mb-2">
+                                ${data.habitat ? data.habitat.map(h => `<span class="habitat-tag">${h}</span>`).join('') : ''}
+                                <span class="habitat-tag border-blue-500 text-blue-400">RANK: ${data.rank}</span>
+                            </div>
+                            <h1 class="text-5xl font-black italic uppercase font-[Orbitron] text-white tracking-tighter">${data.nome}</h1>
+                            <p class="text-cyan-400 font-bold text-xs mt-1 uppercase">Sincronizzazione Area: ${data.regione}</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="stat-box text-center min-w-[70px] border-l-red-500">
+                                <div class="label text-red-500">HP</div>
+                                <div class="text-3xl font-black">${data.hp}</div>
+                            </div>
+                            <div class="stat-box text-center min-w-[120px]">
+                                <div class="label">TIPO</div>
+                                <div class="text-[10px] font-bold uppercase mt-2 text-cyan-200">${data.tipo.join(' / ')}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-6">
+                        <div class="col-span-3 space-y-6">
+                            <div class="bg-black/40 p-4 rounded-xl border border-white/5 shadow-inner">
+                                <img src="${data.immagine}" class="w-full h-40 object-contain drop-shadow-[0_0_15px_rgba(0,255,255,0.2)]">
+                            </div>
+                            <div class="space-y-2">
+                                <div class="label opacity-50 border-b border-white/5 pb-1">Attributi Core</div>
+                                <div class="flex justify-between items-center text-xs uppercase"><span>Forza</span><div>${renderDots(data.attr.forza)}</div></div>
+                                <div class="flex justify-between items-center text-xs uppercase"><span>Destrezza</span><div>${renderDots(data.attr.destrezza)}</div></div>
+                                <div class="flex justify-between items-center text-xs uppercase"><span>Vitalità</span><div>${renderDots(data.attr.vitalita)}</div></div>
+                                <div class="flex justify-between items-center text-xs uppercase"><span>Special</span><div>${renderDots(data.attr.special)}</div></div>
+                                <div class="flex justify-between items-center text-xs uppercase"><span>Insight</span><div>${renderDots(data.attr.insight)}</div></div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-5 px-4 border-x border-white/5">
+                            <div class="label text-yellow-500 mb-4 italic">Vitals & Defense Matrix</div>
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div class="stat-box">
+                                    <div class="label">Iniziativa</div>
+                                    <div class="text-2xl font-black text-yellow-400">${data.combat.iniziativa}</div>
+                                    <div class="text-[8px] text-slate-500">DESTREZZA + ALLERT</div>
+                                </div>
+                                <div class="stat-box">
+                                    <div class="label">Evadere</div>
+                                    <div class="text-2xl font-black text-yellow-400">${data.combat.evadere}</div>
+                                    <div class="text-[8px] text-slate-500">DESTREZZA + EVASIONE</div>
+                                </div>
+                                <div class="stat-box border-l-cyan-500">
+                                    <div class="label">Difesa FIS | SPE</div>
+                                    <div class="text-2xl font-black text-white">${data.combat.difesa} | ${data.combat.difesa_speciale}</div>
+                                    <div class="text-[8px] text-slate-500">VITALITÀ | INSIGHT</div>
+                                </div>
+                                <div class="stat-box border-l-cyan-500">
+                                    <div class="label">Parata FIS | SPE</div>
+                                    <div class="text-2xl font-black text-cyan-400">${data.combat.parata} | ${data.combat.parata_speciale}</div>
+                                    <div class="text-[8px] text-slate-500">FORZA/SPEC + CLASH</div>
+                                </div>
+                            </div>
+
+                            <div class="label opacity-50 border-b border-white/5 pb-1 mb-2">Skill Matrix</div>
+                            <div class="grid grid-cols-2 gap-x-6 gap-y-1">
+                                ${Object.entries(data.skills).map(([k,v]) => `
+                                    <div class="flex justify-between items-center text-[10px] uppercase border-b border-white/5">
+                                        <span class="text-slate-400">${k}</span>
+                                        <span>${renderDots(v)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="col-span-4 space-y-6">
+                            <div class="space-y-1">
+                                <div class="label opacity-50 border-b border-white/5 pb-1 mb-2">Social Matrix</div>
+                                ${Object.entries(data.social).map(([k,v]) => `
+                                    <div class="social-attr bg-${k.toLowerCase()}">
+                                        <span>${k}</span><div>${renderDots(v)}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="stat-box border-l-yellow-500">
+                                <div class="label text-yellow-500">Abilità Speciale</div>
+                                <div class="text-sm font-bold uppercase tracking-wider text-white">${data.abi}</div>
+                            </div>
+
+                            <div class="bg-cyan-950/20 p-4 rounded-xl border border-cyan-500/20">
+                                <div class="label text-cyan-400 mb-2">Registry Tecniche (${data.will} slots)</div>
+                                <div class="space-y-1">
+                                    ${data.moves.map(m => `<div class="text-[10px] font-bold text-cyan-100 italic">>> ${m.toUpperCase()}</div>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-white/10">
+                        <div class="label opacity-30">Pokedex Entry</div>
+                        <p class="text-sm text-slate-400 italic leading-relaxed">"${data.descrizione}"</p>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // Funzioni Modale
+        function openSaveModal() { document.getElementById('saveModal').classList.remove('hidden'); }
+        function closeSaveModal() { document.getElementById('saveModal').classList.add('hidden'); }
+
+        async function confirmFirebaseSave() {
+            const nick = document.getElementById('customNickname').value.trim();
+            if(!nick) return alert("Inserisci un identificativo!");
+            
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerText = "Sincronizzazione...";
+
+            try {
+                await db.collection("pokemon_generati").add({
+                    ...currentPKMN,
+                    nickname: nick,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Unità archiviata con successo!");
+                closeSaveModal();
+                document.getElementById('saveBtn').innerText = "Archiviato ✓";
+                document.getElementById('saveBtn').disabled = true;
+            } catch(e) {
+                console.error(e);
+                alert("Errore durante l'upload.");
+                btn.disabled = false;
+                btn.innerText = "Riprova";
+            }
+        }
     </script>
 </body>
 </html>
