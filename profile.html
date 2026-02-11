@@ -3,107 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - Profilo Operatore</title>
+    <title>ProDex - Profilo Operatore</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap');
         :root { --pokedex-red: #dc2626; --neon-blue: #0ea5e9; }
         body { background-color: #020617; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
         
-        .pokedex-frame { max-width: 800px; background: var(--pokedex-red); border: 8px solid #991b1b; border-radius: 30px; padding: 30px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.6); }
+        /* Frame Pokedex */
+        .pokedex-frame { max-width: 800px; background: var(--pokedex-red); border: 8px solid #991b1b; border-radius: 30px; padding: 30px; margin: 40px auto; box-shadow: 0 0 60px rgba(0,0,0,0.6); }
         .inner-screen { background: #0f172a; border-radius: 20px; padding: 30px; border: 4px solid #334155; position: relative; }
         
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 2px; }
-        .input-field { background: #1e293b; border: 1px solid #334155; color: white; padding: 12px; border-radius: 8px; width: 100%; outline: none; transition: border 0.3s; }
+        .input-field { background: #1e293b; border: 1px solid #334155; color: white; padding: 12px; border-radius: 8px; width: 100%; outline: none; transition: all 0.3s; }
         .input-field:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(14, 165, 233, 0.3); }
         
-        .btn-update { background: #0ea5e9; hover:background: #0284c7; color: white; font-weight: 900; text-transform: uppercase; padding: 12px; border-radius: 8px; transition: all 0.3s; border-bottom: 4px solid #075985; }
-        .btn-update:active { transform: translateY(2px); border-bottom-width: 2px; }
+        .btn-sync { background: #0ea5e9; color: white; font-weight: 900; text-transform: uppercase; padding: 12px; border-radius: 8px; transition: all 0.3s; border-bottom: 4px solid #075985; width: 100%; }
+        .btn-sync:hover { background: #38bdf8; transform: translateY(-2px); }
+        .btn-sync:active { transform: translateY(2px); border-bottom-width: 2px; }
+        .btn-sync:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Animazione Caricamento */
+        .scanner-line { width: 100%; height: 2px; background: var(--neon-blue); position: absolute; top: 0; left: 0; box-shadow: 0 0 15px var(--neon-blue); animation: scan 3s infinite linear; opacity: 0.3; pointer-events: none; }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
     </style>
 </head>
 <body>
 
-    <div class="pokedex-frame animate-in fade-in duration-500">
+    <div class="pokedex-frame">
         <div class="inner-screen">
+            <div class="scanner-line"></div>
             
-            <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-6">
+            <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
                 <div>
-                    <span class="label">ID Sincronizzazione</span>
-                    <h1 id="display-username" class="text-4xl font-black italic uppercase font-[Orbitron] tracking-tighter">Caricamento...</h1>
+                    <span class="label">Status Operatore</span>
+                    <h1 id="display-username" class="text-4xl font-black italic uppercase font-[Orbitron] tracking-tighter">Sync in corso...</h1>
                 </div>
-                <a href="index.html" class="text-[10px] font-black uppercase bg-white/5 border border-white/10 px-4 py-2 rounded-lg hover:bg-white/10 transition">Chiudi Terminale</a>
+                <a href="index.html" class="text-[10px] font-black uppercase bg-white/5 border border-white/10 px-4 py-2 rounded-lg hover:bg-red-600/20 transition-all">Esci dal Terminale</a>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div class="flex flex-col items-center space-y-4">
-                    <div class="relative">
-                        <img id="profile-img" src="" class="w-40 h-40 rounded-full border-4 border-blue-500 shadow-[0_0_20px_rgba(14,165,233,0.4)] object-cover">
-                        <div class="absolute bottom-2 right-2 w-5 h-5 bg-green-500 rounded-full border-2 border-slate-900 animate-pulse"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="flex flex-col items-center space-y-6">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                        <img id="profile-img" src="" class="relative w-48 h-48 rounded-full border-4 border-slate-800 object-cover bg-slate-900">
                     </div>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Stato Operatore: Online</p>
+                    <div class="text-center">
+                        <p class="text-[10px] font-bold text-cyan-500 uppercase tracking-widest">Uplink Satellitare: Attivo</p>
+                        <p id="user-email" class="text-xs text-slate-500 font-mono italic">---</p>
+                    </div>
                 </div>
 
-                <div class="space-y-6">
+                <div class="flex flex-col justify-center space-y-8">
                     <div>
-                        <label class="label block mb-2">Cambia Nome Operatore</label>
-                        <input type="text" id="new-username" class="input-field" placeholder="Inserisci nuovo alias...">
-                        <p class="text-[9px] text-slate-500 mt-2 uppercase italic">Questo nome apparirà su ogni scansione Pokémon salvata.</p>
+                        <label class="label block mb-3">Modifica Alias Operatore</label>
+                        <input type="text" id="new-username" class="input-field" placeholder="Inserisci nuovo nome...">
+                        <p class="text-[9px] text-slate-500 mt-3 uppercase italic leading-relaxed">Nota: Questo nome verrà sincronizzato sul server e apparirà su tutte le tue scansioni Pokémon.</p>
                     </div>
 
-                    <div class="pt-4">
-                        <button onclick="updateProfile()" class="w-full btn-update">Aggiorna Identità</button>
-                    </div>
+                    <button id="save-btn" onclick="updateProfile()" class="btn-sync">
+                        Sincronizza Identità
+                    </button>
                 </div>
             </div>
 
-            <div class="mt-10 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
-                <div class="bg-black/40 p-4 rounded-xl text-center border border-white/5">
-                    <div class="label !text-[8px] mb-1">Rango ProDex</div>
-                    <div class="text-xl font-black text-yellow-500">A1</div>
+            <div class="mt-12 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
+                <div class="text-center p-3 bg-black/20 rounded-xl border border-white/5">
+                    <div class="label !text-[8px] mb-1">Autorizzazione</div>
+                    <div class="text-lg font-black text-green-500">LIVE</div>
                 </div>
-                <div class="bg-black/40 p-4 rounded-xl text-center border border-white/5">
-                    <div class="label !text-[8px] mb-1">Unità Scansionate</div>
-                    <div class="text-xl font-black text-white">---</div>
+                <div class="text-center p-3 bg-black/20 rounded-xl border border-white/5">
+                    <div class="label !text-[8px] mb-1">Località PC</div>
+                    <div class="text-lg font-black text-white">Global</div>
                 </div>
-                <div class="bg-black/40 p-4 rounded-xl text-center border border-white/5">
-                    <div class="label !text-[8px] mb-1">Permessi Sync</div>
-                    <div class="text-xl font-black text-green-500">LIVE</div>
+                <div class="text-center p-3 bg-black/20 rounded-xl border border-white/5">
+                    <div class="label !text-[8px] mb-1">Crittografia</div>
+                    <div class="text-lg font-black text-blue-500">AES-256</div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <script>
-        // Carica i dati attuali al caricamento della pagina
-        document.addEventListener('DOMContentLoaded', () => {
-            const currentName = localStorage.getItem('user_id') || "Guest_Scanner";
-            document.getElementById('display-username').innerText = currentName;
-            document.getElementById('new-username').value = currentName === "Guest_Scanner" ? "" : currentName;
-            
-            // Avatar dinamico basato sul nome (usa lo stesso stile dell'index)
-            const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${currentName}`;
-            document.getElementById('profile-img').src = avatarUrl;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Configurazione Firebase (Stessa della tua index)
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
+            authDomain: "pokerole-app.firebaseapp.com",
+            projectId: "pokerole-app",
+            storageBucket: "pokerole-app.firebasestorage.app",
+            messagingSenderId: "385416519668",
+            appId: "1:385416519668:web:908e12b9833f1cdc04a3a1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+
+        // --- CARICAMENTO DATI DAL SERVER ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('user-email').innerText = user.email;
+
+                // Cerca dati personalizzati su Firestore
+                try {
+                    const userRef = doc(db, "Users", user.uid);
+                    const userSnap = await getDoc(userRef);
+                    
+                    let nameToDisplay = user.displayName || user.email.split('@')[0];
+                    
+                    if (userSnap.exists()) {
+                        nameToDisplay = userSnap.data().displayName;
+                    }
+
+                    applyUserData(nameToDisplay);
+                } catch (e) {
+                    console.error("Errore lettura server:", e);
+                }
+            } else {
+                // Se non è loggato, rimanda alla index
+                window.location.href = 'index.html';
+            }
         });
 
-        // Funzione per aggiornare il profilo
-        function updateProfile() {
-            const newName = document.getElementById('new-username').value.trim();
+        // Applica i dati all'interfaccia
+        function applyUserData(name) {
+            document.getElementById('display-username').innerText = name;
+            document.getElementById('new-username').value = name;
+            document.getElementById('profile-img').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`;
+            localStorage.setItem('user_id', name); // Cache locale per il generatore
+        }
 
-            if (newName.length < 3) {
-                alert("ERRORE: L'alias dell'operatore deve contenere almeno 3 caratteri.");
+        // --- SALVATAGGIO SUL SERVER ---
+        window.updateProfile = async function() {
+            const newName = document.getElementById('new-username').value.trim();
+            const btn = document.getElementById('save-btn');
+
+            if (!currentUser || newName.length < 3) {
+                alert("Errore: Nome troppo corto o sessione scaduta.");
                 return;
             }
 
-            // Aggiorna il localStorage
-            localStorage.setItem('user_id', newName);
-            
-            // Feedback visivo
-            document.getElementById('display-username').innerText = newName;
-            document.getElementById('profile-img').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${newName}`;
-            
-            alert("✅ IDENTITÀ AGGIORNATA: Il sistema ha sincronizzato il nuovo alias.");
-        }
+            btn.disabled = true;
+            btn.innerText = "Sincronizzazione...";
+
+            try {
+                // Scrive/Aggiorna il documento nella collezione "Users" usando l'UID dell'utente
+                await setDoc(doc(db, "Users", currentUser.uid), {
+                    displayName: newName,
+                    lastUpdate: new Date()
+                }, { merge: true });
+
+                applyUserData(newName);
+                alert("✅ PROFILO SINCRONIZZATO CON IL DATABASE");
+            } catch (error) {
+                console.error("Errore salvataggio:", error);
+                alert("❌ Errore durante l'uplink dei dati.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Sincronizza Identità";
+            }
+        };
     </script>
 </body>
 </html>
