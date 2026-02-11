@@ -30,7 +30,7 @@
         }
         .font-mono-data { font-family: 'JetBrains Mono', monospace; }
         
-        /* Animazione per il caricamento */
+        /* Animazione per l'avatar loggato */
         .pulse-glow { animation: pulse 2s infinite; }
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.4); }
@@ -55,7 +55,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-5xl">
         
-        <div class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-center">
+        <div class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-center min-h-[400px]">
             <h2 class="text-xl font-black uppercase mb-6 italic border-b border-slate-800 pb-2 text-yellow-500">Terminal</h2>
             
             <div id="auth-ui">
@@ -71,8 +71,8 @@
                 </div>
 
                 <div class="space-y-4">
-                    <input type="email" id="email" placeholder="Email" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm outline-none focus:border-yellow-500 transition-all font-bold">
-                    <input type="password" id="password" placeholder="Password" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm outline-none focus:border-yellow-500 transition-all font-bold">
+                    <input type="email" id="email" placeholder="Email" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm outline-none focus:border-yellow-500 transition-all font-bold text-white">
+                    <input type="password" id="password" placeholder="Password" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm outline-none focus:border-yellow-500 transition-all font-bold text-white">
                     <div class="flex gap-2">
                         <button onclick="loginEmail()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-3 rounded-xl font-black text-[10px] uppercase">Login</button>
                         <button onclick="registerEmail()" class="flex-1 border border-slate-800 hover:bg-slate-800 py-3 rounded-xl font-black text-[10px] uppercase">Registrati</button>
@@ -82,10 +82,10 @@
 
             <div id="user-ui" class="hidden text-center">
                 <div class="flex flex-col items-center">
-                    <a href="profile.html" class="group flex flex-col items-center transition-transform hover:scale-105">
+                    <a href="profile.html" class="group flex flex-col items-center transition-transform hover:scale-105" title="Modifica Profilo">
                         <div class="relative">
-                            <img id="user-img" src="" class="w-24 h-24 rounded-full border-4 border-yellow-500 mb-4 shadow-2xl transition-colors group-hover:border-blue-500 pulse-glow">
-                            <div class="absolute bottom-5 right-1 bg-blue-600 rounded-full p-1.5 border-2 border-slate-950 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <img id="user-img" src="" class="w-28 h-28 rounded-full border-4 border-yellow-500 mb-4 shadow-2xl transition-all group-hover:border-blue-500 object-cover bg-slate-900">
+                            <div class="absolute bottom-6 right-0 bg-blue-600 rounded-full p-2 border-2 border-slate-950 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                 </svg>
@@ -93,8 +93,8 @@
                         </div>
                         <h3 id="user-name" class="text-3xl font-black uppercase italic group-hover:text-yellow-500 transition-colors">Utente</h3>
                     </a>
-                    <p id="user-email" class="text-slate-500 text-xs font-mono-data mb-6 mt-1"></p>
-                    <button onclick="logout()" class="text-red-500 font-black uppercase text-[10px] tracking-[0.3em] hover:underline">Disconnetti Sessione</button>
+                    <p id="user-email" class="text-slate-500 text-xs font-mono-data mb-6 mt-1 tracking-wider"></p>
+                    <button onclick="logout()" class="text-red-500 font-black uppercase text-[9px] tracking-[0.4em] hover:text-red-400 transition-colors">Disconnetti Terminale</button>
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
             <a href="database.html" class="glass-card p-10 rounded-[2.5rem] btn-main group relative overflow-hidden">
                 <div class="relative z-10">
                     <h3 class="text-3xl font-black italic uppercase tracking-tighter group-hover:text-yellow-500 transition-colors">📜 Database</h3>
-                    <p class="text-slate-500 text-[10px] font-bold uppercase mt-1">Sfoglia Pokémon, Tecniche e Abilità</p>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase mt-1">Archivio Completo Pokemon & Tecniche</p>
                 </div>
                 <div class="absolute right-[-20px] bottom-[-20px] text-8xl opacity-5 group-hover:opacity-10 transition-all">📜</div>
             </a>
@@ -111,14 +111,14 @@
             <a href="generator.html" class="glass-card p-10 rounded-[2.5rem] btn-main group relative overflow-hidden">
                 <div class="relative z-10">
                     <h3 class="text-3xl font-black italic uppercase tracking-tighter group-hover:text-blue-500 transition-colors">🎲 Generatore</h3>
-                    <p class="text-slate-500 text-[10px] font-bold uppercase mt-1">Crea Pokémon casuali per la tua sessione</p>
+                    <p class="text-slate-500 text-[10px] font-bold uppercase mt-1">Protocollo Scansione Unità Casuali</p>
                 </div>
                 <div class="absolute right-[-20px] bottom-[-20px] text-8xl opacity-5 group-hover:opacity-10 transition-all">🎲</div>
             </a>
             
             <div class="bg-yellow-600/10 border border-yellow-600/20 p-6 rounded-[2.5rem]">
                 <p class="text-[10px] text-yellow-500 font-black uppercase italic leading-relaxed">
-                    Stato Uplink: <span class="text-green-500">Attivo</span>. I dati salvati verranno sincronizzati automaticamente con il cloud del server.
+                    Stato Uplink: <span class="text-green-500">Sincronizzato</span>. I cambiamenti al profilo eseguiti sul server verranno applicati istantaneamente a questo terminale.
                 </p>
             </div>
         </div>
@@ -132,7 +132,7 @@
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // CONFIGURAZIONE
+        // CONFIGURAZIONE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
             authDomain: "pokerole-app.firebaseapp.com",
@@ -147,52 +147,57 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // ESPOSIZIONE FUNZIONI GLOBALI
+        // FUNZIONI DI AUTH ESPORTE GLOBALMENTE
         window.loginGoogle = () => signInWithPopup(auth, provider).catch(err => alert(err.message));
         
         window.loginEmail = () => {
             const e = document.getElementById('email').value;
             const p = document.getElementById('password').value;
-            signInWithEmailAndPassword(auth, e, p).catch(err => alert("Errore: " + err.message));
+            signInWithEmailAndPassword(auth, e, p).catch(err => alert("Errore Accesso: Credenziali non valide."));
         };
 
         window.registerEmail = () => {
             const e = document.getElementById('email').value;
             const p = document.getElementById('password').value;
-            createUserWithEmailAndPassword(auth, e, p).then(() => alert("Registrazione completata!")).catch(err => alert(err.message));
+            createUserWithEmailAndPassword(auth, e, p).then(() => alert("Profilo creato correttamente!")).catch(err => alert(err.message));
         };
 
         window.logout = () => {
-            localStorage.removeItem('user_id'); // Pulisce cache locale
+            localStorage.removeItem('user_id'); 
             signOut(auth);
         };
 
-        // --- CORE: MONITORAGGIO STATO E SYNC SERVER ---
+        // --- CORE: MONITORAGGIO SINCRONIZZATO ---
         onAuthStateChanged(auth, async (user) => {
             const authUI = document.getElementById('auth-ui');
             const userUI = document.getElementById('user-ui');
 
             if (user) {
-                // 1. Tenta di scaricare il nome personalizzato dal Cloud (Firestore)
+                // Valori di default
                 let finalName = user.displayName || user.email.split('@')[0];
+                let finalImg = `https://api.dicebear.com/7.x/bottts/svg?seed=${finalName}`;
                 
+                // Tenta scaricamento dati personalizzati dal server (Firestore)
                 try {
                     const userRef = doc(db, "Users", user.uid);
                     const userSnap = await getDoc(userRef);
                     if (userSnap.exists()) {
-                        finalName = userSnap.data().displayName;
+                        const cloudData = userSnap.data();
+                        finalName = cloudData.displayName || finalName;
+                        finalImg = cloudData.profilePic || finalImg; // Usa l'immagine Base64 se presente
                     }
-                } catch (e) { console.log("Firestore non ancora inizializzato o errore permessi."); }
+                } catch (e) { console.warn("Sincronizzazione Cloud non disponibile."); }
 
-                // 2. Salva nel LocalStorage per il Generator
+                // Aggiorna cache locale per Generator.html
                 localStorage.setItem('user_id', finalName);
 
-                // 3. Aggiorna interfaccia
+                // Aggiorna Interfaccia Hub
                 authUI.classList.add('hidden');
                 userUI.classList.remove('hidden');
-                document.getElementById('user-img').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${finalName}`;
+                
                 document.getElementById('user-name').innerText = finalName;
                 document.getElementById('user-email').innerText = user.email;
+                document.getElementById('user-img').src = finalImg;
             } else {
                 authUI.classList.remove('hidden');
                 userUI.classList.add('hidden');
