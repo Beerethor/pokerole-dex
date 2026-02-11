@@ -75,36 +75,40 @@
         let pokemonData = [];
         fetch('pokemon.json').then(res => res.json()).then(data => { pokemonData = data; });
 
-        function generateFilteredCard() {
-            if (pokemonData.length === 0) return;
-            const search = document.getElementById('searchKey').value.toLowerCase();
-            const rankVal = parseInt(document.getElementById('userRank').value);
-            const rankName = document.getElementById('userRank').options[rankVal-1].text;
-            const selectedTypes = Array.from(document.querySelectorAll('.type-checkbox:checked')).map(cb => cb.value);
+function generateFilteredCard() {
+    if (pokemonData.length === 0) return;
+    const search = document.getElementById('searchKey').value.toLowerCase();
+    const rankVal = parseInt(document.getElementById('userRank').value);
+    const rankName = document.getElementById('userRank').options[rankVal-1].text;
+    const selectedTypes = Array.from(document.querySelectorAll('.type-checkbox:checked')).map(cb => cb.value);
 
-            let filtered = pokemonData.filter(p => {
-                const mSearch = p.nome.toLowerCase().includes(search);
-                const mType = selectedTypes.length === 0 || selectedTypes.some(t => p.tipo.includes(t));
-                return mSearch && mType;
-            });
+    let filtered = pokemonData.filter(p => {
+        const mSearch = p.nome.toLowerCase().includes(search);
+        const mType = selectedTypes.length === 0 || selectedTypes.some(t => p.tipo.includes(t));
+        return mSearch && mType;
+    });
 
-            if (filtered.length === 0) return alert("Nessun Pokémon trovato.");
-            const base = filtered[Math.floor(Math.random() * filtered.length)];
-            
-            // Motore Logico
-            const data = PokeroleEngine.calculateRank(base, rankVal);
-            
-            // --- GESTIONE TECNICHE (Random, pari a Will, <= Rango) ---
-            let allMoves = base.tecniche || base.mosse || [];
-            let validMoves = allMoves.filter(m => {
-                if (typeof m === 'object' && m.rango) return RankWeight[m.rango] <= rankVal;
-                return true;
-            }).sort(() => 0.5 - Math.random());
+    if (filtered.length === 0) return alert("Nessun Pokémon trovato.");
+    const base = filtered[Math.floor(Math.random() * filtered.length)];
+    
+    const data = PokeroleEngine.calculateRank(base, rankVal);
+    
+    // --- SISTEMA DI RECUPERO ID FLESSIBILE ---
+    // Cerca pokemon_id, poi pokemonid, poi ID, poi pokedex
+    const finalID = base.pokemon_id || base.pokemonid || base.id || base.ID || base.pokedex || "???";
 
-            const selectedMoves = validMoves.slice(0, data.will).map(m => typeof m === 'object' ? m.nome : m);
+    // --- GESTIONE TECNICHE ---
+    let allMoves = base.tecniche || base.mosse || base.moves || [];
+    let validMoves = allMoves.filter(m => {
+        if (typeof m === 'object' && m.rango) return RankWeight[m.rango] <= rankVal;
+        return true;
+    }).sort(() => 0.5 - Math.random());
 
-            renderUI(data, rankName, base.pokemon_id, base.regione, base.abilita || [], selectedMoves);
-        }
+    const selectedMoves = validMoves.slice(0, data.will).map(m => typeof m === 'object' ? m.nome : m);
+
+    // Passiamo finalID alla funzione di rendering
+    renderUI(data, rankName, finalID, base.regione || base.region, base.abilita || base.abilities || [], selectedMoves);
+}
 
         function renderUI(data, rankName, pokemon_id, region, ability, moves) {
             const socialColors = {Tough:'bg-[#fbbf24]', Cool:'bg-[#f97316]', Beauty:'bg-[#3b82f6]', Cute:'bg-[#ec4899]', Clever:'bg-[#22c55e]'};
