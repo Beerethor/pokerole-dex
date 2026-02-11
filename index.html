@@ -4,15 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokeRole ProDex - Central Hub</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+
     <style>
         :root { --accent: #ca8a04; --bg-dark: #020617; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: #f8fafc; overflow-x: hidden; }
-        .glass-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.3); }
-        .btn-main { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-dark); 
+            color: #f8fafc; 
+            overflow-x: hidden; 
+        }
+        .glass-card { 
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(51, 65, 85, 0.3); 
+        }
+        .btn-main { 
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        .btn-main:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4); 
+        }
         .font-mono-data { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Animazione per il caricamento */
+        .pulse-glow { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(234, 179, 8, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-6">
@@ -32,7 +56,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-5xl">
         
         <div class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-center">
-            <h2 class="text-xl font-black uppercase mb-6 italic border-b border-slate-800 pb-2">Autenticazione</h2>
+            <h2 class="text-xl font-black uppercase mb-6 italic border-b border-slate-800 pb-2 text-yellow-500">Terminal</h2>
             
             <div id="auth-ui">
                 <button onclick="loginGoogle()" class="w-full bg-white text-black font-black py-4 rounded-2xl flex items-center justify-center gap-3 mb-6 btn-main text-xs uppercase">
@@ -57,26 +81,23 @@
             </div>
 
             <div id="user-ui" class="hidden text-center">
-    <div class="flex flex-col items-center">
-        <a href="profile.html" class="group flex flex-col items-center transition-transform hover:scale-105" title="Modifica Profilo">
-            <div class="relative">
-                <img id="user-img" src="" class="w-20 h-20 rounded-full border-4 border-yellow-500 mb-4 shadow-2xl group-hover:border-blue-500 transition-colors">
-                <div class="absolute bottom-4 right-0 bg-blue-600 rounded-full p-1 border-2 border-slate-900 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
+                <div class="flex flex-col items-center">
+                    <a href="profile.html" class="group flex flex-col items-center transition-transform hover:scale-105">
+                        <div class="relative">
+                            <img id="user-img" src="" class="w-24 h-24 rounded-full border-4 border-yellow-500 mb-4 shadow-2xl transition-colors group-hover:border-blue-500 pulse-glow">
+                            <div class="absolute bottom-5 right-1 bg-blue-600 rounded-full p-1.5 border-2 border-slate-950 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 id="user-name" class="text-3xl font-black uppercase italic group-hover:text-yellow-500 transition-colors">Utente</h3>
+                    </a>
+                    <p id="user-email" class="text-slate-500 text-xs font-mono-data mb-6 mt-1"></p>
+                    <button onclick="logout()" class="text-red-500 font-black uppercase text-[10px] tracking-[0.3em] hover:underline">Disconnetti Sessione</button>
                 </div>
             </div>
-            <h3 id="user-name" class="text-2xl font-black uppercase italic group-hover:text-yellow-500 transition-colors">Utente</h3>
-        </a>
-        
-        <p id="user-email" class="text-slate-500 text-[10px] font-mono-data mb-6 tracking-widest"></p>
-        
-        <button onclick="logout()" class="text-red-500 font-black uppercase text-[10px] tracking-widest hover:underline hover:text-red-400 transition-colors">
-            Disconnetti Terminale
-        </button>
-    </div>
-</div>
+        </div>
 
         <div class="grid grid-cols-1 gap-4">
             <a href="database.html" class="glass-card p-10 rounded-[2.5rem] btn-main group relative overflow-hidden">
@@ -97,7 +118,7 @@
             
             <div class="bg-yellow-600/10 border border-yellow-600/20 p-6 rounded-[2.5rem]">
                 <p class="text-[10px] text-yellow-500 font-black uppercase italic leading-relaxed">
-                    Nota: Alcune funzioni del database richiedono il login per la modifica dei dati o il salvataggio dei preferiti.
+                    Stato Uplink: <span class="text-green-500">Attivo</span>. I dati salvati verranno sincronizzati automaticamente con il cloud del server.
                 </p>
             </div>
         </div>
@@ -106,15 +127,12 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { 
-            getAuth, 
-            signInWithPopup, 
-            GoogleAuthProvider, 
-            onAuthStateChanged, 
-            signOut,
-            signInWithEmailAndPassword,
-            createUserWithEmailAndPassword 
+            getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, 
+            signInWithEmailAndPassword, createUserWithEmailAndPassword 
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+        // CONFIGURAZIONE
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
             authDomain: "pokerole-app.firebaseapp.com",
@@ -126,9 +144,10 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // Funzioni Globali
+        // ESPOSIZIONE FUNZIONI GLOBALI
         window.loginGoogle = () => signInWithPopup(auth, provider).catch(err => alert(err.message));
         
         window.loginEmail = () => {
@@ -140,40 +159,45 @@
         window.registerEmail = () => {
             const e = document.getElementById('email').value;
             const p = document.getElementById('password').value;
-            createUserWithEmailAndPassword(auth, e, p).then(() => alert("Registrazione effettuata!")).catch(err => alert(err.message));
+            createUserWithEmailAndPassword(auth, e, p).then(() => alert("Registrazione completata!")).catch(err => alert(err.message));
         };
 
-        window.logout = () => signOut(auth);
+        window.logout = () => {
+            localStorage.removeItem('user_id'); // Pulisce cache locale
+            signOut(auth);
+        };
 
-      // Controllo Stato Sessione - AGGIORNATO
-onAuthStateChanged(auth, (user) => {
-    const authUI = document.getElementById('auth-ui');
-    const userUI = document.getElementById('user-ui');
-    
-    if (user) {
-        // --- COLLEGAMENTO PRODEX ---
-        // Recuperiamo il nome: se è Google userà il nome reale, se è Email userà la parte prima della @
-        const identifier = user.displayName || user.email.split('@')[0];
-        
-        // Salviamo nel localStorage per il ProDex
-        localStorage.setItem('user_id', identifier);
-        // ---------------------------
+        // --- CORE: MONITORAGGIO STATO E SYNC SERVER ---
+        onAuthStateChanged(auth, async (user) => {
+            const authUI = document.getElementById('auth-ui');
+            const userUI = document.getElementById('user-ui');
 
-        authUI.classList.add('hidden');
-        userUI.classList.remove('hidden');
-        document.getElementById('user-img').src = user.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + identifier;
-        document.getElementById('user-name').innerText = identifier;
-        document.getElementById('user-email').innerText = user.email;
-    } else {
-        // Se l'utente si disconnette, puliamo il localStorage
-        localStorage.removeItem('user_id');
-        
-        authUI.classList.remove('hidden');
-        userUI.classList.add('hidden');
-    }
-});
+            if (user) {
+                // 1. Tenta di scaricare il nome personalizzato dal Cloud (Firestore)
+                let finalName = user.displayName || user.email.split('@')[0];
+                
+                try {
+                    const userRef = doc(db, "Users", user.uid);
+                    const userSnap = await getDoc(userRef);
+                    if (userSnap.exists()) {
+                        finalName = userSnap.data().displayName;
+                    }
+                } catch (e) { console.log("Firestore non ancora inizializzato o errore permessi."); }
+
+                // 2. Salva nel LocalStorage per il Generator
+                localStorage.setItem('user_id', finalName);
+
+                // 3. Aggiorna interfaccia
+                authUI.classList.add('hidden');
+                userUI.classList.remove('hidden');
+                document.getElementById('user-img').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${finalName}`;
+                document.getElementById('user-name').innerText = finalName;
+                document.getElementById('user-email').innerText = user.email;
+            } else {
+                authUI.classList.remove('hidden');
+                userUI.classList.add('hidden');
+            }
+        });
     </script>
 </body>
 </html>
-
-
