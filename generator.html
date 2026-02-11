@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Neural ProDex - Dual Storage System</title>
+    <title>Neural ProDex - Server Sync</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://rawcdn.githack.com/Beerethor/pokerole-dex/refs/heads/main/pokerole-core.js"></script>
 
@@ -18,6 +18,7 @@
         .tech-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
         input, select { background: #242424; border: 1px solid #444; color: white; padding: 10px; border-radius: 8px; width: 100%; }
         
+        /* Tipi */
         .type-label { cursor: pointer; padding: 5px; border-radius: 4px; font-size: 0.65rem; text-align: center; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; text-transform: uppercase; }
         .type-Erba { background: #78C850; } .type-Fuoco { background: #F08030; } .type-Acqua { background: #6890F0; }
         .type-Coleottero { background: #A8B820; } .type-Veleno { background: #A040A0; } .type-Elettro { background: #F8D030; color: black; }
@@ -31,30 +32,27 @@
 
     <div class="max-w-[1300px] mx-auto mb-10 text-center">
         <h1 class="text-5xl font-black font-[Orbitron] italic text-white uppercase tracking-[0.2em]">Neural <span class="text-red-600">ProDex</span></h1>
+        <div id="user-badge" class="mt-2 text-[10px] font-bold text-cyan-400 uppercase tracking-widest"></div>
     </div>
 
     <div class="max-w-[1300px] mx-auto mb-8 bg-[#2d2d2d] p-6 rounded-2xl border-2 border-[#444] shadow-2xl">
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             <div class="space-y-4">
-                <div><label class="label block mb-1">ID Utente / Allenatore</label><input type="text" id="userName" placeholder="Inserisci il tuo nome" class="border-blue-500"></div>
+                <div><label class="label block mb-1">Cerca Specie</label><input type="text" id="searchKey" placeholder="Es: Garchomp"></div>
+                <div><label class="label block mb-1">Rango Generazione</label>
+                    <select id="userRank">
+                        <option value="1">Starter</option><option value="2">Beginner</option><option value="3">Amateur</option>
+                        <option value="4">Ace</option><option value="5">Professional</option><option value="6">Master</option>
+                        <option value="7">Champion</option>
+                    </select>
+                </div>
             </div>
-            <div class="space-y-4">
-                <div><label class="label block mb-1">Specie</label><input type="text" id="searchKey" placeholder="Es: Umbreon"></div>
-            </div>
-            <div>
-                <label class="label block mb-1">Rango</label>
-                <select id="userRank">
-                    <option value="1">Starter</option><option value="2">Beginner</option><option value="3">Amateur</option>
-                    <option value="4">Ace</option><option value="5">Professional</option><option value="6">Master</option>
-                    <option value="7">Champion</option>
-                </select>
-            </div>
-            <div class="lg:col-span-1">
-                <label class="label block mb-2">Tipi</label>
-                <div class="grid grid-cols-3 gap-1" id="typeSelector"></div>
+            <div class="lg:col-span-2">
+                <label class="label block mb-2">Filtro Tipi</label>
+                <div class="grid grid-cols-6 gap-1" id="typeSelector"></div>
             </div>
             <div class="flex flex-col justify-end">
-                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg">Scansione Unità</button>
+                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg active:scale-95">Genera Unità</button>
             </div>
         </div>
     </div>
@@ -62,8 +60,12 @@
     <div id="card-display"></div>
 
     <script>
+        // RECUPERO ID UTENTE DAL PROFILO (Assumendo sia salvato in localStorage all'accesso)
+        const loggedUser = localStorage.getItem('user_id') || "Guest_Scanner";
+        document.getElementById('user-badge').innerText = `Uplink stabilito: ${loggedUser}`;
+
         const RankWeight = { "Starter": 1, "Beginner": 2, "Amateur": 3, "Ace": 4, "Professional": 5, "Master": 6, "Champion": 7 };
-        const tipi = ["Erba", "Fuoco", "Acqua", "Elettro", "Psico", "Lotta", "Buio", "Acciaio", "Folletto"];
+        const tipi = ["Acciaio", "Acqua", "Coleottero", "Drago", "Elettro", "Erba", "Folletto", "Fuoco", "Ghiaccio", "Lotta", "Normale", "Psico", "Roccia", "Spettro", "Terra", "Veleno", "Volante", "Buio"];
         
         tipi.forEach(t => {
             document.getElementById('typeSelector').innerHTML += `<input type="checkbox" id="t-${t}" class="type-checkbox hidden" value="${t}"><label for="t-${t}" class="type-label type-${t}">${t}</label>`;
@@ -76,9 +78,6 @@
 
         function generateFilteredCard() {
             if (pokemonData.length === 0) return;
-            const user = document.getElementById('userName').value;
-            if(!user) return alert("Inserisci il tuo nome Utente prima di procedere!");
-
             const search = document.getElementById('searchKey').value.toLowerCase();
             const rankVal = parseInt(document.getElementById('userRank').value);
             const rankName = document.getElementById('userRank').options[rankVal-1].text;
@@ -90,11 +89,11 @@
                 return mSearch && mType;
             });
 
-            if (filtered.length === 0) return alert("Nessun dato trovato.");
+            if (filtered.length === 0) return alert("Nessun database trovato.");
             const base = filtered[Math.floor(Math.random() * filtered.length)];
             const data = PokeroleEngine.calculateRank(base, rankVal);
             
-            const randomAbility = (base.abilita || base.abilities || ["N/A"])[Math.floor(Math.random() * (base.abilita || base.abilities || ["N/A"]).length)];
+            const randomAbility = (base.abilita || base.abilities || ["Standard"])[0];
 
             let validMoves = (base.tecniche || []).filter(m => {
                 if (typeof m === 'object' && m.rango) return RankWeight[m.rango] <= rankVal;
@@ -106,8 +105,8 @@
                 rango: rankName,
                 abilita_scelta: randomAbility,
                 tecniche_scelte: validMoves.slice(0, data.will).map(m => typeof m === 'object' ? m.nome : m),
-                proprietario: user,
-                regione: base.regione || "Sconosciuta"
+                proprietario: loggedUser, // ID recuperato automaticamente
+                regione: base.regione || "N/A"
             };
 
             renderUI(currentPokemon);
@@ -115,50 +114,50 @@
 
         async function saveAction(targetSlot) {
             if (!currentPokemon) return;
-            
-            // Definiamo l'endpoint in base al tasto premuto
-            const endpoint = targetSlot === 'allenatore' ? '/save-trainer' : '/save-pokemon';
-            
+            // Se l'utente è Guest, blocchiamo o avvisiamo
+            if (loggedUser === "Guest_Scanner") {
+                alert("Errore: Devi aver effettuato l'accesso per salvare sul database!");
+                return;
+            }
+
             try {
-                const response = await fetch(endpoint, {
+                const response = await fetch('/save-data', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         ...currentPokemon,
-                        timestamp: new Date().toISOString(),
-                        tipo_salvataggio: targetSlot
+                        destination: targetSlot, // 'allenatore' o 'pokemon'
+                        saved_at: new Date().toISOString()
                     })
                 });
-                if (response.ok) alert(`Salvato in slot ${targetSlot.toUpperCase()} (Utente: ${currentPokemon.proprietario})`);
-                else alert("Errore durante il salvataggio.");
+                if (response.ok) alert(`Dati sincronizzati con successo nel database ${targetSlot.toUpperCase()}!`);
             } catch (e) {
-                alert("Server offline o endpoint non trovato.");
+                alert("Errore di sincronizzazione con il server.");
             }
         }
 
         function renderUI(p) {
-            const socialColors = {Tough:'bg-[#fbbf24]', Cool:'bg-[#f97316]', Beauty:'bg-[#3b82f6]', Cute:'bg-[#ec4899]', Clever:'bg-[#22c55e]'};
+            const sc = {Tough:'bg-[#fbbf24]', Cool:'bg-[#f97316]', Beauty:'bg-[#3b82f6]', Cute:'bg-[#ec4899]', Clever:'bg-[#22c55e]'};
             
             document.getElementById('card-display').innerHTML = `
-            <div class="pokedex-frame animate-in fade-in duration-300">
+            <div class="pokedex-frame animate-in zoom-in duration-300">
                 <div class="inner-screen">
                     <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-6">
                         <div>
-                            <div class="mb-2"><span class="label text-yellow-400">REGISTRATO DA: ${p.proprietario}</span></div>
+                            <div class="mb-1"><span class="label text-yellow-400">ANALISI PER: ${p.proprietario}</span></div>
                             <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter text-white leading-none">${p.nome}</h1>
                         </div>
                         <div class="flex flex-col items-end gap-3">
-                            <div class="flex gap-4 mb-2">
+                            <div class="flex gap-4">
                                 <div class="stat-box min-w-[100px] text-center"><div class="label">HP</div><div class="text-4xl font-black">${p.hp}</div></div>
                                 <div class="stat-box min-w-[100px] text-center"><div class="label">WILL</div><div class="text-4xl font-black">${p.will}</div></div>
                             </div>
-                            
                             <div class="flex gap-2">
-                                <button onclick="saveAction('allenatore')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg border-b-4 border-indigo-900 transition-all active:translate-y-1 active:border-b-0">
-                                    👤 SALVA COME ALLENATORE
+                                <button onclick="saveAction('allenatore')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg border-b-4 border-indigo-900 transition-all active:translate-y-1 active:border-b-0">
+                                    👤 SALVA IN ALLENATORE
                                 </button>
-                                <button onclick="saveAction('pokemon')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg border-b-4 border-emerald-900 transition-all active:translate-y-1 active:border-b-0">
-                                    🐉 SALVA POKEMON
+                                <button onclick="saveAction('pokemon')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg border-b-4 border-emerald-900 transition-all active:translate-y-1 active:border-b-0">
+                                    🐉 SALVA IN POKEMON
                                 </button>
                             </div>
                         </div>
@@ -176,7 +175,7 @@
                         </div>
 
                         <div class="col-span-5 px-8 border-x border-white/5 space-y-8">
-                            <div><div class="label mb-4">Skills</div><div class="grid grid-cols-1 gap-1">${Object.entries(p.skills).map(([k,v]) => `<div class="flex justify-between text-[11px] uppercase border-b border-white/5 pb-1 opacity-80"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}</div></div>
+                            <div><div class="label mb-4">Skill Matrix</div><div class="grid grid-cols-1 gap-1">${Object.entries(p.skills).map(([k,v]) => `<div class="flex justify-between text-[11px] uppercase border-b border-white/5 pb-1 opacity-80"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}</div></div>
                             <div>
                                 <div class="label mb-4 text-red-500">Tecniche</div>
                                 <div class="grid grid-cols-2 gap-2">${p.tecniche_scelte.map(m => `<div class="tech-card border-l-2 border-red-500">${m}</div>`).join('')}</div>
@@ -184,16 +183,18 @@
                         </div>
 
                         <div class="col-span-4 space-y-8">
-                            <div>
-                                <div class="label opacity-50 mb-4">Combattimento</div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="stat-box !border-l-yellow-500"><div class="label !text-[8px]">Iniziativa</div><div class="text-2xl font-black">${p.combat.iniziativa}</div></div>
-                                    <div class="stat-box !border-l-green-500"><div class="label !text-[8px]">Evadere</div><div class="text-2xl font-black">${p.combat.evadere || (p.attr.Destrezza + p.skills.Furtività)}</div></div>
-                                    <div class="stat-box !border-l-orange-500"><div class="label !text-[8px]">Difesa F</div><div class="text-2xl font-black">${p.combat.difesa}</div></div>
-                                    <div class="stat-box !border-l-blue-500"><div class="label !text-[8px]">Difesa S</div><div class="text-2xl font-black">${p.combat.difesa_speciale}</div></div>
-                                    <div class="stat-box !border-l-white"><div class="label !text-[8px]">Parata F</div><div class="text-2xl font-black">${p.combat.parata}</div></div>
-                                    <div class="stat-box !border-l-cyan-300"><div class="label !text-[8px]">Parata S</div><div class="text-2xl font-black">${p.combat.parata_speciale}</div></div>
-                                </div>
+                            <div class="label opacity-50 mb-4">Combat Analytics</div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="stat-box !border-l-yellow-500"><div class="label !text-[8px]">Iniziativa</div><div class="text-2xl font-black">${p.combat.iniziativa}</div></div>
+                                <div class="stat-box !border-l-green-500"><div class="label !text-[8px]">Evadere</div><div class="text-2xl font-black">${p.combat.evadere || (p.attr.Destrezza + p.skills.Furtività)}</div></div>
+                                <div class="stat-box !border-l-orange-500"><div class="label !text-[8px]">Difesa F</div><div class="text-2xl font-black">${p.combat.difesa}</div></div>
+                                <div class="stat-box !border-l-blue-500"><div class="label !text-[8px]">Difesa S</div><div class="text-2xl font-black">${p.combat.difesa_speciale}</div></div>
+                                <div class="stat-box !border-l-white"><div class="label !text-[8px]">Parata F</div><div class="text-2xl font-black">${p.combat.parata}</div></div>
+                                <div class="stat-box !border-l-cyan-300"><div class="label !text-[8px]">Parata S</div><div class="text-2xl font-black">${p.combat.parata_speciale}</div></div>
+                            </div>
+                            <div class="pt-4">
+                                <div class="label opacity-50 mb-4">Social Rank: ${p.rango}</div>
+                                ${Object.entries(p.social).map(([k,v]) => `<div class="flex justify-between items-center p-2 rounded mb-1 text-[11px] font-black text-black ${sc[k]}"><span>${k}</span><div>${PokeroleEngine.renderDots(v)}</div></div>`).join('')}
                             </div>
                         </div>
                     </div>
