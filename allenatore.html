@@ -3,100 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - Trainer Management</title>
+    <title>Neural ProDex - Full Trainer Sheet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --pokedex-red: #ef4444; --bg-dark: #020617; --neon-blue: #0ea5e9; }
+        :root { --pokedex-red: #ef4444; --bg-dark: #020617; }
         body { background-color: var(--bg-dark); font-family: 'JetBrains Mono', monospace; color: white; }
         
+        /* Estetica Scheda PDF */
         .trainer-sheet { 
             background: #e2e8f0; color: #1e293b; border-radius: 20px; 
             padding: 20px; border: 4px solid #94a3b8; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 800px; margin: auto;
         }
         .header-card { background: #ef4444; color: white; border-radius: 15px 15px 0 0; padding: 10px; font-family: 'Orbitron'; }
+        .label-sm { font-size: 0.55rem; font-weight: 800; text-transform: uppercase; color: #475569; display: block; }
+        .stat-box { background: #cbd5e1; padding: 4px; border-radius: 6px; border-bottom: 2px solid #94a3b8; }
         
-        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .stat-box { background: #cbd5e1; padding: 5px 10px; border-radius: 8px; border-bottom: 2px solid #94a3b8; }
-        .label-sm { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; color: #475569; }
-        
+        /* Form Inputs */
         input, select, textarea { 
-            background: white; border: 1px solid #94a3b8; border-radius: 4px; 
-            padding: 2px 5px; width: 100%; color: #1e293b; font-weight: bold;
+            background: #1e293b; border: 1px solid #334155; border-radius: 6px; 
+            padding: 8px; width: 100%; color: white; font-size: 12px;
         }
-
-        .dot-input { width: 12px; height: 12px; cursor: pointer; accent-color: #ef4444; }
-        
-        /* Stile Pips Statistici */
-        .pips-container { display: flex; gap: 2px; }
+        .section-title { color: #ef4444; font-weight: 900; font-size: 10px; border-bottom: 1px solid #334155; margin-bottom: 10px; padding-top: 15px; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4">
 
     <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
-            <div>
-                <h1 class="text-4xl font-black font-[Orbitron] italic uppercase">Gestione <span class="text-red-500">Allenatori</span></h1>
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest">Protocollo Pokerole 2.0</p>
-            </div>
-            <div class="flex gap-4">
-                <button onclick="showNewTrainerForm()" class="bg-blue-600 hover:bg-blue-500 px-6 py-2 rounded-xl font-black uppercase text-xs">Nuovo Operatore</button>
-                <a href="index.html" class="bg-white/5 border border-white/10 px-6 py-2 rounded-xl text-xs font-black uppercase hover:bg-white/10">Hub</a>
+        <header class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+            <h1 class="text-3xl font-black font-[Orbitron] italic uppercase">Trainer <span class="text-red-500">Registry</span></h1>
+            <div class="flex gap-2">
+                <button onclick="showNewTrainerForm()" class="bg-blue-600 px-4 py-2 rounded-lg font-black uppercase text-[10px]">Aggiungi Operatore</button>
+                <a href="index.html" class="bg-white/10 px-4 py-2 rounded-lg text-[10px] font-black uppercase">Hub</a>
             </div>
         </header>
 
-        <div id="trainer-form" class="hidden mb-12 bg-slate-900/50 p-8 rounded-3xl border border-white/10">
-            <h2 class="text-xl font-black mb-6 uppercase text-blue-400">Registrazione Nuova Matrice</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="space-y-4 text-center">
-                    <div class="relative w-48 h-48 mx-auto bg-slate-800 rounded-2xl border-2 border-dashed border-slate-600 flex items-center justify-center overflow-hidden group">
+        <div id="trainer-form" class="hidden mb-10 bg-slate-900/80 p-6 rounded-2xl border border-white/10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                
+                <div class="space-y-3">
+                    <div class="h-40 bg-slate-800 rounded-xl border-2 border-dashed border-slate-600 flex items-center justify-center relative overflow-hidden">
                         <img id="preview-img" class="absolute inset-0 w-full h-full object-cover hidden">
-                        <span class="text-[10px] uppercase font-bold text-slate-500 group-hover:text-white transition-colors">Carica Foto</span>
                         <input type="file" id="t-file" onchange="previewFile()" class="absolute inset-0 opacity-0 cursor-pointer">
+                        <span class="text-[8px] text-slate-500 uppercase">Foto</span>
                     </div>
-                    <input type="text" id="t-name" placeholder="NOME ALLENATORE [cite: 7]" class="!bg-slate-800 !text-white !border-slate-700">
-                    <input type="number" id="t-age" placeholder="ETÀ [cite: 8]" class="!bg-slate-800 !text-white !border-slate-700">
-                </div>
-
-                <div class="space-y-2">
-                    <label class="label-sm text-slate-400">Concept & Natura [cite: 10, 11]</label>
-                    <input type="text" id="t-concept" placeholder="Es: Giramondo">
-                    <input type="text" id="t-nature" placeholder="Es: Audace">
-                    <label class="label-sm text-slate-400">Rango [cite: 6]</label>
+                    <input type="text" id="t-name" placeholder="NOME">
+                    <input type="number" id="t-age" placeholder="ANNI">
                     <select id="t-rank">
-                        <option value="Starter">Starter</option>
-                        <option value="Beginner">Beginner</option>
-                        <option value="Amateur">Amateur</option>
-                        <option value="Ace">Ace</option>
-                        <option value="Pro">Pro</option>
-                        <option value="Master">Master</option>
+                        <option>Starter</option><option>Beginner</option><option>Amateur</option><option>Ace</option><option>Pro</option><option>Master</option>
                     </select>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="label-sm">Strength [cite: 23]</label>
-                        <input type="number" id="s-str" value="1" max="5">
-                        <label class="label-sm">Dexterity [cite: 27]</label>
-                        <input type="number" id="s-dex" value="1" max="5">
-                        <label class="label-sm">Vitality [cite: 30]</label>
-                        <input type="number" id="s-vit" value="1" max="5">
-                    </div>
-                    <div>
-                        <label class="label-sm">Insight [cite: 33]</label>
-                        <input type="number" id="s-ins" value="1" max="5">
-                        <label class="label-sm">HP [cite: 1]</label>
-                        <input type="number" id="s-hp" value="4">
-                        <label class="label-sm">Will [cite: 2]</label>
-                        <input type="number" id="s-will" value="3">
+                <div class="space-y-3">
+                    <div class="section-title">Personalità</div>
+                    <input type="text" id="t-nature" placeholder="NATURA">
+                    <input type="number" id="t-confidence" placeholder="CONFIDENCE">
+                    <input type="number" id="t-money" placeholder="MONEY ($)">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="s-hp" placeholder="HP">
+                        <input type="number" id="s-will" placeholder="WILL">
                     </div>
                 </div>
+
+                <div class="space-y-3">
+                    <div class="section-title">Attributi (1-5)</div>
+                    <input type="number" id="s-str" placeholder="STRENGTH" max="5">
+                    <input type="number" id="s-dex" placeholder="DEXTERITY" max="5">
+                    <input type="number" id="s-vit" placeholder="VITALITY" max="5">
+                    <input type="number" id="s-ins" placeholder="INSIGHT" max="5">
+                </div>
+
+                <div class="space-y-3">
+                    <div class="section-title">Specialità (0-5)</div>
+                    <input type="number" id="sk-allure" placeholder="ALLURE (Social)">
+                    <input type="number" id="sk-lore" placeholder="LORE (Knowledge)">
+                    <input type="number" id="sk-brawl" placeholder="BRAWL (Fight)">
+                    <textarea id="t-backpack" placeholder="ZAINO (Pozioni, Strumenti...)" rows="3"></textarea>
+                </div>
             </div>
-            <button onclick="saveTrainer()" class="w-full mt-8 bg-green-600 py-4 rounded-xl font-black uppercase hover:bg-green-500">Salva nel Database Cloud</button>
+            <button onclick="saveTrainer()" class="w-full mt-6 bg-red-600 py-3 rounded-xl font-black uppercase text-xs">Sincronizza nel Cloud</button>
         </div>
 
-        <div id="trainer-list" class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            </div>
+        <div id="trainer-list" class="space-y-10"></div>
     </div>
 
     <script type="module">
@@ -120,12 +109,7 @@
         let currentUser = null;
         let base64Image = null;
 
-        // ESPONGO LE FUNZIONI AL WINDOW PER I TASTI HTML
-        window.showNewTrainerForm = () => {
-            const form = document.getElementById('trainer-form');
-            form.classList.toggle('hidden');
-            form.scrollIntoView({ behavior: 'smooth' });
-        };
+        window.showNewTrainerForm = () => document.getElementById('trainer-form').classList.toggle('hidden');
 
         window.previewFile = () => {
             const file = document.getElementById('t-file').files[0];
@@ -140,122 +124,87 @@
         };
 
         window.saveTrainer = async () => {
-            if (!currentUser) return alert("Devi essere loggato!");
-            
-            const name = document.getElementById('t-name').value;
-            if(!name) return alert("Inserisci almeno il nome!");
-
-            const btn = document.querySelector('button[onclick="saveTrainer()"]');
-            btn.innerText = "SINCRONIZZAZIONE...";
-            btn.disabled = true;
-
+            if (!currentUser) return;
             const trainerData = {
                 id: Date.now(),
-                nome: name,
-                eta: document.getElementById('t-age').value || "??",
+                nome: document.getElementById('t-name').value,
                 rango: document.getElementById('t-rank').value,
-                concept: document.getElementById('t-concept').value || "N/A",
-                natura: document.getElementById('t-nature').value || "N/A",
-                immagine: base64Image || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${name}`,
+                anni: document.getElementById('t-age').value,
+                natura: document.getElementById('t-nature').value,
+                confidence: document.getElementById('t-confidence').value,
+                money: document.getElementById('t-money').value,
+                hp: document.getElementById('s-hp').value,
+                will: document.getElementById('s-will').value,
+                zaino: document.getElementById('t-backpack').value,
+                immagine: base64Image || "https://api.dicebear.com/7.x/pixel-art/svg",
                 stats: {
-                    Strength: document.getElementById('s-str').value,
-                    Dexterity: document.getElementById('s-dex').value,
-                    Vitality: document.getElementById('s-vit').value,
-                    Insight: document.getElementById('s-ins').value,
-                    HP: document.getElementById('s-hp').value,
-                    Will: document.getElementById('s-will').value
+                    strength: document.getElementById('s-str').value,
+                    dexterity: document.getElementById('s-dex').value,
+                    vitality: document.getElementById('s-vit').value,
+                    insight: document.getElementById('s-ins').value,
                 },
-                timestamp: new Date().toISOString()
+                skills: {
+                    allure: document.getElementById('sk-allure').value,
+                    lore: document.getElementById('sk-lore').value,
+                    brawl: document.getElementById('sk-brawl').value
+                }
             };
 
-            try {
-                const userRef = doc(db, "Users", currentUser.uid);
-                await updateDoc(userRef, {
-                    allenatori_generati: arrayUnion(trainerData)
-                });
-                alert("✅ Operatore aggiunto con successo alla squadra!");
-                location.reload(); 
-            } catch (e) { 
-                console.error(e); 
-                alert("Errore nel salvataggio.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Salva nel Database Cloud";
-            }
+            const userRef = doc(db, "Users", currentUser.uid);
+            await updateDoc(userRef, { allenatori_generati: arrayUnion(trainerData) });
+            location.reload();
         };
 
-        // CARICAMENTO DATI
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                const userDoc = await getDoc(doc(db, "Users", user.uid));
-                if (userDoc.exists()) {
-                    const data = userDoc.data();
-                    if (data.allenatori_generati) {
-                        renderTrainers(data.allenatori_generati);
-                    }
-                }
-            } else {
-                window.location.href = 'index.html';
+                const snap = await getDoc(doc(db, "Users", user.uid));
+                if (snap.exists() && snap.data().allenatori_generati) renderTrainers(snap.data().allenatori_generati);
             }
         });
 
         function renderTrainers(list) {
-            const container = document.getElementById('trainer-list');
-            if (list.length === 0) {
-                container.innerHTML = "<p class='col-span-2 text-center text-slate-500 italic'>Nessun operatore registrato. Crea il primo!</p>";
-                return;
-            }
-            
-            container.innerHTML = list.sort((a,b) => b.id - a.id).map(t => `
+            document.getElementById('trainer-list').innerHTML = list.map(t => `
                 <div class="trainer-sheet">
-                    <div class="header-card flex justify-between items-center px-4">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em]">Pokémon League Card</span>
-                        <span class="text-[10px] font-bold bg-white/20 px-2 py-0.5 rounded">RANK: ${t.rango}</span>
+                    <div class="header-card flex justify-between px-4">
+                        <span class="text-[9px] font-black uppercase">Pokémon League Card</span>
+                        <span class="text-[9px] font-bold">RANGO: ${t.rango}</span>
                     </div>
-                    
                     <div class="grid grid-cols-12 gap-4 mt-4">
-                        <div class="col-span-5 space-y-3">
-                            <div class="relative group">
-                                <img src="${t.immagine}" class="w-full h-44 object-cover rounded-xl border-2 border-slate-400 shadow-lg">
+                        <div class="col-span-4 space-y-2">
+                            <img src="${t.immagine}" class="w-full h-44 object-cover rounded-lg border-2 border-slate-400">
+                            <div class="flex gap-2">
+                                <div class="stat-box flex-1 text-center"><span class="label-sm">HP</span><div class="font-black">${t.hp}</div></div>
+                                <div class="stat-box flex-1 text-center"><span class="label-sm">WILL</span><div class="font-black">${t.will}</div></div>
                             </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="stat-box text-center">
-                                    <span class="label-sm !text-red-700">HP</span>
-                                    <div class="font-black text-lg">${t.stats.HP}</div>
-                                </div>
-                                <div class="stat-box text-center">
-                                    <span class="label-sm !text-blue-700">WILL</span>
-                                    <div class="font-black text-lg">${t.stats.Will}</div>
-                                </div>
-                            </div>
+                            <div class="stat-box text-center"><span class="label-sm">MONEY</span><div class="font-black">$ ${t.money}</div></div>
                         </div>
-
-                        <div class="col-span-7 space-y-3">
-                            <div class="border-b border-slate-400 pb-1">
-                                <span class="label-sm">NAME:</span>
-                                <div class="text-xl font-black uppercase text-slate-900">${t.nome}</div>
+                        <div class="col-span-8">
+                            <div class="grid grid-cols-2 border-b border-slate-400 mb-2">
+                                <div><span class="label-sm">Name:</span><div class="font-black uppercase">${t.nome}</div></div>
+                                <div><span class="label-sm">Age:</span><div class="font-bold">${t.anni}</div></div>
                             </div>
-                            
-                            <div class="grid grid-cols-2 gap-x-4 gap-y-2">
-                                <div><span class="label-sm">Age:</span> <span class="font-bold text-xs">${t.eta}</span></div>
-                                <div><span class="label-sm">Nature:</span> <span class="font-bold text-xs">${t.natura}</span></div>
-                                <div class="col-span-2"><span class="label-sm">Concept:</span> <span class="font-bold text-xs italic">${t.concept}</span></div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-2 mt-2">
-                                ${Object.entries(t.stats).filter(([k]) => !['HP', 'Will'].includes(k)).map(([key, val]) => `
-                                    <div class="bg-slate-300/50 p-1.5 rounded-lg border border-slate-400/30">
-                                        <div class="label-sm !text-[7px] mb-1">${key.toUpperCase()}</div>
-                                        <div class="flex gap-1">
-                                            ${Array.from({length: 5}).map((_, i) => `
-                                                <div class="w-2 h-2 rounded-full ${i < val ? 'bg-slate-800' : 'bg-white/50 border border-slate-400'}"></div>
-                                            `).join('')}
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <span class="label-sm">Nature:</span><div class="text-[10px] font-bold uppercase mb-2">${t.natura}</div>
+                                    <span class="label-sm">Confidence:</span><div class="font-bold mb-4">${t.confidence} / 5</div>
+                                    <span class="label-sm">Backpack:</span><div class="text-[9px] bg-white/50 p-2 rounded h-20 overflow-auto italic">"${t.zaino}"</div>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="label-sm">Main Attributes:</span>
+                                    ${Object.entries(t.stats).map(([k, v]) => `
+                                        <div class="flex justify-between items-center text-[9px] bg-slate-300 p-1 rounded">
+                                            <span class="font-bold uppercase">${k}</span>
+                                            <div class="flex gap-0.5">${Array.from({length:5}).map((_,i)=>`<div class="w-1.5 h-1.5 rounded-full ${i<v?'bg-slate-800':'bg-white'}"></div>`).join('')}</div>
                                         </div>
-                                    </div>
-                                `).join('')}
+                                    `).join('')}
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="mt-4 flex gap-2 overflow-x-auto pb-2">
+                        ${Array.from({length:8}).map((_,i)=>`<div class="w-8 h-8 rounded-full border-2 border-slate-400 flex items-center justify-center text-[8px] text-slate-400 font-bold">${i+1}</div>`).join('')}
+                        <span class="label-sm self-center ml-2">Gym Badges</span>
                     </div>
                 </div>
             `).join('');
