@@ -3,52 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - PC Storage System</title>
+    <title>Neural ProDex - PC Evolution System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background: #020617; color: white; font-family: 'Rajdhani', sans-serif; 
-            background-image: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
-            min-height: 100vh;
-        }
-
-        /* --- ICONE PC --- */
-        .pc-icon-wrapper { transition: all 0.3s ease; cursor: pointer; }
-        .pc-icon-wrapper:hover { transform: translateY(-8px); }
-        .icon-img { 
-            width: 110px; height: 110px; border-radius: 50%; border: 3px solid rgba(14, 165, 233, 0.3); 
-            background: #1e293b; object-fit: cover; object-position: top center; 
-            margin: 0 auto 12px; transition: all 0.4s; 
-        }
-        .icon-wild { border-radius: 24px; padding: 20px; object-position: center; }
-
-        /* --- MINIATURE POKEMON --- */
-        .pkmn-miniature {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px; padding: 12px; transition: all 0.2s; cursor: pointer;
-        }
-        .pkmn-miniature:hover { background: rgba(14, 165, 233, 0.1); border-color: #0ea5e9; transform: scale(1.05); }
-
-        /* --- OVERLAYS --- */
-        #pc-overlay, #card-overlay {
-            display: none; position: fixed; inset: 0; z-index: 50; padding: 20px; overflow-y: auto; backdrop-filter: blur(15px);
-        }
-        #pc-overlay { background: rgba(2, 6, 23, 0.98); }
-        #card-overlay { background: rgba(0, 0, 0, 0.9); z-index: 100; }
-
-        /* --- SCHEDA POKEDEX --- */
-        .pokedex-frame { max-width: 1100px; background: #dc2626; border: 8px solid #991b1b; border-radius: 30px; padding: 25px; margin: 20px auto; position: relative; }
+        body { background: #020617; color: white; font-family: 'Rajdhani', sans-serif; min-height: 100vh; background-image: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%); }
+        .pokedex-frame { max-width: 1100px; background: #dc2626; border: 8px solid #991b1b; border-radius: 30px; padding: 25px; margin: 20px auto; }
         .inner-screen { background: #0f172a; border-radius: 20px; padding: 25px; border: 4px solid #334155; }
         .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.1); display: inline-block; margin-right: 2px; border-radius: 1px; }
         .dot.filled { background: #0ea5e9; box-shadow: 0 0 5px #0ea5e9; }
+        .dot.bonus { background: #facc15; box-shadow: 0 0 5px #facc15; }
         .label-tech { font-family: 'Orbitron'; font-size: 0.6rem; color: #0ea5e9; text-transform: uppercase; }
-        .stat-box { background: rgba(0,0,0,0.4); border-left: 3px solid #facc15; padding: 8px; border-radius: 6px; }
         .type-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; font-family: 'Orbitron'; }
         
-        .close-btn { background: #ef4444; color: white; padding: 10px 20px; border-radius: 10px; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; border-bottom: 4px solid #991b1b; }
-        .release-btn { background: #1e293b; color: #ef4444; border: 2px solid #ef4444; padding: 12px 30px; border-radius: 15px; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; transition: all 0.3s; margin-top: 20px; text-transform: uppercase; font-size: 0.8rem; }
-        .release-btn:hover { background: #ef4444; color: white; box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+        #pc-overlay, #card-overlay, #rankup-overlay { display: none; position: fixed; inset: 0; z-index: 50; padding: 20px; overflow-y: auto; backdrop-filter: blur(15px); background: rgba(2, 6, 23, 0.95); }
+        #rankup-overlay { z-index: 120; }
+
+        .btn-base { font-family: 'Orbitron'; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-size: 0.7rem; padding: 10px 20px; border-radius: 12px; }
+        .btn-rankup { background: #facc15; color: #000; border: none; }
+        .btn-rankup:hover { background: #fff; box-shadow: 0 0 20px #facc15; }
+        
+        .point-control { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 8px; }
+        .point-btn { width: 24px; height: 24px; background: #334155; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
     </style>
 </head>
 <body class="p-6">
@@ -63,19 +39,35 @@
 
     <div id="pc-overlay">
         <div class="max-w-6xl mx-auto">
-            <div class="flex justify-between items-center mb-10">
-                <h2 id="pc-title" class="text-2xl font-black font-['Orbitron'] italic text-blue-500 uppercase"></h2>
-                <button onclick="closePC()" class="close-btn text-[10px]">CHIUDI TERMINALE</button>
-            </div>
+            <div class="flex justify-between items-center mb-10"><h2 id="pc-title" class="text-2xl font-black font-['Orbitron'] italic text-blue-500"></h2><button onclick="closePC()" class="btn-base bg-red-600">Chiudi</button></div>
             <div id="pc-content" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
         </div>
     </div>
 
     <div id="card-overlay">
         <div class="flex flex-col items-center">
-            <button onclick="closeCard()" class="close-btn mb-4">← TORNA AL PC</button>
+            <button onclick="closeCard()" class="btn-base bg-slate-700 mb-4">← Indietro</button>
             <div id="card-container" class="w-full"></div>
-            <div id="card-actions" class="pb-10"></div>
+            <div id="card-actions" class="flex gap-4 mt-6 mb-10"></div>
+        </div>
+    </div>
+
+    <div id="rankup-overlay">
+        <div class="max-w-3xl mx-auto bg-slate-900 border-2 border-yellow-500 p-8 rounded-3xl mt-10 shadow-2xl">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h2 class="text-3xl font-black font-['Orbitron'] text-yellow-500 italic">RANK UP DETECTED</h2>
+                    <p id="rankup-info" class="text-slate-400 font-bold uppercase tracking-widest text-xs"></p>
+                </div>
+                <div class="bg-yellow-500 text-black px-4 py-2 rounded-lg font-black font-['Orbitron']">
+                    PUNTI: <span id="pool-points">0</span>
+                </div>
+            </div>
+            
+            <div id="rankup-controls" class="grid grid-cols-2 gap-8 mb-8">
+                </div>
+
+            <button onclick="confirmRankUp()" class="w-full btn-base btn-rankup py-4 text-lg">Inizializza Evoluzione</button>
         </div>
     </div>
 
@@ -83,153 +75,149 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { RANK_ORDER, RANK_BONUSES, getNextRank, calculateCombatStats } from './rankup.js';
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
-            authDomain: "pokerole-app.firebaseapp.com",
-            projectId: "pokerole-app",
-            storageBucket: "pokerole-app.firebasestorage.app",
-            messagingSenderId: "385416519668",
-            appId: "1:385416519668:web:908e12b9833f1cdc04a3a1"
-        };
-
+        // Configurazione Firebase (usa la tua)
+        const firebaseConfig = { apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk", authDomain: "pokerole-app.firebaseapp.com", projectId: "pokerole-app", storageBucket: "pokerole-app.firebasestorage.app", messagingSenderId: "385416519668", appId: "1:385416519668:web:908e12b9833f1cdc04a3a1" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
         let userData = null;
         let currentUser = null;
-
-        const typeColors = {
-            "Acciaio": "#B8B8D0", "Acqua": "#6890F0", "Coleottero": "#A8B820", "Drago": "#7038F8",
-            "Elettro": "#F8D030", "Erba": "#78C850", "Folletto": "#EE99AC", "Fuoco": "#F08030",
-            "Ghiaccio": "#98D8D8", "Lotta": "#C03028", "Normale": "#A8A878", "Psico": "#F85888",
-            "Roccia": "#B8A038", "Spettro": "#705898", "Terra": "#E0C068", "Veleno": "#A040A0",
-            "Volante": "#A890F0", "Buio": "#705848"
-        };
+        let currentPk = null;
+        let rankUpData = { pool: 0, type: '', tIdx: 0, pIdx: 0, changes: {} };
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 const snap = await getDoc(doc(db, "Users", user.uid));
                 if (snap.exists()) { userData = snap.data(); renderPCGrid(); }
-            } else { window.location.href = 'index.html'; }
+            }
         });
 
+        // --- RENDERING PC ---
         function renderPCGrid() {
-            const grid = document.getElementById('pc-grid');
-            grid.innerHTML = "";
-            const trainers = userData.allenatori_generati || [];
-            trainers.forEach((all, idx) => {
-                grid.innerHTML += `
-                    <div class="pc-icon-wrapper" onclick="openPC('trainer', ${idx})">
-                        <img src="${all.img || 'https://via.placeholder.com/150'}" class="icon-img shadow-xl">
-                        <p class="font-bold text-sm uppercase truncate px-2">${all.name}</p>
-                    </div>`;
+            const grid = document.getElementById('pc-grid'); grid.innerHTML = "";
+            (userData.allenatori_generati || []).forEach((all, idx) => {
+                grid.innerHTML += `<div class="pc-icon-wrapper" onclick="openPC('trainer', ${idx})"><img src="${all.img}" class="icon-img"><p class="font-bold text-xs uppercase">${all.name}</p></div>`;
             });
-            grid.innerHTML += `
-                <div class="pc-icon-wrapper" onclick="openPC('wild', 0)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" class="icon-img icon-wild !bg-red-600/10 border-red-500/30">
-                    <p class="font-bold text-sm uppercase">Riserva Nat.</p>
-                </div>`;
+            grid.innerHTML += `<div class="pc-icon-wrapper" onclick="openPC('wild', 0)"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" class="icon-img icon-wild !bg-red-600/10"><p class="font-bold text-xs uppercase">Riserva</p></div>`;
         }
 
-        window.openPC = function(type, index) {
-            const content = document.getElementById('pc-content');
-            let pkmns = type === 'trainer' ? userData.allenatori_generati[index].team || [] : userData.pokemon_salvati || [];
-            document.getElementById('pc-title').innerText = type === 'trainer' ? `PC DI ${userData.allenatori_generati[index].name}` : "RISERVA NATURALE";
-            
-            content.innerHTML = pkmns.map((pk, pIdx) => `
-                <div class="pkmn-miniature" onclick="openCard('${type}', ${index}, ${pIdx})">
-                    <img src="${pk.immagine || pk.image}" class="h-20 mx-auto mb-2 object-contain">
-                    <p class="text-[11px] font-black uppercase truncate">${pk.nome || pk.name}</p>
-                    <p class="text-[9px] font-bold text-blue-400 uppercase tracking-widest">${pk.rango || 'Unit'}</p>
+        window.openPC = (type, index) => {
+            let pkmns = type === 'trainer' ? userData.allenatori_generati[index].team : userData.pokemon_salvati;
+            document.getElementById('pc-title').innerText = type === 'trainer' ? `PC DI ${userData.allenatori_generati[index].name}` : "RISERVA";
+            document.getElementById('pc-content').innerHTML = pkmns.map((pk, pIdx) => `
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10 cursor-pointer" onclick="openCard('${type}', ${index}, ${pIdx})">
+                    <img src="${pk.immagine}" class="h-16 mx-auto mb-2 object-contain">
+                    <p class="text-[10px] font-black uppercase truncate">${pk.nome}</p>
+                    <p class="text-[8px] text-yellow-500 font-bold">${pk.rango || 'Starter'}</p>
                 </div>`).join('');
             document.getElementById('pc-overlay').style.display = "block";
         };
 
-        window.openCard = function(type, tIdx, pIdx) {
-            const pk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
-            const container = document.getElementById('card-container');
-            const actions = document.getElementById('card-actions');
+        window.openCard = (type, tIdx, pIdx) => {
+            currentPk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
             const drawDots = (v) => Array.from({length: 10}, (_, i) => `<span class="dot ${i < v ? 'filled' : ''}"></span>`).join('');
-            const sc = {Tough:'bg-[#fbbf24]', Cool:'bg-[#f97316]', Beauty:'bg-[#3b82f6]', Cute:'bg-[#ec4899]', Clever:'bg-[#22c55e]'};
-
-            container.innerHTML = `
-            <div class="pokedex-frame animate-in fade-in zoom-in duration-300">
-                <div class="inner-screen">
-                    <div class="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
-                        <div>
-                            <h1 class="text-5xl font-black italic uppercase font-['Orbitron'] tracking-tighter">${pk.nome}</h1>
-                            <div class="flex gap-2 mt-3">
-                                ${(pk.tipo || []).map(t => `<span class="type-badge" style="background:${typeColors[t] || '#444'}; color:${['Elettro','Ghiaccio','Terra'].includes(t)?'black':'white'}">${t}</span>`).join('')}
-                                <span class="type-badge border border-blue-500/50 bg-blue-900/40 text-blue-300">${pk.rango || 'Starter'}</span>
-                            </div>
-                        </div>
-                        <div class="flex gap-3">
-                            <div class="stat-box min-w-[70px] text-center"><div class="label-tech">HP</div><div class="text-2xl font-black">${pk.hp}</div></div>
-                            <div class="stat-box min-w-[70px] text-center border-l-cyan-400"><div class="label-tech">WILL</div><div class="text-2xl font-black">${pk.will}</div></div>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-12 gap-6">
-                        <div class="col-span-3 space-y-4">
-                            <div class="bg-black/30 p-4 rounded-2xl border border-white/5"><img src="${pk.immagine}" class="h-32 mx-auto object-contain"></div>
-                            <div class="bg-blue-600/20 border border-blue-500/40 p-2 rounded-xl text-center">
-                                <div class="label-tech text-[8px] mb-1">Abilità</div>
-                                <div class="text-xs font-black uppercase text-white">${pk.abilita_scelta || pk.ability || 'N/A'}</div>
-                            </div>
-                            <div class="space-y-1.5">${Object.entries(pk.attr).map(([k,v]) => `<div class="flex justify-between items-center text-[10px] uppercase font-bold"><span>${k}</span><div class="flex">${drawDots(v)}</div></div>`).join('')}</div>
-                        </div>
-                        <div class="col-span-5 px-6 border-x border-white/5 space-y-6">
-                            <div><div class="label-tech mb-2">Skill Matrix</div>
-                                ${Object.entries(pk.skills).map(([k,v]) => `<div class="flex justify-between items-center text-[10px] uppercase border-b border-white/5 pb-1 mb-1"><span>${k}</span><div class="flex">${drawDots(v)}</div></div>`).join('')}
-                            </div>
-                            <div><div class="label-tech mb-2 text-red-500">Tecniche</div>
-                                <div class="grid grid-cols-2 gap-2">${(pk.tecniche_scelte || []).map(m => `<div class="bg-white/5 p-2 rounded border-l-2 border-red-500 text-[10px] uppercase font-bold">${m}</div>`).join('')}</div>
-                            </div>
-                        </div>
-                        <div class="col-span-4 space-y-4">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="stat-box !border-l-yellow-500"><div class="label-tech !text-[8px]">Iniziativa</div><div class="text-lg font-black">${pk.combat.iniziativa}</div></div>
-                                <div class="stat-box !border-l-green-500"><div class="label-tech !text-[8px]">Evadere</div><div class="text-lg font-black">${pk.combat.evadere}</div></div>
-                                <div class="stat-box !border-l-orange-500"><div class="label-tech !text-[8px]">Difesa</div><div class="text-lg font-black">${pk.combat.difesa}</div></div>
-                                <div class="stat-box !border-l-cyan-400"><div class="label-tech !text-[8px]">Dif. Spec</div><div class="text-lg font-black">${pk.combat.difesa_speciale}</div></div>
-                            </div>
-                            <div class="pt-4 border-t border-white/10 space-y-1">
-                                <div class="label-tech opacity-50 mb-2">Social Stats</div>
-                                ${Object.entries(pk.social).map(([k,v]) => `<div class="flex justify-between items-center p-1.5 rounded text-[10px] font-black text-black ${sc[k]}"><span>${k}</span><div class="flex">${drawDots(v)}</div></div>`).join('')}
+            
+            document.getElementById('card-container').innerHTML = `<div class="pokedex-frame"><div class="inner-screen">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+                    <div><h1 class="text-4xl font-black italic font-['Orbitron']">${currentPk.nome}</h1><span class="type-badge bg-yellow-600">${currentPk.rango || 'Starter'}</span></div>
+                    <div class="flex gap-4"><div class="stat-box">HP ${currentPk.hp}</div><div class="stat-box">WILL ${currentPk.will}</div></div>
+                </div>
+                <div class="grid grid-cols-3 gap-6">
+                    <div><img src="${currentPk.immagine}" class="h-40 mx-auto object-contain mb-4">
+                    <div class="space-y-1">${Object.entries(currentPk.attr).map(([k,v])=>`<div class="flex justify-between text-[10px] font-bold uppercase"><span>${k}</span><div>${drawDots(v)}</div></div>`).join('')}</div></div>
+                    <div class="col-span-2 grid grid-cols-2 gap-4">
+                        <div><div class="label-tech mb-2">Skills</div>${Object.entries(currentPk.skills).map(([k,v])=>`<div class="flex justify-between text-[10px] uppercase border-b border-white/5 pb-1 mb-1"><span>${k}</span><div>${drawDots(v)}</div></div>`).join('')}</div>
+                        <div class="space-y-4">
+                            <div><div class="label-tech mb-2">Social</div>${Object.entries(currentPk.social).map(([k,v])=>`<div class="flex justify-between text-[10px] uppercase"><span>${k}</span><div>${drawDots(v)}</div></div>`).join('')}</div>
+                            <div class="grid grid-cols-2 gap-2 text-[10px] font-black uppercase">
+                                <div class="p-2 bg-black/40 border-l-2 border-yellow-500">Iniziativa: ${currentPk.combat.iniziativa}</div>
+                                <div class="p-2 bg-black/40 border-l-2 border-green-500">Evadere: ${currentPk.combat.evadere}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>`;
+            </div></div>`;
 
-            actions.innerHTML = `<button onclick="releasePokemon('${type}', ${tIdx}, ${pIdx})" class="release-btn">⚠ Libera Pokémon</button>`;
+            document.getElementById('card-actions').innerHTML = `
+                <button onclick="initRankUp('${type}', ${tIdx}, ${pIdx})" class="btn-base btn-rankup">Rank Up!</button>
+                <button onclick="closeCard()" class="btn-base bg-red-600">Chiudi</button>
+            `;
             document.getElementById('card-overlay').style.display = "block";
         };
 
-        window.releasePokemon = async function(type, tIdx, pIdx) {
-            if (!confirm("Sei sicuro di voler liberare questo Pokémon? L'azione è irreversibile.")) return;
+        // --- LOGICA RANK UP ---
+        window.initRankUp = (type, tIdx, pIdx) => {
+            const next = getNextRank(currentPk.rango || "Starter");
+            if (!next) return alert("Massimo Rango Raggiunto!");
 
-            try {
-                if (type === 'trainer') {
-                    userData.allenatori_generati[tIdx].team.splice(pIdx, 1);
-                } else {
-                    userData.pokemon_salvati.splice(pIdx, 1);
-                }
+            const bonuses = RANK_BONUSES[next];
+            rankUpData = { type, tIdx, pIdx, nextRank: next, pool: { attr: bonuses.attr || 0, social: bonuses.social || 0, skills: bonuses.skills || 0 }, changes: { attr: {}, social: {}, skills: {} } };
+            
+            document.getElementById('rankup-info').innerText = `Evoluzione da ${currentPk.rango || 'Starter'} a ${next}`;
+            updateRankUpUI();
+            document.getElementById('rankup-overlay').style.display = "block";
+        };
 
-                await updateDoc(doc(db, "Users", currentUser.uid), {
-                    allenatori_generati: userData.allenatori_generati,
-                    pokemon_salvati: userData.pokemon_salvati
-                });
+        function updateRankUpUI() {
+            const container = document.getElementById('rankup-controls');
+            document.getElementById('pool-points').innerText = `A:${rankUpData.pool.attr} | S:${rankUpData.pool.social} | K:${rankUpData.pool.skills}`;
+            
+            const renderSection = (title, data, poolKey) => `
+                <div class="bg-black/20 p-4 rounded-xl border border-white/5">
+                    <h4 class="label-tech mb-4 text-yellow-500">${title}</h4>
+                    ${Object.entries(data).map(([k,v]) => `
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] uppercase font-bold">${k} (${v + (rankUpData.changes[poolKey][k] || 0)})</span>
+                            <div class="point-control">
+                                <button onclick="changeVal('${poolKey}','${k}', -1)" class="point-btn">-</button>
+                                <button onclick="changeVal('${poolKey}','${k}', 1)" class="point-btn">+</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>`;
 
-                alert("Pokémon liberato con successo.");
-                closeCard();
-                openPC(type, tIdx); // Refresh del PC corrente
-            } catch (e) {
-                console.error(e);
-                alert("Errore durante l'operazione.");
+            container.innerHTML = 
+                renderSection("Attributi", currentPk.attr, 'attr') +
+                renderSection("Social", currentPk.social, 'social') +
+                renderSection("Skills", currentPk.skills, 'skills');
+        }
+
+        window.changeVal = (poolKey, key, val) => {
+            if (val > 0 && rankUpData.pool[poolKey] <= 0) return;
+            if (val < 0 && !rankUpData.changes[poolKey][key]) return;
+            
+            // Limite skill point per Starter (max 1 per skill)
+            if (currentPk.rango === "Starter" && poolKey === 'skills' && val > 0 && (rankUpData.changes.skills[key] || 0) >= 1) return alert("Massimo 1 punto per skill in questo rango!");
+
+            rankUpData.changes[poolKey][key] = (rankUpData.changes[poolKey][key] || 0) + val;
+            rankUpData.pool[poolKey] -= val;
+            updateRankUpUI();
+        };
+
+        window.confirmRankUp = async () => {
+            if (rankUpData.pool.attr > 0 || rankUpData.pool.social > 0 || rankUpData.pool.skills > 0) return alert("Distribuisci tutti i punti!");
+
+            // Applica cambiamenti
+            Object.entries(rankUpData.changes.attr).forEach(([k,v]) => currentPk.attr[k] += v);
+            Object.entries(rankUpData.changes.social).forEach(([k,v]) => currentPk.social[k] += v);
+            Object.entries(rankUpData.changes.skills).forEach(([k,v]) => currentPk.skills[k] += v);
+            
+            // Bonus Master
+            if (rankUpData.nextRank === "Master") {
+                currentPk.hp += 2; currentPk.will += 2;
+                currentPk.combat.iniziativa += 2; currentPk.combat.difesa += 2; currentPk.combat.difesa_speciale += 2;
             }
+
+            currentPk.rango = rankUpData.nextRank;
+            currentPk.combat = calculateCombatStats(currentPk);
+
+            await updateDoc(doc(db, "Users", currentUser.uid), userData);
+            alert(`Sincronizzazione Completa: ${currentPk.nome} è ora un ${currentPk.rango}!`);
+            location.reload();
         };
 
         window.closePC = () => document.getElementById('pc-overlay').style.display = "none";
