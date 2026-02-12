@@ -21,12 +21,11 @@
         .data-block { background: #070b14; border-radius: 12px; padding: 20px; border: 1px solid #1e293b; }
         .stat-grid-box { background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 10px; border-left: 3px solid #0ea5e9; }
         
-        /* FIX DOTS: Assicuriamoci che siano visibili */
-        .dot { width: 10px; height: 6px; background: #1e293b; display: inline-block; margin-right: 3px; border-radius: 1px; border: 1px solid rgba(255,255,255,0.05); }
+        /* FIX DOTS VISIBILITY */
+        .dot { width: 10px; height: 6px; background: #1e293b; display: inline-block; margin-right: 3px; border-radius: 1px; }
         .dot.filled { background: #0ea5e9; box-shadow: 0 0 8px #0ea5e9; }
         .dot.overcap { background: #facc15; box-shadow: 0 0 8px #facc15; }
 
-        .core-display { border: 1px solid #334155; border-radius: 8px; padding: 8px 25px; text-align: center; background: #070b14; min-width: 100px; }
         .btn-dex { font-family: 'Orbitron'; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px; padding: 12px 24px; border-radius: 12px; transition: 0.3s; text-transform: uppercase; cursor: pointer; }
         #pc-overlay, #card-overlay { display: none; position: fixed; inset: 0; z-index: 50; padding: 20px; overflow-y: auto; backdrop-filter: blur(20px); background: rgba(2, 6, 23, 0.95); }
     </style>
@@ -53,7 +52,7 @@
 
     <div id="card-overlay">
         <div class="max-w-6xl mx-auto py-6">
-            <div class="flex justify-center mb-6"><button onclick="closeCard()" class="text-white/40 hover:text-white font-bold tracking-widest text-xs uppercase">← CHIUDI TERMINALE ANALISI</button></div>
+            <div class="flex justify-center mb-6"><button onclick="closeCard()" class="text-white/40 hover:text-white font-bold tracking-widest text-xs uppercase">← CHIUDI TERMINALE</button></div>
             <div id="card-container"></div>
             <div id="card-actions" class="flex justify-center gap-4 mt-8"></div>
         </div>
@@ -71,13 +70,23 @@
         const db = getFirestore(app);
 
         let userData = null;
+        let currentUserId = null;
 
         onAuthStateChanged(auth, async (user) => {
             if (user) { 
-                const snap = await getDoc(doc(db, "Users", user.uid)); 
-                if (snap.exists()) { userData = snap.data(); renderPCGrid(); } 
+                currentUserId = user.uid;
+                refreshUserData(); 
             }
         });
+
+        // Funzione per forzare il download dei dati dal server
+        async function refreshUserData() {
+            const snap = await getDoc(doc(db, "Users", currentUserId)); 
+            if (snap.exists()) { 
+                userData = snap.data(); 
+                renderPCGrid(); 
+            }
+        }
 
         function renderPCGrid() {
             const grid = document.getElementById('pc-grid'); 
@@ -95,28 +104,24 @@
             document.getElementById('pc-overlay').style.display = "block";
         };
 
-        window.openCard = (type, tIdx, pIdx) => {
+        window.openCard = async (type, tIdx, pIdx) => {
+            // Riscarica i dati per sicurezza prima di aprire la scheda
+            await refreshUserData();
             const pk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
             
-            // FUNZIONE FIX PALLINI: Gestisce sia stringhe che numeri e fallback nomi
-            const getV = (obj, ...keys) => { 
-                for (let k of keys) { 
-                    if (obj && obj[k] !== undefined) return parseInt(obj[k]) || 0; 
-                } 
-                return 0; 
-            };
-            
+            // Helper per valori numerici
+            const getV = (obj, ...keys) => { for (let k of keys) { if (obj && obj[k] !== undefined) return parseInt(obj[k]) || 0; } return 0; };
             const drawDots = (val) => {
                 let html = '';
                 for (let i = 0; i < 10; i++) {
-                    const isFilled = i < val;
-                    const isOver = i >= 5;
-                    html += `<span class="dot ${isFilled ? (isOver ? 'filled overcap' : 'filled') : ''}"></span>`;
+                    const filled = i < val;
+                    const over = i >= 5;
+                    html += `<span class="dot ${filled ? (over ? 'filled overcap' : 'filled') : ''}"></span>`;
                 }
                 return html;
             };
 
-            // Estrazione Attributi con fallback linguistico
+            // Estrazione Parametri
             const str = getV(pk.attr, 'Strength', 'Forza');
             const dex = getV(pk.attr, 'Dexterity', 'Destrezza');
             const vig = getV(pk.attr, 'Vitality', 'Vigore');
@@ -124,10 +129,13 @@
             const int = getV(pk.attr, 'Insight', 'Intuito', 'Intuizione');
             const eva = getV(pk.skills, 'Evasion', 'Evasione');
 
+            // Recupero Tecniche/Mosse (Cerca in più chiavi possibili)
+            const mosse = pk.tecniche_scelte || pk.mosse || pk.moves || pk.tecniche || [];
+
             document.getElementById('card-container').innerHTML = `
             <div class="pokedex-case">
                 <div class="flex justify-between items-start mb-10">
-                    <div><div class="label-header">SOGGETTO:</div><h1 class="subject-name uppercase">${pk.nome}</h1></div>
+                    <div><div class="label-header">SOGGETTO ANALIZZATO:</div><h1 class="subject-name uppercase">${pk.nome}</h1></div>
                     <div class="flex gap-4">
                         <div class="core-display border-red-500"><div class="label-header !text-red-500">SALUTE</div><div class="text-4xl font-black">${getV(pk, 'hp')}</div></div>
                         <div class="core-display border-cyan-400"><div class="label-header !text-cyan-400">VOLONTÀ</div><div class="text-4xl font-black">${getV(pk, 'will')}</div></div>
@@ -147,8 +155,14 @@
                         </div>
                     </div>
                     <div class="col-span-5 px-4 space-y-6">
-                        <div class="label-header text-cyan-400 font-bold">SKILLS</div>
+                        <div class="label-header text-cyan-400 font-bold">SKILL MATRIX</div>
                         <div class="space-y-3">${Object.entries(pk.skills || {}).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1"><span>${k}</span><div class="flex">${drawDots(v)}</div></div>`).join('')}</div>
+                        <div class="mt-8">
+                            <div class="label-header mb-3 text-red-500">TECNICHE ESTRATTE</div>
+                            <div class="grid grid-cols-2 gap-3">
+                                ${mosse.length > 0 ? mosse.map(m => `<div class="border border-red-500/40 px-4 py-3 rounded bg-red-500/5 text-[10px] font-black uppercase text-center">${m}</div>`).join('') : '<div class="text-white/20 text-xs italic">Nessuna tecnica rilevata</div>'}
+                            </div>
+                        </div>
                     </div>
                     <div class="col-span-4 space-y-6">
                         <div class="label-header text-slate-500">COMBATTIMENTO</div>
@@ -164,12 +178,10 @@
                 </div>
             </div>`;
 
-            // RIPRISTINO TASTI AZIONE
-            const actions = document.getElementById('card-actions');
-            actions.innerHTML = `
-                <button class="btn-dex bg-blue-600 hover:bg-blue-500">Update Stats</button>
-                <button class="btn-dex bg-yellow-600 hover:bg-yellow-500">Rank Up</button>
-                <button class="btn-dex border border-red-500 text-red-500 hover:bg-red-500 hover:text-white">Delete</button>
+            // TASTI AZIONE
+            document.getElementById('card-actions').innerHTML = `
+                <button class="btn-dex bg-blue-600" onclick="refreshUserData()">Sincronizza Cloud</button>
+                <button class="btn-dex bg-yellow-600">Rank Up</button>
             `;
 
             document.getElementById('card-overlay').style.display = "block";
