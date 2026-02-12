@@ -167,31 +167,84 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    // --- FUNZIONE PER CARICARE GLI ALLENATORI NEL MODAL DI RENDERING ---
-    // Questa funzione verrà chiamata ogni volta che viene renderizzata la scheda
-    window.loadTrainerOptions = async function() {
-        const user = auth.currentUser;
-        if (!user) return;
+    // --- 1. FUNZIONE PER CARICARE GLI ALLENATORI (DA CHIAMARE DOPO LA SCANSIONE) ---
+window.loadTrainerOptions = async function() {
+    const user = auth.currentUser;
+    if (!user) return;
 
+    const select = document.getElementById('trainer-target-select');
+    if (!select) return;
+
+    try {
         const userRef = doc(db, "Users", user.uid);
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
             const trainers = userSnap.data().allenatori_generati || [];
-            const select = document.getElementById('trainer-target-select');
-            if (!select) return;
-
-            // Pulisce e popola
             select.innerHTML = '<option value="none">-- SALVA NEL PROFILO (SENZA ALLENATORE) --</option>';
+
             trainers.forEach(t => {
-    // Controllo di sicurezza: se il nome non esiste, usa "Senza Nome"
-    const nomeAllenatore = (t.nome || "Senza Nome").toUpperCase();
+                // Sicurezza per evitare l'errore toUpperCase su nomi vuoti
+                const nomeDisplay = (t.name || t.id || "Sconosciuto").toString();
+                const opt = document.createElement('option');
+                opt.value = t.id; 
+                opt.innerText = `ALLENATORE: ${nomeDisplay.toUpperCase()}`;
+                select.appendChild(opt);
+            });
+        }
+    } catch (e) {
+        console.error("Errore caricamento menu:", e);
+    }
+};
+
+// --- 2. FUNZIONE PER IL TASTO "SALVA" NELLO SCANNER ---
+window.saveAction = async function() {
+    const user = auth.currentUser;
+    if (!user) return alert("Devi essere loggato!");
+
+    const select = document.getElementById('trainer-target-select');
+    const selectedTrainerId = select.value;
+    const btn = event.currentTarget;
     
-    const opt = document.createElement('option');
-    opt.value = t.id || Math.random().toString(); // Assicura che ci sia sempre un ID
-    opt.innerText = `ALLENATORE: ${nomeAllenatore}`;
-    select.appendChild(opt);
-});
+    btn.disabled = true;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = "💾 SALVATAGGIO...";
+
+    try {
+        const userRef = doc(db, "Users", user.uid);
+        const cleanPokemon = JSON.parse(JSON.stringify(window.currentPokemon));
+        cleanPokemon.data_cattura = new Date().toLocaleString();
+
+        if (selectedTrainerId === "none") {
+            await updateDoc(userRef, {
+                pokemon_salvati: arrayUnion(cleanPokemon)
+            });
+            alert("✅ ARCHIVIATO NEL PROFILO!");
+        } else {
+            const userSnap = await getDoc(userRef);
+            let trainers = userSnap.data().allenatori_generati || [];
+            
+            // Confronto flessibile (==) per gestire ID stringa (nomi) o numeri
+            const tIdx = trainers.findIndex(t => t.id == selectedTrainerId);
+
+            if (tIdx !== -1) {
+                if (!trainers[tIdx].team) trainers[tIdx].team = [];
+                trainers[tIdx].team.push(cleanPokemon);
+                
+                await updateDoc(userRef, { allenatori_generati: trainers });
+                const nomeSuccesso = (trainers[tIdx].name || "Allenatore").toUpperCase();
+                alert(`✅ INVIATO AL TEAM DI ${nomeSuccesso}!`);
+            } else {
+                alert("❌ Errore: Allenatore non trovato.");
+            }
+        }
+    } catch (e) {
+        alert("❌ UPLINK FALLITO: " + e.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    }
+};
         }
     };
 
@@ -362,8 +415,9 @@ window.saveAction = async function() {
             renderUI(window.currentPokemon);
 
             // Carica la lista allenatori nel select appena creato
-            loadTrainerOptions();
-        }
+            setTimeout(() => {
+                window.loadTrainerOptions();
+            }, 200);
 
         // --- RENDERING INTERFACCIA ---
        function renderUI(p) {
