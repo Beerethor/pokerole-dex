@@ -3,112 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scheda Allenatore - ProDex</title>
+    <title>Trainer Card - Neural ProDex</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --pk-red: #e74c3c; --pk-blue: #d6eaf8; --pk-gray: #bdc3c7; }
-        body { background-color: #0f172a; font-family: 'JetBrains Mono', monospace; color: white; opacity: 0; transition: opacity 0.5s; }
+        :root { --pk-red: #dc2626; --pk-blue: #d6eaf8; --bg-dark: #020617; }
+        body { background-color: var(--bg-dark); font-family: 'JetBrains Mono', monospace; color: white; opacity: 0; transition: opacity 0.5s; }
         body.auth-ready { opacity: 1; }
 
-        /* STILE SCHEDA FEDELE ALL'IMMAGINE */
+        /* UI SCHEDA STILE POKEMON LEAGUE */
         .trainer-card-ui {
-            background-color: #d1d5db;
-            border-radius: 20px;
-            overflow: hidden;
-            width: 100%;
-            max-width: 850px;
-            margin: 20px auto;
-            border: 4px solid #9ca3af;
-            color: #333;
-            position: relative;
+            background-color: #d1d5db; border-radius: 24px; overflow: hidden;
+            width: 100%; max-width: 950px; margin: 20px auto;
+            border: 6px solid #4b5563; color: #1e293b; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         .card-header {
-            background-color: var(--pk-red);
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 8px solid #c0392b;
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+            padding: 20px 30px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 6px solid #991b1b;
         }
-        .header-title { font-family: 'Orbitron'; font-weight: 900; color: white; font-size: 1.8rem; letter-spacing: 2px; }
+        .header-logo-text { font-family: 'Orbitron'; font-weight: 900; color: white; font-size: 1.5rem; letter-spacing: 1px; italic: true; }
         
-        .photo-frame {
-            background: white;
-            border: 4px solid #4b5563;
-            border-radius: 15px;
-            width: 200px;
-            height: 250px;
-            object-cover: cover;
+        .data-field {
+            background-color: var(--pk-blue); border-radius: 6px; padding: 4px 10px;
+            border: 2px solid #1e293b; font-weight: 800; color: #1e293b; font-size: 13px;
+        }
+        .label-text { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; color: #111; text-transform: uppercase; margin-bottom: 2px; display: block; }
+        
+        .photo-box {
+            background: white; border: 4px solid #1e293b; border-radius: 12px;
+            width: 100%; aspect-ratio: 3/4; object-fit: cover;
         }
 
-        .data-field {
-            background-color: var(--pk-blue);
-            border-radius: 8px;
-            padding: 4px 10px;
-            border: 2px solid #333;
-            font-weight: bold;
-            color: #1e293b;
-            min-height: 24px;
-        }
-        .label-text { font-family: 'Orbitron'; font-size: 0.65rem; font-weight: 900; color: #111; text-transform: uppercase; }
-        
-        /* Input Form */
-        .admin-panel { background: #1e293b; border: 1px solid #3b82f6; border-radius: 15px; padding: 20px; margin-bottom: 30px; }
-        .admin-input { background: #0f172a; color: #38bdf8; border: 1px solid #334155; padding: 5px 10px; border-radius: 5px; font-size: 12px; width: 100%; }
-        
-        /* Statistiche a pallini */
-        .dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid #333; background: white; }
-        .dot.filled { background: #333; }
+        /* Skills & Dots */
+        .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid #1e293b; background: white; }
+        .dot.filled { background: #1e293b; }
+        .skill-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; padding: 1px 0; }
+
+        /* Admin Form */
+        .admin-panel { background: #1e293b; border: 2px solid #3b82f6; border-radius: 20px; padding: 25px; margin-bottom: 40px; }
+        input, select, textarea { background: #0f172a !important; color: #38bdf8 !important; border: 1px solid #334155 !important; padding: 6px; border-radius: 6px; font-size: 12px; width: 100%; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-4 md:p-8">
 
-    <div class="max-w-5xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <a href="index.html" class="bg-white/10 hover:bg-red-600 px-4 py-2 rounded-lg text-xs font-black uppercase transition-all">⬅ Torna alla Home</a>
-            <button onclick="toggleForm()" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-xs font-black uppercase">➕ Crea Nuovo Allenatore</button>
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <h1 class="text-4xl font-black italic tracking-tighter font-[Orbitron] text-white">
+                NEURAL <span class="text-red-600">PRODEX</span>
+            </h1>
+            <div class="flex gap-4">
+                <a href="index.html" class="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-xl text-xs font-black uppercase transition-all flex items-center gap-2 border border-white/20">
+                    🏠 Home
+                </a>
+                <button onclick="toggleForm()" class="bg-blue-600 hover:bg-blue-500 px-6 py-2 rounded-xl text-xs font-black uppercase shadow-lg shadow-blue-600/20">
+                    ➕ Nuovo Allenatore
+                </button>
+            </div>
         </div>
 
         <div id="trainer-form" class="hidden admin-panel">
-            <h2 class="text-blue-400 font-black mb-4 uppercase tracking-tighter">Nuovo Record Database</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="space-y-2">
-                    <label class="label-xs text-white">Foto & Base</label>
-                    <input type="file" id="f-img" onchange="encodeImg()" class="admin-input">
-                    <input type="text" id="f-name" placeholder="Nome" class="admin-input">
-                    <input type="text" id="f-rank" placeholder="Rank (es. Starter)" class="admin-input">
-                    <input type="number" id="f-age" placeholder="Età" class="admin-input">
-                    <input type="text" id="f-player" placeholder="Giocatore" class="admin-input">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="space-y-3">
+                    <label class="text-[10px] font-bold text-blue-400">IDENTITÀ</label>
+                    <input type="file" id="f-img" onchange="encodeImg()">
+                    <input type="text" id="f-name" placeholder="Nome Allenatore">
+                    <input type="text" id="f-rank" placeholder="Rango (es. Starter)">
+                    <input type="number" id="f-age" placeholder="Età">
+                    <input type="text" id="f-nature" placeholder="Natura">
+                    <input type="number" id="f-conf" placeholder="Confidence (1-5)">
+                    <input type="number" id="f-money" placeholder="Soldi ($)">
                 </div>
-                <div class="space-y-2">
-                    <label class="label-xs text-white">Personalità</label>
-                    <input type="text" id="f-concept" placeholder="Concept" class="admin-input">
-                    <input type="text" id="f-nature" placeholder="Natura" class="admin-input">
-                    <input type="number" id="f-conf" placeholder="Confidence" class="admin-input">
-                    <input type="text" id="f-money" placeholder="Money ($)" class="admin-input">
-                    <div class="flex gap-2">
-                        <input type="number" id="f-hp" placeholder="HP" class="admin-input">
-                        <input type="number" id="f-will" placeholder="WILL" class="admin-input">
+                <div class="space-y-3">
+                    <label class="text-[10px] font-bold text-blue-400">ATTRIBUTI & RISORSE</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="f-hp" placeholder="HP Max">
+                        <input type="number" id="f-will" placeholder="Will Max">
+                        <input type="number" id="f-str" placeholder="Forza">
+                        <input type="number" id="f-dex" placeholder="Destrezza">
+                        <input type="number" id="f-vit" placeholder="Vitalità">
+                        <input type="number" id="f-ins" placeholder="Istinto">
+                    </div>
+                    <label class="text-[10px] font-bold text-blue-400">SQUADRA (Nomi)</label>
+                    <input type="text" id="f-p1" placeholder="Pokémon 1"><input type="text" id="f-p2" placeholder="Pokémon 2">
+                </div>
+                <div class="space-y-3">
+                    <label class="text-[10px] font-bold text-blue-400">ABILIÀ (SKILLS)</label>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1">
+                        <input type="number" id="s-rissa" placeholder="Rissa"> <input type="number" id="s-lancio" placeholder="Lancio">
+                        <input type="number" id="s-evas" placeholder="Evasione"> <input type="number" id="s-armi" placeholder="Armi">
+                        <input type="number" id="s-all" placeholder="Allerta"> <input type="number" id="s-atle" placeholder="Atletica">
+                        <input type="number" id="s-nat" placeholder="Natura"> <input type="number" id="s-furt" placeholder="Furtività">
                     </div>
                 </div>
-                <div class="space-y-2">
-                    <label class="label-xs text-white">Attributi (1-5)</label>
-                    <input type="number" id="f-str" placeholder="Strength" class="admin-input">
-                    <input type="number" id="f-dex" placeholder="Dexterity" class="admin-input">
-                    <input type="number" id="f-vit" placeholder="Vitality" class="admin-input">
-                    <input type="number" id="f-ins" placeholder="Insight" class="admin-input">
-                </div>
-                <div class="space-y-2">
-                    <label class="label-xs text-white">Zaino & Progressi</label>
-                    <textarea id="f-bag" placeholder="Zaino (es. Potion x2...)" class="admin-input" rows="3"></textarea>
-                    <input type="text" id="f-seen" placeholder="Catturati (es. 10/150)" class="admin-input">
-                    <button onclick="saveToFirebase()" class="bg-green-600 w-full py-2 rounded font-black text-white mt-2">SALVA</button>
+                <div class="space-y-3">
+                    <label class="text-[10px] font-bold text-blue-400">SOCIAL & ZAINO</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="v-grinta" placeholder="Grinta"> <input type="number" id="v-classe" placeholder="Classe">
+                    </div>
+                    <textarea id="f-bag" placeholder="Contenuto Zaino..." rows="4"></textarea>
+                    <button onclick="saveTrainer()" class="bg-green-600 w-full py-3 rounded-lg font-black text-white hover:bg-green-500 transition-all uppercase text-xs">Salva Operatore</button>
                 </div>
             </div>
         </div>
 
-        <div id="cards-container" class="space-y-10"></div>
+        <div id="cards-list" class="space-y-12"></div>
     </div>
 
     <script type="module">
@@ -132,15 +131,11 @@
         let currentUser = null;
         let base64Img = "";
 
-        // PROTEZIONE PAGINA
         onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                window.location.href = 'index.html';
-                return;
-            }
+            if (!user) { window.location.href = 'index.html'; return; }
             currentUser = user;
             document.body.classList.add('auth-ready');
-            loadData();
+            loadTrainers();
         });
 
         window.toggleForm = () => document.getElementById('trainer-form').classList.toggle('hidden');
@@ -152,106 +147,119 @@
             reader.readAsDataURL(file);
         };
 
-        window.saveToFirebase = async () => {
+        window.saveTrainer = async () => {
             const data = {
                 id: Date.now(),
-                img: base64Img || "https://api.dicebear.com/7.x/bottts/svg?seed=Trainer",
+                img: base64Img || "https://api.dicebear.com/7.x/pixel-art/svg",
                 name: document.getElementById('f-name').value,
                 rank: document.getElementById('f-rank').value,
                 age: document.getElementById('f-age').value,
-                player: document.getElementById('f-player').value,
-                concept: document.getElementById('f-concept').value,
                 nature: document.getElementById('f-nature').value,
                 conf: document.getElementById('f-conf').value,
                 money: document.getElementById('f-money').value,
                 hp: document.getElementById('f-hp').value,
                 will: document.getElementById('f-will').value,
                 bag: document.getElementById('f-bag').value,
-                seen: document.getElementById('f-seen').value,
-                stats: {
-                    str: document.getElementById('f-str').value,
-                    dex: document.getElementById('f-dex').value,
-                    vit: document.getElementById('f-vit').value,
-                    ins: document.getElementById('f-ins').value
+                pkmn: [document.getElementById('f-p1').value, document.getElementById('f-p2').value, "", "", "", ""],
+                stats: { 
+                    forza: document.getElementById('f-str').value, dex: document.getElementById('f-dex').value, 
+                    vit: document.getElementById('f-vit').value, ins: document.getElementById('f-ins').value 
+                },
+                skills: {
+                    rissa: document.getElementById('s-rissa').value, lancio: document.getElementById('s-lancio').value,
+                    evas: document.getElementById('s-evas').value, armi: document.getElementById('s-armi').value,
+                    all: document.getElementById('s-all').value, atle: document.getElementById('s-atle').value,
+                    nat: document.getElementById('s-nat').value, furt: document.getElementById('s-furt').value
+                },
+                social: {
+                    grinta: document.getElementById('v-grinta').value, classe: document.getElementById('v-classe').value
                 }
             };
-
-            await updateDoc(doc(db, "Users", currentUser.uid), {
-                allenatori_generati: arrayUnion(data)
-            });
+            await updateDoc(doc(db, "Users", currentUser.uid), { allenatori_generati: arrayUnion(data) });
             location.reload();
         };
 
-        async function loadData() {
+        async function loadTrainers() {
             const snap = await getDoc(doc(db, "Users", currentUser.uid));
             if (snap.exists() && snap.data().allenatori_generati) {
-                const list = snap.data().allenatori_generati;
-                document.getElementById('cards-container').innerHTML = list.map(t => renderCard(t)).join('');
+                document.getElementById('cards-list').innerHTML = snap.data().allenatori_generati.map(t => renderUI(t)).join('');
             }
         }
 
-        function renderCard(t) {
-            const drawDots = (val) => {
-                let html = '<div class="flex gap-1">';
-                for(let i=1; i<=5; i++) html += `<div class="dot ${i <= val ? 'filled' : ''}"></div>`;
-                return html + '</div>';
-            };
-
+        function renderUI(t) {
+            const dots = (v) => `<div class="flex gap-0.5">${Array.from({length:5}).map((_,i)=>`<div class="dot ${i<v?'filled':''}"></div>`).join('')}</div>`;
+            
             return `
             <div class="trainer-card-ui">
                 <div class="card-header">
-                    <div class="header-title">POKÉMON LEAGUE</div>
-                    <div class="flex flex-col items-end">
-                        <span class="text-[10px] text-white/80 font-bold uppercase">Trainer's Card Rank:</span>
-                        <div class="data-field min-w-[120px] text-center">${t.rank}</div>
+                    <div class="header-logo-text uppercase italic">Pokémon League</div>
+                    <div class="text-right">
+                        <span class="label-text !text-white/80">Trainer's Card Rank:</span>
+                        <div class="data-field min-w-[140px]">${t.rank}</div>
                     </div>
                 </div>
 
                 <div class="p-6 grid grid-cols-12 gap-6">
-                    <div class="col-span-12 md:col-span-4 space-y-4">
-                        <img src="${t.img}" class="photo-frame">
+                    <div class="col-span-12 md:col-span-3 space-y-4">
+                        <img src="${t.img}" class="photo-box shadow-lg">
                         <div class="space-y-2">
-                            <div class="flex items-center gap-2">
-                                <div class="bg-gray-800 text-white px-2 py-1 rounded font-black text-xs">HP</div>
-                                <div class="data-field flex-1">${t.hp}</div>
+                            <div class="flex items-center justify-between bg-black/10 p-1 rounded-lg">
+                                <span class="label-text !mb-0">HP</span><div class="data-field w-20 text-center">${t.hp}</div>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <div class="bg-gray-800 text-white px-2 py-1 rounded font-black text-xs">WILL</div>
-                                <div class="data-field flex-1">${t.will}</div>
+                            <div class="flex items-center justify-between bg-black/10 p-1 rounded-lg">
+                                <span class="label-text !mb-0">WILL</span><div class="data-field w-20 text-center">${t.will}</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-span-12 md:col-span-8 space-y-4">
-                        <div class="grid grid-cols-3 gap-2">
-                            <div class="col-span-2"><span class="label-text">Name:</span><div class="data-field uppercase">${t.name}</div></div>
+                    <div class="col-span-12 md:col-span-6 space-y-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="col-span-2"><span class="label-text">Name:</span><div class="data-field uppercase text-lg">${t.name}</div></div>
                             <div><span class="label-text">Age:</span><div class="data-field">${t.age}</div></div>
-                            <div class="col-span-1"><span class="label-text">Player:</span><div class="data-field">${t.player}</div></div>
-                            <div class="col-span-2"><span class="label-text">Concept:</span><div class="data-field">${t.concept}</div></div>
-                            <div class="col-span-2"><span class="label-text">Nature:</span><div class="data-field">${t.nature}</div></div>
                             <div><span class="label-text">Money:</span><div class="data-field">$ ${t.money}</div></div>
+                            <div class="col-span-1"><span class="label-text">Nature:</span><div class="data-field uppercase">${t.nature}</div></div>
+                            <div><span class="label-text">Confidence:</span><div class="data-field">${t.conf} / 5</div></div>
                         </div>
 
-                        <div class="bg-gray-400/20 p-4 rounded-xl border-2 border-gray-400">
-                             <span class="label-text">Attributes & Skills (Pag. 2)</span>
-                             <div class="grid grid-cols-2 gap-x-8 gap-y-2 mt-2">
-                                <div class="flex justify-between items-center"><span class="text-[10px] font-bold">STRENGTH</span> ${drawDots(t.stats.str)}</div>
-                                <div class="flex justify-between items-center"><span class="text-[10px] font-bold">DEXTERITY</span> ${drawDots(t.stats.dex)}</div>
-                                <div class="flex justify-between items-center"><span class="text-[10px] font-bold">VITALITY</span> ${drawDots(t.stats.vit)}</div>
-                                <div class="flex justify-between items-center"><span class="text-[10px] font-bold">INSIGHT</span> ${drawDots(t.stats.ins)}</div>
-                             </div>
+                        <div class="bg-white/40 p-3 rounded-xl border border-gray-400">
+                            <span class="label-text text-red-700">Squadra Pokémon (6 Slot)</span>
+                            <div class="grid grid-cols-2 gap-2 mt-1">
+                                ${t.pkmn.map(p => `<div class="data-field !py-1 !text-[10px] h-7 truncate">${p || '---'}</div>`).join('')}
+                            </div>
                         </div>
+                        
+                        <div>
+                            <span class="label-text">Zaino & Strumenti:</span>
+                            <div class="data-field h-24 overflow-auto text-[11px] font-medium italic">"${t.bag || 'Zaino vuoto...'}"</div>
+                        </div>
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <div><span class="label-text">Backpack:</span><div class="data-field text-[10px] h-20 overflow-auto">${t.bag}</div></div>
-                            <div><span class="label-text">Pokedex:</span><div class="data-field text-center py-4 text-xl">${t.seen}</div></div>
+                    <div class="col-span-12 md:col-span-3 space-y-4 bg-black/5 p-3 rounded-xl border border-black/5">
+                        <div>
+                            <span class="label-text text-blue-800 border-b border-blue-200">Attributi</span>
+                            <div class="skill-row">FORZA ${dots(t.stats.forza)}</div>
+                            <div class="skill-row">DESTREZZA ${dots(t.stats.dex)}</div>
+                            <div class="skill-row">VITALITÀ ${dots(t.stats.vit)}</div>
+                            <div class="skill-row">ISTINTO ${dots(t.stats.ins)}</div>
+                        </div>
+                        <div>
+                            <span class="label-text text-green-800 border-b border-green-200">Skill Principali</span>
+                            <div class="skill-row">RISSA ${dots(t.skills.rissa)}</div>
+                            <div class="skill-row">LANCIO ${dots(t.skills.lancio)}</div>
+                            <div class="skill-row">EVASIONE ${dots(t.skills.evas)}</div>
+                            <div class="skill-row">ALLERTA ${dots(t.skills.all)}</div>
+                        </div>
+                        <div>
+                            <span class="label-text text-purple-800 border-b border-purple-200">Virtù Sociali</span>
+                            <div class="skill-row">GRINTA ${dots(t.social.grinta)}</div>
+                            <div class="skill-row">CLASSE ${dots(t.social.classe)}</div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="bg-gray-400 p-2 flex justify-center gap-4">
-                    ${Array.from({length:8}).map((_,i)=>`<div class="w-8 h-8 rounded-full bg-white border border-gray-600 flex items-center justify-center text-[8px] font-black">${i+1}</div>`).join('')}
-                    <span class="label-text self-center">Gym Badges</span>
+
+                <div class="bg-gray-400/50 p-3 flex justify-center gap-3 border-t-2 border-gray-500">
+                    ${Array.from({length:8}).map((_,i)=>`<div class="w-9 h-9 rounded-full bg-white border-2 border-gray-600 flex items-center justify-center text-[10px] font-black text-gray-400">${i+1}</div>`).join('')}
+                    <span class="label-text self-center ml-4">Medaglie della Lega</span>
                 </div>
             </div>`;
         }
