@@ -12,7 +12,6 @@
         .pokedex-frame { max-width: 1400px; background: var(--pokedex-red); border-radius: 20px; padding: 15px; margin: 0 auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); border: 4px solid #8b0000; }
         .inner-screen { background: var(--bg-dark); border-radius: 15px; padding: 40px; min-height: 750px; border: 2px solid #1e293b; position: relative; }
         
-        /* Cartelle PC */
         .trainer-folder { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid rgba(56, 189, 248, 0.1); background: rgba(15, 23, 42, 0.6); cursor: pointer; }
         .trainer-folder:hover { border-color: #38bdf8; transform: translateY(-5px); }
         .trainer-folder.active { border-color: #38bdf8; background: rgba(56, 189, 248, 0.15); box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
@@ -29,9 +28,8 @@
         .btn-blue { background: #2563eb; } .btn-yellow { background: #ca8a04; color: black; } .btn-green { background: #15803d; } .btn-red { background: #991b1b; } .btn-gray { background: #334155; }
         .social-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-radius: 4px; margin-bottom: 6px; font-weight: 900; font-size: 0.8rem; text-transform: uppercase; color: black; }
         
-        /* Overlays */
         .overlay-bg { background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); display: none; position: fixed; inset: 0; z-index: 50; align-items: center; justify-content: center; padding: 20px; }
-        select, input { background: #0f172a; border: 1px solid #334155; color: white; padding: 10px; border-radius: 5px; width: 100%; margin-top: 5px; font-family: 'Rajdhani'; }
+        select { background: #0f172a; border: 1px solid #334155; color: white; padding: 10px; border-radius: 5px; width: 100%; margin-top: 5px; font-family: 'Rajdhani'; }
     </style>
 </head>
 <body>
@@ -41,21 +39,16 @@
 <div id="gen-overlay" class="overlay-bg">
     <div class="bg-[#111927] border-2 border-blue-600 p-8 rounded-2xl max-w-lg w-full shadow-2xl">
         <h3 class="font-[Orbitron] text-blue-500 text-xl mb-6 text-center font-black italic">INIZIALIZZAZIONE NUOVA UNITÀ</h3>
-        
         <div class="space-y-4">
             <div>
                 <label class="label text-slate-400">Seleziona Pokémon</label>
-                <select id="pkmn-selector">
-                    </select>
+                <select id="pkmn-selector"></select>
             </div>
             <div>
                 <label class="label text-slate-400">Destinazione Database</label>
-                <select id="target-selector">
-                    <option value="wild">PC WILD (Archivio Libero)</option>
-                    </select>
+                <select id="target-selector"></select>
             </div>
         </div>
-
         <div class="grid grid-cols-2 gap-4 mt-8">
             <button onclick="document.getElementById('gen-overlay').style.display='none'" class="btn-action btn-gray">Annulla</button>
             <button onclick="confirmGeneration()" class="btn-action btn-blue">Conferma Scansione</button>
@@ -64,7 +57,12 @@
 </div>
 
 <div id="rank-overlay" class="overlay-bg">
+    <div class="bg-[#111927] border-2 border-green-600 p-8 rounded-2xl max-w-md w-full shadow-2xl">
+        <h3 class="font-[Orbitron] text-green-500 text-xl mb-6 text-center italic font-black">SISTEMA DI PROMOZIONE RANGO</h3>
+        <div class="grid grid-cols-1 gap-3" id="rank-options"></div>
+        <button onclick="document.getElementById('rank-overlay').style.display='none'" class="w-full mt-6 text-slate-500 text-xs uppercase font-bold">Annulla</button>
     </div>
+</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -105,6 +103,7 @@
             fullData = snap.data();
             if (tId && pIdx !== null) {
                 currentPkmn = (tId === "wild") ? fullData.pokemon_salvati[pIdx] : fullData.allenatori_generati.find(t => t.id == tId).team[pIdx];
+                if (!currentPkmn.punti_accumulati) currentPkmn.punti_accumulati = { attr: {}, skills: {}, social: {} };
                 renderScheda();
             } else { renderListaGlobale(); }
         }
@@ -151,8 +150,7 @@
             ? (fullData.pokemon_salvati || []).map((p, i) => ({...p, idx: i, tId: 'wild'}))
             : (fullData.allenatori_generati.find(t => t.id == openFolder).team || []).map((p, i) => ({...p, idx: i, tId: openFolder}));
 
-        return `
-        <div class="grid grid-cols-6 gap-4">
+        return `<div class="grid grid-cols-6 gap-4">
             ${list.map(p => `
             <div onclick="window.location.href='pokemon.html?trainerId=${p.tId}&pokemonIdx=${p.idx}'" class="bg-black/40 p-4 rounded-xl border border-white/5 hover:border-blue-500 cursor-pointer text-center group">
                 <img src="${p.immagine}" class="h-20 mx-auto group-hover:scale-110 transition-transform">
@@ -161,18 +159,69 @@
         </div>`;
     }
 
-    // LOGICA GENERAZIONE
+    function renderScheda() {
+        const p = currentPkmn;
+        document.getElementById('main-display').innerHTML = `
+        <div class="pokedex-frame">
+            <div class="inner-screen">
+                <div class="flex justify-between items-start mb-10">
+                    <div>
+                        <div class="label text-yellow-500 mb-1">Analisi Soggetto:</div>
+                        <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter leading-none">${p.nome}</h1>
+                        <div class="mt-4 flex gap-2">
+                            ${p.tipo.map(t => `<span class="text-black px-4 py-1 rounded text-[10px] font-black uppercase" style="background-color: ${TYPE_COLORS[t] || '#A8A878'}">${t}</span>`).join('')}
+                            <span class="bg-blue-900/30 text-blue-400 px-4 py-1 rounded text-[10px] font-black uppercase border border-blue-500/20">${p.rank}</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="border-2 border-red-600 rounded-lg p-3 text-center min-w-[120px]"><div class="label text-red-500">Punti Vita</div><div class="text-5xl font-black font-[Orbitron]">${p.hp}</div></div>
+                        <div class="border-2 border-cyan-500 rounded-lg p-3 text-center min-w-[120px]"><div class="label text-cyan-400">Volontà</div><div class="text-5xl font-black font-[Orbitron]">${p.will}</div></div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-12 gap-10">
+                    <div class="col-span-3 space-y-8">
+                        <div class="bg-black/40 rounded-2xl p-6 border border-white/5 aspect-square flex items-center justify-center"><img src="${p.immagine}" class="max-h-full drop-shadow-xl"></div>
+                        <div class="stat-card border-blue-600 bg-blue-900/10"><div class="label text-blue-400 mb-1">Abilità</div><div class="text-xl font-black font-[Orbitron] uppercase">${p.abilita_scelta || 'Standard'}</div></div>
+                        <div class="space-y-3">${Object.entries(p.attr).map(([k,v]) => `<div class="flex justify-between items-center text-[12px] font-bold uppercase"><span>${k}</span><div class="flex">${drawDots(v, k, 'attr')}</div></div>`).join('')}</div>
+                    </div>
+                    <div class="col-span-5 px-8 border-x border-white/5">
+                        <div class="label text-blue-400 mb-6">Matrice Competenze</div>
+                        <div class="space-y-2 mb-10">${Object.entries(p.skills).map(([k,v]) => `<div class="flex justify-between items-center text-[10px] font-bold uppercase border-b border-white/5 pb-1"><span class="text-slate-400">${k}</span><div class="flex">${drawDots(v, k, 'skills')}</div></div>`).join('')}</div>
+                        <div class="label text-red-500 mb-4">Database Mosse (Slot: ${p.will})</div>
+                        <div class="flex flex-wrap gap-2">${(p.tecniche_scelte || []).map(m => `<div class="mossa-tag">${m}</div>`).join('')}</div>
+                    </div>
+                    <div class="col-span-4 space-y-6">
+                        <div class="label text-slate-500">Logica Combattimento</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="stat-card border-yellow-400"><div class="label text-yellow-400 !text-[8px]">Iniziativa</div><div class="text-3xl font-black">${p.combat.iniziativa}</div></div>
+                            <div class="stat-card border-green-500"><div class="label text-green-500 !text-[8px]">Evasione</div><div class="text-3xl font-black">${p.combat.evadere}</div></div>
+                            <div class="stat-card border-orange-500"><div class="label text-orange-500 !text-[8px]">Difesa F.</div><div class="text-3xl font-black">${p.combat.difesa}</div></div>
+                            <div class="stat-card border-blue-500"><div class="label text-blue-500 !text-[8px]">Difesa S.</div><div class="text-3xl font-black">${p.combat.difesa_speciale}</div></div>
+                        </div>
+                        <div class="space-y-1">
+                            ${renderSocialRow("Grinta", p.social.Tough, "#facc15", "Tough")}
+                            ${renderSocialRow("Classe", p.social.Cool, "#f97316", "Cool")}
+                            ${renderSocialRow("Bellezza", p.social.Beauty, "#3b82f6", "Beauty")}
+                            ${renderSocialRow("Grazia", p.social.Cute, "#ec4899", "Cute")}
+                            ${renderSocialRow("Acume", p.social.Clever, "#22c55e", "Clever")}
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-4">
+                            <button onclick="openRankUp()" class="btn-action btn-green">🆙 Rank Up</button>
+                            <button onclick="handleAction('evolve')" class="btn-action btn-yellow">🧬 Evolvi</button>
+                            <button onclick="handleAction('moves')" class="btn-action btn-blue">⚔️ Mosse</button>
+                            <button onclick="handleAction('release')" class="btn-action btn-red">☣️ Libera</button>
+                            <button onclick="window.location.href='pokemon.html'" class="btn-action btn-gray col-span-2">✖ Chiudi Terminale</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }
+
     window.openGenModal = function() {
-        const pkmnSelect = document.getElementById('pkmn-selector');
-        const targetSelect = document.getElementById('target-selector');
-        
-        // Popola Pokemon
-        pkmnSelect.innerHTML = Object.keys(Pokedex).sort().map(p => `<option value="${p}">${p}</option>`).join('');
-        
-        // Popola Destinatari
-        targetSelect.innerHTML = `<option value="wild">PC WILD (Archivio Libero)</option>` + 
+        document.getElementById('pkmn-selector').innerHTML = Object.keys(Pokedex).sort().map(p => `<option value="${p}">${p}</option>`).join('');
+        document.getElementById('target-selector').innerHTML = `<option value="wild">PC WILD (Archivio Libero)</option>` + 
             fullData.allenatori_generati.map(t => `<option value="${t.id}">${t.name} (Team)</option>`).join('');
-            
         document.getElementById('gen-overlay').style.display = 'flex';
     };
 
@@ -180,7 +229,6 @@
         const pkmnName = document.getElementById('pkmn-selector').value;
         const targetId = document.getElementById('target-selector').value;
         const base = Pokedex[pkmnName];
-        
         const newPkmn = {
             nome: pkmnName, immagine: base.Image, tipo: base.Type, rank: "Nessuno",
             hp: base.HP, will: base.Will, attr: base.Attributes, skills: base.Skills,
@@ -194,7 +242,6 @@
             tecniche_scelte: base.Moves.slice(0, base.Will),
             punti_accumulati: { attr: {}, skills: {}, social: {} }
         };
-
         if (targetId === 'wild') {
             if (!fullData.pokemon_salvati) fullData.pokemon_salvati = [];
             fullData.pokemon_salvati.push(newPkmn);
@@ -203,25 +250,62 @@
             if (!tr.team) tr.team = [];
             tr.team.push(newPkmn);
         }
-
         await updateDoc(doc(db, "Users", currentUser.uid), fullData);
         document.getElementById('gen-overlay').style.display = 'none';
         renderListaGlobale();
     };
 
-    window.toggleFolder = (id) => { openFolder = (openFolder === id) ? null : id; renderListaGlobale(); };
-    
-    // RENDER SCHEDA (Invariata per brevità, mantenuta da versioni precedenti)
-    function renderScheda() { /* ... vedi versioni precedenti ... */ }
-    function drawDots(b, k, c, s = false) { /* ... vedi versioni precedenti ... */ }
-    window.rankUp = async function(c, k, i) { /* ... vedi versioni precedenti ... */ }
-    async function saveAndRefresh() { /* ... vedi versioni precedenti ... */ }
-    window.openRankUp = function() { /* ... vedi versioni precedenti ... */ }
-    window.updateRank = async function(newRank) { /* ... vedi versioni precedenti ... */ }
-    function renderSocialRow(l, v, c, k) { /* ... vedi versioni precedenti ... */ }
-    window.handleAction = (t) => t === 'release' ? (confirm('Liberare unità?') && deletePkmn()) : alert('Sviluppo in corso...');
-    async function deletePkmn() { /* ... vedi versioni precedenti ... */ }
+    window.drawDots = function(b, k, c, s = false) {
+        let h = '';
+        const bonus = (currentPkmn.punti_accumulati[c] && currentPkmn.punti_accumulati[c][k]) || 0;
+        for (let i = 1; i <= 10; i++) {
+            let cls = (i <= b) ? 'filled' : (i <= b + bonus ? 'bonus' : '');
+            if (s) cls += ' !bg-black/20 !shadow-none';
+            h += `<span class="dot ${cls}" onclick="rankUp('${c}','${k}',${i})"></span>`;
+        }
+        return h;
+    }
 
+    window.rankUp = async function(c, k, i) {
+        const bonus = (currentPkmn.punti_accumulati[c] && currentPkmn.punti_accumulati[c][k]) || 0;
+        const base = currentPkmn[c][k] || 0;
+        if (i === base + bonus + 1) currentPkmn.punti_accumulati[c][k] = bonus + 1;
+        else if (i === base + bonus && bonus > 0) currentPkmn.punti_accumulati[c][k] = bonus - 1;
+        else return;
+        saveAndRefresh();
+    }
+
+    async function saveAndRefresh() {
+        if (tId === "wild") fullData.pokemon_salvati[pIdx] = currentPkmn;
+        else fullData.allenatori_generati.find(t => t.id == tId).team[pIdx] = currentPkmn;
+        await updateDoc(doc(db, "Users", currentUser.uid), fullData);
+        renderScheda();
+    }
+
+    window.openRankUp = function() {
+        const ranks = ['Nessuno', 'Starter', 'Amateur', 'Ace', 'Pro', 'Master'];
+        document.getElementById('rank-options').innerHTML = ranks.map(r => `
+            <button onclick="updateRank('${r}')" class="w-full py-4 bg-black/40 border border-white/10 hover:border-green-500 rounded-xl font-[Orbitron] text-sm uppercase font-black transition-all ${currentPkmn.rank === r ? 'border-green-500 text-green-500 bg-green-950/20' : ''}">${r}</button>
+        `).join('');
+        document.getElementById('rank-overlay').style.display = 'flex';
+    };
+
+    window.updateRank = async function(newRank) {
+        currentPkmn.rank = newRank;
+        document.getElementById('rank-overlay').style.display = 'none';
+        saveAndRefresh();
+    };
+
+    window.renderSocialRow = function(l, v, c, k) { return `<div class="social-row" style="background:${c}"><span>${l}</span><div class="flex">${drawDots(v, k, 'social', true)}</div></div>`; }
+    window.toggleFolder = (id) => { openFolder = (openFolder === id) ? null : id; renderListaGlobale(); };
+    window.handleAction = (t) => t === 'release' ? (confirm('Liberare unità?') && deletePkmn()) : alert('Sviluppo in corso...');
+    
+    async function deletePkmn() {
+        if (tId === "wild") fullData.pokemon_salvati.splice(pIdx, 1);
+        else fullData.allenatori_generati.find(t => t.id == tId).team.splice(pIdx, 1);
+        await updateDoc(doc(db, "Users", currentUser.uid), fullData);
+        window.location.href = 'pokemon.html';
+    }
 </script>
 </body>
 </html>
