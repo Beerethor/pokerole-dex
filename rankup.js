@@ -1,29 +1,38 @@
 // rankup.js - Logica di progressione Pokerole
-export const RANK_ORDER = ["Starter", "Beginner", "Amateur", "Ace", "Pro", "Master", "Champion"];
+// rankup.js
+
+export const RANK_ORDER = ["Starter", "Amateur", "Ace", "Pro", "Master"];
 
 export const RANK_BONUSES = {
-    "Beginner": { attr: 2, social: 2, skills: 4, skillMax: 2 },
-    "Amateur":  { attr: 2, social: 2, skills: 3, skillMax: 3 },
-    "Ace":       { attr: 2, social: 2, skills: 2, skillMax: 4 },
-    "Pro":       { attr: 2, social: 2, skills: 1, skillMax: 5 },
-    "Master":    { social: 14, combatBonus: 2 }, // HP, Will, Iniz, Dif, DifSpec +2
-    "Champion":  { attr: 14, attrMaxBonus: 2, skills: 1 }
+    "Amateur": { attr: 2, skills: 3, social: 1 },
+    "Ace":     { attr: 2, skills: 4, social: 2 },
+    "Pro":     { attr: 3, skills: 5, social: 2 },
+    "Master":  { attr: 4, skills: 6, social: 3 }
 };
 
 export function getNextRank(currentRank) {
-    const currentIndex = RANK_ORDER.indexOf(currentRank);
-    if (currentIndex >= 0 && currentIndex < RANK_ORDER.length - 1) {
-        return RANK_ORDER[currentIndex + 1];
-    }
-    return null;
+    const idx = RANK_ORDER.indexOf(currentRank);
+    if (idx === -1 || idx === RANK_ORDER.length - 1) return null;
+    return RANK_ORDER[idx + 1];
 }
 
+// Funzione opzionale se vuoi centralizzare i calcoli qui
 export function calculateCombatStats(pk) {
-    // Ricalcola le statistiche derivate dopo i cambiamenti agli attributi
+    const getV = (obj, ...keys) => { for (let k of keys) { if (obj && obj[k] !== undefined) return obj[k]; } return 0; };
+    
+    const str = getV(pk.attr, 'Strength', 'Forza');
+    const dex = getV(pk.attr, 'Dexterity', 'Destrezza');
+    const vig = getV(pk.attr, 'Vitality', 'Vigore');
+    const spe = getV(pk.attr, 'Special', 'Speciale');
+    const int = getV(pk.attr, 'Insight', 'Intuito');
+    const eva = getV(pk.skills, 'Evasion', 'Evasione');
+
     return {
-        iniziativa: pk.attr.Destrezza + pk.attr.Intuizione,
-        evadere: pk.attr.Destrezza + pk.skills.Allerta,
-        difesa: pk.attr.Vigore + pk.skills.Rissa,
-        difesa_speciale: pk.attr.Volonta + pk.skills.Allerta
+        iniziativa: dex + int,
+        evadere: dex + eva,
+        difesaFisica: vig,
+        difesaSpeciale: int,
+        parataFisica: str + vig,
+        parataSpeciale: spe + vig
     };
 }
