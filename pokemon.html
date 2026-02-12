@@ -7,96 +7,98 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: white; font-family: 'Rajdhani', sans-serif; min-height: 100vh; padding: 2rem; }
+        body { background: #020617; color: white; font-family: 'Rajdhani', sans-serif; min-height: 100vh; overflow-x: hidden; }
         
-        /* --- TELAIO ESTERNO ROSSO --- */
-        .pokedex-case {
-            background: #111827;
-            border: 24px solid #cc2424;
+        /* --- CORNICE ROSSA PRINCIPALE --- */
+        .pokedex-frame {
+            background: #0f172a;
+            border: 20px solid #cc2424; /* Rosso dell'immagine */
             border-radius: 40px;
-            padding: 40px;
+            padding: 30px;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto;
             position: relative;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
         }
 
-        /* --- HEADER --- */
-        .subject-name { font-family: 'Orbitron'; font-weight: 900; font-size: 5rem; font-style: italic; line-height: 1; letter-spacing: -2px; color: white; margin-bottom: 10px; }
-        .label-top { font-family: 'Orbitron'; font-size: 0.7rem; color: #facc15; letter-spacing: 2px; }
+        .label-header { font-family: 'Orbitron'; font-size: 0.65rem; color: #facc15; letter-spacing: 1px; }
+        .subject-title { font-family: 'Orbitron'; font-size: 5rem; font-weight: 900; font-style: italic; line-height: 0.9; color: white; }
 
-        /* --- BOX STILE ANALISI --- */
-        .data-box { background: #0a0f1a; border-radius: 12px; padding: 20px; border: 1px solid #1e293b; height: 100%; }
-        .stat-card { background: #0f172a; border-radius: 8px; padding: 12px; border-left: 4px solid #0ea5e9; }
-        
+        /* --- CONTENITORI DATI --- */
+        .data-block { background: #070b14; border-radius: 12px; padding: 15px; border: 1px solid #1e293b; }
+        .stat-grid-box { background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 10px; border-left: 3px solid #0ea5e9; }
+
         /* --- PUNTINI (DOTS) --- */
-        .dot { width: 10px; height: 10px; border: 1px solid #334155; display: inline-block; margin-right: 4px; border-radius: 2px; }
-        .dot.filled { background: #0ea5e9; border-color: #0ea5e9; box-shadow: 0 0 5px #0ea5e9; }
-        .dot.overcap { background: #facc15; border-color: #facc15; }
+        .dot { width: 12px; height: 6px; background: #1e293b; display: inline-block; margin-right: 3px; border-radius: 1px; }
+        .dot.filled { background: #0ea5e9; box-shadow: 0 0 8px #0ea5e9; }
+        .dot.overcap { background: #facc15; box-shadow: 0 0 8px #facc15; }
 
-        /* --- HP & WILL BOXES --- */
-        .core-stat { border: 2px solid #334155; border-radius: 12px; padding: 10px 25px; text-align: center; min-width: 100px; }
-        .hp-border { border-color: #ef4444; }
-        .will-border { border-color: #0ea5e9; }
+        /* --- HP & WILL (TOP RIGHT) --- */
+        .core-display { border: 1px solid #334155; border-radius: 8px; padding: 5px 20px; text-align: center; background: #070b14; }
+        .hp-glow { border-color: #ef4444; }
+        .will-glow { border-color: #0ea5e9; }
 
-        /* --- BOTTONI AZIONE --- */
-        .action-btn { font-family: 'Orbitron'; font-weight: 900; text-transform: uppercase; font-size: 0.75rem; padding: 14px 28px; border-radius: 8px; transition: 0.3s; }
-        .btn-red-action { background: #cc2424; color: white; border-bottom: 4px solid #881111; }
-        .btn-red-action:hover { background: #ef4444; transform: translateY(-2px); }
+        /* --- BOTTONI --- */
+        .btn-action { font-family: 'Orbitron'; font-weight: 900; text-transform: uppercase; font-size: 0.7rem; padding: 12px 24px; border-radius: 10px; transition: 0.3s; }
+        .btn-primary { background: #cc2424; color: white; box-shadow: 0 4px 0 #881111; }
+        .btn-primary:hover { background: #ef4444; transform: translateY(-2px); }
 
-        .type-badge { padding: 4px 15px; border-radius: 4px; font-size: 0.65rem; font-weight: 900; font-family: 'Orbitron'; }
+        .type-badge { padding: 3px 12px; border-radius: 4px; font-size: 0.6rem; font-weight: 900; font-family: 'Orbitron'; color: white; }
     </style>
 </head>
-<body>
+<body class="p-4">
 
-    <div id="card-overlay" class="fixed inset-0 bg-black/90 z-50 overflow-y-auto p-10 flex flex-col items-center">
-        <button onclick="closeCard()" class="mb-6 text-slate-500 font-bold hover:text-white transition-colors uppercase tracking-widest text-xs">← ESCI DALL'ANALISI</button>
-        
-        <div id="card-container" class="w-full">
-            </div>
+    <div id="card-overlay" class="fixed inset-0 bg-black/95 z-50 overflow-y-auto">
+        <div class="flex flex-col items-center py-6">
+            <button onclick="closeCard()" class="mb-4 border border-white/20 px-4 py-1 rounded text-[10px] font-bold text-white/50 hover:text-white uppercase transition-all">
+                ← ESCI DALL'ANALISI
+            </button>
 
-        <div id="card-actions" class="mt-10 flex gap-6">
-            </div>
+            <div id="card-container" class="w-full">
+                </div>
+
+            <div id="card-actions" class="mt-6 flex gap-4">
+                </div>
+        </div>
     </div>
 
     <script type="module">
-        // [Logica Firebase e importazione moduli rimangono identici a prima]
-
+        // [Qui vanno i tuoi import Firebase e la logica di caricamento dati]
+        
         window.openCard = (type, tIdx, pIdx) => {
             currentPath = { type, tIdx, pIdx };
             currentPk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
             
             const drawDots = (v) => Array.from({length: 10}, (_, i) => `<span class="dot ${i < v ? (i >= 5 ? 'filled overcap' : 'filled') : ''}"></span>`).join('');
-            
+
             document.getElementById('card-container').innerHTML = `
-            <div class="pokedex-case">
-                <div class="flex justify-between items-start mb-8">
-                    <div>
-                        <div class="label-top">ANALISI SOGGETTO:</div>
-                        <h1 class="subject-name uppercase">${currentPk.nome}</h1>
-                        <div class="flex gap-2">
+            <div class="pokedex-frame">
+                <div class="flex justify-between items-start mb-10">
+                    <div class="space-y-1">
+                        <div class="label-header">ANALISI SOGGETTO:</div>
+                        <h1 class="subject-title uppercase">${currentPk.nome}</h1>
+                        <div class="flex gap-2 mt-2">
                             ${(currentPk.tipo || []).map(t => `<span class="type-badge" style="background:#f97316;">${t.toUpperCase()}</span>`).join('')}
                         </div>
                     </div>
-                    <div class="flex gap-4 items-center">
-                        <div class="core-stat hp-border"><div class="label-top !text-red-500">HP</div><div class="text-4xl font-black">${currentPk.hp}</div></div>
-                        <div class="core-stat will-border"><div class="label-top !text-cyan-400">WILL</div><div class="text-4xl font-black">${currentPk.will}</div></div>
+                    <div class="flex gap-4">
+                        <div class="core-display hp-glow"><div class="label-header !text-red-500">HP</div><div class="text-3xl font-black">${currentPk.hp}</div></div>
+                        <div class="core-display will-glow"><div class="label-header !text-cyan-400">WILL</div><div class="text-3xl font-black">${currentPk.will}</div></div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-12 gap-6">
                     <div class="col-span-3 space-y-6">
-                        <div class="data-box flex items-center justify-center p-8">
-                            <img src="${currentPk.immagine}" class="w-full h-auto drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                        <div class="data-block aspect-square flex items-center justify-center">
+                            <img src="${currentPk.immagine}" class="w-full h-auto object-contain">
                         </div>
-                        <div class="data-box border-l-4 border-l-blue-500">
-                            <div class="label-top mb-2 text-[10px]">ABILITÀ DOMINANTE</div>
-                            <div class="text-xl font-black italic uppercase">${currentPk.abilita_scelta || currentPk.ability}</div>
+                        <div class="data-block border-l-4 border-l-blue-500">
+                            <div class="label-header mb-1">ABILITÀ DOMINANTE</div>
+                            <div class="text-xl font-black italic uppercase">${currentPk.abilita_scelta || 'FUOCOIUTO'}</div>
                         </div>
-                        <div class="space-y-3">
-                            <div class="label-top text-[10px]">ATTRIBUTI PRIMARI</div>
+                        <div class="space-y-2">
+                            <div class="label-header text-slate-500">ATTRIBUTI PRIMARI</div>
                             ${Object.entries(currentPk.attr).map(([k,v])=>`
-                                <div class="flex justify-between items-center text-[11px] font-black uppercase">
+                                <div class="flex justify-between items-center text-[10px] font-black uppercase">
                                     <span class="text-slate-400">${k}</span><div class="flex">${drawDots(v)}</div>
                                 </div>`).join('')}
                         </div>
@@ -104,53 +106,58 @@
 
                     <div class="col-span-5 px-4 space-y-8">
                         <div>
-                            <div class="label-top mb-4 text-cyan-400">SKILL MATRIX</div>
-                            <div class="space-y-3">
+                            <div class="label-header mb-4 text-cyan-400">SKILL MATRIX</div>
+                            <div class="space-y-2">
                                 ${Object.entries(currentPk.skills).map(([k,v])=>`
-                                    <div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1">
+                                    <div class="flex justify-between items-center text-[9px] uppercase font-bold border-b border-white/5 pb-1">
                                         <span>${k}</span><div class="flex">${drawDots(v)}</div>
                                     </div>`).join('')}
                             </div>
                         </div>
                         <div>
-                            <div class="label-top mb-4 text-red-500">TECNICHE ESTRATTE (SLOT: 4)</div>
-                            <div class="grid grid-cols-2 gap-3">
-                                ${(currentPk.tecniche_scelte || []).map(m => `
-                                    <div class="border border-red-500/50 p-3 rounded bg-red-500/5 text-[10px] font-black uppercase text-center">${m}</div>
+                            <div class="label-header mb-3 text-red-500">TECNICHE ESTRATTE (SLOT: 4)</div>
+                            <div class="flex gap-2">
+                                ${(currentPk.tecniche_scelte || ['MURO DI FUMO', 'GRAFFIO']).map(m => `
+                                    <div class="border border-red-500/40 px-4 py-2 rounded bg-red-500/5 text-[9px] font-black uppercase">${m}</div>
                                 `).join('')}
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-span-4 space-y-8">
-                        <div class="label-top mb-4 text-slate-500">COMBATTIMENTO</div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="stat-card"><div class="label-top !text-cyan-400 text-[9px]">INIZIATIVA</div><div class="text-2xl font-black">${currentPk.combat.iniziativa}</div></div>
-                            <div class="stat-card border-green-500"><div class="label-top !text-green-400 text-[9px]">EVADERE</div><div class="text-2xl font-black">${currentPk.combat.evadere}</div></div>
-                            <div class="stat-card border-slate-500"><div class="label-top text-[9px]">DIFESA F.</div><div class="text-2xl font-black">${currentPk.combat.difesa}</div></div>
-                            <div class="stat-card border-slate-500"><div class="label-top text-[9px]">DIFESA S.</div><div class="text-2xl font-black">${currentPk.combat.difesa_speciale}</div></div>
-                            <div class="stat-card border-slate-500"><div class="label-top text-[9px]">PARATA F.</div><div class="text-2xl font-black">${currentPk.combat.parata || 0}</div></div>
-                            <div class="stat-card border-slate-500"><div class="label-top text-[9px]">PARATA S.</div><div class="text-2xl font-black">${currentPk.combat.parata_speciale || 0}</div></div>
+                    <div class="col-span-4 space-y-6">
+                        <div class="label-header text-slate-500">COMBATTIMENTO</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${currentPk.combat.iniziativa}</div></div>
+                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVADERE</div><div class="text-2xl font-black">${currentPk.combat.evadere}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA F.</div><div class="text-2xl font-black">${currentPk.combat.difesa}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA S.</div><div class="text-2xl font-black">${currentPk.combat.difesa_speciale}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">PARATA F.</div><div class="text-2xl font-black">${currentPk.combat.parata || 2}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">PARATA S.</div><div class="text-2xl font-black">${currentPk.combat.parata_speciale || 3}</div></div>
                         </div>
 
-                        <div class="space-y-3">
-                            <div class="label-top text-yellow-500">SOCIAL STATS (${currentPk.rango || 'STARTER'})</div>
-                            ${Object.entries(currentPk.social).map(([k,v])=>`
-                                <div class="flex justify-between items-center p-2 rounded bg-white/5 text-[10px] font-black uppercase">
-                                    <span>${k}</span><div class="flex">${drawDots(v)}</div>
-                                </div>`).join('')}
+                        <div class="mt-6">
+                            <div class="label-header mb-3 text-yellow-500">SOCIAL STATS (STARTER)</div>
+                            <div class="space-y-2">
+                                ${Object.entries(currentPk.social).map(([k,v])=>`
+                                    <div class="flex justify-between items-center text-[10px] font-black uppercase bg-white/5 p-1 px-2 rounded">
+                                        <span>${k}</span><div class="flex">${drawDots(v)}</div>
+                                    </div>`).join('')}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>`;
 
+            // INIEZIONE TASTI SOTTO LA CARD
             document.getElementById('card-actions').innerHTML = `
-                <button onclick="openRankUp()" class="action-btn btn-red-action">Esegui Trasferimento Dati (Rank Up)</button>
-                <button onclick="openTechSelector()" class="action-btn bg-slate-800 border-b-4 border-slate-900">Configura Mosse</button>
-                <button onclick="releasePokemon()" class="action-btn bg-transparent border-2 border-red-500/50 text-red-500">Libera Soggetto</button>
+                <button onclick="openRankUp()" class="btn-action btn-primary">Esegui Trasferimento Dati</button>
+                <button onclick="openTechSelector()" class="btn-action bg-slate-800 hover:bg-slate-700">Modifica Tecniche</button>
+                <button onclick="releasePokemon()" class="btn-action border border-red-500/50 text-red-500">Libera Soggetto</button>
             `;
-            document.getElementById('card-overlay').style.display = "flex";
+            document.getElementById('card-overlay').style.display = "block";
         };
+
+        window.closeCard = () => { document.getElementById('card-overlay').style.display = "none"; };
     </script>
 </body>
 </html>
