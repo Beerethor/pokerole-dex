@@ -137,8 +137,6 @@
         let rankUpData = { pool: {}, changes: {}, nextRank: '' };
         let tempTechs = [];
 
-        const typeColors = { "Acciaio": "#B8B8D0", "Acqua": "#6890F0", "Coleottero": "#A8B820", "Drago": "#7038F8", "Elettro": "#F8D030", "Erba": "#78C850", "Folletto": "#EE99AC", "Fuoco": "#F08030", "Ghiaccio": "#98D8D8", "Lotta": "#C03028", "Normale": "#A8A878", "Psico": "#F85888", "Roccia": "#B8A038", "Spettro": "#705898", "Terra": "#E0C068", "Veleno": "#A040A0", "Volante": "#A890F0", "Buio": "#705848" };
-
         onAuthStateChanged(auth, async (user) => {
             if (user) { currentUser = user; const snap = await getDoc(doc(db, "Users", user.uid)); if (snap.exists()) { userData = snap.data(); renderPCGrid(); } }
         });
@@ -162,12 +160,25 @@
             currentPath = { type, tIdx, pIdx };
             currentPk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
             
+            const getV = (obj, key) => (obj && obj[key] !== undefined && !isNaN(obj[key])) ? obj[key] : 0;
             const drawDots = (v) => Array.from({length: 10}, (_, i) => `<span class="dot ${i < v ? (i >= 5 ? 'filled overcap' : 'filled') : ''}"></span>`).join('');
-            const getVal = (v) => (isNaN(v) || v === undefined || v === null) ? 0 : v;
 
             // Mapping Traduzioni
             const skillTrad = { "Stealth": "Furtività", "Intimidate": "Intimidire", "Evasion": "Evasione", "Alert": "Allerta", "Channel": "Canale", "Nature": "Natura", "Athletic": "Atletica", "Allure": "Fascino", "Brawl": "Rissa", "Clash": "Vigore", "Etiquette": "Etichetta", "Perform": "Prestazione" };
             const socialTrad = { "Beauty": "Bellezza", "Tough": "Grinta", "Cute": "Grazia", "Cool": "Classe", "Clever": "Acume" };
+
+            // Calcolo Combat Stats Derivate (Formula Pokerole)
+            const dex = getV(currentPk.attr, 'Destrezza');
+            const ins = getV(currentPk.attr, 'Intuizione');
+            const vig = getV(currentPk.attr, 'Vigore');
+            const sEva = getV(currentPk.skills, 'Evasion');
+            const sBra = getV(currentPk.skills, 'Brawl');
+            const sCha = getV(currentPk.skills, 'Channel');
+
+            const iniVal = dex + ins;
+            const evaVal = dex + sEva;
+            const dfVal = vig + sBra;
+            const dsVal = ins + sCha;
 
             document.getElementById('card-container').innerHTML = `
             <div class="pokedex-case">
@@ -180,8 +191,8 @@
                         </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="core-display hp-glow"><div class="label-header !text-red-500">PUNTI SALUTE</div><div class="text-4xl font-black">${getVal(currentPk.hp)}</div></div>
-                        <div class="core-display will-glow"><div class="label-header !text-cyan-400">VOLONTÀ</div><div class="text-4xl font-black">${getVal(currentPk.will)}</div></div>
+                        <div class="core-display hp-glow"><div class="label-header !text-red-500">PUNTI SALUTE</div><div class="text-4xl font-black">${getV(currentPk, 'hp')}</div></div>
+                        <div class="core-display will-glow"><div class="label-header !text-cyan-400">VOLONTÀ</div><div class="text-4xl font-black">${getV(currentPk, 'will')}</div></div>
                     </div>
                 </div>
 
@@ -190,13 +201,9 @@
                         <div class="data-block aspect-square flex items-center justify-center overflow-hidden">
                             <img src="${currentPk.immagine}" class="w-full h-auto object-contain">
                         </div>
-                        <div class="data-block border-l-4 border-l-blue-500">
-                            <div class="label-header mb-1">ABILITÀ DOMINANTE</div>
-                            <div class="text-xl font-black italic uppercase">${currentPk.abilita_scelta || currentPk.ability || 'NON RILEVATA'}</div>
-                        </div>
                         <div class="space-y-2">
                             <div class="label-header text-slate-500">ATTRIBUTI FISICI</div>
-                            ${Object.entries(currentPk.attr).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">${k}</span><div class="flex">${drawDots(getVal(v))}</div></div>`).join('')}
+                            ${Object.entries(currentPk.attr).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">${k}</span><div class="flex">${drawDots(getV(currentPk.attr, k))}</div></div>`).join('')}
                         </div>
                     </div>
 
@@ -204,7 +211,7 @@
                         <div>
                             <div class="label-header mb-4 text-cyan-400 font-bold">MATRICE DELLE ABILITÀ</div>
                             <div class="space-y-3">
-                                ${Object.entries(currentPk.skills).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1"><span>${skillTrad[k] || k}</span><div class="flex">${drawDots(getVal(v))}</div></div>`).join('')}
+                                ${Object.entries(currentPk.skills).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1"><span>${skillTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.skills, k))}</div></div>`).join('')}
                             </div>
                         </div>
                         <div>
@@ -216,15 +223,15 @@
                     <div class="col-span-4 space-y-6">
                         <div class="label-header text-slate-500">PARAMETRI DI COMBATTIMENTO</div>
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${getVal(currentPk.combat?.iniziativa)}</div></div>
-                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVASIONE</div><div class="text-2xl font-black">${getVal(currentPk.combat?.evadere)}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA F.</div><div class="text-2xl font-black">${getVal(currentPk.combat?.difesa)}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA S.</div><div class="text-2xl font-black">${getVal(currentPk.combat?.difesa_speciale)}</div></div>
+                            <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${iniVal}</div></div>
+                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVASIONE</div><div class="text-2xl font-black">${evaVal}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA F.</div><div class="text-2xl font-black">${dfVal}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA S.</div><div class="text-2xl font-black">${dsVal}</div></div>
                         </div>
                         <div class="mt-6">
                             <div class="label-header mb-3 text-yellow-500">STATISTICHE SOCIALI</div>
                             <div class="space-y-2">
-                                ${Object.entries(currentPk.social).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase bg-white/5 p-2 rounded"><span>${socialTrad[k] || k}</span><div class="flex">${drawDots(getVal(v))}</div></div>`).join('')}
+                                ${Object.entries(currentPk.social).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase bg-white/5 p-2 rounded"><span>${socialTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.social, k))}</div></div>`).join('')}
                             </div>
                         </div>
                     </div>
@@ -232,9 +239,9 @@
             </div>`;
 
             document.getElementById('card-actions').innerHTML = `
-                <button onclick="openRankUp()" class="btn-dex btn-gold">Esegui Trasferimento Dati</button>
-                <button onclick="openTechSelector()" class="btn-dex btn-blue">Modifica Tecniche</button>
-                <button onclick="releasePokemon()" class="btn-dex btn-red">Libera Soggetto</button>`;
+                <button onclick="openRankUp()" class="btn-dex btn-gold">Sali di Rango (Rank Up)</button>
+                <button onclick="openTechSelector()" class="btn-dex btn-blue">Modifica Mosse</button>
+                <button onclick="releasePokemon()" class="btn-dex btn-red">Libera Unità</button>`;
             document.getElementById('card-overlay').style.display = "block";
         };
 
@@ -250,7 +257,7 @@
 
         function updateRankUpUI() {
             const container = document.getElementById('rankup-controls');
-            document.getElementById('pool-display').innerText = `A:${rankUpData.pool.attr} | S:${rankUpData.pool.social} | K:${rankUpData.pool.skills}`;
+            document.getElementById('pool-display').innerText = `ATTR:${rankUpData.pool.attr} | SOC:${rankUpData.pool.social} | SKILL:${rankUpData.pool.skills}`;
             const renderBlock = (title, obj, key) => `
                 <div class="bg-black/30 p-5 rounded-2xl border border-white/10">
                     <h4 class="label-tech text-yellow-500 mb-4 text-center font-bold uppercase text-[10px]">${title}</h4>
@@ -262,22 +269,25 @@
         window.changeRankVal = (type, k, v) => {
             if (v > 0 && rankUpData.pool[type] <= 0) return;
             if (v < 0 && !rankUpData.changes[type][k]) return;
-            if (currentPk.rango === "Starter" && type === 'skills' && v > 0 && (rankUpData.changes.skills[k] || 0) >= 1) return alert("Max 1 punto per skill al grado Starter!");
             rankUpData.changes[type][k] = (rankUpData.changes[type][k] || 0) + v;
             rankUpData.pool[type] -= v;
             updateRankUpUI();
         };
 
         window.confirmRankUp = async () => {
-            if (rankUpData.pool.attr > 0 || rankUpData.pool.social > 0 || rankUpData.pool.skills > 0) return alert("Distribuisci tutti i punti prima di procedere!");
+            if (rankUpData.pool.attr > 0 || rankUpData.pool.social > 0 || rankUpData.pool.skills > 0) return alert("Distribuisci tutti i punti!");
             Object.entries(rankUpData.changes.attr).forEach(([k,v]) => currentPk.attr[k] += v);
             Object.entries(rankUpData.changes.social).forEach(([k,v]) => currentPk.social[k] += v);
             Object.entries(rankUpData.changes.skills).forEach(([k,v]) => currentPk.skills[k] += v);
-            if (rankUpData.nextRank === "Master") { currentPk.hp += 2; currentPk.will += 2; }
             currentPk.rango = rankUpData.nextRank;
-            currentPk.combat = calculateCombatStats(currentPk);
+            // Aggiorna combat stats nel database
+            currentPk.combat = {
+                iniziativa: currentPk.attr.Destrezza + currentPk.attr.Intuizione,
+                evadere: currentPk.attr.Destrezza + currentPk.skills.Evasion,
+                difesa: currentPk.attr.Vigore + currentPk.skills.Brawl,
+                difesa_speciale: currentPk.attr.Intuizione + currentPk.skills.Channel
+            };
             await updateDoc(doc(db, "Users", currentUser.uid), userData);
-            alert(`Sincronizzazione completata! ${currentPk.nome} è ora di rango ${currentPk.rango}.`);
             location.reload();
         };
 
@@ -302,7 +312,7 @@
         };
 
         window.releasePokemon = async () => {
-            if (!confirm("LIBERARE UNITA': Sei sicuro di voler cancellare i dati di questo Pokémon?")) return;
+            if (!confirm("Sei sicuro?")) return;
             const { type, tIdx, pIdx } = currentPath;
             if (type === 'trainer') userData.allenatori_generati[tIdx].team.splice(pIdx, 1);
             else userData.pokemon_salvati.splice(pIdx, 1);
