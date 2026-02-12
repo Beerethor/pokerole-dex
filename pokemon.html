@@ -3,32 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - PC Storage</title>
+    <title>Neural ProDex - PC Storage & Analysis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
+        :root { 
+            --pokedex-red: #dc2626; 
+            --neon-blue: #0ea5e9; 
+            --neon-yellow: #facc15; 
+        }
+
         body { 
             background: #020617; color: white; font-family: 'Rajdhani', sans-serif; 
             background-image: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
             min-height: 100vh;
         }
-        .pokedex-case {
-            background: #0f172a; border: 20px solid #cc2424; border-radius: 40px;
-            padding: 35px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8);
+
+        /* Stili della Scheda Pokémon (Neural ProDex Design) */
+        .pokedex-frame { 
+            max-width: 1200px; background: var(--pokedex-red); 
+            border: 8px solid #991b1b; border-radius: 30px; 
+            padding: 30px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.6); 
         }
-        .subject-name { font-family: 'Orbitron'; font-weight: 900; font-size: 4.5rem; font-style: italic; line-height: 0.9; letter-spacing: -2px; color: white; }
-        .label-header { font-family: 'Orbitron'; font-size: 0.65rem; color: #facc15; letter-spacing: 2px; text-transform: uppercase; }
-        .data-block { background: #070b14; border-radius: 12px; padding: 20px; border: 1px solid #1e293b; }
-        .stat-grid-box { background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 10px; border-left: 3px solid #0ea5e9; }
+        .inner-screen { 
+            background: #0f172a; border-radius: 20px; padding: 30px; 
+            border: 4px solid #334155; position: relative; 
+        }
+        .dot { 
+            width: 8px; height: 8px; background: rgba(255,255,255,0.1); 
+            border: 1px solid rgba(255,255,255,0.3); display: inline-block; 
+            margin-right: 3px; border-radius: 2px; transform: skewX(-15deg); 
+        }
+        .dot.filled { background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); border: none; }
+        .dot.filled.overcap { background: var(--neon-yellow); box-shadow: 0 0 8px var(--neon-yellow); }
         
-        .dot { width: 10px; height: 6px; background: #1e293b; display: inline-block; margin-right: 3px; border-radius: 1px; }
-        .dot.filled { background: #0ea5e9; box-shadow: 0 0 8px #0ea5e9; }
-        .dot.overcap { background: #facc15; box-shadow: 0 0 8px #facc15; }
+        .label { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: var(--neon-blue); text-transform: uppercase; letter-spacing: 1.5px; }
+        .stat-box { background: rgba(0,0,0,0.4); border-left: 3px solid var(--neon-yellow); padding: 10px; border-radius: 6px; }
+        .tech-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
 
         .btn-dex { font-family: 'Orbitron'; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px; padding: 12px 24px; border-radius: 12px; transition: 0.3s; text-transform: uppercase; cursor: pointer; border: 1px solid transparent; }
-        .btn-dex:hover { transform: scale(1.05); }
         
-        #pc-overlay, #card-overlay { display: none; position: fixed; inset: 0; z-index: 50; padding: 20px; overflow-y: auto; backdrop-filter: blur(20px); background: rgba(2, 6, 23, 0.95); }
+        /* Tipi Elementali */
+        .type-label { padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; }
+        .type-Erba { background: #78C850; } .type-Fuoco { background: #F08030; } .type-Acqua { background: #6890F0; }
+        .type-Coleottero { background: #A8B820; } .type-Veleno { background: #A040A0; } .type-Elettro { background: #F8D030; color: black; }
+        .type-Normale { background: #A8A878; } .type-Lotta { background: #C03028; } .type-Volante { background: #A890F0; }
+
+        #pc-overlay, #card-overlay { display: none; position: fixed; inset: 0; z-index: 50; padding: 20px; overflow-y: auto; backdrop-filter: blur(20px); background: rgba(2, 6, 23, 0.9); }
     </style>
 </head>
 <body class="p-8">
@@ -37,7 +58,8 @@
         <header class="flex justify-between items-center mb-12">
             <h1 class="text-5xl font-black font-['Orbitron'] italic tracking-tighter">NEURAL<span class="text-blue-500">PC</span></h1>
             <div class="flex gap-4">
-                <a href="index.html" class="btn-dex bg-white/5 border-white/10 hover:bg-white/10">Hub Centrale</a>
+                <a href="pokedex.html" class="btn-dex bg-blue-600 text-white">Scanner Pokémon</a>
+                <a href="index.html" class="btn-dex bg-white/5 border-white/10 hover:bg-white/10">Hub</a>
             </div>
         </header>
         <div id="pc-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center"></div>
@@ -47,7 +69,7 @@
         <div class="max-w-6xl mx-auto py-10">
             <div class="flex justify-between items-end mb-12 border-b-2 border-blue-500/30 pb-4">
                 <h2 id="pc-title" class="text-3xl font-black font-['Orbitron'] italic text-blue-400"></h2>
-                <button onclick="window.closePC()" class="btn-dex bg-red-600">Chiudi</button>
+                <button onclick="window.closePC()" class="btn-dex bg-red-600">Esci</button>
             </div>
             <div id="pc-content" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
         </div>
@@ -56,7 +78,7 @@
     <div id="card-overlay">
         <div class="max-w-6xl mx-auto py-6">
             <div class="flex justify-center mb-6">
-                <button onclick="window.closeCard()" class="text-white/40 hover:text-white font-bold tracking-widest text-xs uppercase">← INDIETRO AL PC</button>
+                <button onclick="window.closeCard()" class="text-white/40 hover:text-white font-bold tracking-widest text-xs uppercase">← TORNA ALLA LISTA</button>
             </div>
             <div id="card-container"></div>
             <div id="card-actions" class="flex justify-center gap-4 mt-8 pb-10"></div>
@@ -67,7 +89,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { RANK_ORDER, RANK_BONUSES, getNextRank } from './rankup.js';
+        import { getNextRank } from './rankup.js';
 
         const firebaseConfig = { apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk", authDomain: "pokerole-app.firebaseapp.com", projectId: "pokerole-app", storageBucket: "pokerole-app.firebasestorage.app", messagingSenderId: "385416519668", appId: "1:385416519668:web:908e12b9833f1cdc04a3a1" };
         const app = initializeApp(firebaseConfig);
@@ -107,63 +129,84 @@
             const getV = (obj, ...keys) => { for (let k of keys) { if (obj && obj[k] !== undefined) return parseInt(obj[k]) || 0; } return 0; };
             const drawDots = (val) => {
                 let html = '';
-                for (let i = 0; i < 10; i++) { html += `<span class="dot ${i < val ? (i >= 5 ? 'filled overcap' : 'filled') : ''}"></span>`; }
+                for (let i = 1; i <= 10; i++) html += `<span class="dot ${i <= val ? (i > 5 ? 'filled overcap' : 'filled') : ''}"></span>`;
                 return html;
             };
 
-            // SCANNER TECNICHE (Migliorato)
-            let mosse = pk.tecniche_scelte || pk.mosse || pk.moves || pk.tecniche || [];
-
-            const str = getV(pk.attr, 'Strength', 'Forza');
-            const dex = getV(pk.attr, 'Dexterity', 'Destrezza');
-            const vig = getV(pk.attr, 'Vitality', 'Vigore');
-            const spe = getV(pk.attr, 'Special', 'Speciale');
-            const int = getV(pk.attr, 'Insight', 'Intuito', 'Intuizione');
-            const eva = getV(pk.skills, 'Evasion', 'Evasione');
+            const mosse = pk.tecniche_scelte || pk.mosse || pk.moves || [];
+            const sc = {Tough:'bg-[#fbbf24]', Cool:'bg-[#f97316]', Beauty:'bg-[#3b82f6]', Cute:'bg-[#ec4899]', Clever:'bg-[#22c55e]'};
 
             document.getElementById('card-container').innerHTML = `
-            <div class="pokedex-case">
-                <div class="flex justify-between items-start mb-10">
-                    <div><div class="label-header">SOGGETTO:</div><h1 class="subject-name uppercase">${pk.nome}</h1><div class="text-blue-400 font-bold font-['Orbitron'] text-xs mt-2 italic">CLASSE RANK: ${pk.rank || 'Starter'}</div></div>
-                    <div class="flex gap-4">
-                        <div class="core-display border-red-500 px-6 py-2"><div class="label-header !text-red-500">SALUTE</div><div class="text-4xl font-black">${getV(pk, 'hp')}</div></div>
-                        <div class="core-display border-cyan-400 px-6 py-2"><div class="label-header !text-cyan-400">VOLONTÀ</div><div class="text-4xl font-black">${getV(pk, 'will')}</div></div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-12 gap-8">
-                    <div class="col-span-3 space-y-6">
-                        <div class="data-block aspect-square flex items-center justify-center overflow-hidden"><img src="${pk.immagine}" class="w-full h-auto object-contain"></div>
-                        <div class="data-block border-l-4 border-l-blue-500"><div class="label-header">ABILITÀ</div><div class="text-xl font-black uppercase">${pk.ability || pk.abilita_scelta || "Nessuna"}</div></div>
-                        <div class="space-y-2">
-                            <div class="label-header text-slate-500">ATTRIBUTI</div>
-                            <div class="flex justify-between items-center text-[11px] font-black uppercase"><span>FORZA</span><div class="flex">${drawDots(str)}</div></div>
-                            <div class="flex justify-between items-center text-[11px] font-black uppercase"><span>DESTREZZA</span><div class="flex">${drawDots(dex)}</div></div>
-                            <div class="flex justify-between items-center text-[11px] font-black uppercase"><span>VIGORE</span><div class="flex">${drawDots(vig)}</div></div>
-                            <div class="flex justify-between items-center text-[11px] font-black uppercase"><span>SPECIALE</span><div class="flex">${drawDots(spe)}</div></div>
-                            <div class="flex justify-between items-center text-[11px] font-black uppercase"><span>INTUITO</span><div class="flex">${drawDots(int)}</div></div>
-                        </div>
-                    </div>
-                    <div class="col-span-5 px-4 space-y-6">
-                        <div class="label-header text-cyan-400 font-bold">SKILL MATRIX</div>
-                        <div class="space-y-2 overflow-y-auto max-h-[300px] pr-2">
-                            ${Object.entries(pk.skills || {}).map(([k,v])=> typeof v !== 'object' ? `<div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1"><span>${k}</span><div class="flex">${drawDots(parseInt(v))}</div></div>` : '').join('')}
-                        </div>
-                        <div class="mt-4">
-                            <div class="label-header mb-3 text-red-500">TECNICHE ATTIVE</div>
-                            <div class="grid grid-cols-2 gap-2">
-                                ${mosse.length > 0 ? mosse.map(m => `<div class="border border-red-500/40 px-2 py-2 rounded bg-red-500/5 text-[9px] font-black uppercase text-center">${m}</div>`).join('') : '<div class="col-span-2 text-white/20 italic text-xs border border-dashed border-white/10 p-4 text-center">Nessuna mossa salvata</div>'}
+            <div class="pokedex-frame">
+                <div class="inner-screen">
+                    <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-6">
+                        <div>
+                            <div class="mb-1"><span class="label text-yellow-400">ANALISI PC:</span></div>
+                            <h1 class="text-6xl font-black italic uppercase font-[Orbitron] tracking-tighter text-white leading-none">${pk.nome}</h1>
+                            <div class="flex gap-2 mt-4">
+                                ${(pk.tipo || []).map(t => `<span class="type-label type-${t}">${t}</span>`).join('')}
                             </div>
                         </div>
+                        <div class="flex gap-4">
+                            <div class="stat-box min-w-[100px] text-center border-l-red-600"><div class="label">HP</div><div class="text-4xl font-black">${getV(pk, 'hp')}</div></div>
+                            <div class="stat-box min-w-[100px] text-center border-l-cyan-400"><div class="label">WILL</div><div class="text-4xl font-black">${getV(pk, 'will')}</div></div>
+                        </div>
                     </div>
-                    <div class="col-span-4 space-y-6">
-                        <div class="label-header text-slate-500">COMBAT ANALYTICS</div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${dex+int}</div></div>
-                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVADERE</div><div class="text-2xl font-black">${dex+eva}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA FIS.</div><div class="text-2xl font-black">${vig}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA SPE.</div><div class="text-2xl font-black">${int}</div></div>
-                            <div class="stat-grid-box border-yellow-500/50"><div class="label-header !text-yellow-500">PARATA FIS.</div><div class="text-2xl font-black">${str+vig}</div></div>
-                            <div class="stat-grid-box border-yellow-500/50"><div class="label-header !text-yellow-500">PARATA SPE.</div><div class="text-2xl font-black">${spe+vig}</div></div>
+
+                    <div class="grid grid-cols-12 gap-10">
+                        <div class="col-span-3 space-y-6">
+                            <div class="bg-black/40 p-6 rounded-2xl border border-white/10 flex items-center justify-center">
+                                <img src="${pk.immagine}" class="max-h-48 object-contain">
+                            </div>
+                            <div class="p-4 bg-blue-900/20 border border-blue-500/30 rounded-xl">
+                                <div class="label text-blue-400 mb-2">Abilità</div>
+                                <div class="text-lg font-black uppercase italic">${pk.ability || pk.abilita_scelta || "Standard"}</div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="label opacity-50 border-b border-white/10 pb-1">Attributi</div>
+                                ${Object.entries(pk.attr || {}).map(([k,v]) => `
+                                    <div class="flex justify-between items-center text-[11px] uppercase font-bold">
+                                        <span>${k}</span>
+                                        <div class="flex">${drawDots(v)}</div>
+                                    </div>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="col-span-5 px-8 border-x border-white/5 space-y-8">
+                            <div>
+                                <div class="label mb-4">Skill Matrix</div>
+                                <div class="grid grid-cols-1 gap-1">
+                                    ${Object.entries(pk.skills || {}).map(([k,v]) => typeof v !== 'object' ? `
+                                        <div class="flex justify-between items-center text-[10px] uppercase border-b border-white/5 pb-1">
+                                            <span>${k}</span>
+                                            <div class="flex">${drawDots(parseInt(v))}</div>
+                                        </div>` : '').join('')}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="label mb-4 text-red-500">Dataset Tecniche</div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    ${mosse.length > 0 ? mosse.map(m => `<div class="tech-card border-l-2 border-red-500">${m}</div>`).join('') : '<div class="col-span-2 text-white/20 italic text-xs">Dati mancanti</div>'}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-4 space-y-8">
+                            <div>
+                                <div class="label opacity-50 mb-4">Combattimento</div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="stat-box !border-l-yellow-500"><div class="label !text-[8px]">Iniziativa</div><div class="text-2xl font-black">${getV(pk.attr, 'Dexterity','Destrezza') + getV(pk.attr, 'Insight','Intuito')}</div></div>
+                                    <div class="stat-box !border-l-green-500"><div class="label !text-[8px]">Evadere</div><div class="text-2xl font-black">${getV(pk.attr, 'Dexterity','Destrezza') + getV(pk.skills, 'Evasion','Evasione')}</div></div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-white/10">
+                                <div class="label opacity-50 mb-4">Social Stats (${pk.rank || 'Starter'})</div>
+                                ${Object.entries(pk.social || { Tough: 1, Cool: 1, Beauty: 1, Cute: 1, Clever: 1 }).map(([k,v]) => `
+                                    <div class="flex justify-between items-center p-1.5 rounded mb-1 text-[10px] font-black text-black ${sc[k] || 'bg-slate-400'}">
+                                        <span>${k}</span>
+                                        <div class="flex">${drawDots(v)}</div>
+                                    </div>`).join('')}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -171,18 +214,26 @@
 
             const nextRank = getNextRank(pk.rank || 'Starter');
             document.getElementById('card-actions').innerHTML = `
-                <button class="btn-dex bg-blue-600/20 border border-blue-500 text-blue-400 hover:bg-blue-600 hover:text-white" onclick="window.refreshUserData()">Sincronizza</button>
-                ${nextRank ? `<button class="btn-dex bg-yellow-600 text-black hover:bg-yellow-400" onclick="window.handleRankUp('${type}', ${tIdx}, ${pIdx})">Promuovi a ${nextRank}</button>` : ''}
-                <button class="btn-dex bg-red-600/20 border border-red-500 text-red-500 hover:bg-red-600 hover:text-white" onclick="window.deletePkmn('${type}', ${tIdx}, ${pIdx})">Libera Pokémon</button>
+                <button class="btn-dex bg-blue-600/20 border border-blue-500 text-blue-400" onclick="window.refreshUserData()">Sincronizza Cloud</button>
+                ${nextRank ? `<button class="btn-dex bg-yellow-600 text-black" onclick="window.handleRankUp('${type}', ${tIdx}, ${pIdx})">Promuovi a ${nextRank}</button>` : ''}
+                <button class="btn-dex bg-red-600/20 border border-red-500 text-red-500" onclick="window.deletePkmn('${type}', ${tIdx}, ${pIdx})">Libera Pokémon</button>
             `;
             document.getElementById('card-overlay').style.display = "block";
         };
 
+        // Funzioni di sistema (Rank Up e Delete)
         window.handleRankUp = async (type, tIdx, pIdx) => {
             const pk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
             const nextRank = getNextRank(pk.rank || 'Starter');
             if(confirm(`Eseguire Rank Up a ${nextRank}?`)) {
-                pk.rank = nextRank; pk.hp = (parseInt(pk.hp)||0)+1; pk.will = (parseInt(pk.will)||0)+1;
+                pk.rank = nextRank; 
+                pk.hp = (parseInt(pk.hp)||0)+1; 
+                pk.will = (parseInt(pk.will)||0)+1;
+                // Aumento casuale di una social stat per il rank up
+                const stats = ['Tough', 'Cool', 'Beauty', 'Cute', 'Clever'];
+                const randomStat = stats[Math.floor(Math.random() * stats.length)];
+                pk.social[randomStat] = Math.min(10, (pk.social[randomStat] || 0) + 1);
+
                 const userRef = doc(db, "Users", currentUserId);
                 if(type === 'trainer') { 
                     userData.allenatori_generati[tIdx].team[pIdx] = pk; 
@@ -191,14 +242,12 @@
                     userData.pokemon_salvati[pIdx] = pk; 
                     await updateDoc(userRef, { pokemon_salvati: userData.pokemon_salvati }); 
                 }
-                alert("Rank Up completato e salvato!"); 
-                window.closeCard(); 
-                window.refreshUserData();
+                alert("Rank Up Sincronizzato!"); window.closeCard(); window.refreshUserData();
             }
         };
 
         window.deletePkmn = async (type, tIdx, pIdx) => {
-            if(confirm("Attenzione: liberare il Pokémon lo rimuoverà permanentemente dal database. Continuare?")) {
+            if(confirm("Sei sicuro di voler liberare questo Pokémon?")) {
                 const userRef = doc(db, "Users", currentUserId);
                 if(type === 'trainer') { 
                     userData.allenatori_generati[tIdx].team.splice(pIdx, 1); 
@@ -207,15 +256,13 @@
                     userData.pokemon_salvati.splice(pIdx, 1); 
                     await updateDoc(userRef, { pokemon_salvati: userData.pokemon_salvati }); 
                 }
-                window.closeCard(); 
-                window.refreshUserData();
+                window.closeCard(); window.refreshUserData();
             }
         };
 
-        window.closePC = () => { document.getElementById('pc-overlay').style.display = "none"; };
-        window.closeCard = () => { document.getElementById('card-overlay').style.display = "none"; };
+        window.closePC = () => document.getElementById('pc-overlay').style.display = "none";
+        window.closeCard = () => document.getElementById('card-overlay').style.display = "none";
         window.refreshUserData = refreshUserData;
-
     </script>
 </body>
 </html>
