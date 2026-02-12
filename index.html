@@ -25,25 +25,31 @@
             background: rgba(15, 23, 42, 0.8); 
             backdrop-filter: blur(15px); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
+            transition: all 0.3s ease;
         }
 
         .btn-auth {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border: 1px solid #334155;
             cursor: pointer;
-            transition: all 0.3s;
         }
-        .btn-auth:hover { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(14, 165, 233, 0.3); }
+        .btn-auth:hover { border-color: var(--neon-blue); background: #1e293b; }
 
         .hidden { display: none !important; }
         
-        /* Nota password */
         .pwd-note {
             font-size: 9px;
-            color: #64748b;
-            margin-top: 4px;
+            color: #ef4444;
+            margin-top: 6px;
             display: block;
-            text-align: left;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .profile-link:hover img {
+            border-color: var(--neon-blue);
+            filter: drop-shadow(0 0 10px var(--neon-blue));
         }
     </style>
 </head>
@@ -58,17 +64,15 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-6xl relative z-10">
         
-        <div class="glass-card p-10 rounded-[3rem] flex flex-col justify-center min-h-[450px]">
+        <div class="glass-card p-10 rounded-[3rem] flex flex-col justify-center min-h-[500px]">
             <h2 class="text-xs font-black uppercase mb-8 tracking-widest text-red-500 border-b border-white/5 pb-2 italic text-center">Terminal_Auth</h2>
             
             <div id="auth-ui">
                 <div class="space-y-4">
-                    <div>
-                        <input type="email" id="email" placeholder="EMAIL_ID" class="w-full bg-black/60 border border-white/10 rounded-xl p-4 text-sm font-bold outline-none focus:border-red-600 text-white">
-                    </div>
+                    <input type="email" id="email" placeholder="EMAIL_ID" class="w-full bg-black/60 border border-white/10 rounded-xl p-4 text-sm font-bold outline-none focus:border-red-600 text-white">
                     <div>
                         <input type="password" id="password" placeholder="PASSWORD_HASH" class="w-full bg-black/60 border border-white/10 rounded-xl p-4 text-sm font-bold outline-none focus:border-red-600 text-white">
-                        <span class="pwd-note">⚠️ La password deve contenere almeno 6 caratteri.</span>
+                        <span class="pwd-note">Cipher Key: Min 6 characters required</span>
                     </div>
                     
                     <div class="grid grid-cols-2 gap-3">
@@ -78,34 +82,36 @@
                 </div>
 
                 <div class="relative my-6 text-center">
-                    <span class="bg-transparent px-2 text-[10px] text-slate-500 font-bold uppercase tracking-widest">O Continua Con</span>
+                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">External Link</span>
                 </div>
 
                 <button onclick="loginGoogle()" class="w-full bg-white text-black font-black py-4 rounded-2xl flex items-center justify-center gap-3 hover:bg-slate-200 transition-all uppercase text-xs">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5">
-                    Google Auth
+                    Google Hub Access
                 </button>
             </div>
 
             <div id="user-ui" class="hidden text-center">
                 <div class="flex flex-col items-center">
-                    <div class="relative mb-6">
-                        <img id="user-img" src="" class="w-32 h-32 rounded-full border-4 border-slate-800 object-cover bg-slate-900 shadow-2xl">
-                        <div id="verify-badge" class="absolute -top-2 -right-2 bg-yellow-500 text-black text-[8px] font-black px-2 py-1 rounded hidden">NON VERIFICATO</div>
-                    </div>
+                    <a href="profile.html" class="profile-link relative mb-6 transition-all duration-300">
+                        <img id="user-img" src="" class="w-32 h-32 rounded-full border-4 border-slate-800 object-cover bg-slate-900 shadow-2xl transition-all">
+                        <div class="absolute inset-0 rounded-full border-2 border-transparent hover:border-blue-500"></div>
+                        <div id="verify-badge" class="absolute -top-2 -right-2 bg-yellow-500 text-black text-[8px] font-black px-2 py-1 rounded hidden">UNVERIFIED</div>
+                    </a>
+                    
                     <h3 id="user-name" class="text-3xl font-black font-[Orbitron] uppercase italic tracking-tighter">OPERATORE</h3>
                     <p id="user-email" class="text-slate-400 text-[10px] mt-1 mb-8 italic font-bold"></p>
+                    
                     <button onclick="logout()" class="text-[9px] font-black uppercase tracking-[0.5em] text-red-500 hover:text-red-400">Termina Sessione</button>
                 </div>
             </div>
         </div>
 
-        <div id="modules-ui" class="flex flex-col gap-4 opacity-30 pointer-events-none transition-all duration-500">
-            <a href="database.html" class="glass-card p-8 rounded-[2.5rem] group relative overflow-hidden">
-                <h3 class="text-2xl font-black italic uppercase tracking-tighter group-hover:text-red-500">Archivio</h3>
-                <p class="text-slate-400 text-[10px] font-bold uppercase mt-1">Sincronizzazione Richiesta...</p>
-            </a>
+        <div id="modules-ui" class="flex flex-col gap-4 transition-all duration-500">
+            <div id="lock-msg" class="glass-card p-10 rounded-[2.5rem] text-center">
+                <p class="text-slate-500 font-bold uppercase text-[10px] italic">Eseguire l'autenticazione per sbloccare i moduli tattici</p>
             </div>
+        </div>
     </div>
 
     <script type="module">
@@ -130,41 +136,22 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // --- REGISTRAZIONE CON INVIO EMAIL DI CONFERMA ---
         window.registerWithVerification = async () => {
             const e = document.getElementById('email').value;
             const p = document.getElementById('password').value;
-
-            if (p.length < 6) {
-                alert("ERRORE: La password deve avere almeno 6 caratteri.");
-                return;
-            }
-
+            if (p.length < 6) return alert("ERRORE: Password troppo breve.");
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
-                
-                // Invia l'email di verifica
                 await sendEmailVerification(cred.user);
-                
-                // Crea il profilo nel database
-                await setDoc(doc(db, "Users", cred.user.uid), {
-                    email: e,
-                    verified: false,
-                    allenatori_generati: [],
-                    pokemon_salvati: []
-                });
-
-                alert("PROTOCOLLO AVVIATO: Ti abbiamo inviato un'email di conferma. Clicca sul link nella mail per attivare il tuo ProDex.");
-                
-            } catch (err) {
-                alert("ERRORE DI SISTEMA: " + err.message);
-            }
+                await setDoc(doc(db, "Users", cred.user.uid), { email: e, verified: false });
+                alert("Email di conferma inviata!");
+            } catch (err) { alert(err.message); }
         };
 
         window.loginEmail = () => {
             const e = document.getElementById('email').value;
             const p = document.getElementById('password').value;
-            signInWithEmailAndPassword(auth, e, p).catch(err => alert("ACCESSO NEGATO: Credenziali errate."));
+            signInWithEmailAndPassword(auth, e, p).catch(err => alert("Accesso Negato"));
         };
 
         window.loginGoogle = () => signInWithPopup(auth, provider);
@@ -174,45 +161,46 @@
             const authUI = document.getElementById('auth-ui');
             const userUI = document.getElementById('user-ui');
             const modulesUI = document.getElementById('modules-ui');
-            const badge = document.getElementById('verify-badge');
+            const lockMsg = document.getElementById('lock-msg');
 
             if (user) {
                 authUI.classList.add('hidden');
                 userUI.classList.remove('hidden');
-                modulesUI.classList.remove('opacity-30', 'pointer-events-none');
+                if(lockMsg) lockMsg.classList.add('hidden');
                 
                 document.getElementById('user-name').innerText = (user.displayName || user.email.split('@')[0]).toUpperCase();
                 document.getElementById('user-email').innerText = user.email;
                 document.getElementById('user-img').src = user.photoURL || `https://api.dicebear.com/7.x/bottts/svg?seed=${user.uid}`;
 
-                // Controllo se l'email è stata verificata
-                if (!user.emailVerified) {
-                    badge.classList.remove('hidden');
-                    console.log("Email non ancora verificata.");
-                } else {
-                    badge.classList.add('hidden');
-                }
+                document.getElementById('verify-badge').classList.toggle('hidden', user.emailVerified);
 
-                // Genera dinamicamente i tasti loggati
+                // RIPRISTINO MODULI COMPLETI (Scanner incluso)
                 modulesUI.innerHTML = `
-                    <a href="database.html" class="glass-card p-6 rounded-[2rem] group relative overflow-hidden">
+                    <a href="database.html" class="glass-card p-6 rounded-[2rem] group hover:border-red-500">
                         <h3 class="text-xl font-black italic uppercase tracking-tighter group-hover:text-red-500">Archivio</h3>
                         <p class="text-slate-400 text-[9px] font-bold uppercase">Data-Bank Pokémon</p>
                     </a>
-                    <a href="allenatore.html" class="glass-card p-6 rounded-[2rem] group relative overflow-hidden border-yellow-500/20 bg-yellow-500/5">
+                    <a href="generator.html" class="glass-card p-6 rounded-[2rem] group hover:border-blue-500">
+                        <h3 class="text-xl font-black italic uppercase tracking-tighter group-hover:text-blue-500">Scanner</h3>
+                        <p class="text-slate-400 text-[9px] font-bold uppercase">Generatore Unità</p>
+                    </a>
+                    <a href="allenatore.html" class="glass-card p-6 rounded-[2rem] group hover:border-yellow-500 border-yellow-500/10 bg-yellow-500/5">
                         <h3 class="text-xl font-black italic uppercase tracking-tighter group-hover:text-yellow-500">Allenatore</h3>
                         <p class="text-slate-400 text-[9px] font-bold uppercase">Gestione Personale</p>
                     </a>
-                    <a href="pokemon.html" class="glass-card p-6 rounded-[2rem] group relative overflow-hidden border-blue-500/20 bg-blue-500/5">
-                        <h3 class="text-xl font-black italic uppercase tracking-tighter group-hover:text-blue-400">I Miei Pokémon</h3>
+                    <a href="pokemon.html" class="glass-card p-6 rounded-[2rem] group hover:border-cyan-400 border-cyan-400/10 bg-cyan-400/5">
+                        <h3 class="text-xl font-black italic uppercase tracking-tighter group-hover:text-cyan-400">I Miei Pokémon</h3>
                         <p class="text-slate-400 text-[9px] font-bold uppercase">Cloud Storage Unità</p>
                     </a>
                 `;
             } else {
                 authUI.classList.remove('hidden');
                 userUI.classList.add('hidden');
-                modulesUI.classList.add('opacity-30', 'pointer-events-none');
-                modulesUI.innerHTML = `<div class="p-10 text-center text-slate-600 font-bold uppercase text-[10px] italic">Eseguire il login per accedere ai moduli</div>`;
+                modulesUI.innerHTML = `
+                    <div id="lock-msg" class="glass-card p-10 rounded-[2.5rem] text-center">
+                        <p class="text-slate-500 font-bold uppercase text-[10px] italic">Eseguire l'autenticazione per sbloccare i moduli tattici</p>
+                    </div>
+                `;
             }
         });
     </script>
