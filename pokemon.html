@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - Management System</title>
+    <title>Neural ProDex - PC System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://rawcdn.githack.com/Beerethor/pokerole-dex/refs/heads/main/pokerole-core.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --pokedex-red: #dc2626; --neon-blue: #0ea5e9; --neon-yellow: #facc15; }
+        :root { --pokedex-red: #dc2626; --neon-blue: #0ea5e9; }
         body { background: #020617; color: white; font-family: 'Rajdhani', sans-serif; background-image: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%); min-height: 100vh; }
         .pokedex-frame { max-width: 1000px; background: var(--pokedex-red); border: 8px solid #991b1b; border-radius: 30px; padding: 25px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.6); }
         .inner-screen { background: #0f172a; border-radius: 20px; padding: 25px; border: 4px solid #334155; position: relative; }
@@ -25,10 +25,22 @@
 <body class="p-4 md:p-8">
 
     <div class="max-w-7xl mx-auto">
-        <header class="flex justify-between items-center mb-12">
-            <h1 class="text-5xl font-black font-['Orbitron'] italic tracking-tighter">NEURAL<span class="text-blue-500">PC</span></h1>
-            <button onclick="window.openCreation()" class="btn-dex bg-green-600">Crea Pokémon</button>
+        <header class="flex justify-between items-center mb-12 bg-slate-900/50 p-6 rounded-3xl border border-white/5">
+            <div>
+                <h1 class="text-4xl font-black font-['Orbitron'] italic tracking-tighter">NEURAL<span class="text-blue-500">PC</span></h1>
+                <p class="text-[10px] text-blue-400/50 uppercase tracking-[0.3em]">Storage & Evolution Module</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="index.html" class="btn-dex bg-slate-800 hover:bg-slate-700 border border-white/10 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    Home
+                </a>
+                <button onclick="window.openCreation()" class="btn-dex bg-green-600 hover:bg-green-500 shadow-[0_0_15px_rgba(22,163,74,0.3)]">Crea Pokémon</button>
+            </div>
         </header>
+        
         <div id="pc-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center"></div>
     </div>
 
@@ -36,7 +48,7 @@
         <div class="max-w-6xl mx-auto py-10">
             <div class="flex justify-between items-end mb-8 border-b-2 border-blue-500/30 pb-4">
                 <h2 id="pc-title" class="text-3xl font-black font-['Orbitron'] italic text-blue-400"></h2>
-                <button onclick="window.closePC()" class="btn-dex bg-red-600">Chiudi</button>
+                <button onclick="window.closePC()" class="btn-dex bg-red-600">Disconnetti</button>
             </div>
             <div id="pc-content" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
         </div>
@@ -53,18 +65,18 @@
                 <div><h3 class="label mb-4">Skills <span id="pool-skill" class="bg-green-600 px-2 rounded ml-2">0</span></h3><div id="ru-skill-list" class="max-h-80 overflow-y-auto"></div></div>
                 <div><h3 class="label mb-4">Social <span id="pool-social" class="bg-purple-600 px-2 rounded ml-2">0</span></h3><div id="ru-social-list"></div></div>
             </div>
-            <div class="mt-8 flex justify-end gap-4"><button id="ru-confirm-btn" class="btn-dex bg-yellow-600 text-black">Conferma</button><button onclick="window.closeRankUpModal()" class="btn-dex bg-slate-800">Annulla</button></div>
+            <div class="mt-8 flex justify-end gap-4"><button id="ru-confirm-btn" class="btn-dex bg-yellow-600 text-black">Applica</button><button onclick="window.closeRankUpModal()" class="btn-dex bg-slate-800">Annulla</button></div>
         </div>
     </div>
 
     <div id="creation-panel" class="overlay">
-        <div class="max-w-md mx-auto mt-20 bg-slate-900 p-8 rounded-3xl border-2 border-green-500">
-            <h2 class="label text-xl mb-4">Inizializzazione Unità</h2>
-            <input type="text" id="crea-nome" placeholder="Specie" class="mb-4">
+        <div class="max-w-md mx-auto mt-20 bg-slate-900 p-8 rounded-3xl border-2 border-green-500 shadow-2xl">
+            <h2 class="label text-xl mb-4">Nuova Unità</h2>
+            <input type="text" id="crea-nome" placeholder="Specie (es. Gastly)" class="mb-4">
             <select id="crea-rango" class="mb-4"><option value="1">Starter</option><option value="2">Beginner</option><option value="3">Amateur</option><option value="4">Ace</option><option value="5">Professional</option><option value="6">Master</option></select>
             <select id="crea-target" class="mb-6"></select>
-            <button onclick="window.processCreation()" class="w-full btn-dex bg-green-600">Crea</button>
-            <button onclick="window.closeCreation()" class="w-full btn-dex bg-slate-800 mt-2">Chiudi</button>
+            <button onclick="window.processCreation()" class="w-full btn-dex bg-green-600">Inizializza</button>
+            <button onclick="window.closeCreation()" class="w-full btn-dex bg-slate-800 mt-2">Abortire</button>
         </div>
     </div>
 
@@ -124,7 +136,7 @@
                 rank: document.getElementById('crea-rango').options[rIdx-1].text, 
                 immagine: base.immagine, 
                 tecniche_scelte: (base.tecniche || []).slice(0, data.will).map(m => m.nome || m),
-                punti_accumulati: { attr: {}, skills: {}, social: {} } // Inizializza memoria punti
+                punti_accumulati: { attr: {}, skills: {}, social: {} } 
             };
             syncCombat(newPk);
 
@@ -137,7 +149,7 @@
 
         window.openPC = (type, idx) => {
             let pks = type === 'trainer' ? userData.allenatori_generati[idx].team : userData.pokemon_salvati;
-            document.getElementById('pc-title').innerText = type === 'trainer' ? `TEAM: ${userData.allenatori_generati[idx].name}` : "RISERVA";
+            document.getElementById('pc-title').innerText = type === 'trainer' ? `SISTEMA: ${userData.allenatori_generati[idx].name}` : "RISERVA NATURALE";
             document.getElementById('pc-content').innerHTML = (pks || []).map((p, i) => `<div class="bg-slate-800 p-4 rounded-xl cursor-pointer" onclick="window.openCard('${type}', ${idx}, ${i})"><img src="${p.immagine}" class="h-12 mx-auto mb-2"><p class="text-[9px] font-black uppercase">${p.nome}</p></div>`).join('');
             document.getElementById('pc-overlay').style.display = "block";
         };
@@ -157,16 +169,16 @@
                     <div class="grid grid-cols-3 gap-6">
                         <div><img src="${pk.immagine}" class="h-24 mx-auto mb-4"><div class="space-y-1">${Object.entries(pk.attr || {}).map(([k,v]) => `<div class="flex justify-between text-[9px] font-bold uppercase"><span>${k}</span><div class="flex">${dots(v)}</div></div>`).join('')}</div></div>
                         <div class="border-x border-white/5 px-4">
-                            <div class="label mb-2">Combat Protocol</div>
+                            <div class="label mb-2">Combat Logic</div>
                             <div class="grid grid-cols-2 gap-2 text-[8px] font-bold uppercase mb-4">
                                 <div class="bg-white/5 p-1">iniziativa: ${c.iniziativa}</div><div class="bg-white/5 p-1">evadere: ${c.evadere}</div>
                                 <div class="bg-white/5 p-1">difesa: ${c.difesa}</div><div class="bg-white/5 p-1">difesa_speciale: ${c.difesa_speciale}</div>
                                 <div class="bg-white/5 p-1">parata: ${c.parata}</div><div class="bg-white/5 p-1">parata_speciale: ${c.parata_speciale}</div>
                             </div>
-                            <div class="label mb-1 text-green-400">Skills Active</div>
+                            <div class="label mb-1 text-green-400">Skills</div>
                             <div class="max-h-24 overflow-y-auto space-y-1">${Object.entries(pk.skills || {}).filter(([_,v]) => v > 0).map(([k,v]) => `<div class="flex justify-between text-[8px] uppercase"><span>${k}</span><span>${v} Dadi</span></div>`).join('')}</div>
                         </div>
-                        <div><div class="label mb-2 text-purple-400">Social Matrix</div><div class="space-y-1">${Object.entries(pk.social || {Tough:0,Cool:0,Beauty:0,Cute:0,Clever:0}).map(([k,v]) => `<div class="flex justify-between text-[9px] font-bold uppercase"><span>${k}</span><div class="flex">${dots(v)}</div></div>`).join('')}</div></div>
+                        <div><div class="label mb-2 text-purple-400">Social</div><div class="space-y-1">${Object.entries(pk.social || {Tough:0,Cool:0,Beauty:0,Cute:0,Clever:0}).map(([k,v]) => `<div class="flex justify-between text-[9px] font-bold uppercase"><span>${k}</span><div class="flex">${dots(v)}</div></div>`).join('')}</div></div>
                     </div>
                 </div></div>`;
 
@@ -185,24 +197,16 @@
             const pk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
             const baseSpecie = pokemonDB.find(p => p.nome.toLowerCase() === pk.nome.toLowerCase());
             if(!baseSpecie || !baseSpecie.evoluzione) return;
-
             const nextSpecie = pokemonDB.find(p => p.nome.toLowerCase() === baseSpecie.evoluzione.toLowerCase());
-            if(!nextSpecie) return alert("Dati evoluzione non trovati!");
+            if(!nextSpecie) return alert("Evoluzione non in database!");
 
-            if(!confirm(`Vuoi far evolvere ${pk.nome} in ${nextSpecie.nome}?`)) return;
+            if(!confirm(`Avviare l'evoluzione di ${pk.nome}?`)) return;
 
-            // Logica Sostituzione: Prende i dadi base della nuova specie e riapplica i punti_accumulati
             pk.nome = nextSpecie.nome;
             pk.immagine = nextSpecie.immagine;
             
-            // Sovrascrive attributi base
-            Object.keys(pk.attr).forEach(k => {
-                pk.attr[k] = (nextSpecie[k] || 1) + (pk.punti_accumulati.attr[k] || 0);
-            });
-            // Sovrascrive skills base
-            Object.keys(pk.skills).forEach(k => {
-                pk.skills[k] = (nextSpecie.skills && nextSpecie.skills[k] ? nextSpecie.skills[k] : 0) + (pk.punti_accumulati.skills[k] || 0);
-            });
+            Object.keys(pk.attr).forEach(k => pk.attr[k] = (nextSpecie[k] || 1) + (pk.punti_accumulati.attr[k] || 0));
+            Object.keys(pk.skills).forEach(k => pk.skills[k] = (nextSpecie.skills && nextSpecie.skills[k] ? nextSpecie.skills[k] : 0) + (pk.punti_accumulati.skills[k] || 0));
 
             syncCombat(pk);
             await updateDoc(doc(db, "Users", currentUserId), userData);
@@ -235,7 +239,7 @@
 
         window.modRU = (g, k, v) => {
             const cur = ruContext.choices[g][k] || 0;
-            const nextVal = (ruContext.pk[g] ? (ruContext.pk[group][key] || 0) : 0) + cur + v;
+            const nextVal = (ruContext.pk[g] ? (ruContext.pk[g][k] || 0) : 0) + cur + v;
             if (v > 0) {
                 if (ruContext.pools[g] <= 0) return;
                 if (g === 'attr' && nextVal > (ruContext.limits[k] || 5)) return;
@@ -247,19 +251,15 @@
         };
 
         document.getElementById('ru-confirm-btn').onclick = async () => {
-            // Salva scelte nella memoria accumulata
             Object.keys(ruContext.choices).forEach(group => {
                 Object.entries(ruContext.choices[group]).forEach(([key, val]) => {
                     ruContext.pk.punti_accumulati[group][key] = (ruContext.pk.punti_accumulati[group][key] || 0) + val;
                 });
             });
-
             const updated = finalizeRankUp(ruContext.pk, ruContext.choices, ruContext.base);
             syncCombat(updated);
-            
             if (ruContext.type === 'trainer') userData.allenatori_generati[ruContext.tIdx].team[ruContext.pIdx] = updated;
             else userData.pokemon_salvati[ruContext.pIdx] = updated;
-
             await updateDoc(doc(db, "Users", currentUserId), userData);
             window.closeRankUpModal(); window.openCard(ruContext.type, ruContext.tIdx, ruContext.pIdx);
         };
