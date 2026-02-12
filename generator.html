@@ -2,17 +2,17 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Neural ProDex - Live Sync Edition</title>
+    <title>Neural PC - Scheda Pokémon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://rawcdn.githack.com/Beerethor/pokerole-dex/refs/heads/main/pokerole-core.js"></script>
-
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap');
         
         :root { 
-            --pokedex-red: #dc2626; 
-            --neon-blue: #0ea5e9; 
-            --neon-yellow: #facc15; 
+            --pokedex-red: #bc1a1d; 
+            --bg-dark: #0a1120;
+            --panel-dark: #111927;
         }
 
         body { 
@@ -23,135 +23,76 @@
         }
         
         .pokedex-frame { 
-            max-width: 1300px; 
+            max-width: 1400px; 
             background: var(--pokedex-red); 
-            border: 8px solid #991b1b; 
-            border-radius: 30px; 
-            padding: 30px; 
+            border-radius: 20px; 
+            padding: 15px; 
             margin: 0 auto; 
-            box-shadow: 0 0 60px rgba(0,0,0,0.6); 
+            box-shadow: 0 0 50px rgba(0,0,0,0.8); 
         }
 
         .inner-screen { 
-            background: #0f172a; 
-            border-radius: 20px; 
-            padding: 30px; 
-            border: 4px solid #334155; 
+            background: var(--bg-dark); 
+            border-radius: 15px; 
+            padding: 40px; 
             position: relative; 
-            min-height: 400px;
         }
         
+        /* Puntini Statistiche */
         .dot { 
-            width: 8px; height: 8px; 
-            background: rgba(255,255,255,0.1); 
-            border: 1px solid rgba(255,255,255,0.3); 
+            width: 12px; height: 8px; 
+            background: #1e293b; 
             display: inline-block; 
-            margin-right: 3px; 
+            margin-right: 4px; 
             border-radius: 2px; 
-            transform: skewX(-15deg); 
+            transform: skewX(-20deg); 
+            cursor: pointer;
         }
-        .dot.filled { 
-            background: var(--neon-blue); 
-            box-shadow: 0 0 8px var(--neon-blue); 
-            border: none; 
-        }
+        .dot.filled { background: #38bdf8; box-shadow: 0 0 8px #0ea5e9; }
+        .dot.bonus { background: #10b981; box-shadow: 0 0 8px #10b981; }
         
         .label { 
             font-family: 'Orbitron', sans-serif; 
-            font-size: 0.65rem; 
-            color: var(--neon-blue); 
+            font-size: 0.7rem; 
+            color: #64748b; 
             text-transform: uppercase; 
-            letter-spacing: 1.5px; 
-        }
-        .stat-box { 
-            background: rgba(0,0,0,0.4); 
-            border-left: 3px solid var(--neon-yellow); 
-            padding: 10px; 
-            border-radius: 6px; 
-        }
-        .tech-card { 
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            padding: 6px 10px; 
-            border-radius: 4px; 
-            font-size: 0.75rem; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-        }
-        
-        input, select { 
-            background: #1e293b; 
-            border: 1px solid #334155; 
-            color: white; 
-            padding: 10px; 
-            border-radius: 8px; 
-            width: 100%; 
-            outline: none; 
+            letter-spacing: 1px; 
         }
 
-        .type-label { cursor: pointer; padding: 5px; border-radius: 4px; font-size: 0.65rem; text-align: center; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; text-transform: uppercase; transition: all 0.2s; }
-        .type-checkbox:checked + .type-label { ring: 2px solid white; transform: scale(1.05); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .stat-card {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 4px solid #334155;
+        }
 
-        .type-Erba { background: #78C850; } .type-Fuoco { background: #F08030; } .type-Acqua { background: #6890F0; }
-        .type-Coleottero { background: #A8B820; } .type-Veleno { background: #A040A0; } .type-Elettro { background: #F8D030; color: black; }
-        .type-Volante { background: #A890F0; } .type-Normale { background: #A8A878; } .type-Terra { background: #E0C068; }
-        .type-Roccia { background: #B8A038; } .type-Psico { background: #F85888; } .type-Ghiaccio { background: #98D8D8; color: black; }
-        .type-Lotta { background: #C03028; } .type-Spettro { background: #705898; } .type-Drago { background: #7038F8; }
-        .type-Buio { background: #705848; } .type-Acciaio { background: #B8B8D0; color: black; } .type-Folletto { background: #EE99AC; }
+        .mossa-tag {
+            background: transparent;
+            border: 1px solid #ef4444;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        /* Colori Sociali dell'immagine */
+        .social-grinta { background: #facc15; color: #451a03; }
+        .social-classe { background: #f97316; color: #451a03; }
+        .social-bellezza { background: #3b82f6; color: #ffffff; }
+        .social-grazia { background: #ec4899; color: #ffffff; }
+        .social-acume { background: #22c55e; color: #ffffff; }
     </style>
 </head>
 <body>
 
-    <div class="max-w-[1300px] mx-auto mb-6 flex justify-between items-center bg-black/40 p-4 rounded-2xl border border-white/10">
-        <div class="flex items-center gap-4">
-            <div id="status-indicator" class="w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_10px_#eab308]"></div>
-            <div>
-                <div id="user-badge" class="text-xs font-black uppercase tracking-widest text-white">Caricamento Sessione...</div>
-                <div id="access-level" class="text-[8px] font-bold uppercase text-slate-500 tracking-[0.3em]">Protocollo di Sicurezza</div>
-            </div>
-        </div>
-        <div class="text-center">
-            <h1 class="text-2xl font-black font-[Orbitron] italic text-white uppercase tracking-tighter">Neural <span class="text-red-600">ProDex</span></h1>
-        </div>
-        <div>
-            <a href="index.html" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-xl transition-all group">
-                <span class="text-[10px] font-black uppercase tracking-tighter">Torna all'Hub</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="max-w-[1300px] mx-auto mb-8 bg-[#1e293b]/50 p-6 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-md">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <div class="space-y-4">
-                <div><label class="label block mb-1">Cerca Specie</label><input type="text" id="searchKey" placeholder="Es: Garchomp"></div>
-                <div><label class="label block mb-1">Rango Desiderato</label>
-                    <select id="userRank">
-                        <option value="1">Starter</option><option value="2">Beginner</option><option value="3">Amateur</option>
-                        <option value="4">Ace</option><option value="5">Professional</option><option value="6">Master</option>
-                        <option value="7">Champion</option>
-                    </select>
-                </div>
-            </div>
-            <div class="lg:col-span-2">
-                <label class="label block mb-2">Filtro Tipi Elementali</label>
-                <div class="grid grid-cols-6 gap-1" id="typeSelector"></div>
-            </div>
-            <div class="flex flex-col justify-end">
-                <button onclick="generateFilteredCard()" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-sm uppercase transition-all shadow-lg active:scale-95 border-b-4 border-blue-900">Esegui Scansione</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="card-display">
-        <div class="text-center py-20 opacity-50">
-            <h2 class="font-[Orbitron] text-xl animate-pulse">IN ATTESA DI DATI DAL DATABASE...</h2>
-        </div>
-    </div>
+    <div id="pokemon-container"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
@@ -166,250 +107,170 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        let pData = null;
         let currentUser = null;
 
-        onAuthStateChanged(auth, (user) => {
+        const SkillMap = {
+            rissa: "Rissa", canale: "Canale", vigore: "Vigore", evasione: "Evasione", 
+            allerta: "Allerta", atletica: "Atletica", natura: "Natura", furtività: "Furtività",
+            fascino: "Fascino", etichetta: "Etichetta", intimidire: "Intimidire", prestazione: "Prestazione"
+        };
+
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                updateAuthUI(user.email);
-            } else {
-                window.location.href = 'index.html';
-            }
+                const params = new URLSearchParams(window.location.search);
+                await loadPokemonData(params.get('trainerId'), params.get('pokemonIdx'));
+            } else { window.location.href = 'index.html'; }
         });
 
-        function updateAuthUI(email) {
-            document.getElementById('user-badge').innerText = `Operatore: ${email}`;
-            document.getElementById('status-indicator').className = "w-3 h-3 rounded-full bg-cyan-500 shadow-[0_0_10px_#06b6d4]";
-            document.getElementById('access-level').innerText = "Accesso Autorizzato - Database Sync Attivo";
-        }
-
-        window.loadTrainerOptions = async function() {
-            if (!currentUser) return;
-            const select = document.getElementById('trainer-target-select');
-            if (!select) return;
-
-            try {
-                const userSnap = await getDoc(doc(db, "Users", currentUser.uid));
-                if (userSnap.exists()) {
-                    const trainers = userSnap.data().allenatori_generati || [];
-                    select.innerHTML = '<option value="none">-- PROFILO (SELVATICO) --</option>';
-                    trainers.forEach(t => {
-                        const opt = document.createElement('option');
-                        opt.value = t.id;
-                        opt.innerText = `ALLENATORE: ${t.name.toUpperCase()}`;
-                        select.appendChild(opt);
-                    });
-                }
-            } catch (e) { console.error("Errore caricamento menu:", e); }
-        };
-
-        window.saveAction = async function() {
-            if (!currentUser) return alert("LOGIN RICHIESTO.");
-            if (!window.currentPokemon) return alert("NESSUN DATO.");
-
-            const select = document.getElementById('trainer-target-select');
-            const targetId = select.value;
-            const btn = event.currentTarget;
-            
-            btn.disabled = true;
-            btn.innerHTML = "⚡ SINCRONIZZAZIONE...";
-
-            try {
-                const userRef = doc(db, "Users", currentUser.uid);
-                const pkmnData = { 
-                    ...window.currentPokemon, 
-                    timestamp: new Date().toLocaleString(),
-                    punti_accumulati: { attr: {}, skills: {}, social: {} }
-                };
-
-                if (targetId === "none") {
-                    await updateDoc(userRef, { pokemon_salvati: arrayUnion(pkmnData) });
-                    alert("✅ REGISTRATO NEL PC!");
-                } else {
-                    const snap = await getDoc(userRef);
-                    let trainers = snap.data().allenatori_generati || [];
-                    const tIdx = trainers.findIndex(t => t.id == targetId);
-
-                    if (tIdx !== -1) {
-                        if(!trainers[tIdx].team) trainers[tIdx].team = [];
-                        trainers[tIdx].team.push(pkmnData);
-                        await updateDoc(userRef, { allenatori_generati: trainers });
-                        alert(`✅ TRASFERITO A ${trainers[tIdx].name.toUpperCase()}!`);
-                    }
-                }
-            } catch (e) { alert("ERRORE: " + e.message); }
-            finally { 
-                btn.disabled = false; 
-                btn.innerHTML = "💾 Esegui Trasferimento Dati"; 
+        async function loadPokemonData(tId, pIdx) {
+            const docRef = doc(db, "Users", currentUser.uid);
+            const snap = await getDoc(docRef);
+            if (snap.exists()) {
+                const data = snap.data();
+                pData = (tId === "wild") ? data.pokemon_salvati[pIdx] : data.allenatori_generati.find(t => t.id == tId).team[pIdx];
+                renderUI();
             }
-        };
-    </script>
-
-    <script>
-        const RankWeight = { "Starter": 1, "Beginner": 2, "Amateur": 3, "Ace": 4, "Professional": 5, "Master": 6, "Champion": 7 };
-        
-        const SkillMap = {
-            stealth: "furtività", intimidate: "intimidire", evasion: "evasione", alert: "allerta", 
-            channel: "canale", nature: "natura", athletic: "atletica", allure: "fascino", 
-            brawl: "rissa", clash: "vigore", etiquette: "etichetta", perform: "prestazione"
-        };
-        const SocialMap = { Beauty: "Bellezza", Tough: "Grinta", Cute: "Grazia", Cool: "Classe", Clever: "Acume" };
-        const SocialColors = { Tough: 'bg-[#fbbf24]', Cool: 'bg-[#f97316]', Beauty: 'bg-[#3b82f6]', Cute: 'bg-[#ec4899]', Clever: 'bg-[#22c55e]' };
-
-        const tipi = ["Acciaio", "Acqua", "Coleottero", "Drago", "Elettro", "Erba", "Folletto", "Fuoco", "Ghiaccio", "Lotta", "Normale", "Psico", "Roccia", "Spettro", "Terra", "Veleno", "Volante", "Buio"];
-        
-        let pokemonData = [];
-        window.currentPokemon = null;
-
-        // Inizializza Tipi
-        const typeContainer = document.getElementById('typeSelector');
-        tipi.forEach(t => {
-            typeContainer.innerHTML += `
-                <input type="checkbox" id="t-${t}" class="type-checkbox hidden" value="${t}">
-                <label for="t-${t}" class="type-label type-${t}">${t}</label>`;
-        });
-
-        // Caricamento JSON
-        fetch('pokemon.json')
-            .then(res => res.json())
-            .then(data => { 
-                pokemonData = data; 
-                document.getElementById('card-display').innerHTML = '<div class="text-center py-20 opacity-20 font-black text-4xl uppercase">Sistema Pronto - Pronti alla Scansione</div>';
-            })
-            .catch(err => {
-                document.getElementById('card-display').innerHTML = '<div class="text-red-500 text-center font-bold p-10">ERRORE: pokemon.json non trovato. Usa un server locale!</div>';
-            });
-
-        function drawDots(value) {
-            let html = '';
-            for (let i = 1; i <= 10; i++) html += `<span class="dot ${i <= value ? 'filled' : ''}"></span>`;
-            return html;
         }
 
-        window.generateFilteredCard = function() {
-            if (pokemonData.length === 0) return alert("Database in caricamento...");
-            const search = document.getElementById('searchKey').value.toLowerCase();
-            const rankVal = parseInt(document.getElementById('userRank').value);
-            const rankName = document.getElementById('userRank').options[rankVal-1].text;
-            const selectedTypes = Array.from(document.querySelectorAll('.type-checkbox:checked')).map(cb => cb.value);
-
-            let filtered = pokemonData.filter(p => {
-                const mSearch = p.nome.toLowerCase().includes(search);
-                const mType = selectedTypes.length === 0 || selectedTypes.some(t => p.tipo.includes(t));
-                return mSearch && mType;
-            });
-
-            if (filtered.length === 0) return alert("Nessun soggetto rilevato.");
-
-            const base = filtered[Math.floor(Math.random() * filtered.length)];
-            const data = PokeroleEngine.calculateRank(base, rankVal);
-            
-            const accessibleMoves = (base.tecniche || []).filter(m => RankWeight[m.rango || "Starter"] <= rankVal);
-            const selectedMoves = accessibleMoves.sort(() => 0.5 - Math.random()).slice(0, data.will).map(m => (typeof m === 'object') ? m.nome : m);
-
-            window.currentPokemon = {
-                ...data,
-                rank: rankName,
-                abilita_scelta: (base.abilita || ["Standard"])[0],
-                tecniche_scelte: selectedMoves,
-                immagine: base.immagine
-            };
-
-            renderUI(window.currentPokemon);
-            if(window.loadTrainerOptions) window.loadTrainerOptions();
-        }
-
-        function renderUI(p) {
-            document.getElementById('card-display').innerHTML = `
-            <div class="pokedex-frame animate-in fade-in zoom-in duration-300">
+        function renderUI() {
+            const p = pData;
+            document.getElementById('pokemon-container').innerHTML = `
+            <div class="pokedex-frame">
                 <div class="inner-screen">
-                    <div class="flex justify-between items-start mb-8 border-b border-white/10 pb-6">
+                    
+                    <div class="flex justify-between items-start mb-12">
                         <div>
-                            <div class="mb-1"><span class="label text-yellow-400">ANALISI SOGGETTO:</span></div>
-                            <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter text-white leading-none">${p.nome}</h1>
-                            <div class="flex gap-2 mt-4">
-                                ${p.tipo.map(t => `<span class="px-4 py-1 rounded text-[10px] font-black uppercase type-${t}">${t}</span>`).join('')}
+                            <div class="label text-yellow-500 mb-1">Analisi Soggetto:</div>
+                            <h1 class="text-8xl font-black italic uppercase font-[Orbitron] tracking-tighter leading-none">${p.nome}</h1>
+                            <div class="mt-4">
+                                ${p.tipo.map(t => `<span class="type-label bg-[#a3b12a] text-black px-3 py-1 rounded text-xs font-bold mr-2 uppercase">${t}</span>`).join('')}
                             </div>
                         </div>
-                        <div class="flex flex-col items-end gap-3">
-                            <div class="flex gap-4">
-                                <div class="stat-box min-w-[100px] text-center border-l-red-600"><div class="label">Punti Vita</div><div class="text-4xl font-black">${p.hp}</div></div>
-                                <div class="stat-box min-w-[100px] text-center border-l-cyan-400"><div class="label">Volontà</div><div class="text-4xl font-black">${p.will}</div></div>
+                        <div class="flex gap-4">
+                            <div class="border-2 border-red-600 rounded-lg p-3 text-center min-w-[120px]">
+                                <div class="label text-blue-400">Punti Vita</div>
+                                <div class="text-5xl font-black font-[Orbitron]">${p.hp}</div>
                             </div>
-                            <div class="flex flex-col items-end gap-2 w-full min-w-[280px]">
-                                <select id="trainer-target-select" class="!bg-black/60 !border-cyan-500/50 text-[10px] font-bold text-cyan-400 uppercase p-2 rounded-lg w-full">
-                                    <option>Caricamento Allenatori...</option>
-                                </select>
-                                <button onclick="saveAction()" class="w-full bg-red-600 hover:bg-red-500 text-white py-3 rounded-xl font-black text-[11px] uppercase shadow-lg border-b-4 border-red-900 active:translate-y-1 transition-all">
-                                    💾 Registra nel Sistema PC
-                                </button>
+                            <div class="border-2 border-cyan-500 rounded-lg p-3 text-center min-w-[120px]">
+                                <div class="label text-blue-400">Volontà</div>
+                                <div class="text-5xl font-black font-[Orbitron]">${p.will}</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-12 gap-10">
-                        <div class="col-span-3 space-y-6">
-                            <div class="bg-black/40 p-6 rounded-2xl border border-white/10 flex items-center justify-center">
-                                <img src="${p.immagine}" class="max-h-48 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    <div class="grid grid-cols-12 gap-12">
+                        <div class="col-span-3">
+                            <div class="bg-black/40 rounded-2xl p-8 mb-6 border border-white/5 flex items-center justify-center aspect-square">
+                                <img src="${p.immagine}" class="max-h-full drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
                             </div>
-                            <div class="p-4 bg-blue-900/20 border border-blue-500/30 rounded-xl">
-                                <div class="label text-blue-400 mb-2">Abilità Dominante</div>
-                                <div class="text-lg font-black uppercase italic">${p.abilita_scelta}</div>
+                            <div class="bg-[#111927] p-4 rounded-xl border-l-4 border-blue-600 mb-8">
+                                <div class="label text-blue-400 mb-1">Abilità Dominante</div>
+                                <div class="text-2xl font-black italic uppercase font-[Orbitron]">${p.abilita_scelta || 'Polvoscudo'}</div>
                             </div>
-                            <div class="space-y-3">
-                                <div class="label opacity-50 border-b border-white/10 pb-1">Attributi Primari</div>
+                            <div class="space-y-4">
+                                <div class="label text-blue-500 border-b border-white/10 pb-1">Attributi Primari</div>
                                 ${Object.entries(p.attr).map(([k,v]) => `
-                                    <div class="flex justify-between items-center text-[12px] uppercase font-bold">
+                                    <div class="flex justify-between items-center text-sm font-bold uppercase">
                                         <span>${k}</span>
-                                        <div class="flex">${drawDots(v)}</div>
+                                        <div class="flex">${drawDots(v, k, 'attr')}</div>
                                     </div>`).join('')}
                             </div>
                         </div>
 
-                        <div class="col-span-5 px-8 border-x border-white/5 space-y-8">
-                            <div>
-                                <div class="label mb-4">Matrice Competenze</div>
-                                <div class="grid grid-cols-1 gap-2">
-                                    ${Object.entries(p.skills).map(([k,v]) => `
-                                        <div class="flex justify-between items-center text-[11px] uppercase border-b border-white/5 pb-1">
-                                            <span>${SkillMap[k.toLowerCase()] || k}</span>
-                                            <div class="flex">${drawDots(v)}</div>
-                                        </div>`).join('')}
-                                </div>
+                        <div class="col-span-5 px-6 border-x border-white/5">
+                            <div class="label text-blue-400 mb-6">Matrice Competenze</div>
+                            <div class="space-y-3 mb-10">
+                                ${Object.keys(SkillMap).map(k => `
+                                    <div class="flex justify-between items-center text-[11px] uppercase tracking-widest font-bold">
+                                        <span class="text-slate-400">${SkillMap[k]}</span>
+                                        <div class="flex">${drawDots(p.skills[k] || 0, k, 'skills')}</div>
+                                    </div>`).join('')}
                             </div>
-                            <div>
-                                <div class="label mb-4 text-red-500">Database Mosse (Slot: ${p.will})</div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    ${p.tecniche_scelte.map(m => `<div class="tech-card border-l-2 border-red-500">${m}</div>`).join('')}
-                                </div>
+                            
+                            <div class="label text-red-500 mb-4">Database Mosse (Slot: ${p.will})</div>
+                            <div class="flex flex-wrap gap-3">
+                                ${p.tecniche_scelte.map(m => `<div class="mossa-tag">${m}</div>`).join('')}
+                                <div class="mossa-tag opacity-50 border-white/20 text-white/20">Azione</div>
                             </div>
                         </div>
 
-                        <div class="col-span-4 space-y-8">
+                        <div class="col-span-4 space-y-10">
                             <div>
-                                <div class="label opacity-50 mb-4">Logica Combattimento</div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="stat-box !border-l-yellow-500"><div class="label !text-[8px]">Iniziativa</div><div class="text-2xl font-black">${p.combat.iniziativa}</div></div>
-                                    <div class="stat-box !border-l-green-500"><div class="label !text-[8px]">Evasione</div><div class="text-2xl font-black">${p.combat.evadere}</div></div>
-                                    <div class="stat-box !border-l-orange-500"><div class="label !text-[8px]">Difesa F.</div><div class="text-2xl font-black">${p.combat.difesa}</div></div>
-                                    <div class="stat-box !border-l-blue-500"><div class="label !text-[8px]">Difesa S.</div><div class="text-2xl font-black">${p.combat.difesa_speciale}</div></div>
-                                    <div class="stat-box !border-l-white"><div class="label !text-[8px]">Parata F.</div><div class="text-2xl font-black">${p.combat.parata}</div></div>
-                                    <div class="stat-box !border-l-cyan-300"><div class="label !text-[8px]">Parata S.</div><div class="text-2xl font-black">${p.combat.parata_speciale}</div></div>
+                                <div class="label text-slate-500 mb-6">Logica Combattimento</div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="stat-card border-yellow-400"><div class="label text-yellow-400">Iniziativa</div><div class="text-4xl font-black">${p.combat.iniziativa}</div></div>
+                                    <div class="stat-card border-green-500"><div class="label text-green-500">Evasione</div><div class="text-4xl font-black">${p.combat.evadere}</div></div>
+                                    <div class="stat-card border-orange-500"><div class="label text-orange-500">Difesa F.</div><div class="text-4xl font-black">${p.combat.difesa}</div></div>
+                                    <div class="stat-card border-blue-500"><div class="label text-blue-500">Difesa S.</div><div class="text-4xl font-black">${p.combat.difesa_speciale}</div></div>
+                                    <div class="stat-card border-white"><div class="label text-slate-300">Parata F.</div><div class="text-4xl font-black">${p.combat.parata}</div></div>
+                                    <div class="stat-card border-cyan-300"><div class="label text-cyan-300">Parata S.</div><div class="text-4xl font-black">${p.combat.parata_speciale}</div></div>
                                 </div>
                             </div>
-                            <div class="pt-4 border-t border-white/10">
-                                <div class="label opacity-50 mb-4">Parametri Sociali (${p.rank})</div>
-                                ${Object.entries(p.social).map(([k,v]) => `
-                                    <div class="flex justify-between items-center p-2 rounded mb-1 text-[11px] font-black text-black ${SocialColors[k]}">
-                                        <span>${SocialMap[k] || k}</span>
-                                        <div class="flex">${drawDots(v)}</div>
-                                    </div>`).join('')}
+
+                            <div>
+                                <div class="label text-slate-500 mb-6">Parametri Sociali (${p.rank})</div>
+                                <div class="space-y-2">
+                                    ${renderSocialRow("Grinta", p.social.Tough, "social-grinta", "Tough")}
+                                    ${renderSocialRow("Classe", p.social.Cool, "social-classe", "Cool")}
+                                    ${renderSocialRow("Bellezza", p.social.Beauty, "social-bellezza", "Beauty")}
+                                    ${renderSocialRow("Grazia", p.social.Cute, "social-grazia", "Cute")}
+                                    ${renderSocialRow("Acume", p.social.Clever, "social-acume", "Clever")}
+                                </div>
+                            </div>
+                            
+                            <div class="pt-6">
+                                <button onclick="window.history.back()" class="w-full bg-red-600/20 border border-red-600 text-red-500 py-4 rounded-xl font-black uppercase tracking-tighter hover:bg-red-600 hover:text-white transition-all">← Esci dal Terminale</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>`;
         }
+
+        function renderSocialRow(label, val, colorClass, key) {
+            return `
+                <div class="flex justify-between items-center p-3 rounded ${colorClass} font-black text-xs uppercase">
+                    <span>${label}</span>
+                    <div class="flex">${drawDots(val, key, 'social', true)}</div>
+                </div>`;
+        }
+
+        function drawDots(base, key, cat, isSocial = false) {
+            let html = '';
+            const bonus = (pData.punti_accumulati[cat] && pData.punti_accumulati[cat][key]) || 0;
+            for (let i = 1; i <= 10; i++) {
+                let cls = '';
+                if (i <= base) cls = 'filled';
+                else if (i <= base + bonus) cls = 'bonus';
+                if (isSocial) cls += ' !bg-black/20 !shadow-none'; // Dots scuri per barre colorate
+                html += `<span class="dot ${cls}" onclick="handleRankUp('${cat}','${key}',${i})"></span>`;
+            }
+            return html;
+        }
+
+        window.handleRankUp = async function(cat, key, idx) {
+            const bonus = pData.punti_accumulati[cat][key] || 0;
+            const base = pData[cat][key] || 0;
+            if (idx === base + bonus + 1) pData.punti_accumulati[cat][key] = bonus + 1;
+            else if (idx === base + bonus && bonus > 0) pData.punti_accumulati[cat][key] = bonus - 1;
+            else return;
+
+            const userRef = doc(db, "Users", currentUser.uid);
+            const snap = await getDoc(userRef);
+            let data = snap.data();
+            const params = new URLSearchParams(window.location.search);
+            const tId = params.get('trainerId');
+            const pIdx = params.get('pokemonIdx');
+
+            if (tId === "wild") data.pokemon_salvati[pIdx] = pData;
+            else data.allenatori_generati.find(t => t.id == tId).team[pIdx] = pData;
+
+            await updateDoc(userRef, data);
+            renderUI();
+        };
+
     </script>
 </body>
 </html>
