@@ -19,72 +19,88 @@
             cursor: pointer;
             position: relative;
         }
-        .pc-icon-wrapper:hover { transform: translateY(-5px); }
-        .pc-icon-wrapper:hover .icon-img { border-color: #0ea5e9; box-shadow: 0 0 20px rgba(14, 165, 233, 0.4); }
+        .pc-icon-wrapper:hover { transform: translateY(-8px); }
+        .pc-icon-wrapper:hover .icon-img { border-color: #0ea5e9; box-shadow: 0 0 25px rgba(14, 165, 233, 0.5); transform: scale(1.05); }
         
         .icon-img {
-            width: 100px; height: 100px;
-            border-radius: 20px;
-            border: 3px solid rgba(255,255,255,0.1);
+            width: 110px; height: 110px;
+            border-radius: 24px;
+            border: 3px solid rgba(255,255,255,0.08);
             background: #1e293b;
             object-fit: cover;
-            margin: 0 auto 10px;
-            transition: all 0.3s;
+            margin: 0 auto 12px;
+            transition: all 0.4s;
         }
 
-        /* Modale / Overlay PC Aperto */
+        /* Overlay PC Aperto */
         #pc-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(2, 6, 23, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(2, 6, 23, 0.98);
+            backdrop-filter: blur(15px);
             z-index: 50;
             padding: 40px;
             overflow-y: auto;
         }
 
         .pkmn-card-mini {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 15px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
             text-align: center;
-            transition: 0.2s;
+            transition: 0.3s;
         }
-        .pkmn-card-mini:hover { background: rgba(14, 165, 233, 0.1); border-color: #0ea5e9; }
+        .pkmn-card-mini:hover { 
+            background: rgba(14, 165, 233, 0.08); 
+            border-color: #0ea5e9; 
+            transform: translateY(-4px);
+        }
 
         .close-btn {
-            position: sticky; top: 0; float: right;
             background: #ef4444; color: white;
-            padding: 8px 20px; border-radius: 8px;
-            font-weight: bold; cursor: pointer;
-            font-family: 'Orbitron'; font-size: 12px;
+            padding: 10px 24px; border-radius: 12px;
+            font-weight: 900; cursor: pointer;
+            font-family: 'Orbitron'; font-size: 11px;
+            transition: all 0.2s;
+            border-bottom: 4px solid #991b1b;
         }
+        .close-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+        /* Scrollbar Personalizzata */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-6 md:p-12">
 
-    <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-16">
+    <div class="max-w-7xl mx-auto">
+        <header class="flex justify-between items-center mb-20 border-b border-white/5 pb-8">
             <div>
-                <h1 class="text-4xl font-black font-orbitron italic tracking-tighter">NEURAL<span class="text-blue-500">PC</span></h1>
-                <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.5em]">Storage System v2.0</p>
+                <h1 class="text-4xl font-black font-orbitron italic tracking-tighter uppercase">Neural<span class="text-blue-500">Storage</span></h1>
+                <p class="text-[9px] text-blue-400/60 font-bold uppercase tracking-[0.6em]">Directory Centralizzata Allenatori</p>
             </div>
-            <a href="index.html" class="bg-white/5 border border-white/10 px-6 py-2 rounded-full text-xs font-bold uppercase hover:bg-white/10 transition-all">🏠 Hub</a>
+            <a href="index.html" class="bg-white/5 border border-white/10 px-8 py-3 rounded-2xl text-xs font-black uppercase hover:bg-white/10 transition-all flex items-center gap-2">
+                <span class="text-blue-500">◣</span> Torna all'Hub
+            </a>
         </header>
 
-        <div id="pc-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-10 text-center">
+        <div id="pc-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-y-16 gap-x-8 text-center">
             </div>
     </div>
 
     <div id="pc-overlay">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex justify-between items-center mb-10">
-                <h2 id="pc-title" class="text-3xl font-black font-orbitron italic text-blue-500 uppercase"></h2>
-                <button onclick="closePC()" class="close-btn">X CHIUDI TERMINALE</button>
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-6">
+                <div>
+                    <p class="text-blue-500 font-orbitron text-xs font-bold mb-1">ACCESSO TERMINALE ESEGUITO</p>
+                    <h2 id="pc-title" class="text-4xl font-black font-orbitron italic uppercase"></h2>
+                </div>
+                <button onclick="closePC()" class="close-btn uppercase tracking-widest">Chiudi Sessione</button>
             </div>
-            <div id="pc-content" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div id="pc-content" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
                 </div>
         </div>
     </div>
@@ -125,15 +141,19 @@
             const grid = document.getElementById('pc-grid');
             grid.innerHTML = "";
 
-            // 1. ICONE ALLENATORI
+            // 1. ICONE ALLENATORI (Dalle foto caricate sui server)
             const trainers = userData.allenatori_generati || [];
             trainers.forEach((all, index) => {
-                const icon = all.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${all.name}`;
+                // Priorità: all.image (foto caricata) > all.immagine > Avatar Default
+                const profileImg = all.image || all.immagine || `https://api.dicebear.com/7.x/identicon/svg?seed=${all.name}`;
+                
                 grid.innerHTML += `
                     <div class="pc-icon-wrapper" onclick="openPC('trainer', ${index})">
-                        <img src="${icon}" class="icon-img shadow-lg shadow-blue-500/10">
-                        <p class="font-orbitron text-[10px] uppercase font-bold text-blue-400">PC DI</p>
-                        <p class="font-bold text-sm truncate px-2">${all.name.toUpperCase()}</p>
+                        <img src="${profileImg}" class="icon-img shadow-xl">
+                        <div class="space-y-1">
+                            <p class="font-orbitron text-[9px] uppercase font-bold text-blue-500 tracking-widest">Terminal User</p>
+                            <p class="font-black text-sm uppercase tracking-tight truncate px-2">${all.name}</p>
+                        </div>
                     </div>
                 `;
             });
@@ -141,9 +161,11 @@
             // 2. ICONA RISERVA NATURALE (Pokéball)
             grid.innerHTML += `
                 <div class="pc-icon-wrapper" onclick="openPC('wild', 0)">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" class="icon-img p-4 !bg-red-600/10 !border-red-600/30">
-                    <p class="font-orbitron text-[10px] uppercase font-bold text-red-500">ZONA</p>
-                    <p class="font-bold text-sm uppercase">Riserva Nat.</p>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" class="icon-img p-5 !bg-red-600/5 !border-red-600/20">
+                    <div class="space-y-1">
+                        <p class="font-orbitron text-[9px] uppercase font-bold text-red-500 tracking-widest">Unità Esterne</p>
+                        <p class="font-black text-sm uppercase tracking-tight">Riserva Nat.</p>
+                    </div>
                 </div>
             `;
         }
@@ -168,16 +190,20 @@
             title.innerText = pcName;
             content.innerHTML = pokemonList.length > 0 ? pokemonList.map(pk => `
                 <div class="pkmn-card-mini">
-                    <img src="${pk.immagine || pk.image}" class="h-24 mx-auto mb-4 object-contain">
-                    <div class="font-bold text-xs uppercase mb-1">${pk.nome || pk.name}</div>
-                    <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">
-                        ${pk.rango || pk.type || 'Sconosciuto'}
+                    <img src="${pk.immagine || pk.image}" class="h-28 mx-auto mb-4 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                    <div class="font-black text-sm uppercase tracking-tighter mb-1">${pk.nome || pk.name}</div>
+                    <div class="text-[9px] text-blue-400 font-bold uppercase tracking-[0.2em] bg-blue-500/10 py-1 rounded">
+                        ${pk.rango || 'Wild Unit'}
                     </div>
                 </div>
-            `).join('') : `<div class="col-span-full py-20 text-center text-slate-500 font-bold uppercase tracking-widest">Database vuoto: Nessun Pokémon rilevato.</div>`;
+            `).join('') : `
+                <div class="col-span-full py-32 text-center">
+                    <p class="text-slate-600 font-orbitron text-xs uppercase tracking-[0.5em]">Nessun dato archiviato in questo terminale</p>
+                </div>
+            `;
 
             overlay.style.display = "block";
-            document.body.style.overflow = "hidden"; // Blocca lo scroll sotto
+            document.body.style.overflow = "hidden";
         }
 
         window.closePC = function() {
