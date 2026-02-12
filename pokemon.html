@@ -30,20 +30,17 @@
 
         .social-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-radius: 4px; margin-bottom: 6px; font-weight: 900; font-size: 0.8rem; text-transform: uppercase; color: black; }
         
-        /* Rank Up Overlay */
         #rank-overlay { background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); display: none; }
     </style>
 </head>
 <body>
 
-<div id="main-display">
-    </div>
+<div id="main-display"></div>
 
 <div id="rank-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4">
     <div class="bg-[#111927] border-2 border-green-600 p-8 rounded-2xl max-w-md w-full shadow-2xl">
         <h3 class="font-[Orbitron] text-green-500 text-xl mb-6 text-center italic font-black">SISTEMA DI PROMOZIONE RANGO</h3>
-        <div class="grid grid-cols-1 gap-3" id="rank-options">
-            </div>
+        <div class="grid grid-cols-1 gap-3" id="rank-options"></div>
         <button onclick="document.getElementById('rank-overlay').style.display='none'" class="w-full mt-6 text-slate-500 text-xs uppercase font-bold">Annulla</button>
     </div>
 </div>
@@ -98,7 +95,7 @@
             <div class="inner-screen">
                 <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
                     <h2 class="font-[Orbitron] text-2xl uppercase text-blue-400">Database Globale Unità</h2>
-                    <button onclick="window.history.back()" class="btn-action btn-gray px-6">Esci dal PC</button>
+                    <button onclick="window.location.href='index.html'" class="btn-action btn-gray px-6">Esci dal PC</button>
                 </div>
                 <div class="space-y-10">
                     <section>
@@ -170,7 +167,7 @@
                             <button onclick="handleAction('evolve')" class="btn-action btn-yellow">🧬 Evolvi</button>
                             <button onclick="handleAction('moves')" class="btn-action btn-blue">⚔️ Mosse</button>
                             <button onclick="handleAction('release')" class="btn-action btn-red">☣️ Libera</button>
-                            <button onclick="window.location.href='pokemon.html'" class="btn-action btn-gray col-span-2">✖ Chiudi Terminale</button>
+                            <button onclick="window.location.href='index.html'" class="btn-action btn-gray col-span-2">✖ Chiudi Terminale</button>
                         </div>
                     </div>
                 </div>
