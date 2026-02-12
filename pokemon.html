@@ -59,6 +59,14 @@
         appId: "1:385416519668:web:908e12b9833f1cdc04a3a1"
     };
 
+    const TYPE_COLORS = {
+        "Normale": "#A8A878", "Fuoco": "#F08030", "Acqua": "#6890F0", "Erba": "#78C850",
+        "Elettro": "#F8D030", "Ghiaccio": "#98D8D8", "Lotta": "#C03028", "Veleno": "#A040A0",
+        "Terra": "#E0C068", "Volante": "#A890F0", "Psico": "#F85888", "Coleottero": "#A8B820",
+        "Roccia": "#B8A038", "Spettro": "#705898", "Drago": "#7038F8", "Buio": "#705848",
+        "Acciaio": "#B8B8D0", "Folletto": "#EE99AC"
+    };
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -120,7 +128,7 @@
                         <div class="label text-yellow-500 mb-1">Analisi Soggetto:</div>
                         <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter leading-none">${p.nome}</h1>
                         <div class="mt-4 flex gap-2">
-                            ${p.tipo.map(t => `<span class="bg-[#a3b12a] text-black px-4 py-1 rounded text-[10px] font-black uppercase">${t}</span>`).join('')}
+                            ${p.tipo.map(t => `<span class="text-black px-4 py-1 rounded text-[10px] font-black uppercase" style="background-color: ${TYPE_COLORS[t] || '#A8A878'}">${t}</span>`).join('')}
                             <span class="bg-blue-900/30 text-blue-400 px-4 py-1 rounded text-[10px] font-black uppercase border border-blue-500/20">${p.rank}</span>
                         </div>
                     </div>
