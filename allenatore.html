@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trainer Card - Neural ProDex</title>
+    <title>Trainer Card Ultimate - Neural ProDex</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -11,103 +11,89 @@
         body { background-color: var(--bg-dark); font-family: 'JetBrains Mono', monospace; color: white; opacity: 0; transition: opacity 0.5s; }
         body.auth-ready { opacity: 1; }
 
-        /* UI SCHEDA STILE POKEMON LEAGUE */
         .trainer-card-ui {
-            background-color: #d1d5db; border-radius: 24px; overflow: hidden;
-            width: 100%; max-width: 950px; margin: 20px auto;
-            border: 6px solid #4b5563; color: #1e293b; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background-color: #d1d5db; border-radius: 20px; overflow: hidden;
+            width: 100%; max-width: 1100px; margin: 20px auto;
+            border: 6px solid #4b5563; color: #1e293b; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
         .card-header {
             background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
-            padding: 20px 30px; display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 6px solid #991b1b;
         }
-        .header-logo-text { font-family: 'Orbitron'; font-weight: 900; color: white; font-size: 1.5rem; letter-spacing: 1px; italic: true; }
-        
         .data-field {
-            background-color: var(--pk-blue); border-radius: 6px; padding: 4px 10px;
-            border: 2px solid #1e293b; font-weight: 800; color: #1e293b; font-size: 13px;
+            background-color: var(--pk-blue); border-radius: 4px; padding: 2px 8px;
+            border: 2px solid #1e293b; font-weight: 800; color: #1e293b; font-size: 12px;
         }
-        .label-text { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; color: #111; text-transform: uppercase; margin-bottom: 2px; display: block; }
+        .label-text { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; color: #111; text-transform: uppercase; display: block; }
         
-        .photo-box {
-            background: white; border: 4px solid #1e293b; border-radius: 12px;
-            width: 100%; aspect-ratio: 3/4; object-fit: cover;
+        /* Foto Rettangolare Grande */
+        .photo-rect {
+            background: white; border: 4px solid #1e293b; border-radius: 8px;
+            width: 100%; height: 350px; object-fit: cover;
         }
 
-        /* Skills & Dots */
         .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid #1e293b; background: white; }
         .dot.filled { background: #1e293b; }
-        .skill-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; padding: 1px 0; }
+        .skill-row { display: flex; justify-content: space-between; align-items: center; font-size: 9px; font-weight: 700; padding: 1px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
 
-        /* Admin Form */
-        .admin-panel { background: #1e293b; border: 2px solid #3b82f6; border-radius: 20px; padding: 25px; margin-bottom: 40px; }
-        input, select, textarea { background: #0f172a !important; color: #38bdf8 !important; border: 1px solid #334155 !important; padding: 6px; border-radius: 6px; font-size: 12px; width: 100%; }
+        .admin-panel { background: #1e293b; border: 2px solid #3b82f6; border-radius: 20px; padding: 20px; margin-bottom: 40px; }
+        input, textarea { background: #0f172a !important; color: #38bdf8 !important; border: 1px solid #334155 !important; padding: 4px; border-radius: 4px; font-size: 11px; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4">
 
-    <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <h1 class="text-4xl font-black italic tracking-tighter font-[Orbitron] text-white">
-                NEURAL <span class="text-red-600">PRODEX</span>
-            </h1>
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-black italic font-[Orbitron]">NEURAL <span class="text-red-500">PRODEX</span></h1>
             <div class="flex gap-4">
-                <a href="index.html" class="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-xl text-xs font-black uppercase transition-all flex items-center gap-2 border border-white/20">
-                    🏠 Home
-                </a>
-                <button onclick="toggleForm()" class="bg-blue-600 hover:bg-blue-500 px-6 py-2 rounded-xl text-xs font-black uppercase shadow-lg shadow-blue-600/20">
-                    ➕ Nuovo Allenatore
-                </button>
+                <a href="index.html" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-xs font-black uppercase border border-white/20">🏠 Home</a>
+                <button onclick="toggleForm()" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-xs font-black uppercase">➕ Nuovo Operatore</button>
             </div>
         </div>
 
         <div id="trainer-form" class="hidden admin-panel">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="space-y-3">
-                    <label class="text-[10px] font-bold text-blue-400">IDENTITÀ</label>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="space-y-2">
+                    <label class="text-[10px] text-blue-300 font-bold">BASE</label>
                     <input type="file" id="f-img" onchange="encodeImg()">
-                    <input type="text" id="f-name" placeholder="Nome Allenatore">
-                    <input type="text" id="f-rank" placeholder="Rango (es. Starter)">
-                    <input type="number" id="f-age" placeholder="Età">
+                    <input type="text" id="f-name" placeholder="Nome">
+                    <input type="text" id="f-rank" placeholder="Rango">
+                    <input type="number" id="f-age" placeholder="Anni">
                     <input type="text" id="f-nature" placeholder="Natura">
-                    <input type="number" id="f-conf" placeholder="Confidence (1-5)">
-                    <input type="number" id="f-money" placeholder="Soldi ($)">
+                    <input type="number" id="f-conf" placeholder="Confidence">
+                    <input type="number" id="f-money" placeholder="Soldi">
                 </div>
-                <div class="space-y-3">
-                    <label class="text-[10px] font-bold text-blue-400">ATTRIBUTI & RISORSE</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="number" id="f-hp" placeholder="HP Max">
-                        <input type="number" id="f-will" placeholder="Will Max">
-                        <input type="number" id="f-str" placeholder="Forza">
-                        <input type="number" id="f-dex" placeholder="Destrezza">
-                        <input type="number" id="f-vit" placeholder="Vitalità">
-                        <input type="number" id="f-ins" placeholder="Istinto">
+                <div class="space-y-2">
+                    <label class="text-[10px] text-blue-300 font-bold">ATTRIBUTI (1-5)</label>
+                    <div class="grid grid-cols-2 gap-1">
+                        <input type="number" id="f-hp" placeholder="HP"><input type="number" id="f-will" placeholder="WILL">
+                        <input type="number" id="f-str" placeholder="Forza"><input type="number" id="f-dex" placeholder="Destrezza">
+                        <input type="number" id="f-vit" placeholder="Vitalità"><input type="number" id="f-ins" placeholder="Istinto">
                     </div>
-                    <label class="text-[10px] font-bold text-blue-400">SQUADRA (Nomi)</label>
-                    <input type="text" id="f-p1" placeholder="Pokémon 1"><input type="text" id="f-p2" placeholder="Pokémon 2">
+                    <label class="text-[10px] text-blue-300 font-bold">SQUADRA (6 NOMI)</label>
+                    <input type="text" id="f-p1" placeholder="P1"> <input type="text" id="f-p2" placeholder="P2">
+                    <input type="text" id="f-p3" placeholder="P3"> <input type="text" id="f-p4" placeholder="P4">
                 </div>
-                <div class="space-y-3">
-                    <label class="text-[10px] font-bold text-blue-400">ABILIÀ (SKILLS)</label>
-                    <div class="grid grid-cols-2 gap-x-2 gap-y-1">
-                        <input type="number" id="s-rissa" placeholder="Rissa"> <input type="number" id="s-lancio" placeholder="Lancio">
-                        <input type="number" id="s-evas" placeholder="Evasione"> <input type="number" id="s-armi" placeholder="Armi">
-                        <input type="number" id="s-all" placeholder="Allerta"> <input type="number" id="s-atle" placeholder="Atletica">
-                        <input type="number" id="s-nat" placeholder="Natura"> <input type="number" id="s-furt" placeholder="Furtività">
+                <div class="space-y-2">
+                    <label class="text-[10px] text-blue-300 font-bold">VIRTÙ & SKILLS (Esempio: 2)</label>
+                    <div class="grid grid-cols-2 gap-1">
+                        <input type="number" id="s-rissa" placeholder="Rissa"><input type="number" id="s-lancio" placeholder="Lancio">
+                        <input type="number" id="s-evas" placeholder="Evasione"><input type="number" id="s-allerta" placeholder="Allerta">
+                        <input type="number" id="s-atle" placeholder="Atletica"><input type="number" id="s-nat" placeholder="Natura">
+                        <input type="number" id="s-furt" placeholder="Furtività">
+                        <input type="number" id="v-grinta" placeholder="Grinta"><input type="number" id="v-classe" placeholder="Classe">
                     </div>
                 </div>
-                <div class="space-y-3">
-                    <label class="text-[10px] font-bold text-blue-400">SOCIAL & ZAINO</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="number" id="v-grinta" placeholder="Grinta"> <input type="number" id="v-classe" placeholder="Classe">
-                    </div>
-                    <textarea id="f-bag" placeholder="Contenuto Zaino..." rows="4"></textarea>
-                    <button onclick="saveTrainer()" class="bg-green-600 w-full py-3 rounded-lg font-black text-white hover:bg-green-500 transition-all uppercase text-xs">Salva Operatore</button>
+                <div class="space-y-2">
+                    <label class="text-[10px] text-blue-300 font-bold">ZAINO</label>
+                    <textarea id="f-bag" placeholder="Pozioni, strumenti..." rows="6"></textarea>
+                    <button onclick="saveTrainer()" class="bg-green-600 w-full py-3 rounded-lg font-black text-white uppercase text-xs">Salva nel Server</button>
                 </div>
             </div>
         </div>
 
-        <div id="cards-list" class="space-y-12"></div>
+        <div id="cards-list"></div>
     </div>
 
     <script type="module">
@@ -135,7 +121,10 @@
             if (!user) { window.location.href = 'index.html'; return; }
             currentUser = user;
             document.body.classList.add('auth-ready');
-            loadTrainers();
+            const snap = await getDoc(doc(db, "Users", user.uid));
+            if (snap.exists() && snap.data().allenatori_generati) {
+                document.getElementById('cards-list').innerHTML = snap.data().allenatori_generati.map(t => renderUI(t)).join('');
+            }
         });
 
         window.toggleForm = () => document.getElementById('trainer-form').classList.toggle('hidden');
@@ -155,111 +144,78 @@
                 rank: document.getElementById('f-rank').value,
                 age: document.getElementById('f-age').value,
                 nature: document.getElementById('f-nature').value,
-                conf: document.getElementById('f-conf').value,
+                conf: document.getElementById('f-conf').value || 1,
                 money: document.getElementById('f-money').value,
                 hp: document.getElementById('f-hp').value,
                 will: document.getElementById('f-will').value,
                 bag: document.getElementById('f-bag').value,
-                pkmn: [document.getElementById('f-p1').value, document.getElementById('f-p2').value, "", "", "", ""],
-                stats: { 
-                    forza: document.getElementById('f-str').value, dex: document.getElementById('f-dex').value, 
-                    vit: document.getElementById('f-vit').value, ins: document.getElementById('f-ins').value 
-                },
-                skills: {
-                    rissa: document.getElementById('s-rissa').value, lancio: document.getElementById('s-lancio').value,
-                    evas: document.getElementById('s-evas').value, armi: document.getElementById('s-armi').value,
-                    all: document.getElementById('s-all').value, atle: document.getElementById('s-atle').value,
-                    nat: document.getElementById('s-nat').value, furt: document.getElementById('s-furt').value
-                },
-                social: {
-                    grinta: document.getElementById('v-grinta').value, classe: document.getElementById('v-classe').value
-                }
+                pkmn: [document.getElementById('f-p1').value, document.getElementById('f-p2').value, document.getElementById('f-p3').value, document.getElementById('f-p4').value, "", ""],
+                stats: { f: document.getElementById('f-str').value, d: document.getElementById('f-dex').value, v: document.getElementById('f-vit').value, i: document.getElementById('f-ins').value },
+                skills: { r: document.getElementById('s-rissa').value, l: document.getElementById('s-lancio').value, e: document.getElementById('s-evas').value, a: document.getElementById('s-allerta').value, at: document.getElementById('s-atle').value, n: document.getElementById('s-nat').value, fu: document.getElementById('s-furt').value },
+                soc: { g: document.getElementById('v-grinta').value, c: document.getElementById('v-classe').value }
             };
             await updateDoc(doc(db, "Users", currentUser.uid), { allenatori_generati: arrayUnion(data) });
             location.reload();
         };
 
-        async function loadTrainers() {
-            const snap = await getDoc(doc(db, "Users", currentUser.uid));
-            if (snap.exists() && snap.data().allenatori_generati) {
-                document.getElementById('cards-list').innerHTML = snap.data().allenatori_generati.map(t => renderUI(t)).join('');
-            }
-        }
-
         function renderUI(t) {
-            const dots = (v) => `<div class="flex gap-0.5">${Array.from({length:5}).map((_,i)=>`<div class="dot ${i<v?'filled':''}"></div>`).join('')}</div>`;
-            
+            const d = (v) => `<div class="flex gap-0.5">${Array.from({length:5}).map((_,i)=>`<div class="dot ${i<v?'filled':''}"></div>`).join('')}</div>`;
             return `
             <div class="trainer-card-ui">
                 <div class="card-header">
-                    <div class="header-logo-text uppercase italic">Pokémon League</div>
-                    <div class="text-right">
-                        <span class="label-text !text-white/80">Trainer's Card Rank:</span>
-                        <div class="data-field min-w-[140px]">${t.rank}</div>
-                    </div>
+                    <div class="font-[Orbitron] font-black text-white text-xl">POKÉMON LEAGUE</div>
+                    <div class="text-right"><span class="label-text !text-white/70">RANK:</span><div class="data-field">${t.rank}</div></div>
                 </div>
 
                 <div class="p-6 grid grid-cols-12 gap-6">
-                    <div class="col-span-12 md:col-span-3 space-y-4">
-                        <img src="${t.img}" class="photo-box shadow-lg">
-                        <div class="space-y-2">
-                            <div class="flex items-center justify-between bg-black/10 p-1 rounded-lg">
-                                <span class="label-text !mb-0">HP</span><div class="data-field w-20 text-center">${t.hp}</div>
-                            </div>
-                            <div class="flex items-center justify-between bg-black/10 p-1 rounded-lg">
-                                <span class="label-text !mb-0">WILL</span><div class="data-field w-20 text-center">${t.will}</div>
-                            </div>
+                    <div class="col-span-12 md:col-span-3">
+                        <img src="${t.img}" class="photo-rect">
+                        <div class="grid grid-cols-2 gap-2 mt-4">
+                            <div class="text-center"><span class="label-text">HP</span><div class="data-field">${t.hp}</div></div>
+                            <div class="text-center"><span class="label-text">WILL</span><div class="data-field">${t.will}</div></div>
                         </div>
                     </div>
 
-                    <div class="col-span-12 md:col-span-6 space-y-4">
+                    <div class="col-span-12 md:col-span-5 space-y-4">
                         <div class="grid grid-cols-2 gap-3">
                             <div class="col-span-2"><span class="label-text">Name:</span><div class="data-field uppercase text-lg">${t.name}</div></div>
                             <div><span class="label-text">Age:</span><div class="data-field">${t.age}</div></div>
+                            <div><span class="label-text">Nature:</span><div class="data-field uppercase">${t.nature}</div></div>
+                            <div><span class="label-text">Confidence:</span><div class="data-field">${t.conf}/5</div></div>
                             <div><span class="label-text">Money:</span><div class="data-field">$ ${t.money}</div></div>
-                            <div class="col-span-1"><span class="label-text">Nature:</span><div class="data-field uppercase">${t.nature}</div></div>
-                            <div><span class="label-text">Confidence:</span><div class="data-field">${t.conf} / 5</div></div>
                         </div>
-
-                        <div class="bg-white/40 p-3 rounded-xl border border-gray-400">
-                            <span class="label-text text-red-700">Squadra Pokémon (6 Slot)</span>
-                            <div class="grid grid-cols-2 gap-2 mt-1">
-                                ${t.pkmn.map(p => `<div class="data-field !py-1 !text-[10px] h-7 truncate">${p || '---'}</div>`).join('')}
+                        <div class="bg-white/40 p-3 rounded-lg border border-black/10">
+                            <span class="label-text text-red-700">Squadra Pokémon</span>
+                            <div class="grid grid-cols-2 gap-1 mt-1 text-[10px]">
+                                ${t.pkmn.map(p => `<div class="bg-blue-100 border border-black/20 px-2 py-0.5 rounded italic">${p || 'Vuoto'}</div>`).join('')}
                             </div>
                         </div>
-                        
-                        <div>
-                            <span class="label-text">Zaino & Strumenti:</span>
-                            <div class="data-field h-24 overflow-auto text-[11px] font-medium italic">"${t.bag || 'Zaino vuoto...'}"</div>
-                        </div>
+                        <div><span class="label-text">Zaino:</span><div class="data-field h-24 overflow-auto italic text-[10px] font-normal">${t.bag}</div></div>
                     </div>
 
-                    <div class="col-span-12 md:col-span-3 space-y-4 bg-black/5 p-3 rounded-xl border border-black/5">
+                    <div class="col-span-12 md:col-span-4 bg-black/5 p-4 rounded-xl space-y-4">
                         <div>
-                            <span class="label-text text-blue-800 border-b border-blue-200">Attributi</span>
-                            <div class="skill-row">FORZA ${dots(t.stats.forza)}</div>
-                            <div class="skill-row">DESTREZZA ${dots(t.stats.dex)}</div>
-                            <div class="skill-row">VITALITÀ ${dots(t.stats.vit)}</div>
-                            <div class="skill-row">ISTINTO ${dots(t.stats.ins)}</div>
+                            <span class="label-text text-blue-800 border-b border-blue-300">Attributi</span>
+                            <div class="skill-row">FORZA ${d(t.stats.f)}</div><div class="skill-row">DESTREZZA ${d(t.stats.d)}</div>
+                            <div class="skill-row">VITALITÀ ${d(t.stats.v)}</div><div class="skill-row">ISTINTO ${d(t.stats.i)}</div>
                         </div>
                         <div>
-                            <span class="label-text text-green-800 border-b border-green-200">Skill Principali</span>
-                            <div class="skill-row">RISSA ${dots(t.skills.rissa)}</div>
-                            <div class="skill-row">LANCIO ${dots(t.skills.lancio)}</div>
-                            <div class="skill-row">EVASIONE ${dots(t.skills.evas)}</div>
-                            <div class="skill-row">ALLERTA ${dots(t.skills.all)}</div>
+                            <span class="label-text text-green-800 border-b border-green-300">Skill</span>
+                            <div class="skill-row">RISSA ${d(t.skills.r)}</div><div class="skill-row">LANCIO ${d(t.skills.l)}</div>
+                            <div class="skill-row">EVASIONE ${d(t.skills.e)}</div><div class="skill-row">ALLERTA ${d(t.skills.a)}</div>
+                            <div class="skill-row">ATLETICA ${d(t.skills.at)}</div><div class="skill-row">NATURA ${d(t.skills.n)}</div>
+                            <div class="skill-row">FURTIVITÀ ${d(t.skills.fu)}</div>
                         </div>
                         <div>
-                            <span class="label-text text-purple-800 border-b border-purple-200">Virtù Sociali</span>
-                            <div class="skill-row">GRINTA ${dots(t.social.grinta)}</div>
-                            <div class="skill-row">CLASSE ${dots(t.social.classe)}</div>
+                            <span class="label-text text-purple-800 border-b border-purple-300">Virtù Sociali</span>
+                            <div class="skill-row">GRINTA ${d(t.soc.g)}</div><div class="skill-row">CLASSE ${d(t.soc.c)}</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gray-400/50 p-3 flex justify-center gap-3 border-t-2 border-gray-500">
-                    ${Array.from({length:8}).map((_,i)=>`<div class="w-9 h-9 rounded-full bg-white border-2 border-gray-600 flex items-center justify-center text-[10px] font-black text-gray-400">${i+1}</div>`).join('')}
-                    <span class="label-text self-center ml-4">Medaglie della Lega</span>
+                <div class="bg-gray-400/30 p-4 flex justify-center gap-4 border-t border-gray-400">
+                    ${Array.from({length:8}).map((_,i)=>`<div class="w-10 h-10 rounded-full bg-white border-2 border-gray-600 flex items-center justify-center text-[10px] font-black text-gray-300">${i+1}</div>`).join('')}
+                    <span class="label-text self-center ml-4">Medaglie Lega</span>
                 </div>
             </div>`;
         }
