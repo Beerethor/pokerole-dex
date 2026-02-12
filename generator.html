@@ -196,60 +196,68 @@
     };
 
     // --- FUNZIONE DI SALVATAGGIO AGGIORNATA ---
-    window.saveAction = async function(targetType) {
-        const user = auth.currentUser;
-        
-        if (!user) {
-            return alert("ACCESSO NEGATO: Identità non confermata. Effettua il login.");
-        }
+window.saveAction = async function() {
+    const user = auth.currentUser;
+    
+    if (!user) {
+        return alert("ACCESSO NEGATO: Effettua il login.");
+    }
 
-        if (!window.currentPokemon) {
-            return alert("ERRORE: Nessun dato rilevato dallo scanner.");
-        }
+    const select = document.getElementById('trainer-target-select');
+    const selectedTrainerId = select.value;
 
-        const btn = event.currentTarget;
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = "⚡ SYNC...";
-        btn.disabled = true;
+    // Feedback visivo immediato
+    const btn = event.currentTarget;
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = "⚡ SYNCING...";
+    btn.disabled = true;
 
-        try {
-            const userRef = doc(db, "Users", user.uid);
-            const selectedTrainerId = document.getElementById('trainer-target-select').value;
+    try {
+        const userRef = doc(db, "Users", user.uid);
 
-            if (selectedTrainerId === "none") {
-                // SALVATAGGIO NEL PROFILO GENERALE
-                await updateDoc(userRef, {
-                    pokemon_salvati: arrayUnion({
-                        ...window.currentPokemon,
-                        timestamp: new Date().toISOString(),
-                        assignedTrainer: null
-                    })
+        if (selectedTrainerId === "none") {
+            // SALVATAGGIO NEL PROFILO
+            await updateDoc(userRef, {
+                pokemon_salvati: arrayUnion({
+                    ...window.currentPokemon,
+                    timestamp: new Date().toISOString()
+                })
+            });
+            alert("✅ ARCHIVIATO NEL PROFILO!");
+        } else {
+            // SALVATAGGIO NELL'ALLENATORE
+            const userSnap = await getDoc(userRef);
+            if (!userSnap.exists()) throw new Error("Documento utente non trovato");
+
+            let trainers = userSnap.data().allenatori_generati || [];
+            
+            // Troviamo l'indice dell'allenatore usando l'ID
+            const tIdx = trainers.findIndex(t => t.id === selectedTrainerId);
+
+            if (tIdx !== -1) {
+                if (!trainers[tIdx].team) trainers[tIdx].team = [];
+                trainers[tIdx].team.push({
+                    ...window.currentPokemon,
+                    timestamp: new Date().toISOString()
                 });
-                alert("✅ UNITÀ ARCHIVIATA NEL PROFILO GENERALE!");
+                
+                await updateDoc(userRef, {
+                    allenatori_generati: trainers
+                });
+                alert(`✅ ASSEGNATO A ${trainers[tIdx].nome.toUpperCase()}!`);
             } else {
-                // SALVATAGGIO NEL TEAM DI UN ALLENATORE SPECIFICO
-                const userSnap = await getDoc(userRef);
-                let trainers = userSnap.data().allenatori_generati || [];
-                const tIdx = trainers.findIndex(t => t.id == selectedTrainerId);
-
-                if (tIdx !== -1) {
-                    if (!trainers[tIdx].team) trainers[tIdx].team = [];
-                    trainers[tIdx].team.push(window.currentPokemon);
-                    
-                    await updateDoc(userRef, {
-                        allenatori_generati: trainers
-                    });
-                    alert(`✅ UNITÀ ASSEGNATA A ${trainers[tIdx].nome.toUpperCase()}!`);
-                }
+                alert("❌ ERRORE: Allenatore non trovato nel database.");
             }
-        } catch (e) {
-            console.error(e);
-            alert("❌ ERRORE CRITICO: Uplink fallito.");
-        } finally {
-            btn.innerHTML = originalHTML;
-            btn.disabled = false;
         }
-    };
+    } catch (e) {
+        console.error("Dettaglio Errore Firebase:", e);
+        // Questo ti dirà in console se il problema sono le PERMESSI (Permissions)
+        alert("❌ UPLINK FALLITO: " + (e.code === 'permission-denied' ? "Permessi negati su Firebase" : e.message));
+    } finally {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+    }
+};
 
     // Gestione stato autenticazione per visualizzazione badge
     onAuthStateChanged(auth, (user) => {
