@@ -97,7 +97,7 @@
                         <input type="number" id="f-hp" min="0" placeholder="HP"><input type="number" id="f-will" min="0" placeholder="WILL">
                     </div>
                     <textarea id="f-bag" placeholder="Zaino..." class="mt-1" rows="3"></textarea>
-                    <button onclick="saveTrainer()" class="bg-green-600 w-full py-2 rounded font-black text-white hover:bg-green-500 uppercase mt-2">Salva</button>
+                    <button onclick="()" class="bg-green-600 w-full py-2 rounded font-black text-white hover:bg-green-500 uppercase mt-2">Salva</button>
                 </div>
             </div>
         </div>
@@ -304,39 +304,54 @@
             return val < 0 ? 0 : val;
         };
 
-        window.saveTrainer = async () => {
-            const data = {
-                id: Date.now(),
-                name: document.getElementById('f-name').value || "Senza Nome",
-                img: base64Img || "https://api.dicebear.com/7.x/bottts/svg?seed=" + Date.now(),
-                rank: document.getElementById('f-rank').value,
-                age: cleanNum('f-age'),
-                nature: document.getElementById('f-nature').value,
-                conf: cleanNum('f-conf'),
-                money: cleanNum('f-money'),
-                hp: cleanNum('f-hp'),
-                will: cleanNum('f-will'),
-                bag: document.getElementById('f-bag').value,
-                pkmn: [
-                    document.getElementById('f-p1').value, document.getElementById('f-p2').value,
-                    document.getElementById('f-p3').value, document.getElementById('f-p4').value,
-                    document.getElementById('f-p5').value, document.getElementById('f-p6').value
-                ],
-                attr: { f: cleanNum('f-str'), d: cleanNum('f-dex'), v: cleanNum('f-vit'), i: cleanNum('f-ins') },
-                skill: {
-                    r: cleanNum('s-rissa'), l: cleanNum('s-lancio'), e: cleanNum('s-evas'), a: cleanNum('s-armi'),
-                    al: cleanNum('s-allerta'), at: cleanNum('s-atle'), n: cleanNum('s-nat'), fu: cleanNum('s-furt'),
-                    fa: cleanNum('s-fasc'), et: cleanNum('s-etich'), in: cleanNum('s-intim'), pr: cleanNum('s-prest'),
-                    cr: cleanNum('s-creaz'), st: cleanNum('s-storia'), me: cleanNum('s-med'), sc: cleanNum('s-scienza')
-                },
-                virtue: { 
-                    g: cleanNum('v-grinta'), c: cleanNum('v-classe'), b: cleanNum('v-bellezza'), 
-                    ac: cleanNum('v-acume'), gr: cleanNum('v-grazia') 
-                }
-            };
-            await updateDoc(doc(db, "Users", currentUser.uid), { allenatori_generati: arrayUnion(data) });
-            location.reload();
-        };
+ window.saveTrainer = async () => {
+    const nomeInput = document.getElementById('f-name').value.trim();
+    
+    if (!nomeInput) return alert("Inserisci un nome!");
+
+    const data = {
+        // ID e Nome ora coincidono perfettamente
+        id: nomeInput, 
+        name: nomeInput,
+        img: base64Img || "https://api.dicebear.com/7.x/bottts/svg?seed=" + Date.now(),
+        rank: document.getElementById('f-rank').value,
+        age: cleanNum('f-age'),
+        nature: document.getElementById('f-nature').value,
+        conf: cleanNum('f-conf'),
+        money: cleanNum('f-money'),
+        hp: cleanNum('f-hp'),
+        will: cleanNum('f-will'),
+        bag: document.getElementById('f-bag').value,
+        pkmn: [
+            document.getElementById('f-p1').value, document.getElementById('f-p2').value,
+            document.getElementById('f-p3').value, document.getElementById('f-p4').value,
+            document.getElementById('f-p5').value, document.getElementById('f-p6').value
+        ],
+        attr: { f: cleanNum('f-str'), d: cleanNum('f-dex'), v: cleanNum('f-vit'), i: cleanNum('f-ins') },
+        skill: {
+            r: cleanNum('s-rissa'), l: cleanNum('s-lancio'), e: cleanNum('s-evas'), a: cleanNum('s-armi'),
+            al: cleanNum('s-allerta'), at: cleanNum('s-atle'), n: cleanNum('s-nat'), fu: cleanNum('s-furt'),
+            fa: cleanNum('s-fasc'), et: cleanNum('s-etich'), in: cleanNum('s-intim'), pr: cleanNum('s-prest'),
+            cr: cleanNum('s-creaz'), st: cleanNum('s-storia'), me: cleanNum('s-med'), sc: cleanNum('s-scienza')
+        },
+        virtue: { 
+            g: cleanNum('v-grinta'), c: cleanNum('v-classe'), b: cleanNum('v-bellezza'), 
+            ac: cleanNum('v-acume'), gr: cleanNum('v-grazia') 
+        },
+        // AGGIUNTO: Questo campo serve allo scanner per salvare i pokemon catturati
+        team: [] 
+    };
+
+    try {
+        await updateDoc(doc(db, "Users", currentUser.uid), { 
+            allenatori_generati: arrayUnion(data) 
+        });
+        alert("✅ ALLENATORE SALVATO CORRETTAMENTE!");
+        location.reload();
+    } catch (e) {
+        alert("❌ ERRORE: " + e.message);
+    }
+};
 
         async function loadData() {
             const snap = await getDoc(doc(db, "Users", currentUser.uid));
