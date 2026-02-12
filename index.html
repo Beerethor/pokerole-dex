@@ -3,135 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - Tactical Hub</title>
+    <title>Neural ProDex - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --pokedex-red: #dc2626; --bg-dark: #020617; --neon-blue: #0ea5e9; }
-        body { 
-            font-family: 'JetBrains Mono', monospace; 
-            background-color: var(--bg-dark); 
-            color: white; 
-            overflow-x: hidden; 
+        :root {
+            --pk-red: #ef4444;
+            --pk-blue: #3b82f6;
         }
-        .glass-card { 
-            background: rgba(15, 23, 42, 0.6); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(51, 65, 85, 0.3); 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+        body {
+            background: url('sfondo_home.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'JetBrains Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
         }
-        .glass-card:hover { 
-            border-color: var(--neon-blue);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.2);
+
+        /* Overlay per migliorare la leggibilità */
+        .overlay {
+            background: rgba(2, 6, 23, 0.8);
+            position: absolute;
+            inset: 0;
+            z-index: 1;
         }
-        .btn-auth {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid #334155;
+
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-font {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: -2px;
+        }
+
+        .input-cyber {
+            background: rgba(15, 23, 42, 0.8) !important;
+            border: 1px solid #334155 !important;
+            color: #38bdf8 !important;
             transition: all 0.3s;
         }
-        .btn-auth:hover { background: #1e293b; border-color: var(--neon-blue); }
-        
-        /* Animazione Scanner Hub */
-        .scan-line {
-            width: 100%; height: 2px; background: var(--neon-blue);
-            position: absolute; opacity: 0.1; animation: scan 4s infinite linear;
+
+        .input-cyber:focus {
+            border-color: var(--pk-blue) !important;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            outline: none;
         }
-        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+        /* Stile Bottone Pokeball */
+        .btn-pokeball {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .btn-pokeball:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        .pb-icon {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            border: 2px solid #333;
+        }
+
+        .pb-icon::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #ef4444;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 2px solid #333;
+        }
+
+        .pb-icon::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .hidden { display: none; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-6">
+<body>
+    <div class="overlay"></div>
 
-    <div class="fixed inset-0 -z-10 overflow-hidden">
-        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-red-900/20 rounded-full blur-[120px]"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/20 rounded-full blur-[120px]"></div>
-    </div>
+    <div class="main-container text-center">
+        <h1 class="logo-font text-4xl font-black italic mb-2">NEURAL <span class="text-red-500">PRODEX</span></h1>
+        <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.3em] mb-8">Accessing Encrypted Database...</p>
 
-    <header class="text-center mb-12 relative">
-        <div class="scan-line"></div>
-        <h1 class="text-5xl md:text-7xl font-black italic tracking-tighter uppercase font-[Orbitron]">
-            NEURAL <span class="text-red-600">PRODEX</span>
-        </h1>
-        <p class="text-[9px] text-slate-500 font-bold tracking-[0.6em] uppercase mt-2">Access Control Protocol v3.0</p>
-    </header>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-6xl">
-        
-        <div class="glass-card p-10 rounded-[3rem] flex flex-col justify-center min-h-[450px] relative">
-            <h2 class="text-xs font-black uppercase mb-8 tracking-widest text-red-500 border-b border-white/5 pb-2 italic">Terminal_Auth</h2>
-            
-            <div id="auth-ui">
-                <button onclick="loginGoogle()" class="w-full bg-white text-black font-black py-4 rounded-2xl flex items-center justify-center gap-3 mb-6 hover:bg-slate-200 transition-all uppercase text-xs tracking-tighter">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5">
-                    Link account Google
-                </button>
-
-                <div class="space-y-4">
-                    <input type="email" id="email" placeholder="EMAIL_ID" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm font-bold outline-none focus:border-red-600 transition-all">
-                    <input type="password" id="password" placeholder="PASSWORD_HASH" class="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-sm font-bold outline-none focus:border-red-600 transition-all">
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="loginEmail()" class="btn-auth py-3 rounded-xl font-black text-[10px] uppercase tracking-widest">Login</button>
-                        <button onclick="registerEmail()" class="border border-white/10 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-all">Registrati</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="user-ui" class="hidden text-center">
-                <div class="flex flex-col items-center">
-                    <a href="profile.html" class="group relative mb-6">
-                        <div class="absolute -inset-2 bg-red-600 rounded-full blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
-                        <img id="user-img" src="" class="relative w-32 h-32 rounded-full border-4 border-slate-800 object-cover bg-slate-900 shadow-2xl">
-                        <div class="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full border-2 border-slate-950 text-white group-hover:scale-110 transition-transform">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                        </div>
-                    </a>
-                    <h3 id="user-name" class="text-4xl font-black font-[Orbitron] uppercase italic tracking-tighter">OPERATORE</h3>
-                    <p id="user-email" class="text-slate-500 text-[10px] mt-1 mb-8 italic"></p>
-                    <button onclick="logout()" class="text-[9px] font-black uppercase tracking-[0.5em] text-red-500 hover:text-red-400">Termina Sessione</button>
-                </div>
+        <div id="auth-ui" class="space-y-4">
+            <input type="email" id="email" placeholder="EMAIL AGENTE" class="input-cyber w-full p-3 rounded">
+            <input type="password" id="password" placeholder="PASSWORD" class="input-cyber w-full p-3 rounded">
+            <div class="flex gap-2">
+                <button onclick="login()" class="w-1/2 bg-blue-600 hover:bg-blue-500 p-3 rounded font-black text-xs uppercase transition-all">Login</button>
+                <button onclick="register()" class="w-1/2 border border-blue-600 hover:bg-blue-600/20 p-3 rounded font-black text-xs uppercase transition-all">Registrati</button>
             </div>
         </div>
 
-        <div class="flex flex-col gap-4">
-            <a href="database.html" class="glass-card p-10 rounded-[2.5rem] group relative overflow-hidden">
-                <div class="relative z-10">
-                    <h3 class="text-3xl font-black italic uppercase tracking-tighter group-hover:text-red-500 transition-colors">Archivio</h3>
-                    <p class="text-slate-500 text-[10px] font-bold uppercase mt-1">Data-Bank Pokémon & Tecniche</p>
-                </div>
-                <div class="absolute right-[-10px] bottom-[-10px] text-8xl opacity-5 group-hover:opacity-10 transition-all rotate-12">📁</div>
-            </a>
+        <div id="user-info" class="hidden space-y-4">
+            <div class="bg-blue-900/30 p-4 rounded-lg border border-blue-500/30 mb-6">
+                <p class="text-xs text-blue-300">Benvenuto Operatore:</p>
+                <p id="user-display" class="font-bold text-white"></p>
+            </div>
 
-            <a href="generator.html" class="glass-card p-10 rounded-[2.5rem] group relative overflow-hidden">
-                <div class="relative z-10">
-                    <h3 class="text-3xl font-black italic uppercase tracking-tighter group-hover:text-blue-500 transition-colors">Scanner</h3>
-                    <p class="text-slate-500 text-[10px] font-bold uppercase mt-1">Generazione Unità Casuali</p>
-                </div>
-                <div class="absolute right-[-10px] bottom-[-10px] text-8xl opacity-5 group-hover:opacity-10 transition-all -rotate-12">🎲</div>
-            </a>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="allenatore.html" class="btn-pokeball bg-red-600 text-white shadow-lg shadow-red-900/40">
+                    <div class="pb-icon"></div>
+                    I Miei Allenatori
+                </a>
 
-            <a href="allenatore.html" id="btn-allenatore" class="hidden glass-card p-10 rounded-[2.5rem] group relative overflow-hidden border-yellow-500/20 bg-yellow-500/5">
-                <div class="relative z-10">
-                    <h3 class="text-3xl font-black italic uppercase tracking-tighter group-hover:text-yellow-500 transition-colors">Allenatore</h3>
-                    <p class="text-slate-500 text-[10px] font-bold uppercase mt-1">Gestione Personale & Inventario</p>
-                </div>
-                <div class="absolute right-4 bottom-4 w-24 h-24 opacity-10 group-hover:opacity-30 transition-all">
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 3H5C3.89 3 3 3.89 3 5V19C3 20.11 3.89 21 5 21H19C20.11 21 21 20.11 21 19V5C21 3.89 20.11 3 19 3M19 19H5V5H19V19M7 7H11V11H7V7M13 7H17V9H13V7M13 10H17V12H13V10M7 13H17V15H7V13M7 16H17V18H7V16Z"/>
-                    </svg>
-                </div>
-            </a>
+                <a href="pokemon.html" class="btn-pokeball bg-blue-600 text-white shadow-lg shadow-blue-900/40">
+                    <div class="pb-icon"></div>
+                    I Miei Pokémon
+                </a>
+            </div>
+
+            <button onclick="logout()" class="mt-8 text-[10px] text-gray-500 hover:text-red-400 uppercase font-bold tracking-widest underline transition-colors">Scollega Sessione</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { 
-            getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, 
-            signInWithEmailAndPassword, createUserWithEmailAndPassword 
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
@@ -145,56 +176,46 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
 
-        // AUTH FUNCTIONS EXPOSED TO WINDOW
-        window.loginGoogle = () => signInWithPopup(auth, provider).catch(e => alert(e.message));
-        window.logout = () => { localStorage.removeItem('user_id'); signOut(auth); };
-        window.loginEmail = () => {
+        // Funzione Login
+        window.login = async () => {
             const e = document.getElementById('email').value;
             const p = document.getElementById('password').value;
-            signInWithEmailAndPassword(auth, e, p).catch(err => alert("Credenziali Errate"));
-        };
-        window.registerEmail = () => {
-            const e = document.getElementById('email').value;
-            const p = document.getElementById('password').value;
-            createUserWithEmailAndPassword(auth, e, p).then(() => alert("Account Creato")).catch(err => alert(err.message));
+            try {
+                await signInWithEmailAndPassword(auth, e, p);
+            } catch (err) { alert("Errore: " + err.message); }
         };
 
-        // UI & CLOUD SYNC LOGIC
-        onAuthStateChanged(auth, async (user) => {
+        // Funzione Registrazione
+        window.register = async () => {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('password').value;
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, e, p);
+                // Inizializza documento utente con array vuoti
+                await setDoc(doc(db, "Users", cred.user.uid), {
+                    email: e,
+                    allenatori_generati: [],
+                    pokemon_salvati: []
+                });
+            } catch (err) { alert("Errore: " + err.message); }
+        };
+
+        // Funzione Logout
+        window.logout = () => signOut(auth);
+
+        // Controllo Stato Sessione
+        onAuthStateChanged(auth, (user) => {
             const authUI = document.getElementById('auth-ui');
-            const userUI = document.getElementById('user-ui');
-            const btnAllenatore = document.getElementById('btn-allenatore');
-
+            const userInfo = document.getElementById('user-info');
+            
             if (user) {
-                let name = user.displayName || user.email.split('@')[0];
-                let img = `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`;
-
-                try {
-                    const userRef = doc(db, "Users", user.uid);
-                    const userSnap = await getDoc(userRef);
-                    if (userSnap.exists()) {
-                        name = userSnap.data().displayName || name;
-                        img = userSnap.data().profilePic || img;
-                    }
-                } catch (e) { console.warn("Cloud Sync Offline"); }
-
-                // Mostra UI Utente
                 authUI.classList.add('hidden');
-                userUI.classList.remove('hidden');
-                btnAllenatore.classList.remove('hidden'); // APPARE IL TASTO ALLENATORE
-
-                document.getElementById('user-name').innerText = name;
-                document.getElementById('user-email').innerText = user.email;
-                document.getElementById('user-img').src = img;
-                
-                localStorage.setItem('user_id', name); 
+                userInfo.classList.remove('hidden');
+                document.getElementById('user-display').innerText = user.email;
             } else {
-                // Reset UI
                 authUI.classList.remove('hidden');
-                userUI.classList.add('hidden');
-                btnAllenatore.classList.add('hidden'); // SCOMPARE IL TASTO ALLENATORE
+                userInfo.classList.add('hidden');
             }
         });
     </script>
