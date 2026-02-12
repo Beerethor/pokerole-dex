@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural ProDex - Home</title>
+    <title>Neural ProDex - Hub Centrale</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --pk-red: #ef4444;
-            --pk-blue: #3b82f6;
-        }
+        :root { --pk-red: #ef4444; --pk-blue: #3b82f6; }
         
         body {
             background: url('sfondo_home.png') no-repeat center center fixed;
@@ -21,148 +18,107 @@
             align-items: center;
             justify-content: center;
             color: white;
+            overflow-x: hidden;
         }
 
-        /* Overlay per migliorare la leggibilità */
-        .overlay {
-            background: rgba(2, 6, 23, 0.8);
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-        }
+        .overlay { background: rgba(2, 6, 23, 0.85); position: absolute; inset: 0; z-index: 1; }
 
         .main-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 500px;
-            padding: 2rem;
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(59, 130, 246, 0.3);
-            border-radius: 20px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            position: relative; z-index: 10; width: 100%; max-width: 600px;
+            padding: 2.5rem; background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(15px); border: 2px solid rgba(59, 130, 246, 0.2);
+            border-radius: 24px; box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
         }
 
-        .logo-font {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: -2px;
+        /* Stile Icona Pokeball CSS */
+        .pb-icon {
+            width: 18px; height: 18px; background: white; border-radius: 50%;
+            position: relative; border: 2px solid #333; flex-shrink: 0;
         }
+        .pb-icon::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 50%;
+            background: #ef4444; border-radius: 9px 9px 0 0; border-bottom: 2px solid #333;
+        }
+        .pb-icon::after {
+            content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 6px; height: 6px; background: white; border: 1.5px solid #333; border-radius: 50%; z-index: 2;
+        }
+
+        .btn-main {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 14px; border-radius: 12px; font-family: 'Orbitron', sans-serif;
+            font-weight: 700; text-transform: uppercase; font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+        .btn-main:hover { transform: translateY(-2px); filter: brightness(1.2); }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px; border-radius: 8px; font-size: 0.65rem; font-weight: 700;
+            text-transform: uppercase; transition: all 0.2s; text-align: center;
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); border-color: var(--pk-blue); }
 
         .input-cyber {
-            background: rgba(15, 23, 42, 0.8) !important;
-            border: 1px solid #334155 !important;
-            color: #38bdf8 !important;
-            transition: all 0.3s;
+            background: rgba(15, 23, 42, 0.9) !important; border: 1px solid #334155 !important;
+            color: #38bdf8 !important; outline: none;
         }
-
-        .input-cyber:focus {
-            border-color: var(--pk-blue) !important;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-            outline: none;
-        }
-
-        /* Stile Bottone Pokeball */
-        .btn-pokeball {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 12px;
-            border-radius: 10px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .btn-pokeball:hover {
-            transform: scale(1.02);
-            filter: brightness(1.1);
-        }
-
-        .pb-icon {
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            position: relative;
-            border: 2px solid #333;
-        }
-
-        .pb-icon::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: #ef4444;
-            border-radius: 10px 10px 0 0;
-            border-bottom: 2px solid #333;
-        }
-
-        .pb-icon::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 6px;
-            height: 6px;
-            background: white;
-            border: 2px solid #333;
-            border-radius: 50%;
-            z-index: 2;
-        }
-
         .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="overlay"></div>
 
-    <div class="main-container text-center">
-        <h1 class="logo-font text-4xl font-black italic mb-2">NEURAL <span class="text-red-500">PRODEX</span></h1>
-        <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.3em] mb-8">Accessing Encrypted Database...</p>
+    <div class="main-container">
+        <div class="text-center mb-8">
+            <h1 class="font-[Orbitron] text-4xl font-black italic tracking-tighter">NEURAL <span class="text-red-500">PRODEX</span></h1>
+            <div class="h-1 w-20 bg-red-500 mx-auto mt-2"></div>
+        </div>
 
         <div id="auth-ui" class="space-y-4">
-            <input type="email" id="email" placeholder="EMAIL AGENTE" class="input-cyber w-full p-3 rounded">
-            <input type="password" id="password" placeholder="PASSWORD" class="input-cyber w-full p-3 rounded">
-            <div class="flex gap-2">
-                <button onclick="login()" class="w-1/2 bg-blue-600 hover:bg-blue-500 p-3 rounded font-black text-xs uppercase transition-all">Login</button>
-                <button onclick="register()" class="w-1/2 border border-blue-600 hover:bg-blue-600/20 p-3 rounded font-black text-xs uppercase transition-all">Registrati</button>
+            <input type="email" id="email" placeholder="ID CREDENTIALS (EMAIL)" class="input-cyber w-full p-3 rounded font-mono text-sm">
+            <input type="password" id="password" placeholder="ACCESS KEY" class="input-cyber w-full p-3 rounded font-mono text-sm">
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="login()" class="bg-blue-600 p-3 rounded font-black text-xs uppercase hover:bg-blue-500 transition-all">Inizializza</button>
+                <button onclick="register()" class="border border-blue-600 p-3 rounded font-black text-xs uppercase hover:bg-blue-600/20 transition-all">Registrati</button>
             </div>
         </div>
 
-        <div id="user-info" class="hidden space-y-4">
-            <div class="bg-blue-900/30 p-4 rounded-lg border border-blue-500/30 mb-6">
-                <p class="text-xs text-blue-300">Benvenuto Operatore:</p>
-                <p id="user-display" class="font-bold text-white"></p>
+        <div id="user-info" class="hidden">
+            <div class="text-center mb-6">
+                <p class="text-[10px] text-blue-400 uppercase font-bold mb-1">Sessione Attiva</p>
+                <p id="user-display" class="font-mono text-sm text-white border-b border-white/10 pb-2 inline-block"></p>
             </div>
 
-            <div class="grid grid-cols-1 gap-3">
-                <a href="allenatore.html" class="btn-pokeball bg-red-600 text-white shadow-lg shadow-red-900/40">
-                    <div class="pb-icon"></div>
-                    I Miei Allenatori
-                </a>
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <a href="allenatore.html" class="btn-main bg-red-600 shadow-lg shadow-red-900/40">
+                        <div class="pb-icon"></div> Database Allenatori
+                    </a>
+                    <a href="pokemon.html" class="btn-main bg-blue-600 shadow-lg shadow-blue-900/40">
+                        <div class="pb-icon"></div> Database Pokémon
+                    </a>
+                </div>
 
-                <a href="pokemon.html" class="btn-pokeball bg-blue-600 text-white shadow-lg shadow-blue-900/40">
-                    <div class="pb-icon"></div>
-                    I Miei Pokémon
-                </a>
+                <div class="pt-4 border-t border-white/10">
+                    <p class="text-[9px] text-gray-400 uppercase font-black mb-3 tracking-widest text-center">Moduli Ausiliari</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <a href="nomi.html" class="btn-secondary">📁 Gen. Nomi</a>
+                        <a href="mappa.html" class="btn-secondary">🗺️ Mappa Reg.</a>
+                        <a href="missioni.html" class="btn-secondary">📜 Log Missioni</a>
+                        <a href="zaino.html" class="btn-secondary">🎒 Inventario</a>
+                        <a href="note.html" class="btn-secondary">📝 Note Master</a>
+                        <button onclick="logout()" class="btn-secondary border-red-900/50 text-red-400">🔌 Logout</button>
+                    </div>
+                </div>
             </div>
-
-            <button onclick="logout()" class="mt-8 text-[10px] text-gray-500 hover:text-red-400 uppercase font-bold tracking-widest underline transition-colors">Scollega Sessione</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
@@ -177,42 +133,35 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Funzione Login
         window.login = async () => {
             const e = document.getElementById('email').value;
             const p = document.getElementById('password').value;
-            try {
-                await signInWithEmailAndPassword(auth, e, p);
-            } catch (err) { alert("Errore: " + err.message); }
+            try { await signInWithEmailAndPassword(auth, e, p); } 
+            catch (err) { alert("Accesso Negato: Controlla le credenziali."); }
         };
 
-        // Funzione Registrazione
         window.register = async () => {
             const e = document.getElementById('email').value;
             const p = document.getElementById('password').value;
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
-                // Inizializza documento utente con array vuoti
                 await setDoc(doc(db, "Users", cred.user.uid), {
                     email: e,
                     allenatori_generati: [],
                     pokemon_salvati: []
                 });
-            } catch (err) { alert("Errore: " + err.message); }
+            } catch (err) { alert("Errore Registrazione: " + err.message); }
         };
 
-        // Funzione Logout
         window.logout = () => signOut(auth);
 
-        // Controllo Stato Sessione
         onAuthStateChanged(auth, (user) => {
             const authUI = document.getElementById('auth-ui');
             const userInfo = document.getElementById('user-info');
-            
             if (user) {
                 authUI.classList.add('hidden');
                 userInfo.classList.remove('hidden');
-                document.getElementById('user-display').innerText = user.email;
+                document.getElementById('user-display').innerText = user.email.toUpperCase();
             } else {
                 authUI.classList.remove('hidden');
                 userInfo.classList.add('hidden');
