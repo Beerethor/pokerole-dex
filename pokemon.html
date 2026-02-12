@@ -11,9 +11,8 @@
         body { background-color: #020617; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
         
         .pokedex-frame { max-width: 1400px; background: var(--pokedex-red); border-radius: 20px; padding: 15px; margin: 0 auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); border: 4px solid #8b0000; }
-        .inner-screen { background: var(--bg-dark); border-radius: 15px; padding: 40px; min-height: 700px; border: 2px solid #1e293b; position: relative; }
+        .inner-screen { background: var(--bg-dark); border-radius: 15px; padding: 40px; min-height: 750px; border: 2px solid #1e293b; position: relative; }
         
-        /* Grafica Dot */
         .dot { width: 12px; height: 8px; background: #1e293b; display: inline-block; margin-right: 4px; border-radius: 2px; transform: skewX(-20deg); cursor: pointer; }
         .dot.filled { background: #38bdf8; box-shadow: 0 0 8px #0ea5e9; }
         .dot.bonus { background: #10b981; box-shadow: 0 0 8px #10b981; }
@@ -21,25 +20,31 @@
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
         .stat-card { background: #0f172a; border-radius: 8px; padding: 12px; border-left: 4px solid #334155; }
         
-        /* Tasti e Badge */
         .mossa-tag { border: 1px solid #ef4444; padding: 8px 15px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.75rem; background: rgba(239, 68, 68, 0.05); }
-        .btn-action { font-family: 'Orbitron', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.7rem; padding: 12px; border-radius: 8px; transition: all 0.2s; text-align: center; border-bottom: 3px solid rgba(0,0,0,0.4); }
-        .btn-blue { background: #2563eb; } .btn-blue:hover { background: #3b82f6; }
-        .btn-yellow { background: #ca8a04; color: black; } .btn-yellow:hover { background: #eab308; }
-        .btn-red { background: #991b1b; } .btn-red:hover { background: #dc2626; }
-        .btn-gray { background: #334155; } .btn-gray:hover { background: #475569; }
+        .btn-action { font-family: 'Orbitron', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.65rem; padding: 10px; border-radius: 8px; transition: all 0.2s; text-align: center; border-bottom: 3px solid rgba(0,0,0,0.4); color: white; }
+        .btn-blue { background: #2563eb; } 
+        .btn-yellow { background: #ca8a04; color: black; } 
+        .btn-green { background: #15803d; }
+        .btn-red { background: #991b1b; } 
+        .btn-gray { background: #334155; }
 
-        /* Colori Sociali */
-        .social-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; rounded: 4px; margin-bottom: 4px; font-weight: 900; font-size: 0.75rem; text-transform: uppercase; color: black; }
+        .social-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-radius: 4px; margin-bottom: 6px; font-weight: 900; font-size: 0.8rem; text-transform: uppercase; color: black; }
+        
+        /* Rank Up Overlay */
+        #rank-overlay { background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); display: none; }
     </style>
 </head>
 <body>
 
 <div id="main-display">
-    <div class="pokedex-frame">
-        <div class="inner-screen flex items-center justify-center">
-            <h2 class="font-[Orbitron] text-xl text-blue-400 animate-pulse">ACCESSO AL DATABASE PC...</h2>
-        </div>
+    </div>
+
+<div id="rank-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="bg-[#111927] border-2 border-green-600 p-8 rounded-2xl max-w-md w-full shadow-2xl">
+        <h3 class="font-[Orbitron] text-green-500 text-xl mb-6 text-center italic font-black">SISTEMA DI PROMOZIONE RANGO</h3>
+        <div class="grid grid-cols-1 gap-3" id="rank-options">
+            </div>
+        <button onclick="document.getElementById('rank-overlay').style.display='none'" class="w-full mt-6 text-slate-500 text-xs uppercase font-bold">Annulla</button>
     </div>
 </div>
 
@@ -61,10 +66,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    let currentUser = null;
-    let fullData = null;
-    let currentPkmn = null;
-    let tId, pIdx;
+    let currentUser = null, fullData = null, currentPkmn = null, tId, pIdx;
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -80,35 +82,32 @@
         const snap = await getDoc(doc(db, "Users", currentUser.uid));
         if (snap.exists()) {
             fullData = snap.data();
-            // Se i parametri URL sono presenti, mostra la scheda, altrimenti la lista PC
             if (tId && pIdx !== null) {
                 currentPkmn = (tId === "wild") ? fullData.pokemon_salvati[pIdx] : fullData.allenatori_generati.find(t => t.id == tId).team[pIdx];
                 if (!currentPkmn.punti_accumulati) currentPkmn.punti_accumulati = { attr: {}, skills: {}, social: {} };
                 renderScheda();
-            } else {
-                renderListaPC();
-            }
+            } else { renderListaGlobale(); }
         }
     }
 
-    function renderListaPC() {
+    function renderListaGlobale() {
         const salvati = fullData.pokemon_salvati || [];
+        const allenatori = fullData.allenatori_generati || [];
         document.getElementById('main-display').innerHTML = `
         <div class="pokedex-frame">
             <div class="inner-screen">
                 <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
-                    <h2 class="font-[Orbitron] text-2xl">UNITÀ ARCHIVIATE NEL PC</h2>
-                    <button onclick="window.history.back()" class="btn-action btn-gray px-6">Torna all'Hub</button>
+                    <h2 class="font-[Orbitron] text-2xl uppercase text-blue-400">Database Globale Unità</h2>
+                    <button onclick="window.history.back()" class="btn-action btn-gray px-6">Esci dal PC</button>
                 </div>
-                <div class="grid grid-cols-4 gap-4">
-                    ${salvati.map((p, i) => `
-                        <div onclick="window.location.href='pokemon.html?trainerId=wild&pokemonIdx=${i}'" class="bg-black/40 p-4 rounded-xl border border-white/5 hover:border-blue-500 cursor-pointer transition-all text-center">
-                            <img src="${p.immagine}" class="h-24 mx-auto mb-2">
-                            <div class="font-black uppercase">${p.nome}</div>
-                            <div class="text-[10px] text-blue-400 font-bold">${p.rank || 'Starter'}</div>
+                <div class="space-y-10">
+                    <section>
+                        <div class="label text-yellow-500 mb-4">● Deposito PC Centrale (Wild)</div>
+                        <div class="grid grid-cols-6 gap-4">
+                            ${salvati.map((p, i) => `<div onclick="window.location.href='pokemon.html?trainerId=wild&pokemonIdx=${i}'" class="bg-black/40 p-4 rounded-xl border border-white/5 hover:border-blue-500 cursor-pointer text-center group"><img src="${p.immagine}" class="h-20 mx-auto group-hover:scale-110 transition-transform"><div class="font-black uppercase text-xs truncate mt-2">${p.nome}</div></div>`).join('')}
                         </div>
-                    `).join('')}
-                    ${salvati.length === 0 ? '<div class="col-span-4 py-20 text-center opacity-30 font-black italic">NESSUN DATO RILEVATO</div>' : ''}
+                    </section>
+                    ${allenatori.map(t => `<section class="border-t border-white/5 pt-8"><div class="label text-cyan-400 mb-4">● Squadra: ${t.name.toUpperCase()}</div><div class="grid grid-cols-6 gap-4">${(t.team || []).map((p, i) => `<div onclick="window.location.href='pokemon.html?trainerId=${t.id}&pokemonIdx=${i}'" class="bg-blue-900/10 p-4 rounded-xl border border-cyan-900/30 hover:border-cyan-400 cursor-pointer text-center group"><img src="${p.immagine}" class="h-20 mx-auto group-hover:scale-110 transition-transform"><div class="font-black uppercase text-xs truncate mt-2">${p.nome}</div></div>`).join('')}</div></section>`).join('')}
                 </div>
             </div>
         </div>`;
@@ -123,54 +122,32 @@
                     <div>
                         <div class="label text-yellow-500 mb-1">Analisi Soggetto:</div>
                         <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter leading-none">${p.nome}</h1>
-                        <div class="mt-4"><span class="bg-[#a3b12a] text-black px-4 py-1 rounded text-[10px] font-black uppercase">Coleottero</span></div>
+                        <div class="mt-4 flex gap-2">
+                            ${p.tipo.map(t => `<span class="bg-[#a3b12a] text-black px-4 py-1 rounded text-[10px] font-black uppercase">${t}</span>`).join('')}
+                            <span class="bg-blue-900/30 text-blue-400 px-4 py-1 rounded text-[10px] font-black uppercase border border-blue-500/20">${p.rank}</span>
+                        </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="border-2 border-red-600 rounded-lg p-3 text-center min-w-[120px]">
-                            <div class="label text-red-500">Punti Vita</div>
-                            <div class="text-5xl font-black font-[Orbitron]">${p.hp}</div>
-                        </div>
-                        <div class="border-2 border-cyan-500 rounded-lg p-3 text-center min-w-[120px]">
-                            <div class="label text-cyan-400">Volontà</div>
-                            <div class="text-5xl font-black font-[Orbitron]">${p.will}</div>
-                        </div>
+                        <div class="border-2 border-red-600 rounded-lg p-3 text-center min-w-[120px]"><div class="label text-red-500">Punti Vita</div><div class="text-5xl font-black font-[Orbitron]">${p.hp}</div></div>
+                        <div class="border-2 border-cyan-500 rounded-lg p-3 text-center min-w-[120px]"><div class="label text-cyan-400">Volontà</div><div class="text-5xl font-black font-[Orbitron]">${p.will}</div></div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-12 gap-10">
                     <div class="col-span-3 space-y-8">
-                        <div class="bg-black/40 rounded-2xl p-6 border border-white/5 aspect-square flex items-center justify-center">
-                            <img src="${p.immagine}" class="max-h-full drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                        </div>
-                        <div class="stat-card border-blue-600 bg-blue-900/10">
-                            <div class="label text-blue-400 mb-1">Abilità Dominante</div>
-                            <div class="text-xl font-black font-[Orbitron] italic uppercase">${p.abilita_scelta || 'Polvoscudo'}</div>
-                        </div>
+                        <div class="bg-black/40 rounded-2xl p-6 border border-white/5 aspect-square flex items-center justify-center"><img src="${p.immagine}" class="max-h-full drop-shadow-xl"></div>
+                        <div class="stat-card border-blue-600 bg-blue-900/10"><div class="label text-blue-400 mb-1">Abilità</div><div class="text-xl font-black font-[Orbitron] uppercase">${p.abilita_scelta || 'Standard'}</div></div>
                         <div class="space-y-3">
-                            <div class="label text-blue-500 border-b border-white/5 pb-1">Attributi Primari</div>
-                            ${Object.entries(p.attr).map(([k,v]) => `
-                                <div class="flex justify-between items-center text-[11px] font-bold uppercase">
-                                    <span>${k}</span>
-                                    <div class="flex">${drawDots(v, k, 'attr')}</div>
-                                </div>
-                            `).join('')}
+                            <div class="label text-blue-500 border-b border-white/5 pb-1">Attributi</div>
+                            ${Object.entries(p.attr).map(([k,v]) => `<div class="flex justify-between items-center text-[12px] font-bold uppercase"><span>${k}</span><div class="flex">${drawDots(v, k, 'attr')}</div></div>`).join('')}
                         </div>
                     </div>
 
                     <div class="col-span-5 px-8 border-x border-white/5">
                         <div class="label text-blue-400 mb-6">Matrice Competenze</div>
-                        <div class="space-y-2 mb-10">
-                            ${Object.entries(p.skills).map(([k,v]) => `
-                                <div class="flex justify-between items-center text-[10px] font-bold uppercase border-b border-white/5 pb-1">
-                                    <span class="text-slate-400">${k}</span>
-                                    <div class="flex">${drawDots(v, k, 'skills')}</div>
-                                </div>
-                            `).join('')}
-                        </div>
+                        <div class="space-y-2 mb-10">${Object.entries(p.skills).map(([k,v]) => `<div class="flex justify-between items-center text-[10px] font-bold uppercase border-b border-white/5 pb-1"><span class="text-slate-400">${k}</span><div class="flex">${drawDots(v, k, 'skills')}</div></div>`).join('')}</div>
                         <div class="label text-red-500 mb-4">Database Mosse (Slot: ${p.will})</div>
-                        <div class="flex flex-wrap gap-2">
-                            ${(p.tecniche_scelte || []).map(m => `<div class="mossa-tag">${m}</div>`).join('')}
-                        </div>
+                        <div class="flex flex-wrap gap-2">${(p.tecniche_scelte || []).map(m => `<div class="mossa-tag">${m}</div>`).join('')}</div>
                     </div>
 
                     <div class="col-span-4 space-y-6">
@@ -181,7 +158,6 @@
                             <div class="stat-card border-orange-500"><div class="label text-orange-500 !text-[8px]">Difesa F.</div><div class="text-3xl font-black">${p.combat.difesa}</div></div>
                             <div class="stat-card border-blue-500"><div class="label text-blue-500 !text-[8px]">Difesa S.</div><div class="text-3xl font-black">${p.combat.difesa_speciale}</div></div>
                         </div>
-
                         <div class="space-y-1">
                             ${renderSocialRow("Grinta", p.social.Tough, "#facc15", "Tough")}
                             ${renderSocialRow("Classe", p.social.Cool, "#f97316", "Cool")}
@@ -189,12 +165,12 @@
                             ${renderSocialRow("Grazia", p.social.Cute, "#ec4899", "Cute")}
                             ${renderSocialRow("Acume", p.social.Clever, "#22c55e", "Clever")}
                         </div>
-
                         <div class="grid grid-cols-2 gap-2 pt-4">
+                            <button onclick="openRankUp()" class="btn-action btn-green">🆙 Rank Up</button>
                             <button onclick="handleAction('evolve')" class="btn-action btn-yellow">🧬 Evolvi</button>
                             <button onclick="handleAction('moves')" class="btn-action btn-blue">⚔️ Mosse</button>
                             <button onclick="handleAction('release')" class="btn-action btn-red">☣️ Libera</button>
-                            <button onclick="window.location.href='pokemon.html'" class="btn-action btn-gray">✖ Chiudi</button>
+                            <button onclick="window.location.href='pokemon.html'" class="btn-action btn-gray col-span-2">✖ Chiudi Terminale</button>
                         </div>
                     </div>
                 </div>
@@ -202,50 +178,60 @@
         </div>`;
     }
 
-    function renderSocialRow(label, val, color, key) {
-        return `<div class="social-row" style="background: ${color}">
-            <span>${label}</span>
-            <div class="flex">${drawDots(val, key, 'social', true)}</div>
-        </div>`;
-    }
+    window.openRankUp = function() {
+        const ranks = ['Starter', 'Amateur', 'Ace', 'Pro', 'Master'];
+        const container = document.getElementById('rank-options');
+        container.innerHTML = ranks.map(r => `
+            <button onclick="updateRank('${r}')" class="w-full py-4 bg-black/40 border border-white/10 hover:border-green-500 rounded-xl font-[Orbitron] text-sm uppercase font-black transition-all ${currentPkmn.rank === r ? 'border-green-500 text-green-500 bg-green-950/20' : ''}">${r}</button>
+        `).join('');
+        document.getElementById('rank-overlay').style.display = 'flex';
+    };
 
-    function drawDots(base, key, cat, isSocial = false) {
-        let html = '';
-        const bonus = (currentPkmn.punti_accumulati[cat] && currentPkmn.punti_accumulati[cat][key]) || 0;
-        for (let i = 1; i <= 10; i++) {
-            let cls = (i <= base) ? 'filled' : (i <= base + bonus ? 'bonus' : '');
-            if (isSocial) cls += ' !bg-black/20 !shadow-none';
-            html += `<span class="dot ${cls}" onclick="window.rankUp('${cat}','${key}',${i})"></span>`;
-        }
-        return html;
-    }
+    window.updateRank = async function(newRank) {
+        currentPkmn.rank = newRank;
+        document.getElementById('rank-overlay').style.display = 'none';
+        saveAndRefresh();
+    };
 
-    window.rankUp = async function(cat, key, idx) {
-        const bonus = currentPkmn.punti_accumulati[cat][key] || 0;
-        const base = currentPkmn[cat][key] || 0;
-        if (idx === base + bonus + 1) currentPkmn.punti_accumulati[cat][key] = bonus + 1;
-        else if (idx === base + bonus && bonus > 0) currentPkmn.punti_accumulati[cat][key] = bonus - 1;
-        else return;
-
+    async function saveAndRefresh() {
         if (tId === "wild") fullData.pokemon_salvati[pIdx] = currentPkmn;
         else fullData.allenatori_generati.find(t => t.id == tId).team[pIdx] = currentPkmn;
-        
         await updateDoc(doc(db, "Users", currentUser.uid), fullData);
         renderScheda();
+    }
+
+    function renderSocialRow(l, v, c, k) {
+        return `<div class="social-row" style="background:${c}"><span>${l}</span><div class="flex">${drawDots(v, k, 'social', true)}</div></div>`;
+    }
+
+    function drawDots(b, k, c, s = false) {
+        let h = '';
+        const bonus = (currentPkmn.punti_accumulati[c] && currentPkmn.punti_accumulati[c][k]) || 0;
+        for (let i = 1; i <= 10; i++) {
+            let cls = (i <= b) ? 'filled' : (i <= b + bonus ? 'bonus' : '');
+            if (s) cls += ' !bg-black/20 !shadow-none';
+            h += `<span class="dot ${cls}" onclick="window.rankUp('${c}','${k}',${i})"></span>`;
+        }
+        return h;
+    }
+
+    window.rankUp = async function(c, k, i) {
+        const bonus = (currentPkmn.punti_accumulati[c] && currentPkmn.punti_accumulati[c][k]) || 0;
+        const base = currentPkmn[c][k] || 0;
+        if (i === base + bonus + 1) currentPkmn.punti_accumulati[c][k] = bonus + 1;
+        else if (i === base + bonus && bonus > 0) currentPkmn.punti_accumulati[c][k] = bonus - 1;
+        else return;
+        saveAndRefresh();
     };
 
-    window.handleAction = async function(type) {
-        if (type === 'release') {
-            if (confirm(`LIBERARE ${currentPkmn.nome}? L'azione è irreversibile.`)) {
-                if (tId === "wild") fullData.pokemon_salvati.splice(pIdx, 1);
-                else fullData.allenatori_generati.find(t => t.id == tId).team.splice(pIdx, 1);
-                await updateDoc(doc(db, "Users", currentUser.uid), fullData);
-                window.location.href = 'pokemon.html';
-            }
-        } else {
-            alert("Protocollo in fase di sviluppo...");
-        }
-    };
+    window.handleAction = (t) => t === 'release' ? (confirm('Liberare unità?') && deletePkmn()) : alert('Sviluppo in corso...');
+    
+    async function deletePkmn() {
+        if (tId === "wild") fullData.pokemon_salvati.splice(pIdx, 1);
+        else fullData.allenatori_generati.find(t => t.id == tId).team.splice(pIdx, 1);
+        await updateDoc(doc(db, "Users", currentUser.uid), fullData);
+        window.location.href = 'pokemon.html';
+    }
 </script>
 </body>
 </html>
