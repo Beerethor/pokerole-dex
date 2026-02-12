@@ -2,28 +2,90 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Neural ProDex - PC Storage</title>
+    <title>Neural ProDex - PC Storage System</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap');
-        body { background: #020617; color: white; font-family: 'Rajdhani', sans-serif; }
-        .ranch-card { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 30px; }
-        .pkmn-mini-card { background: #0f172a; border-left: 3px solid #0ea5e9; padding: 10px; border-radius: 8px; transition: all 0.2s; }
-        .pkmn-mini-card:hover { transform: translateY(-3px); background: #1e293b; }
-        .label-tech { font-family: 'Orbitron'; font-size: 0.7rem; color: #0ea5e9; text-transform: uppercase; }
-        .natura-badge { background: #fbbf24; color: black; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        body { 
+            background: #020617; color: white; font-family: 'Rajdhani', sans-serif; 
+            background-image: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+            min-height: 100vh;
+        }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        
+        /* Icone Cartelle PC */
+        .pc-icon-wrapper {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+        .pc-icon-wrapper:hover { transform: translateY(-5px); }
+        .pc-icon-wrapper:hover .icon-img { border-color: #0ea5e9; box-shadow: 0 0 20px rgba(14, 165, 233, 0.4); }
+        
+        .icon-img {
+            width: 100px; height: 100px;
+            border-radius: 20px;
+            border: 3px solid rgba(255,255,255,0.1);
+            background: #1e293b;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            transition: all 0.3s;
+        }
+
+        /* Modale / Overlay PC Aperto */
+        #pc-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .pkmn-card-mini {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .pkmn-card-mini:hover { background: rgba(14, 165, 233, 0.1); border-color: #0ea5e9; }
+
+        .close-btn {
+            position: sticky; top: 0; float: right;
+            background: #ef4444; color: white;
+            padding: 8px 20px; border-radius: 8px;
+            font-weight: bold; cursor: pointer;
+            font-family: 'Orbitron'; font-size: 12px;
+        }
     </style>
 </head>
-<body class="p-6">
+<body class="p-4 md:p-8">
 
     <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
-            <h1 class="text-3xl font-black font-[Orbitron] italic uppercase">Neural <span class="text-red-600">Storage</span></h1>
-            <a href="index.html" class="bg-white/5 px-4 py-2 rounded-xl text-xs font-bold border border-white/10 hover:bg-white/20">Torna all'Hub</a>
+        <header class="flex justify-between items-center mb-16">
+            <div>
+                <h1 class="text-4xl font-black font-orbitron italic tracking-tighter">NEURAL<span class="text-blue-500">PC</span></h1>
+                <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.5em]">Storage System v2.0</p>
+            </div>
+            <a href="index.html" class="bg-white/5 border border-white/10 px-6 py-2 rounded-full text-xs font-bold uppercase hover:bg-white/10 transition-all">🏠 Hub</a>
         </header>
 
-        <div id="storage-container">
-            <div class="text-center animate-pulse text-slate-500">Sincronizzazione con il server in corso...</div>
+        <div id="pc-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-10 text-center">
+            </div>
+    </div>
+
+    <div id="pc-overlay">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex justify-between items-center mb-10">
+                <h2 id="pc-title" class="text-3xl font-black font-orbitron italic text-blue-500 uppercase"></h2>
+                <button onclick="closePC()" class="close-btn">X CHIUDI TERMINALE</button>
+            </div>
+            <div id="pc-content" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                </div>
         </div>
     </div>
 
@@ -45,91 +107,82 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        let userData = null;
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                loadStorage(user.uid);
+                const snap = await getDoc(doc(db, "Users", user.uid));
+                if (snap.exists()) {
+                    userData = snap.data();
+                    renderPCGrid();
+                }
             } else {
                 window.location.href = 'index.html';
             }
         });
 
-        async function loadStorage(uid) {
-            const container = document.getElementById('storage-container');
+        function renderPCGrid() {
+            const grid = document.getElementById('pc-grid');
+            grid.innerHTML = "";
+
+            // 1. ICONE ALLENATORI
+            const trainers = userData.allenatori_generati || [];
+            trainers.forEach((all, index) => {
+                const icon = all.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${all.name}`;
+                grid.innerHTML += `
+                    <div class="pc-icon-wrapper" onclick="openPC('trainer', ${index})">
+                        <img src="${icon}" class="icon-img shadow-lg shadow-blue-500/10">
+                        <p class="font-orbitron text-[10px] uppercase font-bold text-blue-400">PC DI</p>
+                        <p class="font-bold text-sm truncate px-2">${all.name.toUpperCase()}</p>
+                    </div>
+                `;
+            });
+
+            // 2. ICONA RISERVA NATURALE (Pokéball)
+            grid.innerHTML += `
+                <div class="pc-icon-wrapper" onclick="openPC('wild', 0)">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" class="icon-img p-4 !bg-red-600/10 !border-red-600/30">
+                    <p class="font-orbitron text-[10px] uppercase font-bold text-red-500">ZONA</p>
+                    <p class="font-bold text-sm uppercase">Riserva Nat.</p>
+                </div>
+            `;
+        }
+
+        window.openPC = function(type, index) {
+            const overlay = document.getElementById('pc-overlay');
+            const title = document.getElementById('pc-title');
+            const content = document.getElementById('pc-content');
             
-            try {
-                const userSnap = await getDoc(doc(db, "Users", uid));
-                if (!userSnap.exists()) return container.innerHTML = "Nessun dato trovato.";
+            let pokemonList = [];
+            let pcName = "";
 
-                const data = userSnap.data();
-                let html = "";
-
-                // --- 1. SEZIONE RANCH ALLENATORI ---
-                html += `<h2 class="label-tech text-xl mb-6 text-yellow-500">🏘️ Ranch Allenatori (Sincronizzati)</h2>`;
-                const allenatori = data.allenatori_generati || [];
-                
-                if (allenatori.length === 0) {
-                    html += `<p class="text-slate-500 mb-10 italic">Nessun allenatore attivo registrato.</p>`;
-                } else {
-                    allenatori.forEach(all => {
-                        html += `
-                        <div class="ranch-card">
-                            <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-                                <span class="label-tech text-white text-lg">${all.name.toUpperCase()}</span>
-                                <span class="text-[10px] text-slate-400">TEAM CAPACITY: ${(all.team ? all.team.length : 0)}/6</span>
-                            </div>
-                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                                ${(all.team && all.team.length > 0) ? all.team.map(pk => `
-                                    <div class="pkmn-mini-card">
-                                        <img src="${pk.immagine || pk.image}" class="w-full h-20 object-contain mb-2">
-                                        <div class="text-[11px] font-bold uppercase truncate">${pk.nome || pk.name}</div>
-                                        <div class="text-[9px] text-cyan-400">LV.${pk.level || pk.hp}</div>
-                                    </div>
-                                `).join('') : '<p class="col-span-full text-xs text-slate-600">Questo allenatore non ha Pokémon nel team.</p>'}
-                            </div>
-                        </div>`;
-                    });
-                }
-
-                // --- 2. SEZIONE POKEMON SELVATICI (PER NATURA/TIPO) ---
-                html += `<h2 class="label-tech text-xl mt-12 mb-6 text-emerald-500">🌿 Riserva Naturale (Pokémon Selvatici)</h2>`;
-                const selvatici = data.pokemon_salvati || [];
-
-                if (selvatici.length === 0) {
-                    html += `<p class="text-slate-500 italic">La riserva è vuota. Cattura Pokémon nello Scanner!</p>`;
-                } else {
-                    // Raggruppamento per Tipo (visto che la "Natura" è un parametro casuale del manuale)
-                    const grouped = selvatici.reduce((acc, pk) => {
-                        const key = pk.tipo ? pk.tipo[0] : "Ignoto";
-                        if (!acc[key]) acc[key] = [];
-                        acc[key].push(pk);
-                        return acc;
-                    }, {});
-
-                    Object.entries(grouped).forEach(([tipo, pks]) => {
-                        html += `
-                        <div class="mb-8">
-                            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Habitat ${tipo} (${pks.length})
-                            </h3>
-                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                                ${pks.map(pk => `
-                                    <div class="pkmn-mini-card !border-l-emerald-500">
-                                        <img src="${pk.immagine || pk.image}" class="w-full h-20 object-contain mb-2">
-                                        <div class="text-[11px] font-bold uppercase truncate">${pk.nome || pk.name}</div>
-                                        <span class="natura-badge">${pk.rango || 'WILD'}</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>`;
-                    });
-                }
-
-                container.innerHTML = html;
-
-            } catch (e) {
-                console.error(e);
-                container.innerHTML = "Errore durante il caricamento dei dati.";
+            if (type === 'trainer') {
+                const trainer = userData.allenatori_generati[index];
+                pokemonList = trainer.team || [];
+                pcName = `PC DI ${trainer.name}`;
+            } else {
+                pokemonList = userData.pokemon_salvati || [];
+                pcName = "RISERVA NATURALE";
             }
+
+            title.innerText = pcName;
+            content.innerHTML = pokemonList.length > 0 ? pokemonList.map(pk => `
+                <div class="pkmn-card-mini">
+                    <img src="${pk.immagine || pk.image}" class="h-24 mx-auto mb-4 object-contain">
+                    <div class="font-bold text-xs uppercase mb-1">${pk.nome || pk.name}</div>
+                    <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">
+                        ${pk.rango || pk.type || 'Sconosciuto'}
+                    </div>
+                </div>
+            `).join('') : `<div class="col-span-full py-20 text-center text-slate-500 font-bold uppercase tracking-widest">Database vuoto: Nessun Pokémon rilevato.</div>`;
+
+            overlay.style.display = "block";
+            document.body.style.overflow = "hidden"; // Blocca lo scroll sotto
+        }
+
+        window.closePC = function() {
+            document.getElementById('pc-overlay').style.display = "none";
+            document.body.style.overflow = "auto";
         }
     </script>
 </body>
