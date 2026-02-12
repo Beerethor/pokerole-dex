@@ -51,7 +51,7 @@
         </div>
         <div class="grid grid-cols-2 gap-4 mt-8">
             <button onclick="document.getElementById('gen-overlay').style.display='none'" class="btn-action btn-gray">Annulla</button>
-            <button onclick="confirmGeneration()" class="btn-action btn-blue">Conferma Scansione</button>
+            <button id="confirm-gen-btn" class="btn-action btn-blue">Conferma Scansione</button>
         </div>
     </div>
 </div>
@@ -121,7 +121,53 @@
         }
     }
 
+    // ESPORTA FUNZIONI A WINDOW PER ONCLICK
     window.toggleFolder = (id) => { openFolder = (openFolder === id) ? null : id; renderListaGlobale(); };
+    
+    window.openGenModal = function() {
+        const pkSelector = document.getElementById('pkmn-selector');
+        pkSelector.innerHTML = Object.keys(Pokedex).sort().map(p => `<option value="${p}">${p}</option>`).join('');
+        
+        const trSelector = document.getElementById('target-selector');
+        trSelector.innerHTML = `<option value="wild">PC WILD (Archivio Libero)</option>` + 
+            fullData.allenatori_generati.map(t => `<option value="${t.id}">${t.name} (Team)</option>`).join('');
+        
+        document.getElementById('gen-overlay').style.display = 'flex';
+    };
+
+    document.getElementById('confirm-gen-btn').onclick = async function() {
+        const pkmnName = document.getElementById('pkmn-selector').value;
+        const targetId = document.getElementById('target-selector').value;
+        const base = Pokedex[pkmnName];
+        
+        const newPkmn = {
+            nome: pkmnName, immagine: base.Image, tipo: base.Type, rank: "Nessuno",
+            hp: base.HP, will: base.Will, attr: JSON.parse(JSON.stringify(base.Attributes)), 
+            skills: JSON.parse(JSON.stringify(base.Skills)),
+            social: { Tough: 0, Cool: 0, Beauty: 0, Cute: 0, Clever: 0 },
+            combat: {
+                iniziativa: base.Attributes.Destrezza + base.Attributes.Acume,
+                evadere: base.Attributes.Destrezza + base.Skills.Furtività,
+                difesa: base.Attributes.Vigore + base.Skills.Rissa,
+                difesa_speciale: base.Attributes.Acume + base.Skills.Intuizione
+            },
+            tecniche_scelte: base.Moves.slice(0, base.Will),
+            punti_accumulati: { attr: {}, skills: {}, social: {} }
+        };
+
+        if (targetId === 'wild') {
+            if (!fullData.pokemon_salvati) fullData.pokemon_salvati = [];
+            fullData.pokemon_salvati.push(newPkmn);
+        } else {
+            const tr = fullData.allenatori_generati.find(t => t.id == targetId);
+            if (!tr.team) tr.team = [];
+            tr.team.push(newPkmn);
+        }
+
+        await updateDoc(doc(db, "Users", currentUser.uid), fullData);
+        document.getElementById('gen-overlay').style.display = 'none';
+        renderListaGlobale();
+    };
 
     function renderListaGlobale() {
         const salvati = fullData.pokemon_salvati || [];
@@ -231,43 +277,6 @@
             </div>
         </div>`;
     }
-
-    window.openGenModal = function() {
-        document.getElementById('pkmn-selector').innerHTML = Object.keys(Pokedex).sort().map(p => `<option value="${p}">${p}</option>`).join('');
-        document.getElementById('target-selector').innerHTML = `<option value="wild">PC WILD (Archivio Libero)</option>` + 
-            fullData.allenatori_generati.map(t => `<option value="${t.id}">${t.name} (Team)</option>`).join('');
-        document.getElementById('gen-overlay').style.display = 'flex';
-    };
-
-    window.confirmGeneration = async function() {
-        const pkmnName = document.getElementById('pkmn-selector').value;
-        const targetId = document.getElementById('target-selector').value;
-        const base = Pokedex[pkmnName];
-        const newPkmn = {
-            nome: pkmnName, immagine: base.Image, tipo: base.Type, rank: "Nessuno",
-            hp: base.HP, will: base.Will, attr: base.Attributes, skills: base.Skills,
-            social: { Tough: 0, Cool: 0, Beauty: 0, Cute: 0, Clever: 0 },
-            combat: {
-                iniziativa: base.Attributes.Destrezza + base.Attributes.Acume,
-                evadere: base.Attributes.Destrezza + base.Skills.Furtività,
-                difesa: base.Attributes.Vigore + base.Skills.Rissa,
-                difesa_speciale: base.Attributes.Acume + base.Skills.Intuizione
-            },
-            tecniche_scelte: base.Moves.slice(0, base.Will),
-            punti_accumulati: { attr: {}, skills: {}, social: {} }
-        };
-        if (targetId === 'wild') {
-            if (!fullData.pokemon_salvati) fullData.pokemon_salvati = [];
-            fullData.pokemon_salvati.push(newPkmn);
-        } else {
-            const tr = fullData.allenatori_generati.find(t => t.id == targetId);
-            if (!tr.team) tr.team = [];
-            tr.team.push(newPkmn);
-        }
-        await updateDoc(doc(db, "Users", currentUser.uid), fullData);
-        document.getElementById('gen-overlay').style.display = 'none';
-        renderListaGlobale();
-    };
 
     window.drawDots = function(b, k, c, s = false) {
         let h = '';
