@@ -12,14 +12,10 @@
         .pokedex-frame { max-width: 1400px; background: var(--pokedex-red); border-radius: 20px; padding: 15px; margin: 0 auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); border: 4px solid #8b0000; }
         .inner-screen { background: var(--bg-dark); border-radius: 15px; padding: 40px; min-height: 750px; border: 2px solid #1e293b; position: relative; }
         
-        .trainer-folder { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid rgba(56, 189, 248, 0.1); background: rgba(15, 23, 42, 0.6); cursor: pointer; position: relative; }
+        .trainer-folder { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid rgba(56, 189, 248, 0.1); background: rgba(15, 23, 42, 0.6); cursor: pointer; }
         .trainer-folder:hover { border-color: #38bdf8; transform: translateY(-5px); }
         .trainer-folder.active { border-color: #38bdf8; background: rgba(56, 189, 248, 0.15); box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); }
         .folder-avatar { width: 90px; height: 90px; margin: 0 auto 1rem; border-radius: 50%; border: 2px solid rgba(56, 189, 248, 0.3); object-fit: cover; object-position: top; background: #000; pointer-events: none; }
-        
-        .dot { width: 12px; height: 8px; background: #1e293b; display: inline-block; margin-right: 4px; border-radius: 2px; transform: skewX(-20deg); cursor: pointer; }
-        .dot.filled { background: #38bdf8; box-shadow: 0 0 8px #0ea5e9; }
-        .dot.bonus { background: #10b981; box-shadow: 0 0 8px #10b981; }
         
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
         .btn-action { font-family: 'Orbitron', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.65rem; padding: 10px; border-radius: 8px; transition: all 0.2s; text-align: center; border-bottom: 3px solid rgba(0,0,0,0.4); color: white; cursor: pointer; }
@@ -32,7 +28,14 @@
 <body>
 
 <div id="main-display">
-    <div class="text-center py-20 font-[Orbitron] animate-pulse text-blue-500">CARICAMENTO SISTEMA...</div>
+    <div class="pokedex-frame">
+        <div class="inner-screen flex items-center justify-center">
+            <div class="text-center">
+                <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <div class="font-[Orbitron] text-blue-500 tracking-widest">SINCRONIZZAZIONE DATABASE...</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="gen-overlay" class="overlay-bg">
@@ -40,16 +43,16 @@
         <h3 class="font-[Orbitron] text-blue-500 text-xl mb-6 text-center font-black italic">INIZIALIZZAZIONE NUOVA UNITÀ</h3>
         <div class="space-y-6">
             <div>
-                <label class="label text-slate-400">Seleziona Pokémon dal Database</label>
+                <label class="label text-slate-400">Seleziona Pokémon</label>
                 <select id="pkmn-selector"></select>
             </div>
             <div>
-                <label class="label text-slate-400">Destinazione Salvataggio</label>
+                <label class="label text-slate-400">Destinazione</label>
                 <select id="target-selector"></select>
             </div>
             <div class="grid grid-cols-2 gap-4 mt-8">
-                <button type="button" onclick="closeGenModal()" class="btn-action btn-gray">Annulla</button>
-                <button type="button" id="final-confirm-btn" class="btn-action btn-blue">Conferma Scansione</button>
+                <button type="button" onclick="document.getElementById('gen-overlay').style.display='none'" class="btn-action btn-gray">Annulla</button>
+                <button type="button" id="final-confirm-btn" class="btn-action btn-blue">Genera</button>
             </div>
         </div>
     </div>
@@ -75,42 +78,37 @@
 
     let currentUser = null, fullData = null, openFolder = null;
 
-    // --- ATTENDI CHE POKEDEX SIA CARICATO ---
-    function checkPokedex() {
-        if (typeof Pokedex !== 'undefined') {
-            console.log("Database Pokerole Pronto.");
-            initApp();
-        } else {
-            setTimeout(checkPokedex, 100);
-        }
-    }
-    checkPokedex();
-
-    function initApp() {
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                await loadData();
-            } else { window.location.href = 'index.html'; }
-        });
-    }
+    // Avvio immediato
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            await loadData();
+        } else { window.location.href = 'index.html'; }
+    });
 
     async function loadData() {
-        const snap = await getDoc(doc(db, "Users", currentUser.uid));
-        if (snap.exists()) {
-            fullData = snap.data();
-            renderListaGlobale();
+        try {
+            const snap = await getDoc(doc(db, "Users", currentUser.uid));
+            if (snap.exists()) {
+                fullData = snap.data();
+                renderListaGlobale();
+            }
+        } catch (e) {
+            document.getElementById('main-display').innerHTML = `<div class="text-red-500 p-10">Errore di connessione a Firebase.</div>`;
         }
     }
 
-    // --- GESTIONE CLICK GLOBALE ---
+    // Gestione click delegata
     document.addEventListener('click', (e) => {
-        // Tasto Inizializza
-        if (e.target.closest('#btn-open-gen')) {
-            console.log("Apertura modale...");
+        const btnOpen = e.target.closest('#btn-open-gen');
+        if (btnOpen) {
+            if (typeof Pokedex === 'undefined') {
+                alert("Errore: Il database Pokémon non è ancora pronto.");
+                return;
+            }
             openGenModal();
         }
-        // Cartelle
+
         const folder = e.target.closest('.trainer-folder');
         if (folder) {
             openFolder = (openFolder === folder.dataset.id) ? null : folder.dataset.id;
@@ -118,26 +116,20 @@
         }
     });
 
-    window.closeGenModal = () => { document.getElementById('gen-overlay').style.display = 'none'; };
-
     function openGenModal() {
         const pkSelector = document.getElementById('pkmn-selector');
         const trSelector = document.getElementById('target-selector');
         
-        // Popola Pokemon
         pkSelector.innerHTML = Object.keys(Pokedex).sort().map(p => `<option value="${p}">${p}</option>`).join('');
         
-        // Popola Destinazioni
-        let options = `<option value="wild">PC WILD (Archivio Libero)</option>`;
+        let options = `<option value="wild">PC WILD</option>`;
         if (fullData.allenatori_generati) {
             options += fullData.allenatori_generati.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
         }
         trSelector.innerHTML = options;
-        
         document.getElementById('gen-overlay').style.display = 'flex';
     }
 
-    // Conferma Generazione
     document.getElementById('final-confirm-btn').onclick = async function() {
         const name = document.getElementById('pkmn-selector').value;
         const target = document.getElementById('target-selector').value;
@@ -146,7 +138,8 @@
         const nuovo = {
             nome: name, immagine: base.Image, tipo: base.Type, rank: "Nessuno",
             hp: base.HP, will: base.Will, 
-            attr: {...base.Attributes}, skills: {...base.Skills},
+            attr: JSON.parse(JSON.stringify(base.Attributes)), 
+            skills: JSON.parse(JSON.stringify(base.Skills)),
             social: { Tough: 0, Cool: 0, Beauty: 0, Cute: 0, Clever: 0 },
             combat: {
                 iniziativa: base.Attributes.Destrezza + base.Attributes.Acume,
@@ -168,7 +161,7 @@
         }
 
         await updateDoc(doc(db, "Users", currentUser.uid), fullData);
-        closeGenModal();
+        document.getElementById('gen-overlay').style.display = 'none';
         renderListaGlobale();
     };
 
@@ -180,7 +173,7 @@
         <div class="pokedex-frame">
             <div class="inner-screen">
                 <div class="flex justify-between items-center mb-10 border-b border-white/10 pb-4">
-                    <h2 class="font-[Orbitron] text-2xl uppercase text-blue-400">Database Globale Unità</h2>
+                    <h2 class="font-[Orbitron] text-2xl uppercase text-blue-400">Database Globale</h2>
                     <div class="flex gap-4">
                         <button id="btn-open-gen" class="btn-action btn-blue px-6">+ Inizializza Nuova Unità</button>
                         <button onclick="window.location.href='index.html'" class="btn-action btn-gray px-6">Home</button>
@@ -189,16 +182,14 @@
                 <div class="grid grid-cols-4 gap-6">
                     <div data-id="wild" class="trainer-folder p-6 rounded-2xl text-center ${openFolder === 'wild' ? 'active' : ''}">
                         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" class="folder-avatar !rounded-none !border-none !bg-transparent">
-                        <div class="label text-yellow-500">Database</div>
-                        <div class="font-black text-xl uppercase italic">PC WILD</div>
-                        <div class="text-[10px] text-slate-500 mt-1">${salvati.length} Unità</div>
+                        <div class="label text-yellow-500">PC WILD</div>
+                        <div class="font-black text-xl uppercase italic">${salvati.length} Unità</div>
                     </div>
                     ${allenatori.map(t => `
                     <div data-id="${t.id}" class="trainer-folder p-6 rounded-2xl text-center ${openFolder == t.id ? 'active' : ''}">
                         <img src="${t.img || 'https://rawcdn.githack.com/Beerethor/pokerole-dex/main/img/placeholder_trainer.png'}" class="folder-avatar">
-                        <div class="label text-cyan-400">Account</div>
-                        <div class="font-black text-xl uppercase italic truncate">${t.name}</div>
-                        <div class="text-[10px] text-slate-500 mt-1">${(t.team || []).length} In Team</div>
+                        <div class="label text-cyan-400">${t.name}</div>
+                        <div class="font-black text-xl uppercase italic">${(t.team || []).length} In Team</div>
                     </div>`).join('')}
                 </div>
                 <div id="folder-content" class="mt-12 pt-10 border-t border-white/5">
@@ -213,8 +204,6 @@
         let list = (openFolder === 'wild') 
             ? (fullData.pokemon_salvati || []).map((p, i) => ({...p, idx: i, tId: 'wild'}))
             : (fullData.allenatori_generati.find(t => t.id == openFolder).team || []).map((p, i) => ({...p, idx: i, tId: openFolder}));
-
-        if (list.length === 0) return `<div class="text-center text-slate-500 py-10">Nessuna unità rilevata in questo settore.</div>`;
 
         return `<div class="grid grid-cols-6 gap-4">
             ${list.map(p => `
