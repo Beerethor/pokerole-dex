@@ -2,99 +2,35 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokémon Database - Neural ProDex</title>
+    <title>Neural ProDex - PC Storage</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --pk-red: #ef4444; --pk-blue: #3b82f6; --bg-dark: #020617; }
-        body { background-color: var(--bg-dark); font-family: 'JetBrains Mono', monospace; color: white; opacity: 0; transition: opacity 0.5s; }
-        body.auth-ready { opacity: 1; }
-
-        .preview-card {
-            background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 15px; overflow: hidden; cursor: pointer; transition: all 0.3s ease;
-        }
-        .preview-card:hover { transform: translateY(-5px); border-color: var(--pk-blue); background: rgba(255,255,255,0.1); }
-        .preview-img { width: 100%; aspect-ratio: 1/1; object-fit: contain; padding: 10px; background: rgba(255,255,255,0.02); object-position: center; }
-
-        .pkmn-card-ui {
-            background-color: #f1f5f9; border-radius: 12px; overflow: hidden;
-            width: 100%; max-width: 900px; margin: 20px auto;
-            border: 6px solid #1e293b; color: #1e293b; display: none;
-        }
-        .pkmn-card-ui.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .card-header { background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #1d4ed8; }
-        .data-field { background-color: #dbeafe; border-radius: 4px; padding: 2px 8px; border: 1px solid #1e293b; font-weight: 800; color: #1e293b; font-size: 12px; }
-        .label-text { font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; color: #475569; text-transform: uppercase; }
-        
-        .photo-container { background: white; border: 3px solid #1e293b; border-radius: 8px; height: 300px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .photo-container img { max-width: 900%; max-height: 90%; object-fit: contain; }
-
-        .dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid #1e293b; background: white; }
-        .dot.filled { background: #3b82f6; }
-        .stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 800; padding: 2px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        
-        .admin-panel { background: #0f172a; border: 2px solid var(--pk-blue); border-radius: 15px; padding: 20px; margin-bottom: 30px; }
-        input, select, textarea { background: #1e293b !important; color: #60a5fa !important; border: 1px solid #334155 !important; padding: 6px; border-radius: 4px; font-size: 11px; width: 100%; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap');
+        body { background: #020617; color: white; font-family: 'Rajdhani', sans-serif; }
+        .ranch-card { background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 30px; }
+        .pkmn-mini-card { background: #0f172a; border-left: 3px solid #0ea5e9; padding: 10px; border-radius: 8px; transition: all 0.2s; }
+        .pkmn-mini-card:hover { transform: translateY(-3px); background: #1e293b; }
+        .label-tech { font-family: 'Orbitron'; font-size: 0.7rem; color: #0ea5e9; text-transform: uppercase; }
+        .natura-badge { background: #fbbf24; color: black; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
     </style>
 </head>
-<body class="p-4 md:p-6">
+<body class="p-6">
 
     <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-10">
-            <h1 class="text-3xl font-black italic font-[Orbitron]">POKÉMON <span class="text-blue-500">LAB</span></h1>
-            <div class="flex gap-2">
-                <a href="index.html" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded text-xs font-black uppercase border border-white/10">🏠 Home</a>
-                <button onclick="toggleForm()" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded text-xs font-black uppercase shadow-lg shadow-blue-900/50">➕ Nuovo Pokémon</button>
-            </div>
-        </div>
+        <header class="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
+            <h1 class="text-3xl font-black font-[Orbitron] italic uppercase">Neural <span class="text-red-600">Storage</span></h1>
+            <a href="index.html" class="bg-white/5 px-4 py-2 rounded-xl text-xs font-bold border border-white/10 hover:bg-white/20">Torna all'Hub</a>
+        </header>
 
-        <div id="pkmn-form" class="hidden admin-panel text-[10px]">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                    <label class="text-blue-300 font-bold uppercase">Base</label>
-                    <input type="file" id="p-img" onchange="encodeImg()" class="mb-1">
-                    <input type="text" id="p-species" placeholder="Specie (es. Pikachu)">
-                    <input type="text" id="p-nick" placeholder="Soprannome">
-                    <select id="p-owner" class="mt-1">
-                        <option value="">Nessun Allenatore (Selvatico)</option>
-                        </select>
-                </div>
-                <div>
-                    <label class="text-blue-300 font-bold uppercase">Dati Tecnici</label>
-                    <input type="number" id="p-lv" min="1" placeholder="Livello">
-                    <select id="p-sex"><option value="♂">Maschio ♂</option><option value="♀">Femmina ♀</option><option value="⚲">Neutro</option></select>
-                    <input type="text" id="p-nature" placeholder="Natura">
-                    <input type="number" id="p-hp" min="1" placeholder="HP Attuali">
-                </div>
-                <div>
-                    <label class="text-blue-300 font-bold uppercase">Attributi (1-5)</label>
-                    <input type="number" id="p-str" min="1" max="5" placeholder="Forza">
-                    <input type="number" id="p-dex" min="1" max="5" placeholder="Destrezza">
-                    <input type="number" id="p-vit" min="1" max="5" placeholder="Vitalità">
-                    <input type="number" id="p-ins" min="1" max="5" placeholder="Istinto">
-                </div>
-                <div>
-                    <label class="text-blue-300 font-bold uppercase">Abilità & Salvataggio</label>
-                    <input type="text" id="p-abil" placeholder="Abilità Speciale">
-                    <textarea id="p-moves" placeholder="Mosse Conosciute..." rows="2" class="mt-1"></textarea>
-                    <button onclick="savePokemon()" class="bg-blue-600 w-full py-2 rounded font-black text-white hover:bg-blue-500 uppercase mt-2">Registra nel Database</button>
-                </div>
-            </div>
+        <div id="storage-container">
+            <div class="text-center animate-pulse text-slate-500">Sincronizzazione con il server in corso...</div>
         </div>
-
-        <div id="preview-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
-        
-        <div id="full-card-container" class="mt-10"></div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
@@ -109,140 +45,91 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let currentUser = null;
-        let base64Img = "";
-        let pkmnList = [];
-        let trainerNames = [];
-
         onAuthStateChanged(auth, async (user) => {
-            if (!user) { window.location.href = 'index.html'; return; }
-            currentUser = user;
-            document.body.classList.add('auth-ready');
-            loadData();
+            if (user) {
+                loadStorage(user.uid);
+            } else {
+                window.location.href = 'index.html';
+            }
         });
 
-        window.toggleForm = () => document.getElementById('pkmn-form').classList.toggle('hidden');
+        async function loadStorage(uid) {
+            const container = document.getElementById('storage-container');
+            
+            try {
+                const userSnap = await getDoc(doc(db, "Users", uid));
+                if (!userSnap.exists()) return container.innerHTML = "Nessun dato trovato.";
 
-        window.encodeImg = () => {
-            const file = document.getElementById('p-img').files[0];
-            const reader = new FileReader();
-            reader.onloadend = () => { base64Img = reader.result; };
-            if(file) reader.readAsDataURL(file);
-        };
+                const data = userSnap.data();
+                let html = "";
 
-        async function loadData() {
-            const snap = await getDoc(doc(db, "Users", currentUser.uid));
-            if (snap.exists()) {
-                const data = snap.data();
-                pkmnList = data.pokemon_salvati || [];
-                // Recupero i nomi degli allenatori per il menu a tendina
-                trainerNames = (data.allenatori_generati || []).map(t => t.name);
-                populateTrainers();
-                renderPreviews();
+                // --- 1. SEZIONE RANCH ALLENATORI ---
+                html += `<h2 class="label-tech text-xl mb-6 text-yellow-500">🏘️ Ranch Allenatori (Sincronizzati)</h2>`;
+                const allenatori = data.allenatori_generati || [];
+                
+                if (allenatori.length === 0) {
+                    html += `<p class="text-slate-500 mb-10 italic">Nessun allenatore attivo registrato.</p>`;
+                } else {
+                    allenatori.forEach(all => {
+                        html += `
+                        <div class="ranch-card">
+                            <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
+                                <span class="label-tech text-white text-lg">${all.name.toUpperCase()}</span>
+                                <span class="text-[10px] text-slate-400">TEAM CAPACITY: ${(all.team ? all.team.length : 0)}/6</span>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                                ${(all.team && all.team.length > 0) ? all.team.map(pk => `
+                                    <div class="pkmn-mini-card">
+                                        <img src="${pk.immagine || pk.image}" class="w-full h-20 object-contain mb-2">
+                                        <div class="text-[11px] font-bold uppercase truncate">${pk.nome || pk.name}</div>
+                                        <div class="text-[9px] text-cyan-400">LV.${pk.level || pk.hp}</div>
+                                    </div>
+                                `).join('') : '<p class="col-span-full text-xs text-slate-600">Questo allenatore non ha Pokémon nel team.</p>'}
+                            </div>
+                        </div>`;
+                    });
+                }
+
+                // --- 2. SEZIONE POKEMON SELVATICI (PER NATURA/TIPO) ---
+                html += `<h2 class="label-tech text-xl mt-12 mb-6 text-emerald-500">🌿 Riserva Naturale (Pokémon Selvatici)</h2>`;
+                const selvatici = data.pokemon_salvati || [];
+
+                if (selvatici.length === 0) {
+                    html += `<p class="text-slate-500 italic">La riserva è vuota. Cattura Pokémon nello Scanner!</p>`;
+                } else {
+                    // Raggruppamento per Tipo (visto che la "Natura" è un parametro casuale del manuale)
+                    const grouped = selvatici.reduce((acc, pk) => {
+                        const key = pk.tipo ? pk.tipo[0] : "Ignoto";
+                        if (!acc[key]) acc[key] = [];
+                        acc[key].push(pk);
+                        return acc;
+                    }, {});
+
+                    Object.entries(grouped).forEach(([tipo, pks]) => {
+                        html += `
+                        <div class="mb-8">
+                            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Habitat ${tipo} (${pks.length})
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                                ${pks.map(pk => `
+                                    <div class="pkmn-mini-card !border-l-emerald-500">
+                                        <img src="${pk.immagine || pk.image}" class="w-full h-20 object-contain mb-2">
+                                        <div class="text-[11px] font-bold uppercase truncate">${pk.nome || pk.name}</div>
+                                        <span class="natura-badge">${pk.rango || 'WILD'}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>`;
+                    });
+                }
+
+                container.innerHTML = html;
+
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = "Errore durante il caricamento dei dati.";
             }
-        }
-
-        function populateTrainers() {
-            const select = document.getElementById('p-owner');
-            trainerNames.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                select.appendChild(opt);
-            });
-        }
-
-        window.savePokemon = async () => {
-            const getVal = (id) => document.getElementById(id).value;
-            const getNum = (id) => Math.max(0, parseInt(document.getElementById(id).value) || 0);
-
-            const newPkmn = {
-                id: Date.now(),
-                species: getVal('p-species') || "Sconosciuto",
-                nick: getVal('p-nick'),
-                owner: getVal('p-owner') || "Selvatico",
-                img: base64Img || "https://api.dicebear.com/7.x/icons/svg?seed=" + Date.now(),
-                lv: getNum('p-lv'),
-                sex: getVal('p-sex'),
-                nature: getVal('p-nature'),
-                hp: getNum('p-hp'),
-                abil: getVal('p-abil'),
-                moves: getVal('p-moves'),
-                attr: { f: getNum('p-str'), d: getNum('p-dex'), v: getNum('p-vit'), i: getNum('p-ins') }
-            };
-
-            await updateDoc(doc(db, "Users", currentUser.uid), { pokemon_salvati: arrayUnion(newPkmn) });
-            location.reload();
-        };
-
-        function renderPreviews() {
-            const grid = document.getElementById('preview-grid');
-            grid.innerHTML = pkmnList.map(p => `
-                <div class="preview-card" onclick="showFullPkmn(${p.id})">
-                    <img src="${p.img}" class="preview-img">
-                    <div class="p-2 text-center bg-blue-600/10">
-                        <div class="text-[9px] font-black uppercase text-blue-400 font-[Orbitron]">${p.nick || p.species}</div>
-                        <div class="text-[8px] text-gray-500">Lv. ${p.lv}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        window.showFullPkmn = (id) => {
-            const p = pkmnList.find(x => x.id === id);
-            const container = document.getElementById('full-card-container');
-            container.innerHTML = renderPkmnUI(p);
-            window.scrollTo({ top: container.offsetTop - 50, behavior: 'smooth' });
-        };
-
-        window.deletePkmn = async (id) => {
-            if (!confirm("Rilasciare questo Pokémon nel database?")) return;
-            const p = pkmnList.find(x => x.id === id);
-            await updateDoc(doc(db, "Users", currentUser.uid), { pokemon_salvati: arrayRemove(p) });
-            location.reload();
-        };
-
-        function renderPkmnUI(p) {
-            const d = (v) => `<div class="flex gap-0.5">${Array.from({length:5}).map((_,i)=>`<div class="dot ${i<v?'filled':''}"></div>`).join('')}</div>`;
-            return `
-            <div class="pkmn-card-ui active">
-                <div class="card-header">
-                    <div class="font-[Orbitron] font-black text-white text-lg italic uppercase tracking-tighter">DATA UNIT: ${p.species}</div>
-                    <button onclick="this.parentElement.parentElement.classList.remove('active')" class="text-white text-xs font-bold">✖ CHIUDI</button>
-                </div>
-                <div class="p-4 grid grid-cols-12 gap-6">
-                    <div class="col-span-12 md:col-span-4">
-                        <div class="photo-container"><img src="${p.img}"></div>
-                        <div class="mt-4 p-2 bg-blue-100 rounded border border-blue-300">
-                             <span class="label-text">Proprietario</span>
-                             <div class="data-field text-center !bg-white uppercase">${p.owner}</div>
-                        </div>
-                    </div>
-                    <div class="col-span-12 md:col-span-4 space-y-3">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="col-span-2"><span class="label-text">Soprannome</span><div class="data-field !text-lg text-blue-700">${p.nick || '---'}</div></div>
-                            <div><span class="label-text">Livello</span><div class="data-field">${p.lv}</div></div>
-                            <div><span class="label-text">Sesso</span><div class="data-field">${p.sex}</div></div>
-                            <div><span class="label-text">Natura</span><div class="data-field">${p.nature}</div></div>
-                            <div><span class="label-text">Salute (HP)</span><div class="data-field !text-red-600">${p.hp}</div></div>
-                        </div>
-                        <div><span class="label-text">Abilità</span><div class="data-field">${p.abil || 'Nessuna'}</div></div>
-                        <div><span class="label-text">Mosse</span><div class="data-field min-h-[60px] italic text-[10px]">${p.moves || 'Nessuna mossa registrata'}</div></div>
-                        <button onclick="deletePkmn(${p.id})" class="text-[9px] text-red-500 uppercase font-bold mt-4 border border-red-200 px-2 py-1 rounded hover:bg-red-50">🗑 Rilascia Pokémon</button>
-                    </div>
-                    <div class="col-span-12 md:col-span-4 bg-white/50 p-3 rounded-lg border border-slate-200">
-                        <span class="label-text text-blue-900 border-b border-blue-200 block mb-2">Attributi Pokémon</span>
-                        <div class="stat-row">FORZA ${d(p.attr.f)}</div>
-                        <div class="stat-row">DESTREZZA ${d(p.attr.d)}</div>
-                        <div class="stat-row">VITALITÀ ${d(p.attr.v)}</div>
-                        <div class="stat-row">ISTINTO ${d(p.attr.i)}</div>
-                        <div class="mt-10 p-4 border-2 border-dashed border-slate-300 text-center">
-                            <div class="text-[8px] text-slate-400 font-bold uppercase">Scanner Signature</div>
-                            <div class="text-[10px] font-mono text-slate-500">PK-ID-${p.id}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
         }
     </script>
 </body>
