@@ -13,7 +13,7 @@
             min-height: 100vh;
         }
 
-        /* --- STILE SCHEDA INDUSTRIAL RED (NUOVO) --- */
+        /* --- STILE SCHEDA INDUSTRIAL RED --- */
         .pokedex-case {
             background: #0f172a;
             border: 20px solid #cc2424;
@@ -45,7 +45,7 @@
             padding: 12px 24px; border-radius: 12px; transition: 0.3s; text-transform: uppercase; cursor: pointer;
         }
         .btn-blue { background: #0ea5e9; color: white; box-shadow: 0 4px 0 #0369a1; }
-        .btn-gold { background: #cc2424; color: white; box-shadow: 0 4px 0 #881111; } /* Rosso come da immagine */
+        .btn-gold { background: #cc2424; color: white; box-shadow: 0 4px 0 #881111; }
         .btn-red { background: transparent; border: 2px solid #ef4444; color: #ef4444; }
         
         .type-badge { padding: 4px 15px; border-radius: 4px; font-size: 0.65rem; font-weight: 900; font-family: 'Orbitron'; color: white; }
@@ -163,6 +163,11 @@
             currentPk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
             
             const drawDots = (v) => Array.from({length: 10}, (_, i) => `<span class="dot ${i < v ? (i >= 5 ? 'filled overcap' : 'filled') : ''}"></span>`).join('');
+            const getVal = (v) => (isNaN(v) || v === undefined || v === null) ? 0 : v;
+
+            // Mapping Traduzioni
+            const skillTrad = { "Stealth": "Furtività", "Intimidate": "Intimidire", "Evasion": "Evasione", "Alert": "Allerta", "Channel": "Canale", "Nature": "Natura", "Athletic": "Atletica", "Allure": "Fascino", "Brawl": "Rissa", "Clash": "Vigore", "Etiquette": "Etichetta", "Perform": "Prestazione" };
+            const socialTrad = { "Beauty": "Bellezza", "Tough": "Grinta", "Cute": "Grazia", "Cool": "Classe", "Clever": "Acume" };
 
             document.getElementById('card-container').innerHTML = `
             <div class="pokedex-case">
@@ -175,8 +180,8 @@
                         </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="core-display hp-glow"><div class="label-header !text-red-500">HP</div><div class="text-4xl font-black">${currentPk.hp}</div></div>
-                        <div class="core-display will-glow"><div class="label-header !text-cyan-400">WILL</div><div class="text-4xl font-black">${currentPk.will}</div></div>
+                        <div class="core-display hp-glow"><div class="label-header !text-red-500">PUNTI SALUTE</div><div class="text-4xl font-black">${getVal(currentPk.hp)}</div></div>
+                        <div class="core-display will-glow"><div class="label-header !text-cyan-400">VOLONTÀ</div><div class="text-4xl font-black">${getVal(currentPk.will)}</div></div>
                     </div>
                 </div>
 
@@ -187,53 +192,39 @@
                         </div>
                         <div class="data-block border-l-4 border-l-blue-500">
                             <div class="label-header mb-1">ABILITÀ DOMINANTE</div>
-                            <div class="text-xl font-black italic uppercase">${currentPk.abilita_scelta || currentPk.ability || 'FUOCOIUTO'}</div>
+                            <div class="text-xl font-black italic uppercase">${currentPk.abilita_scelta || currentPk.ability || 'NON RILEVATA'}</div>
                         </div>
                         <div class="space-y-2">
-                            <div class="label-header text-slate-500">ATTRIBUTI PRIMARI</div>
-                            ${Object.entries(currentPk.attr).map(([k,v])=>`
-                                <div class="flex justify-between items-center text-[11px] font-black uppercase">
-                                    <span class="text-slate-400">${k}</span><div class="flex">${drawDots(v)}</div>
-                                </div>`).join('')}
+                            <div class="label-header text-slate-500">ATTRIBUTI FISICI</div>
+                            ${Object.entries(currentPk.attr).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">${k}</span><div class="flex">${drawDots(getVal(v))}</div></div>`).join('')}
                         </div>
                     </div>
 
                     <div class="col-span-5 px-4 space-y-8">
                         <div>
-                            <div class="label-header mb-4 text-cyan-400 font-bold">SKILL MATRIX</div>
+                            <div class="label-header mb-4 text-cyan-400 font-bold">MATRICE DELLE ABILITÀ</div>
                             <div class="space-y-3">
-                                ${Object.entries(currentPk.skills).map(([k,v])=>`
-                                    <div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1">
-                                        <span>${k}</span><div class="flex">${drawDots(v)}</div>
-                                    </div>`).join('')}
+                                ${Object.entries(currentPk.skills).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1"><span>${skillTrad[k] || k}</span><div class="flex">${drawDots(getVal(v))}</div></div>`).join('')}
                             </div>
                         </div>
                         <div>
-                            <div class="label-header mb-3 text-red-500">TECNICHE ESTRATTE (SLOT: 4)</div>
-                            <div class="grid grid-cols-2 gap-3">
-                                ${(currentPk.tecniche_scelte || []).map(m => `
-                                    <div class="border border-red-500/40 px-4 py-3 rounded bg-red-500/5 text-[10px] font-black uppercase text-center">${m}</div>
-                                `).join('')}
-                            </div>
+                            <div class="label-header mb-3 text-red-500">MODULI TECNICI (MOSSE)</div>
+                            <div class="grid grid-cols-2 gap-3">${(currentPk.tecniche_scelte || []).map(m => `<div class="border border-red-500/40 px-4 py-3 rounded bg-red-500/5 text-[10px] font-black uppercase text-center">${m}</div>`).join('')}</div>
                         </div>
                     </div>
 
                     <div class="col-span-4 space-y-6">
-                        <div class="label-header text-slate-500">COMBATTIMENTO</div>
+                        <div class="label-header text-slate-500">PARAMETRI DI COMBATTIMENTO</div>
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${currentPk.combat.iniziativa}</div></div>
-                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVADERE</div><div class="text-2xl font-black">${currentPk.combat.evadere}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA F.</div><div class="text-2xl font-black">${currentPk.combat.difesa}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA S.</div><div class="text-2xl font-black">${currentPk.combat.difesa_speciale}</div></div>
+                            <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${getVal(currentPk.combat?.iniziativa)}</div></div>
+                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVASIONE</div><div class="text-2xl font-black">${getVal(currentPk.combat?.evadere)}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA F.</div><div class="text-2xl font-black">${getVal(currentPk.combat?.difesa)}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA S.</div><div class="text-2xl font-black">${getVal(currentPk.combat?.difesa_speciale)}</div></div>
                         </div>
-
                         <div class="mt-6">
-                            <div class="label-header mb-3 text-yellow-500">SOCIAL STATS (${(currentPk.rango || 'STARTER').toUpperCase()})</div>
+                            <div class="label-header mb-3 text-yellow-500">STATISTICHE SOCIALI</div>
                             <div class="space-y-2">
-                                ${Object.entries(currentPk.social).map(([k,v])=>`
-                                    <div class="flex justify-between items-center text-[11px] font-black uppercase bg-white/5 p-2 rounded">
-                                        <span>${k}</span><div class="flex">${drawDots(v)}</div>
-                                    </div>`).join('')}
+                                ${Object.entries(currentPk.social).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase bg-white/5 p-2 rounded"><span>${socialTrad[k] || k}</span><div class="flex">${drawDots(getVal(v))}</div></div>`).join('')}
                             </div>
                         </div>
                     </div>
@@ -247,7 +238,6 @@
             document.getElementById('card-overlay').style.display = "block";
         };
 
-        // --- LOGICA RESTANTE (RIMASTA IDENTICA) ---
         window.openRankUp = () => {
             const next = getNextRank(currentPk.rango || "Starter");
             if (!next) return alert("Rango massimo raggiunto!");
@@ -263,17 +253,10 @@
             document.getElementById('pool-display').innerText = `A:${rankUpData.pool.attr} | S:${rankUpData.pool.social} | K:${rankUpData.pool.skills}`;
             const renderBlock = (title, obj, key) => `
                 <div class="bg-black/30 p-5 rounded-2xl border border-white/10">
-                    <h4 class="label-tech text-yellow-500 mb-4 text-center">${title}</h4>
-                    ${Object.entries(obj).map(([k,v]) => `
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[10px] font-bold uppercase">${k} (${v + (rankUpData.changes[key][k] || 0)})</span>
-                            <div class="point-ctrl">
-                                <button onclick="changeRankVal('${key}','${k}', -1)" class="point-btn">-</button>
-                                <button onclick="changeRankVal('${key}','${k}', 1)" class="point-btn">+</button>
-                            </div>
-                        </div>`).join('')}
+                    <h4 class="label-tech text-yellow-500 mb-4 text-center font-bold uppercase text-[10px]">${title}</h4>
+                    ${Object.entries(obj).map(([k,v]) => `<div class="flex justify-between items-center mb-3"><span class="text-[10px] font-bold uppercase">${k} (${v + (rankUpData.changes[key][k] || 0)})</span><div class="point-ctrl"><button onclick="changeRankVal('${key}','${k}', -1)" class="point-btn">-</button><button onclick="changeRankVal('${key}','${k}', 1)" class="point-btn">+</button></div></div>`).join('')}
                 </div>`;
-            container.innerHTML = renderBlock("Attributi", currentPk.attr, 'attr') + renderBlock("Social", currentPk.social, 'social') + renderBlock("Skills", currentPk.skills, 'skills');
+            container.innerHTML = renderBlock("Attributi Fisici", currentPk.attr, 'attr') + renderBlock("Social", currentPk.social, 'social') + renderBlock("Skills", currentPk.skills, 'skills');
         }
 
         window.changeRankVal = (type, k, v) => {
