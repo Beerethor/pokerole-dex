@@ -2,252 +2,213 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Neural PC - Terminale Pokémon</title>
+    <title>Neural PC - Terminale Operativo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://rawcdn.githack.com/Beerethor/pokerole-dex/refs/heads/main/pokerole-core.js"></script>
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700;900&display=swap');
         :root { --pokedex-red: #bc1a1d; --bg-dark: #0a1120; }
         body { background-color: #020617; font-family: 'Rajdhani', sans-serif; color: white; padding: 20px; }
-        .pokedex-frame { max-width: 1400px; background: var(--pokedex-red); border-radius: 20px; padding: 15px; margin: 0 auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .inner-screen { background: var(--bg-dark); border-radius: 15px; padding: 40px; min-height: 600px; position: relative; }
-        .dot { width: 12px; height: 8px; background: #1e293b; display: inline-block; margin-right: 4px; border-radius: 2px; transform: skewX(-20deg); }
+        
+        .pokedex-frame { max-width: 1400px; background: var(--pokedex-red); border-radius: 20px; padding: 15px; margin: 0 auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); border: 4px solid #8b0000; }
+        .inner-screen { background: var(--bg-dark); border-radius: 15px; padding: 40px; min-height: 700px; border: 2px solid #1e293b; }
+        
+        /* Sistema Dot Inclinati */
+        .dot { width: 12px; height: 8px; background: #1e293b; display: inline-block; margin-right: 4px; border-radius: 2px; transform: skewX(-20deg); transition: all 0.2s; cursor: pointer; }
         .dot.filled { background: #38bdf8; box-shadow: 0 0 8px #0ea5e9; }
         .dot.bonus { background: #10b981; box-shadow: 0 0 8px #10b981; }
+        
         .label { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
         .stat-card { background: #0f172a; border-radius: 8px; padding: 12px; border-left: 4px solid #334155; }
-        .mossa-tag { border: 1px solid #ef4444; padding: 8px 15px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.8rem; }
-        .social-grinta { background: #facc15; color: #451a03; }
-        .social-classe { background: #f97316; color: #451a03; }
-        .social-bellezza { background: #3b82f6; color: #ffffff; }
-        .social-grazia { background: #ec4899; color: #ffffff; }
-        .social-acume { background: #22c55e; color: #ffffff; }
+        
+        .mossa-tag { border: 1px solid #ef4444; padding: 8px 15px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.75rem; background: rgba(239, 68, 68, 0.05); cursor: pointer; }
+        .mossa-tag:hover { background: rgba(239, 68, 68, 0.2); }
+
+        .btn-action { font-family: 'Orbitron', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.7rem; padding: 10px; border-radius: 8px; transition: all 0.3s; text-align: center; border-bottom: 3px solid rgba(0,0,0,0.3); }
+        .btn-blue { background: #2563eb; color: white; } .btn-blue:hover { background: #3b82f6; }
+        .btn-yellow { background: #ca8a04; color: black; } .btn-yellow:hover { background: #eab308; }
+        .btn-red { background: #991b1b; color: white; } .btn-red:hover { background: #dc2626; }
+        .btn-gray { background: #334155; color: white; } .btn-gray:hover { background: #475569; }
     </style>
 </head>
 <body>
 
-    <div id="pokemon-container">
-        <div class="pokedex-frame">
-            <div class="inner-screen flex items-center justify-center">
-                <div class="text-center">
-                    <div class="w-16 h-16 border-4 border-t-blue-500 border-blue-900 rounded-full animate-spin mx-auto mb-4"></div>
-                    <h2 class="font-[Orbitron] text-xl text-blue-400">SINCRONIZZAZIONE NEURALE IN CORSO...</h2>
-                    <p id="debug-msg" class="text-xs text-slate-500 mt-2 uppercase italic">In attesa di risposta dal Database</p>
-                </div>
+<div id="pokemon-container">
+    <div class="pokedex-frame">
+        <div class="inner-screen flex items-center justify-center">
+            <div class="text-center animate-pulse">
+                <h2 class="font-[Orbitron] text-2xl text-blue-500">ACCESSO AL DATABASE PC...</h2>
             </div>
         </div>
     </div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
-            authDomain: "pokerole-app.firebaseapp.com",
-            projectId: "pokerole-app",
-            storageBucket: "pokerole-app.firebasestorage.app",
-            messagingSenderId: "385416519668",
-            appId: "1:385416519668:web:908e12b9833f1cdc04a3a1"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk",
+        authDomain: "pokerole-app.firebaseapp.com",
+        projectId: "pokerole-app",
+        storageBucket: "pokerole-app.firebasestorage.app",
+        messagingSenderId: "385416519668",
+        appId: "1:385416519668:web:908e12b9833f1cdc04a3a1"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        let pData = null;
-        let currentUser = null;
+    let currentUser = null;
+    let pData = null;
+    let fullUserData = null;
+    let trainerId, pokemonIdx;
 
-        const SkillMap = {
-            rissa: "Rissa", canale: "Canale", vigore: "Vigore", evasione: "Evasione", 
-            allerta: "Allerta", atletica: "Atletica", natura: "Natura", furtività: "Furtività",
-            fascino: "Fascino", etichetta: "Etichetta", intimidire: "Intimidire", prestazione: "Prestazione"
-        };
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            currentUser = user;
+            const params = new URLSearchParams(window.location.search);
+            trainerId = params.get('trainerId');
+            pokemonIdx = params.get('pokemonIdx');
+            await syncData();
+        } else { window.location.href = 'index.html'; }
+    });
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                const params = new URLSearchParams(window.location.search);
-                const tId = params.get('trainerId');
-                const pIdx = params.get('pokemonIdx');
-
-                if (!tId || pIdx === null) {
-                    showError("Errore Parametri: ID o Indice mancanti nell'URL.");
-                    return;
-                }
-
-                await loadPokemonData(tId, pIdx);
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
-
-        async function loadPokemonData(tId, pIdx) {
-            try {
-                const docRef = doc(db, "Users", currentUser.uid);
-                const snap = await getDoc(docRef);
-                
-                if (snap.exists()) {
-                    const data = snap.data();
-                    if (tId === "wild") {
-                        pData = data.pokemon_salvati[pIdx];
-                    } else {
-                        const trainer = data.allenatori_generati.find(t => t.id == tId);
-                        pData = trainer ? trainer.team[pIdx] : null;
-                    }
-
-                    if (pData) {
-                        renderUI();
-                    } else {
-                        showError("Pokémon non trovato nel database.");
-                    }
-                }
-            } catch (e) {
-                showError("Errore di caricamento: " + e.message);
-            }
+    async function syncData() {
+        const snap = await getDoc(doc(db, "Users", currentUser.uid));
+        if (snap.exists()) {
+            fullUserData = snap.data();
+            pData = (trainerId === "wild") ? fullUserData.pokemon_salvati[pokemonIdx] : fullUserData.allenatori_generati.find(t => t.id == trainerId).team[pokemonIdx];
+            if (!pData.punti_accumulati) pData.punti_accumulati = { attr: {}, skills: {}, social: {} };
+            renderUI();
         }
+    }
 
-        function showError(msg) {
-            document.getElementById('pokemon-container').innerHTML = `
-                <div class="pokedex-frame">
-                    <div class="inner-screen flex items-center justify-center border-2 border-dashed border-red-900">
-                        <div class="text-center">
-                            <h2 class="text-red-500 font-black text-2xl mb-4">ERRORE DI SISTEMA</h2>
-                            <p class="text-white uppercase text-sm tracking-widest">${msg}</p>
-                            <button onclick="window.history.back()" class="mt-8 bg-white/10 px-6 py-2 rounded-full text-xs">TORNA INDIETRO</button>
+    function renderUI() {
+        const p = pData;
+        document.getElementById('pokemon-container').innerHTML = `
+        <div class="pokedex-frame">
+            <div class="inner-screen">
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <div class="label text-yellow-500">UNITÀ PC IDENTIFICATA:</div>
+                        <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter text-white">${p.nome}</h1>
+                        <div class="mt-4 flex gap-2">
+                            ${p.tipo.map(t => `<span class="bg-[#a3b12a] text-black px-4 py-1 rounded text-[10px] font-black uppercase">TIPO: ${t}</span>`).join('')}
+                            <span class="bg-blue-900/40 text-blue-400 px-4 py-1 rounded text-[10px] font-black uppercase border border-blue-500/30">RANGO: ${p.rank || 'Starter'}</span>
                         </div>
                     </div>
-                </div>`;
-        }
-
-        function renderUI() {
-            const p = pData;
-            document.getElementById('pokemon-container').innerHTML = `
-            <div class="pokedex-frame animate-in fade-in duration-500">
-                <div class="inner-screen">
-                    
-                    <div class="flex justify-between items-start mb-12">
-                        <div>
-                            <div class="label text-yellow-500 mb-1">Analisi Soggetto:</div>
-                            <h1 class="text-7xl font-black italic uppercase font-[Orbitron] tracking-tighter leading-none">${p.nome}</h1>
-                            <div class="mt-4 flex gap-2">
-                                ${p.tipo.map(t => `<span class="bg-[#a3b12a] text-black px-3 py-1 rounded text-[10px] font-black uppercase">${t}</span>`).join('')}
-                            </div>
+                    <div class="flex gap-4">
+                        <div class="border-2 border-red-600 rounded-lg p-3 text-center min-w-[120px]">
+                            <div class="label text-red-500">Punti Vita</div>
+                            <div class="text-5xl font-black font-[Orbitron]">${p.hp}</div>
                         </div>
-                        <div class="flex gap-4">
-                            <div class="border-2 border-red-600 rounded-lg p-3 text-center min-w-[120px]">
-                                <div class="label text-blue-400">Punti Vita</div>
-                                <div class="text-5xl font-black font-[Orbitron]">${p.hp}</div>
-                            </div>
-                            <div class="border-2 border-cyan-500 rounded-lg p-3 text-center min-w-[120px]">
-                                <div class="label text-blue-400">Volontà</div>
-                                <div class="text-5xl font-black font-[Orbitron]">${p.will}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-12 gap-10">
-                        <div class="col-span-3">
-                            <div class="bg-black/40 rounded-2xl p-6 mb-6 border border-white/5 flex items-center justify-center aspect-square">
-                                <img src="${p.immagine || 'https://via.placeholder.com/300'}" class="max-h-full drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-                            </div>
-                            <div class="bg-[#111927] p-4 rounded-xl border-l-4 border-blue-600 mb-8">
-                                <div class="label text-blue-400 mb-1">Abilità</div>
-                                <div class="text-xl font-black italic uppercase font-[Orbitron]">${p.abilita_scelta || 'Standard'}</div>
-                            </div>
-                            <div class="space-y-4">
-                                <div class="label text-blue-500 border-b border-white/10 pb-1">Attributi</div>
-                                ${Object.entries(p.attr).map(([k,v]) => `
-                                    <div class="flex justify-between items-center text-sm font-bold uppercase">
-                                        <span class="text-slate-300">${k}</span>
-                                        <div class="flex">${drawDots(v, k, 'attr')}</div>
-                                    </div>`).join('')}
-                            </div>
-                        </div>
-
-                        <div class="col-span-5 px-8 border-x border-white/5">
-                            <div class="label text-blue-400 mb-6">Matrice Competenze</div>
-                            <div class="space-y-3 mb-10">
-                                ${Object.keys(SkillMap).map(k => `
-                                    <div class="flex justify-between items-center text-[11px] uppercase tracking-widest font-bold">
-                                        <span class="text-slate-400">${SkillMap[k]}</span>
-                                        <div class="flex">${drawDots(p.skills[k] || 0, k, 'skills')}</div>
-                                    </div>`).join('')}
-                            </div>
-                            <div class="label text-red-500 mb-4">Database Mosse</div>
-                            <div class="flex flex-wrap gap-2">
-                                ${(p.tecniche_scelte || []).map(m => `<div class="mossa-tag">${m}</div>`).join('')}
-                            </div>
-                        </div>
-
-                        <div class="col-span-4 space-y-10">
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="stat-card border-yellow-400"><div class="label !text-[8px] text-yellow-400">Iniziativa</div><div class="text-3xl font-black">${p.combat.iniziativa}</div></div>
-                                <div class="stat-card border-green-500"><div class="label !text-[8px] text-green-500">Evasione</div><div class="text-3xl font-black">${p.combat.evadere}</div></div>
-                                <div class="stat-card border-orange-500"><div class="label !text-[8px] text-orange-500">Difesa F.</div><div class="text-3xl font-black">${p.combat.difesa}</div></div>
-                                <div class="stat-card border-blue-500"><div class="label !text-[8px] text-blue-500">Difesa S.</div><div class="text-3xl font-black">${p.combat.difesa_speciale}</div></div>
-                                <div class="stat-card border-white"><div class="label !text-[8px] text-slate-300">Parata F.</div><div class="text-3xl font-black">${p.combat.parata}</div></div>
-                                <div class="stat-card border-cyan-300"><div class="label !text-[8px] text-cyan-300">Parata S.</div><div class="text-3xl font-black">${p.combat.parata_speciale}</div></div>
-                            </div>
-                            <div class="space-y-2">
-                                <div class="label text-slate-500 mb-4">Parametri Sociali</div>
-                                ${renderSocialRow("Grinta", p.social.Tough, "social-grinta", "Tough")}
-                                ${renderSocialRow("Classe", p.social.Cool, "social-classe", "Cool")}
-                                ${renderSocialRow("Bellezza", p.social.Beauty, "social-bellezza", "Beauty")}
-                                ${renderSocialRow("Grazia", p.social.Cute, "social-grazia", "Cute")}
-                                ${renderSocialRow("Acume", p.social.Clever, "social-acume", "Clever")}
-                            </div>
-                            <button onclick="window.history.back()" class="w-full bg-red-600/10 border border-red-600/50 text-red-500 py-4 rounded-xl font-black uppercase text-xs hover:bg-red-600 hover:text-white transition-all">← Esci dal Terminale</button>
+                        <div class="border-2 border-cyan-500 rounded-lg p-3 text-center min-w-[120px]">
+                            <div class="label text-cyan-400">Volontà</div>
+                            <div class="text-5xl font-black font-[Orbitron]">${p.will}</div>
                         </div>
                     </div>
                 </div>
-            </div>`;
-        }
 
-        function renderSocialRow(label, val, colorClass, key) {
-            return `<div class="flex justify-between items-center p-2 rounded ${colorClass} font-black text-[10px] uppercase">
-                <span>${label}</span>
-                <div class="flex">${drawDots(val, key, 'social', true)}</div>
-            </div>`;
-        }
+                <div class="grid grid-cols-12 gap-10">
+                    <div class="col-span-3 space-y-6">
+                        <div class="bg-black/40 rounded-2xl p-6 border border-white/5 flex items-center justify-center aspect-square">
+                            <img src="${p.immagine}" class="max-h-full drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                        </div>
+                        <div class="space-y-3">
+                            <div class="label text-blue-500 border-b border-white/10 pb-1">Attributi (Click per Rank Up)</div>
+                            ${Object.entries(p.attr).map(([k,v]) => `
+                                <div class="flex justify-between items-center text-[12px] uppercase font-bold">
+                                    <span>${k}</span>
+                                    <div class="flex">${drawDots(v, k, 'attr')}</div>
+                                </div>`).join('')}
+                        </div>
+                    </div>
 
-        function drawDots(base, key, cat, isSocial = false) {
-            let html = '';
-            const bonus = (pData.punti_accumulati && pData.punti_accumulati[cat] && pData.punti_accumulati[cat][key]) || 0;
-            for (let i = 1; i <= 10; i++) {
-                let cls = (i <= base) ? 'filled' : (i <= base + bonus ? 'bonus' : '');
-                if (isSocial) cls += ' !bg-black/20 !shadow-none';
-                html += `<span class="dot ${cls} cursor-pointer" onclick="window.handleRankUp('${cat}','${key}',${i})"></span>`;
+                    <div class="col-span-5 px-8 border-x border-white/5">
+                        <div class="label text-blue-400 mb-4">Matrice Competenze</div>
+                        <div class="grid grid-cols-1 gap-2 mb-10">
+                            ${Object.entries(p.skills).map(([k,v]) => `
+                                <div class="flex justify-between items-center text-[11px] uppercase border-b border-white/5 pb-1">
+                                    <span class="text-slate-400">${k}</span>
+                                    <div class="flex">${drawDots(v, k, 'skills')}</div>
+                                </div>`).join('')}
+                        </div>
+                        <div class="label text-red-500 mb-4">Database Mosse (Slot Attivi: ${p.will})</div>
+                        <div class="flex flex-wrap gap-2">
+                            ${(p.tecniche_scelte || []).map(m => `<div class="mossa-tag" onclick="alert('Funzione Cambio Mossa in arrivo')">${m}</div>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="col-span-4 space-y-8">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="stat-card border-yellow-400"><div class="label text-yellow-400 !text-[8px]">Iniziativa</div><div class="text-3xl font-black">${p.combat.iniziativa}</div></div>
+                            <div class="stat-card border-green-500"><div class="label text-green-500 !text-[8px]">Evasione</div><div class="text-3xl font-black">${p.combat.evadere}</div></div>
+                            <div class="stat-card border-orange-500"><div class="label text-orange-500 !text-[8px]">Difesa F.</div><div class="text-3xl font-black">${p.combat.difesa}</div></div>
+                            <div class="stat-card border-blue-500"><div class="label text-blue-500 !text-[8px]">Difesa S.</div><div class="text-3xl font-black">${p.combat.difesa_speciale}</div></div>
+                        </div>
+
+                        <div class="bg-black/40 p-6 rounded-2xl border border-white/10 space-y-3">
+                            <div class="label text-center mb-4 text-white">Console Operativa</div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="window.handleAction('evolve')" class="btn-action btn-yellow">🧬 Evolvi</button>
+                                <button onclick="window.handleAction('moves')" class="btn-action btn-blue">⚔️ Mosse</button>
+                                <button onclick="window.handleAction('release')" class="btn-action btn-red">☣️ Libera</button>
+                                <button onclick="window.history.back()" class="btn-action btn-gray">✖ Chiudi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    function drawDots(base, key, cat) {
+        let html = '';
+        const bonus = (pData.punti_accumulati[cat] && pData.punti_accumulati[cat][key]) || 0;
+        for (let i = 1; i <= 10; i++) {
+            let state = (i <= base) ? 'filled' : (i <= base + bonus ? 'bonus' : '');
+            html += `<span class="dot ${state}" onclick="window.handleRankUp('${cat}','${key}',${i})"></span>`;
+        }
+        return html;
+    }
+
+    // --- LOGICA AZIONI ---
+    window.handleRankUp = async function(cat, key, idx) {
+        const bonus = pData.punti_accumulati[cat][key] || 0;
+        const base = pData[cat][key] || 0;
+        if (idx === base + bonus + 1) pData.punti_accumulati[cat][key] = bonus + 1;
+        else if (idx === base + bonus && bonus > 0) pData.punti_accumulati[cat][key] = bonus - 1;
+        else return;
+
+        await saveAndRefresh();
+    };
+
+    window.handleAction = async function(action) {
+        if (action === 'release') {
+            if (confirm(`ATTENZIONE: Sei sicuro di voler liberare ${pData.nome}? Questa operazione è irreversibile.`)) {
+                if (trainerId === "wild") fullUserData.pokemon_salvati.splice(pokemonIdx, 1);
+                else fullUserData.allenatori_generati.find(t => t.id == trainerId).team.splice(pokemonIdx, 1);
+                await updateDoc(doc(db, "Users", currentUser.uid), fullUserData);
+                window.history.back();
             }
-            return html;
+        } else if (action === 'evolve') {
+            alert("Ricerca sequenze genetiche compatibili... (Feature in sviluppo)");
+        } else if (action === 'moves') {
+            alert("Accesso al database mosse della specie...");
         }
+    };
 
-        window.handleRankUp = async function(cat, key, idx) {
-            const bonus = (pData.punti_accumulati[cat] && pData.punti_accumulati[cat][key]) || 0;
-            const base = pData[cat][key] || 0;
-            
-            if (idx === base + bonus + 1) pData.punti_accumulati[cat][key] = bonus + 1;
-            else if (idx === base + bonus && bonus > 0) pData.punti_accumulati[cat][key] = bonus - 1;
-            else return;
-
-            const userRef = doc(db, "Users", currentUser.uid);
-            const snap = await getDoc(userRef);
-            let data = snap.data();
-            const params = new URLSearchParams(window.location.search);
-            const tId = params.get('trainerId');
-            const pIdx = params.get('pokemonIdx');
-
-            if (tId === "wild") data.pokemon_salvati[pIdx] = pData;
-            else {
-                const tIdx = data.allenatori_generati.findIndex(t => t.id == tId);
-                data.allenatori_generati[tIdx].team[pIdx] = pData;
-            }
-
-            await updateDoc(userRef, data);
-            renderUI();
-        };
-    </script>
+    async function saveAndRefresh() {
+        const userRef = doc(db, "Users", currentUser.uid);
+        if (trainerId === "wild") fullUserData.pokemon_salvati[pokemonIdx] = pData;
+        else fullUserData.allenatori_generati.find(t => t.id == trainerId).team[pokemonIdx] = pData;
+        
+        await updateDoc(userRef, fullUserData);
+        renderUI();
+    }
+</script>
 </body>
 </html>
