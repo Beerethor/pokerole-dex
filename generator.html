@@ -184,11 +184,14 @@
             // Pulisce e popola
             select.innerHTML = '<option value="none">-- SALVA NEL PROFILO (SENZA ALLENATORE) --</option>';
             trainers.forEach(t => {
-                const opt = document.createElement('option');
-                opt.value = t.id;
-                opt.innerText = `ALLENATORE: ${t.nome.toUpperCase()}`;
-                select.appendChild(opt);
-            });
+    // Controllo di sicurezza: se il nome non esiste, usa "Senza Nome"
+    const nomeAllenatore = (t.nome || "Senza Nome").toUpperCase();
+    
+    const opt = document.createElement('option');
+    opt.value = t.id || Math.random().toString(); // Assicura che ci sia sempre un ID
+    opt.innerText = `ALLENATORE: ${nomeAllenatore}`;
+    select.appendChild(opt);
+});
         }
     };
 
