@@ -13,7 +13,6 @@
             min-height: 100vh;
         }
 
-        /* --- STILE SCHEDA INDUSTRIAL RED --- */
         .pokedex-case {
             background: #0f172a;
             border: 20px solid #cc2424;
@@ -27,19 +26,16 @@
         .label-header { font-family: 'Orbitron'; font-size: 0.65rem; color: #facc15; letter-spacing: 2px; text-transform: uppercase; }
 
         .data-block { background: #070b14; border-radius: 12px; padding: 20px; border: 1px solid #1e293b; }
-        .stat-grid-box { background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 12px; border-left: 3px solid #0ea5e9; }
+        .stat-grid-box { background: rgba(15, 23, 42, 0.6); border-radius: 8px; padding: 10px; border-left: 3px solid #0ea5e9; }
 
-        /* PUNTINI (DOTS) */
         .dot { width: 12px; height: 6px; background: #1e293b; display: inline-block; margin-right: 3px; border-radius: 1px; }
         .dot.filled { background: #0ea5e9; box-shadow: 0 0 8px #0ea5e9; }
         .dot.overcap { background: #facc15; box-shadow: 0 0 8px #facc15; }
 
-        /* CORE STATS */
         .core-display { border: 1px solid #334155; border-radius: 8px; padding: 8px 25px; text-align: center; background: #070b14; min-width: 100px; }
         .hp-glow { border-color: #ef4444; }
         .will-glow { border-color: #0ea5e9; }
 
-        /* BOTTONI AZIONE */
         .btn-dex {
             font-family: 'Orbitron'; font-weight: 900; font-size: 0.7rem; letter-spacing: 1px;
             padding: 12px 24px; border-radius: 12px; transition: 0.3s; text-transform: uppercase; cursor: pointer;
@@ -50,13 +46,10 @@
         
         .type-badge { padding: 4px 15px; border-radius: 4px; font-size: 0.65rem; font-weight: 900; font-family: 'Orbitron'; color: white; }
 
-        /* --- OVERLAYS --- */
         #pc-overlay, #card-overlay, #tech-selector-overlay, #rankup-overlay {
             display: none; position: fixed; inset: 0; z-index: 50; padding: 20px; overflow-y: auto; 
             backdrop-filter: blur(20px); background: rgba(2, 6, 23, 0.95);
         }
-        #rankup-overlay { z-index: 200; }
-
         .point-ctrl { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 8px; }
         .point-btn { width: 25px; height: 25px; background: #334155; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
     </style>
@@ -93,49 +86,17 @@
         </div>
     </div>
 
-    <div id="tech-selector-overlay">
-        <div class="max-w-2xl mx-auto bg-slate-900 border-2 border-blue-500 p-8 rounded-3xl mt-10">
-            <h3 class="text-2xl font-['Orbitron'] font-black text-blue-500 mb-6 uppercase italic">Trasferimento Dati: Tecniche</h3>
-            <div id="tech-list" class="grid grid-cols-2 gap-3 mb-8"></div>
-            <div class="flex gap-4">
-                <button onclick="saveNewTechs()" class="btn-dex btn-blue flex-1">Sincronizza Slot</button>
-                <button onclick="document.getElementById('tech-selector-overlay').style.display='none'" class="btn-dex bg-slate-700 flex-1">Annulla</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="rankup-overlay">
-        <div class="max-w-4xl mx-auto bg-slate-900 border-2 border-yellow-500 p-8 rounded-3xl mt-10 shadow-2xl">
-            <div class="flex justify-between items-start mb-8 border-b border-yellow-500/20 pb-4">
-                <div>
-                    <h2 class="text-3xl font-black font-['Orbitron'] text-yellow-500 italic uppercase">Evoluzione Rango</h2>
-                    <p id="rankup-status" class="text-slate-400 font-bold uppercase text-xs mt-1"></p>
-                </div>
-                <div id="pool-display" class="bg-yellow-500 text-black px-6 py-3 rounded-xl font-black font-['Orbitron'] text-sm">PUNTI DISPONIBILI: 0</div>
-            </div>
-            <div id="rankup-controls" class="grid grid-cols-3 gap-6 mb-10"></div>
-            <div class="flex gap-4">
-                <button onclick="confirmRankUp()" class="btn-dex bg-yellow-500 text-black flex-1 py-4 text-base">Inizializza Crescita</button>
-                <button onclick="document.getElementById('rankup-overlay').style.display='none'" class="btn-dex bg-slate-800 flex-1">Annulla</button>
-            </div>
-        </div>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { RANK_ORDER, RANK_BONUSES, getNextRank, calculateCombatStats } from './rankup.js';
 
         const firebaseConfig = { apiKey: "AIzaSyA7Xb8BbyL9s7buH_BW0hx2exD5Tb5G-pk", authDomain: "pokerole-app.firebaseapp.com", projectId: "pokerole-app", storageBucket: "pokerole-app.firebasestorage.app", messagingSenderId: "385416519668", appId: "1:385416519668:web:908e12b9833f1cdc04a3a1" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let userData = null, currentUser = null, currentPk = null;
-        let currentPath = { type: '', tIdx: 0, pIdx: 0 };
-        let rankUpData = { pool: {}, changes: {}, nextRank: '' };
-        let tempTechs = [];
+        let userData = null, currentUser = null, currentPk = null, currentPath = {};
 
         onAuthStateChanged(auth, async (user) => {
             if (user) { currentUser = user; const snap = await getDoc(doc(db, "Users", user.uid)); if (snap.exists()) { userData = snap.data(); renderPCGrid(); } }
@@ -146,13 +107,12 @@
             (userData.allenatori_generati || []).forEach((all, idx) => {
                 grid.innerHTML += `<div class="cursor-pointer group" onclick="openPC('trainer', ${idx})"><div class="w-32 h-32 mx-auto rounded-full border-4 border-slate-700 overflow-hidden group-hover:border-blue-500 transition-all"><img src="${all.img}" class="w-full h-full object-cover object-top"></div><p class="mt-4 font-black font-['Orbitron'] text-xs uppercase text-slate-400 group-hover:text-blue-400">${all.name}</p></div>`;
             });
-            grid.innerHTML += `<div class="cursor-pointer group" onclick="openPC('wild', 0)"><div class="w-32 h-32 mx-auto rounded-2xl bg-red-900/20 border-4 border-red-900/40 flex items-center justify-center group-hover:border-red-500 transition-all"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" class="w-16 opacity-50"></div><p class="mt-4 font-black font-['Orbitron'] text-xs uppercase text-red-500/50 group-hover:text-red-500">Riserva Naturale</p></div>`;
         }
 
         window.openPC = (type, index) => {
             let pkmns = type === 'trainer' ? userData.allenatori_generati[index].team : userData.pokemon_salvati;
-            document.getElementById('pc-title').innerText = type === 'trainer' ? `UTENTE: ${userData.allenatori_generati[index].name}` : "DATABASE: RISERVA_NATURALE";
-            document.getElementById('pc-content').innerHTML = pkmns.map((pk, pIdx) => `<div class="bg-slate-800/40 p-5 rounded-2xl border border-white/5 hover:border-blue-500 transition-all cursor-pointer" onclick="openCard('${type}', ${index}, ${pIdx})"><img src="${pk.immagine}" class="h-20 mx-auto mb-3 object-contain"><p class="font-['Orbitron'] text-[10px] font-black uppercase truncate">${pk.nome}</p><div class="text-[8px] font-bold text-blue-400 mt-1 uppercase">${pk.rango || 'Starter'}</div></div>`).join('');
+            document.getElementById('pc-title').innerText = `SQUADRA: ${userData.allenatori_generati[index].name}`;
+            document.getElementById('pc-content').innerHTML = pkmns.map((pk, pIdx) => `<div class="bg-slate-800/40 p-5 rounded-2xl border border-white/5 hover:border-blue-500 transition-all cursor-pointer" onclick="openCard('${type}', ${index}, ${pIdx})"><img src="${pk.immagine}" class="h-20 mx-auto mb-3 object-contain"><p class="font-['Orbitron'] text-[10px] font-black uppercase truncate">${pk.nome}</p></div>`).join('');
             document.getElementById('pc-overlay').style.display = "block";
         };
 
@@ -163,161 +123,77 @@
             const getV = (obj, key) => (obj && obj[key] !== undefined && !isNaN(obj[key])) ? obj[key] : 0;
             const drawDots = (v) => Array.from({length: 10}, (_, i) => `<span class="dot ${i < v ? (i >= 5 ? 'filled overcap' : 'filled') : ''}"></span>`).join('');
 
-            // Mapping Traduzioni
+            // Mappatura Nomi
+            const attrTrad = { "Strength": "Forza", "Dexterity": "Destrezza", "Vitality": "Vigore", "Special": "Speciale", "Insight": "Intuito" };
             const skillTrad = { "Stealth": "Furtività", "Intimidate": "Intimidire", "Evasion": "Evasione", "Alert": "Allerta", "Channel": "Canale", "Nature": "Natura", "Athletic": "Atletica", "Allure": "Fascino", "Brawl": "Rissa", "Clash": "Vigore", "Etiquette": "Etichetta", "Perform": "Prestazione" };
             const socialTrad = { "Beauty": "Bellezza", "Tough": "Grinta", "Cute": "Grazia", "Cool": "Classe", "Clever": "Acume" };
 
-            // Calcolo Combat Stats Derivate (Formula Pokerole)
-            const dex = getV(currentPk.attr, 'Destrezza');
-            const ins = getV(currentPk.attr, 'Intuizione');
-            const vig = getV(currentPk.attr, 'Vigore');
+            // FORMULE RICHIESTE
+            const dex = getV(currentPk.attr, 'Dexterity');
+            const intu = getV(currentPk.attr, 'Insight');
+            const vig = getV(currentPk.attr, 'Vitality');
+            const str = getV(currentPk.attr, 'Strength');
+            const spec = getV(currentPk.attr, 'Special');
             const sEva = getV(currentPk.skills, 'Evasion');
-            const sBra = getV(currentPk.skills, 'Brawl');
-            const sCha = getV(currentPk.skills, 'Channel');
 
-            const iniVal = dex + ins;
+            const iniVal = dex + intu;
             const evaVal = dex + sEva;
-            const dfVal = vig + sBra;
-            const dsVal = ins + sCha;
+            const dfVal = vig;
+            const dsVal = intu;
+            const pfVal = str + vig;
+            const psVal = spec + vig;
 
             document.getElementById('card-container').innerHTML = `
             <div class="pokedex-case">
                 <div class="flex justify-between items-start mb-10">
-                    <div class="space-y-1">
-                        <div class="label-header">ANALISI SOGGETTO:</div>
+                    <div>
+                        <div class="label-header">SOGGETTO ANALIZZATO:</div>
                         <h1 class="subject-name uppercase">${currentPk.nome}</h1>
-                        <div class="flex gap-2 mt-2">
-                            ${(currentPk.tipo || []).map(t => `<span class="type-badge" style="background:#f97316;">${t.toUpperCase()}</span>`).join('')}
-                        </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="core-display hp-glow"><div class="label-header !text-red-500">PUNTI SALUTE</div><div class="text-4xl font-black">${getV(currentPk, 'hp')}</div></div>
+                        <div class="core-display hp-glow"><div class="label-header !text-red-500">SALUTE</div><div class="text-4xl font-black">${getV(currentPk, 'hp')}</div></div>
                         <div class="core-display will-glow"><div class="label-header !text-cyan-400">VOLONTÀ</div><div class="text-4xl font-black">${getV(currentPk, 'will')}</div></div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-12 gap-8">
                     <div class="col-span-3 space-y-6">
-                        <div class="data-block aspect-square flex items-center justify-center overflow-hidden">
-                            <img src="${currentPk.immagine}" class="w-full h-auto object-contain">
-                        </div>
+                        <div class="data-block aspect-square flex items-center justify-center overflow-hidden"><img src="${currentPk.immagine}" class="w-full h-auto object-contain"></div>
                         <div class="space-y-2">
                             <div class="label-header text-slate-500">ATTRIBUTI FISICI</div>
-                            ${Object.entries(currentPk.attr).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">${k}</span><div class="flex">${drawDots(getV(currentPk.attr, k))}</div></div>`).join('')}
+                            ${Object.entries(currentPk.attr).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">${attrTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.attr, k))}</div></div>`).join('')}
                         </div>
                     </div>
 
                     <div class="col-span-5 px-4 space-y-8">
-                        <div>
-                            <div class="label-header mb-4 text-cyan-400 font-bold">MATRICE DELLE ABILITÀ</div>
-                            <div class="space-y-3">
-                                ${Object.entries(currentPk.skills).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1"><span>${skillTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.skills, k))}</div></div>`).join('')}
-                            </div>
+                        <div><div class="label-header mb-4 text-cyan-400 font-bold">MATRICE DELLE ABILITÀ</div>
+                            <div class="space-y-3">${Object.entries(currentPk.skills).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1"><span>${skillTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.skills, k))}</div></div>`).join('')}</div>
                         </div>
-                        <div>
-                            <div class="label-header mb-3 text-red-500">MODULI TECNICI (MOSSE)</div>
+                        <div><div class="label-header mb-3 text-red-500">MOSSE ATTIVE</div>
                             <div class="grid grid-cols-2 gap-3">${(currentPk.tecniche_scelte || []).map(m => `<div class="border border-red-500/40 px-4 py-3 rounded bg-red-500/5 text-[10px] font-black uppercase text-center">${m}</div>`).join('')}</div>
                         </div>
                     </div>
 
-                    <div class="col-span-4 space-y-6">
-                        <div class="label-header text-slate-500">PARAMETRI DI COMBATTIMENTO</div>
+                    <div class="col-span-4 space-y-4">
+                        <div class="label-header text-slate-500">DATI DI COMBATTIMENTO</div>
                         <div class="grid grid-cols-2 gap-3">
                             <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${iniVal}</div></div>
-                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVASIONE</div><div class="text-2xl font-black">${evaVal}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA F.</div><div class="text-2xl font-black">${dfVal}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA S.</div><div class="text-2xl font-black">${dsVal}</div></div>
+                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVADERE</div><div class="text-2xl font-black">${evaVal}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA FISICA</div><div class="text-2xl font-black">${dfVal}</div></div>
+                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA SPEC.</div><div class="text-2xl font-black">${dsVal}</div></div>
+                            <div class="stat-grid-box border-yellow-500/50"><div class="label-header !text-yellow-500">PARATA FISICA</div><div class="text-2xl font-black">${pfVal}</div></div>
+                            <div class="stat-grid-box border-yellow-500/50"><div class="label-header !text-yellow-500">PARATA SPEC.</div><div class="text-2xl font-black">${psVal}</div></div>
                         </div>
-                        <div class="mt-6">
+                        <div class="mt-4">
                             <div class="label-header mb-3 text-yellow-500">STATISTICHE SOCIALI</div>
-                            <div class="space-y-2">
-                                ${Object.entries(currentPk.social).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase bg-white/5 p-2 rounded"><span>${socialTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.social, k))}</div></div>`).join('')}
+                            <div class="space-y-1">
+                                ${Object.entries(currentPk.social).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] font-black uppercase bg-white/5 p-2 rounded"><span>${socialTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.social, k))}</div></div>`).join('')}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>`;
-
-            document.getElementById('card-actions').innerHTML = `
-                <button onclick="openRankUp()" class="btn-dex btn-gold">Sali di Rango (Rank Up)</button>
-                <button onclick="openTechSelector()" class="btn-dex btn-blue">Modifica Mosse</button>
-                <button onclick="releasePokemon()" class="btn-dex btn-red">Libera Unità</button>`;
             document.getElementById('card-overlay').style.display = "block";
-        };
-
-        window.openRankUp = () => {
-            const next = getNextRank(currentPk.rango || "Starter");
-            if (!next) return alert("Rango massimo raggiunto!");
-            const b = RANK_BONUSES[next];
-            rankUpData = { nextRank: next, pool: { attr: b.attr || 0, social: b.social || 0, skills: b.skills || 0 }, changes: { attr: {}, social: {}, skills: {} } };
-            document.getElementById('rankup-status').innerText = `Evoluzione da ${currentPk.rango || 'Starter'} a ${next}`;
-            updateRankUpUI();
-            document.getElementById('rankup-overlay').style.display = "block";
-        };
-
-        function updateRankUpUI() {
-            const container = document.getElementById('rankup-controls');
-            document.getElementById('pool-display').innerText = `ATTR:${rankUpData.pool.attr} | SOC:${rankUpData.pool.social} | SKILL:${rankUpData.pool.skills}`;
-            const renderBlock = (title, obj, key) => `
-                <div class="bg-black/30 p-5 rounded-2xl border border-white/10">
-                    <h4 class="label-tech text-yellow-500 mb-4 text-center font-bold uppercase text-[10px]">${title}</h4>
-                    ${Object.entries(obj).map(([k,v]) => `<div class="flex justify-between items-center mb-3"><span class="text-[10px] font-bold uppercase">${k} (${v + (rankUpData.changes[key][k] || 0)})</span><div class="point-ctrl"><button onclick="changeRankVal('${key}','${k}', -1)" class="point-btn">-</button><button onclick="changeRankVal('${key}','${k}', 1)" class="point-btn">+</button></div></div>`).join('')}
-                </div>`;
-            container.innerHTML = renderBlock("Attributi Fisici", currentPk.attr, 'attr') + renderBlock("Social", currentPk.social, 'social') + renderBlock("Skills", currentPk.skills, 'skills');
-        }
-
-        window.changeRankVal = (type, k, v) => {
-            if (v > 0 && rankUpData.pool[type] <= 0) return;
-            if (v < 0 && !rankUpData.changes[type][k]) return;
-            rankUpData.changes[type][k] = (rankUpData.changes[type][k] || 0) + v;
-            rankUpData.pool[type] -= v;
-            updateRankUpUI();
-        };
-
-        window.confirmRankUp = async () => {
-            if (rankUpData.pool.attr > 0 || rankUpData.pool.social > 0 || rankUpData.pool.skills > 0) return alert("Distribuisci tutti i punti!");
-            Object.entries(rankUpData.changes.attr).forEach(([k,v]) => currentPk.attr[k] += v);
-            Object.entries(rankUpData.changes.social).forEach(([k,v]) => currentPk.social[k] += v);
-            Object.entries(rankUpData.changes.skills).forEach(([k,v]) => currentPk.skills[k] += v);
-            currentPk.rango = rankUpData.nextRank;
-            // Aggiorna combat stats nel database
-            currentPk.combat = {
-                iniziativa: currentPk.attr.Destrezza + currentPk.attr.Intuizione,
-                evadere: currentPk.attr.Destrezza + currentPk.skills.Evasion,
-                difesa: currentPk.attr.Vigore + currentPk.skills.Brawl,
-                difesa_speciale: currentPk.attr.Intuizione + currentPk.skills.Channel
-            };
-            await updateDoc(doc(db, "Users", currentUser.uid), userData);
-            location.reload();
-        };
-
-        window.openTechSelector = () => {
-            tempTechs = [...(currentPk.tecniche_scelte || [])];
-            document.getElementById('tech-list').innerHTML = (currentPk.tecniche_disponibili || []).map(t => `<div class="p-3 bg-white/5 border border-white/10 rounded-xl text-center text-xs font-bold uppercase cursor-pointer ${tempTechs.includes(t) ? '!border-blue-500 bg-blue-500/20' : ''}" onclick="toggleT('${t}', this)">${t}</div>`).join('');
-            document.getElementById('tech-selector-overlay').style.display = "block";
-        };
-
-        window.toggleT = (t, el) => {
-            if (tempTechs.includes(t)) { tempTechs = tempTechs.filter(x => x !== t); el.classList.remove('bg-blue-500/20', '!border-blue-500'); }
-            else { if (tempTechs.length >= 4) return alert("Max 4 tecniche!"); tempTechs.push(t); el.classList.add('bg-blue-500/20', '!border-blue-500'); }
-        };
-
-        window.saveNewTechs = async () => {
-            const { type, tIdx, pIdx } = currentPath;
-            if (type === 'trainer') userData.allenatori_generati[tIdx].team[pIdx].tecniche_scelte = tempTechs;
-            else userData.pokemon_salvati[pIdx].tecniche_scelte = tempTechs;
-            await updateDoc(doc(db, "Users", currentUser.uid), userData);
-            document.getElementById('tech-selector-overlay').style.display = "none";
-            openCard(type, tIdx, pIdx);
-        };
-
-        window.releasePokemon = async () => {
-            if (!confirm("Sei sicuro?")) return;
-            const { type, tIdx, pIdx } = currentPath;
-            if (type === 'trainer') userData.allenatori_generati[tIdx].team.splice(pIdx, 1);
-            else userData.pokemon_salvati.splice(pIdx, 1);
-            await updateDoc(doc(db, "Users", currentUser.uid), userData);
-            closeCard(); renderPCGrid();
         };
 
         window.closePC = () => document.getElementById('pc-overlay').style.display = "none";
