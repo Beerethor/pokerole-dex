@@ -237,18 +237,38 @@
             document.getElementById('ru-social-list').innerHTML = ui(ruContext.pk.social || { Tough:0, Cool:0, Beauty:0, Cute:0, Clever:0 }, 'social');
         }
 
-        window.modRU = (g, k, v) => {
-            const cur = ruContext.choices[g][k] || 0;
-            const nextVal = (ruContext.pk[g] ? (ruContext.pk[g][k] || 0) : 0) + cur + v;
-            if (v > 0) {
-                if (ruContext.pools[g] <= 0) return;
-                if (g === 'attr' && nextVal > (ruContext.limits[k] || 5)) return;
-                ruContext.choices[g][k] = cur + 1; ruContext.pools[g]--;
-            } else if (v < 0 && cur > 0) {
-                ruContext.choices[g][k] = cur - 1; ruContext.pools[g]++;
+       window.modRU = (g, k, v) => {
+    const cur = ruContext.choices[g][k] || 0;
+    // Recupera il valore attuale del Pokémon (base + punti già assegnati in questo rankup)
+    const currentTotal = (ruContext.pk[g] ? (ruContext.pk[g][k] || 0) : 0) + cur;
+    
+    if (v > 0) {
+        if (ruContext.pools[g] <= 0) return; // Pool esaurita
+        
+        // Controllo Limiti per Attributi
+        if (g === 'attr') {
+            const limit = ruContext.limits[k] || 5;
+            if (currentTotal >= limit) {
+                alert(`Limite raggiunto per ${k}: ${limit}`);
+                return;
             }
-            renderRU();
-        };
+        }
+        
+        // Controllo Limiti per Skills (Max dadi per Rango)
+        if (g === 'skills') {
+            const nextRank = getNextRank(ruContext.pk.rank);
+            const maxSkill = RANK_BONUSES[nextRank].skillMax;
+            if (currentTotal >= maxSkill) return;
+        }
+
+        ruContext.choices[g][k] = cur + 1; 
+        ruContext.pools[g]--;
+    } else if (v < 0 && cur > 0) {
+        ruContext.choices[g][k] = cur - 1; 
+        ruContext.pools[g]++;
+    }
+    renderRU(); // Forza il refresh della UI
+};
 
         document.getElementById('ru-confirm-btn').onclick = async () => {
             Object.keys(ruContext.choices).forEach(group => {
