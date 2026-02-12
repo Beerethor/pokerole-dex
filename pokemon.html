@@ -116,86 +116,129 @@
             document.getElementById('pc-overlay').style.display = "block";
         };
 
-        window.openCard = (type, tIdx, pIdx) => {
-            currentPath = { type, tIdx, pIdx };
-            currentPk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
-            
-            const getV = (obj, key) => (obj && obj[key] !== undefined && !isNaN(obj[key])) ? obj[key] : 0;
-            const drawDots = (v) => Array.from({length: 10}, (_, i) => `<span class="dot ${i < v ? (i >= 5 ? 'filled overcap' : 'filled') : ''}"></span>`).join('');
+       window.openCard = (type, tIdx, pIdx) => {
+    currentPath = { type, tIdx, pIdx };
+    currentPk = type === 'trainer' ? userData.allenatori_generati[tIdx].team[pIdx] : userData.pokemon_salvati[pIdx];
+    
+    // Funzione di utilità per recuperare i valori in modo sicuro (evita 0 o NaN se la chiave è leggermente diversa)
+    const getV = (obj, ...keys) => {
+        for (let key of keys) {
+            if (obj && obj[key] !== undefined && !isNaN(obj[key])) return obj[key];
+        }
+        return 0;
+    };
 
-            // Mappatura Nomi
-            const attrTrad = { "Strength": "Forza", "Dexterity": "Destrezza", "Vitality": "Vigore", "Special": "Speciale", "Insight": "Intuito" };
-            const skillTrad = { "Stealth": "Furtività", "Intimidate": "Intimidire", "Evasion": "Evasione", "Alert": "Allerta", "Channel": "Canale", "Nature": "Natura", "Athletic": "Atletica", "Allure": "Fascino", "Brawl": "Rissa", "Clash": "Vigore", "Etiquette": "Etichetta", "Perform": "Prestazione" };
-            const socialTrad = { "Beauty": "Bellezza", "Tough": "Grinta", "Cute": "Grazia", "Cool": "Classe", "Clever": "Acume" };
+    // Recupero Abilità con fallback su più nomi possibili
+    const abilitaDisplay = currentPk.ability || currentPk.abilita_scelta || currentPk.abilita || "NON RILEVATA";
 
-            // FORMULE RICHIESTE
-            const dex = getV(currentPk.attr, 'Dexterity');
-            const intu = getV(currentPk.attr, 'Insight');
-            const vig = getV(currentPk.attr, 'Vitality');
-            const str = getV(currentPk.attr, 'Strength');
-            const spec = getV(currentPk.attr, 'Special');
-            const sEva = getV(currentPk.skills, 'Evasion');
+    const drawDots = (v) => Array.from({length: 10}, (_, i) => `<span class="dot ${i < v ? (i >= 5 ? 'filled overcap' : 'filled') : ''}"></span>`).join('');
 
-            const iniVal = dex + intu;
-            const evaVal = dex + sEva;
-            const dfVal = vig;
-            const dsVal = intu;
-            const pfVal = str + vig;
-            const psVal = spec + vig;
+    // Mapping Traduzioni
+    const skillTrad = { 
+        "Stealth": "Furtività", "Intimidate": "Intimidire", "Evasion": "Evasione", 
+        "Alert": "Allerta", "Channel": "Canale", "Nature": "Natura", 
+        "Athletic": "Atletica", "Allure": "Fascino", "Brawl": "Rissa", 
+        "Clash": "Vigore", "Etiquette": "Etichetta", "Perform": "Prestazione" 
+    };
+    
+    const socialTrad = { "Beauty": "Bellezza", "Tough": "Grinta", "Cute": "Grazia", "Cool": "Classe", "Clever": "Acume" };
 
-            document.getElementById('card-container').innerHTML = `
-            <div class="pokedex-case">
-                <div class="flex justify-between items-start mb-10">
-                    <div>
-                        <div class="label-header">SOGGETTO ANALIZZATO:</div>
-                        <h1 class="subject-name uppercase">${currentPk.nome}</h1>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="core-display hp-glow"><div class="label-header !text-red-500">SALUTE</div><div class="text-4xl font-black">${getV(currentPk, 'hp')}</div></div>
-                        <div class="core-display will-glow"><div class="label-header !text-cyan-400">VOLONTÀ</div><div class="text-4xl font-black">${getV(currentPk, 'will')}</div></div>
+    // CALCOLO STATISTICHE (Con controllo nomi chiavi Inglese/Italiano)
+    const forza = getV(currentPk.attr, 'Strength', 'Forza');
+    const dex = getV(currentPk.attr, 'Dexterity', 'Destrezza');
+    const vigore = getV(currentPk.attr, 'Vitality', 'Vigore');
+    const speciale = getV(currentPk.attr, 'Special', 'Speciale');
+    const intuito = getV(currentPk.attr, 'Insight', 'Intuito');
+    
+    const sEvasione = getV(currentPk.skills, 'Evasion', 'Evasione');
+
+    // Formule richieste
+    const iniVal = dex + intuito;
+    const evaVal = dex + sEvasione;
+    const dfVal = vigore;
+    const dsVal = intuito;
+    const pfVal = forza + vigore;
+    const psVal = speciale + vigore;
+
+    document.getElementById('card-container').innerHTML = `
+    <div class="pokedex-case">
+        <div class="flex justify-between items-start mb-10">
+            <div>
+                <div class="label-header">SOGGETTO ANALIZZATO:</div>
+                <h1 class="subject-name uppercase">${currentPk.nome}</h1>
+                <div class="flex gap-2 mt-2">
+                    ${(currentPk.tipo || []).map(t => `<span class="type-badge" style="background:#f97316;">${t.toUpperCase()}</span>`).join('')}
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <div class="core-display hp-glow"><div class="label-header !text-red-500">SALUTE</div><div class="text-4xl font-black">${getV(currentPk, 'hp')}</div></div>
+                <div class="core-display will-glow"><div class="label-header !text-cyan-400">VOLONTÀ</div><div class="text-4xl font-black">${getV(currentPk, 'will')}</div></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-8">
+            <div class="col-span-3 space-y-6">
+                <div class="data-block aspect-square flex items-center justify-center overflow-hidden">
+                    <img src="${currentPk.immagine}" class="w-full h-auto object-contain">
+                </div>
+                <div class="data-block border-l-4 border-l-blue-500">
+                    <div class="label-header mb-1">ABILITÀ DOMINANTE</div>
+                    <div class="text-xl font-black italic uppercase text-white">${abilitaDisplay}</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="label-header text-slate-500">ATTRIBUTI FISICI</div>
+                    <div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">FORZA</span><div class="flex">${drawDots(forza)}</div></div>
+                    <div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">DESTREZZA</span><div class="flex">${drawDots(dex)}</div></div>
+                    <div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">VIGORE</span><div class="flex">${drawDots(vigore)}</div></div>
+                    <div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">SPECIALE</span><div class="flex">${drawDots(speciale)}</div></div>
+                    <div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">INTUITO</span><div class="flex">${drawDots(intuito)}</div></div>
+                </div>
+            </div>
+
+            <div class="col-span-5 px-4 space-y-8">
+                <div>
+                    <div class="label-header mb-4 text-cyan-400 font-bold">SKILL MATRIX</div>
+                    <div class="space-y-3">
+                        ${Object.entries(currentPk.skills).map(([k,v])=>`
+                            <div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1">
+                                <span>${skillTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.skills, k))}</div>
+                            </div>`).join('')}
                     </div>
                 </div>
-
-                <div class="grid grid-cols-12 gap-8">
-                    <div class="col-span-3 space-y-6">
-                        <div class="data-block aspect-square flex items-center justify-center overflow-hidden"><img src="${currentPk.immagine}" class="w-full h-auto object-contain"></div>
-                        <div class="space-y-2">
-                            <div class="label-header text-slate-500">ATTRIBUTI FISICI</div>
-                            ${Object.entries(currentPk.attr).map(([k,v])=>`<div class="flex justify-between items-center text-[11px] font-black uppercase"><span class="text-slate-400">${attrTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.attr, k))}</div></div>`).join('')}
-                        </div>
-                    </div>
-
-                    <div class="col-span-5 px-4 space-y-8">
-                        <div><div class="label-header mb-4 text-cyan-400 font-bold">MATRICE DELLE ABILITÀ</div>
-                            <div class="space-y-3">${Object.entries(currentPk.skills).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] uppercase font-bold border-b border-white/5 pb-1"><span>${skillTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.skills, k))}</div></div>`).join('')}</div>
-                        </div>
-                        <div><div class="label-header mb-3 text-red-500">MOSSE ATTIVE</div>
-                            <div class="grid grid-cols-2 gap-3">${(currentPk.tecniche_scelte || []).map(m => `<div class="border border-red-500/40 px-4 py-3 rounded bg-red-500/5 text-[10px] font-black uppercase text-center">${m}</div>`).join('')}</div>
-                        </div>
-                    </div>
-
-                    <div class="col-span-4 space-y-4">
-                        <div class="label-header text-slate-500">DATI DI COMBATTIMENTO</div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${iniVal}</div></div>
-                            <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVADERE</div><div class="text-2xl font-black">${evaVal}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA FISICA</div><div class="text-2xl font-black">${dfVal}</div></div>
-                            <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA SPEC.</div><div class="text-2xl font-black">${dsVal}</div></div>
-                            <div class="stat-grid-box border-yellow-500/50"><div class="label-header !text-yellow-500">PARATA FISICA</div><div class="text-2xl font-black">${pfVal}</div></div>
-                            <div class="stat-grid-box border-yellow-500/50"><div class="label-header !text-yellow-500">PARATA SPEC.</div><div class="text-2xl font-black">${psVal}</div></div>
-                        </div>
-                        <div class="mt-4">
-                            <div class="label-header mb-3 text-yellow-500">STATISTICHE SOCIALI</div>
-                            <div class="space-y-1">
-                                ${Object.entries(currentPk.social).map(([k,v])=>`<div class="flex justify-between items-center text-[10px] font-black uppercase bg-white/5 p-2 rounded"><span>${socialTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.social, k))}</div></div>`).join('')}
-                            </div>
-                        </div>
+                <div>
+                    <div class="label-header mb-3 text-red-500">TECNICHE ESTRATTE</div>
+                    <div class="grid grid-cols-2 gap-3">
+                        ${(currentPk.tecniche_scelte || []).map(m => `
+                            <div class="border border-red-500/40 px-4 py-3 rounded bg-red-500/5 text-[10px] font-black uppercase text-center">${m}</div>
+                        `).join('')}
                     </div>
                 </div>
-            </div>`;
-            document.getElementById('card-overlay').style.display = "block";
-        };
+            </div>
 
+            <div class="col-span-4 space-y-6">
+                <div class="label-header text-slate-500">DATI DI COMBATTIMENTO</div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="stat-grid-box"><div class="label-header !text-cyan-400">INIZIATIVA</div><div class="text-2xl font-black">${iniVal}</div></div>
+                    <div class="stat-grid-box border-green-500"><div class="label-header !text-green-400">EVADERE</div><div class="text-2xl font-black">${evaVal}</div></div>
+                    <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA FISICA</div><div class="text-2xl font-black">${dfVal}</div></div>
+                    <div class="stat-grid-box border-white/20"><div class="label-header">DIFESA SPEC.</div><div class="text-2xl font-black">${dsVal}</div></div>
+                    <div class="stat-grid-box border-yellow-500/50"><div class="label-header !text-yellow-500">PARATA FISICA</div><div class="text-2xl font-black">${pfVal}</div></div>
+                    <div class="stat-grid-box border-yellow-500/50"><div class="label-header !text-yellow-500">PARATA SPEC.</div><div class="text-2xl font-black">${psVal}</div></div>
+                </div>
+
+                <div class="mt-6">
+                    <div class="label-header mb-3 text-yellow-500">SOCIAL STATS</div>
+                    <div class="space-y-2">
+                        ${Object.entries(currentPk.social).map(([k,v])=>`
+                            <div class="flex justify-between items-center text-[11px] font-black uppercase bg-white/5 p-2 rounded">
+                                <span>${socialTrad[k] || k}</span><div class="flex">${drawDots(getV(currentPk.social, k))}</div>
+                            </div>`).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+};
         window.closePC = () => document.getElementById('pc-overlay').style.display = "none";
         window.closeCard = () => document.getElementById('card-overlay').style.display = "none";
     </script>
